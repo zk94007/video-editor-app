@@ -222,8 +222,4 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
       $uns.unsubscribe();
     });
   }
-
-  onBack($event) {
-    // this.router.navigate(['project/detail/' + this.vsService.project.prj_id]);
-  }
 }

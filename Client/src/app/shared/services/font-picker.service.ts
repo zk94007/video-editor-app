@@ -1,12 +1,14 @@
 import * as WebFont from 'webfontloader';
 
-// tslint:disable-next-line:import-blacklist
 import { Observable } from 'rxjs';
+import 'rxjs/add/observable/of';
 
 import { catchError } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+
+import { environment } from '../../../environments/environment';
 
 export interface GoogleFontInterface {
     kind: string;
@@ -34,10 +36,10 @@ export interface FontInterface {
 export class FontPickerService {
   private apiKey = '';
 
-  private baseUrl = 'https://www.googleapis.com/webfonts/v1/webfonts';
+  private baseUrl = environment.google_font_api;
 
   constructor(private http: HttpClient) {
-    this.apiKey = 'AIzaSyDlrF-qcSga8p5YVjsTE-s_8oqwBhecvm4';
+    this.apiKey = environment.google_font_apiKey;
   }
 
   /**

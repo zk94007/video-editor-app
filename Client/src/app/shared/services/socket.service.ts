@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 import * as io from 'socket.io-client';
 import * as ss from 'socket.io-stream';
@@ -8,8 +9,7 @@ export class SocketService {
     public socket;
 
     constructor() {
-        this.socket = io('https://bbbackend.ngrok.io', {
-        // this.socket = io('http://localhost:3040', {
+        this.socket = io(environment.api, {
             'reconnection': true,
             'reconnectionDelay': 500,
             'reconnectionAttempts': 5

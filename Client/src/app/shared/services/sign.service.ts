@@ -1,6 +1,8 @@
 import { SocketService } from './socket.service';
 import { Injectable, EventEmitter } from '@angular/core';
 
+import { environment } from '../../../environments/environment';
+
 let $this: SignService;
 
 @Injectable()
@@ -11,7 +13,7 @@ export class SignService {
   public onForgot = new EventEmitter();
   public onReset = new EventEmitter();
 
-  private front_url = 'https://blurbiz.ngrok.io/';
+  private front_url = environment.api;
 
   constructor(private socket: SocketService) {
     $this = this;

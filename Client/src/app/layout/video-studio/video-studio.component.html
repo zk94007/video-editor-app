@@ -4,7 +4,7 @@
     <app-vs-workspace id="app-vs-workspace"></app-vs-workspace>
   </div>
   <section id="controlbar">
-    <app-vs-controlbar id="app-vs-controlbar" (onBack)="onBack($event)" (onRepositionFrame)="onRepositionFrame($event)"></app-vs-controlbar>
+    <app-vs-controlbar id="app-vs-controlbar" (onRepositionFrame)="onRepositionFrame($event)"></app-vs-controlbar>
   </section>
   <span #draggableText id="draggableText" *ngIf="props.isDraggableText" ngDraggable (started)="onDragTextBegin($event)" (stopped)="onDragTextEnd($event)" (movingOffset)="onTextMoving($event)" (endOffset)="onTextMoveEnd($event)" style="z-index: 100;"></span>
   <img id="draggableImage" draggable="false" *ngIf="props.isDraggableImage" ngDraggable (started)="onDragImageBegin($event)" (stopped)="onDragImageEnd($event)" (movingOffset)="onImageMoving($event)" (endOffset)="onImageMoveEnd($event)" style="z-index: 100;">
