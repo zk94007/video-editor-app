@@ -1,0 +1,143 @@
+<section class="content">
+  <!-- <section id="resultsSearch" class="results infinite">
+    <perfect-scrollbar style="max-width: 600px; max-height: 400px;" [config]="config">
+      <div class="layer scrollPane scrollElement">
+        <div class="inner">
+          <div class="searchGroup hasContent">
+            <div class="searchSuggestion"></div>
+            <p class="noResults">
+              Type in your search. Press enter. Find the perfect image from our library of over one million.
+            </p>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </section> -->
+
+  <section id="resultsText" class="results infinite twoCol">
+    <perfect-scrollbar #textPanelScrollbar [config]="config" [attr.fxFlex]="'auto'" (psYReachEnd)="renderMore.next($event)">
+      <div class="layer scrollPane scrollElement">
+        <div class="inner">
+          <div class="textControls">
+            <p>Click or drag to add text:</p>
+            <ul>
+              <li style="color: auto; text-align: center;">
+                <a class="add" data-style="title" style="color: auto; font-family: 'Abril Fatface'; font-size: 40px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Abril Fatface', 40, 'normal', 'Add heading')" (mouseup)="mouseUpText($event)">Add heading</a>
+              </li>
+              <li style="color: auto; text-align: center;">
+                <a class="add" data-style="subtitle" style="color: auto; font-family: 'Trocchi'; font-size: 30px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Trocchi', 30, 'normal', 'Add subheading')" (mouseup)="mouseUpText($event)">Add subheading</a>
+              </li>
+              <li style="color: auto; text-align: center;">
+                <a class="add" data-style="body" style="font-family: Arimo; font-size: 16px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Arimo', 16, 'normal', 'Add a little bit of body text')" (mouseup)="mouseUpText($event)">Add a little bit of body text</a>
+              </li>
+            </ul>
+          </div>
+          <div class="searchGroup">
+            <ul class="gallery infoPanelGallery photoGallery laidOut" style="text-align: center; list-style-type:none;">
+              <li class="elementGroupSearchResult" *ngFor="let font of (props_font.currentFonts | StatefulSlice:0:props_font.loadedFonts)" style="color: #aaaaaa; padding: 20px 0 20px 0">
+                <a style="font-size: 20px">
+                  <span [ngStyle]="{'font-family': font.family}" (mousedown)="mouseDownText($event, font.family, 20, 'normal', 'A red flare silhouetted the jagged edge of a wing')" (mouseup)="mouseUpText($event)">A red flare silhouetted the jagged edge of a wing.</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </section>
+<!-- 
+  <section id="resultsBackground" class="results infinite">
+    <perfect-scrollbar [config]="config">
+      <div class="layer scrollPane scrollElement">
+        <div class="inner">
+          <div class="colorControls">
+            <div class="colorPalette on">
+              <div>
+                <div class="workingPalette">
+                  <h3 class="colorPaletteLabel">Recent colors</h3>
+                  <menu class="colorPaletteGroup">
+                    <div class="colorPalette__row">
+                      <li class="colorPaletteAdd" [(colorPicker)]="props_background.addRecentColor" [cpSaveClickOutside]="'false'" [cpPositionOffset]="'-150%'"></li>
+                      <li class="colorPaletteEntry" *ngFor="let color of props_background.backgroundRecentColors" title="{{color}}" [ngStyle]="{'color': color}"></li>
+                    </div>
+                  </menu>
+                </div>
+                <div class="pinnedPalette">
+                  <h3 class="colorPaletteLabel">Default palette</h3>
+                  <menu class="colorPaletteGroup">
+                    <div class="colorPalette__row">
+                      <li class="colorPaletteEntry" *ngFor="let color of props_background.backgroundDefaultPalette1" title="{{color}}" [ngStyle]="{'color': color}"></li>
+                    </div>
+                  </menu>
+                </div>
+                <div class="pinnedPalette">
+                  <menu class="colorPaletteGroup">
+                    <div class="colorPalette__row">
+                      <li class="colorPaletteEntry" *ngFor="let color of props_background.backgroundDefaultPalette2" title="{{color}}" [ngStyle]="{'color': color}"></li>
+                    </div>
+                  </menu>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </section> -->
+<!-- 
+  <section id="resultsElements" class="results infinite">
+    <div class="layer scrollPane scrollElement">
+      <div class="inner">
+        <div class="textControls">
+          <p>Click or drag to add text:</p>
+          <ul>
+            <li style="color: auto; text-align: center;">
+              <a class="add" data-style="title" style="color: auto; font-family: 'Abril Fatface'; font-size: 402.5%; font-style: normal; font-weight: normal;">Add heading</a>
+            </li>
+            <li style="color: auto; text-align: center;">
+              <a class="add" data-style="subtitle" style="color: auto; font-family: 'Trocchi'; font-size: 230%; font-style: normal; font-weight: normal;">Add subheading</a>
+            </li>
+            <li style="color: auto; text-align: center;">
+              <a class="add" data-style="body" style="font-family: Arimo; font-size: 153.333%; font-style: normal; font-weight: normal;">Add a little bit of body text</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultsMusic" class="results infinite">
+
+  </section> -->
+
+  <section id="resultsUpload" class="results infinite">
+    <ng5-files-drop (filesSelect)="filesSelect($event)">
+      <perfect-scrollbar [config]="config">
+        <div class="layer scrollPane uploadsPanel scrollElement">
+            <div class="inner" style="text-align: center">
+              <div class="inlineContentContent">
+                <div class="uploadsFolderContent uploadsFolderContentEmpty">
+                  <ng5-files-click (filesSelect)="filesSelect($event)">
+                    <span role="button" class="button buttonBlock uploadsFolderContentUploadButton">Upload your own images</span>
+                  </ng5-files-click>
+                </div>
+              </div>
+              <p *ngIf="props_upload.uploadedFiles.length==0" class="uploadsFolderContentEmptyMessage">…or just drag them from your desktop</p>
+              <div>
+                <ng-masonry-grid (onNgMasonryInit)="onMasonryInit($event)" [masonryOptions]="{ transitionDuration: '0.4s', gutter: 10, percentPosition: true, horizontalOrder: true }" [useAnimation]="true" [useImagesLoaded]="true" [scrollAnimationOptions]="{ animationEffect: 'effect-1', minDuration : 0.4, maxDuration : 0.7 }">
+                  <!-- Masonry Grid Item -->
+                  <ng-masonry-grid-item *ngFor="let file of props_upload.uploadedFiles" style="width: 29%" class="uploadsFolderItem"> 
+                    <!-- Grid Content  -->
+                    <div>
+                      <img src="{{file.src}}" style="width: 100%; height: auto; visibility: hidden;" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)"/>
+                    </div>
+                    <div class="uploadsControls" *ngIf="file.isLoaded"><span class="uploadsInfoButton" (click)="deleteUploadImage($event, file)"><i class="fa fa-trash"></i></span></div>
+                  </ng-masonry-grid-item>
+                </ng-masonry-grid>
+              </div>
+            </div>
+        </div>
+      </perfect-scrollbar>
+    </ng5-files-drop>
+  </section>
+</section>

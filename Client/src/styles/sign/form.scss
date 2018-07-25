@@ -1,0 +1,207 @@
+.login-page {
+	background-color: $color-white;
+	font-family: "Lato", sans-serif;
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    color: #fff;
+
+	.navbar {
+		border: none;
+		background-color: transparent;
+
+		.navbar-brand {
+			font-size: 24px;
+			color: $color-pink;
+            font-weight: bold;
+            text-decoration: none;
+		}
+
+		.navbar-nav {
+			margin-top: 15px;
+
+			li span {
+				color: $color-gray-light-h;
+				padding: 5px 10px;
+				margin-right: 10px;
+            }
+            li .btn-nav {
+                border-radius: 5px;
+                border-style: solid;
+                border-color: $color-pink;
+                border-width: 1px;
+                color: $color-pink;
+                background-color: $color-white;
+                margin-right: 50px;
+                width: 100px;
+                font-size: 0.8em;
+            }
+		}
+	}
+
+	.form-signin {
+		width: 270px;
+		margin: 100px auto 0;
+
+		.form-group {
+			position: relative;
+			margin-bottom: 10px;
+
+			label {
+				position: absolute;
+				top: 5px;
+				left: 10px;
+				color: $color-gray-light-h;
+				font-weight: 300;
+			}
+
+			.form-border {
+				position: absolute;
+				bottom: 10px;
+				left: 10px;
+				right: 10px;
+				border-bottom: 1px solid $color-gray-light-h;
+
+				&:before {
+					content: '';
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 100%;
+					z-index: 10;
+					transition: all ease 0.5s;
+					border-bottom: 1px solid $color-pink;
+				}
+				
+			}
+
+			input {
+				background-color: $color-gray-l;
+				border-style: solid;
+                border-width: 1px;
+                border-color: $color-gray-l;
+				color: $color-black;
+                border-radius: 7px;
+				box-shadow: none;
+				padding: 30px 10px 10px;
+				margin-bottom: 0;
+				transition: all ease 0.5s;
+                font-weight: 300;
+                font-size: small;
+
+				&:active, &:focus {
+                    background-color: $color-white;
+                    border-style: solid;
+                    border-width: 1px;
+                    border-color: $color-gray-light-h;
+
+					& + .form-border {
+						&:before {
+							right: 0;
+						}
+					}
+				}
+
+				&:hover + .form-border {
+					&:before {
+						right: 0;
+					}
+				}
+			}
+		}
+
+		.btn-login {
+			margin-top: 5px;
+			margin-bottom: 10px;
+            width: 100%;
+            background-color: $color-pink;
+            color: $color-white;
+			// text-align: left;
+			// background-image: url(../img/icons/ico-mountain.png);
+			background-repeat: no-repeat;
+			background-position: calc(100% - 10px) center;
+		}
+
+		.form-option {
+
+			.lnk-lost {
+				font-weight: 300;
+				color: $color-gray;
+				font-size: 13px;
+				float: right;	
+                text-decoration: none;
+			}
+		}
+	}
+}
+
+.signup-page {
+	font-family: "Helvetica Neue", sans-serif;
+	background-color: $color-gray-dark-l;
+	padding-top: 75px;
+
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    text-align: center;
+    color: #fff;
+    padding: 3em;
+
+	p {
+		font: normal, 13px, 15px, $color-white;
+		text-align: center;
+
+		a {
+			color: $color-cyan;
+		}
+	}
+
+	.form-signup {
+		max-width: 420px;
+		width: 100%;
+		margin: 0 auto 30px;
+		box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.5);
+		border: 0.5px solid $color-cyan;
+		border-radius: 4px;
+		padding: 45px;
+		background-color: $color-white;
+
+		p {
+			margin-left: -20px;
+			width: "calc(100% + 40px)";
+			color: $color-gray;
+			margin-bottom: 0;
+		}
+
+		h2 {
+			font: bold, 36px, 1, $color-gray-dark-l;
+			margin: 0 auto 30px;
+			text-align: center;
+			color: $color-black;
+		}
+
+		.form-group {
+			margin-bottom: 10px;
+		}
+
+		input.form-control {
+			font: 600, 13px, 16px, $color-gray-dark-l;
+			padding: 13px 14px;
+			border-radius: 8px;
+			border-color: $color-gray;
+		}
+
+		.btn-submit {
+			width: 100%;
+			margin: 20px 0;
+			font: bold, 13px, 16px, $color-white;
+			padding: 12px;
+		}
+	}
+}

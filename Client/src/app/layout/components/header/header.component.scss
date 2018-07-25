@@ -1,0 +1,15 @@
+ul.personal-menu li.link a {
+    width: 100%;
+}
+#page-title .icon {
+    display: none;
+}
+.hoveric .icon {
+    display: none;
+}
+#page-title.hoveric:hover .icon {
+    display: inline-block;
+}
+li a{
+    cursor: pointer;
+}

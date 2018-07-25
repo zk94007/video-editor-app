@@ -1,0 +1,246 @@
+.preroll.compactHeader .controlbar-inner {
+  transform: translateY(-60px);
+  animation: .5s headerIn ease forwards;
+  -webkit-animation: .5s headerIn ease forwards;
+  animation-delay: .1s;
+  -webkit-animation-delay: .1s
+}
+
+.preroll.compactHeader #controlbar .prerollAnimation {
+  transform: translateY(-60px);
+  animation: .6s headerChildIn ease forwards;
+  animation-delay: .1s
+}
+
+.preroll.compactHeader #controlbar .prerollAnimation.prerollDelay1 {
+  animation-delay: .3s
+}
+
+.preroll.compactHeader #controlbar .prerollAnimation.prerollDelay2 {
+  animation-delay: .4s
+}
+
+.preroll.compactHeader #controlbar .prerollAnimation.prerollDelay3 {
+  animation-delay: .5s
+}
+
+.preroll.compactHeader #controlbar .prerollAnimation.prerollDelay4 {
+  animation-delay: .6s
+}
+
+.preroll.compactHeader #controlbar .prerollAnimation.prerollDelay5 {
+  animation-delay: .7s
+}
+
+.preroll.compactHeader #controlbar .prerollAnimation.prerollDelay6 {
+  animation-delay: .8s
+}
+
+.preroll.compactHeader #controlbar .prerollAnimation.prerollDelay7 {
+  animation-delay: .9s
+}
+
+.preroll #sidebar {
+  transition: none;
+  transform: translateX(-430px);
+  animation: .7s objectPanelContentIn ease forwards;
+  animation-delay: .4s
+}
+
+.preroll #seekbar {
+  transition: none;
+  transform: translateY(330px);
+  animation: .6s sceneControlbarIn ease forwards;
+  animation-delay: .3s
+}
+
+.preroll #scene-controlbar {
+  transition: none;
+  transform: translateY(230px);
+  animation: .7s sceneControlbarIn ease forwards;
+  animation-delay: .4s
+}
+
+.preroll.compactHeader #scene-controlbar .prerollAnimation {
+  transform: translateX(200px);
+  animation: .6s sceneBarChildIn ease forwards;
+  animation-delay: .5s
+}
+
+.preroll.compactHeader #scene-controlbar .prerollAnimation.prerollDelay1 {
+  animation-delay: .3s
+}
+
+.preroll.compactHeader #scene-controlbar .prerollAnimation.prerollDelay2 {
+  animation-delay: .4s
+}
+
+.preroll.compactHeader #scene-controlbar .prerollAnimation.prerollDelay3 {
+  animation-delay: .5s
+}
+
+.preroll.compactHeader #scene-controlbar .prerollAnimation.prerollDelay4 {
+  animation-delay: .6s
+}
+
+.preroll.compactHeader #scene-controlbar .prerollAnimation.prerollDelay5 {
+  animation-delay: .7s
+}
+
+.preroll.compactHeader #scene-controlbar .prerollAnimation.prerollDelay6 {
+  animation-delay: .8s
+}
+
+.preroll.compactHeader #scene-controlbar .prerollAnimation.prerollDelay7 {
+  animation-delay: .9s
+}
+
+.preroll #sidebar #selectedTab {
+  transition: none;
+  animation: .7s selectedTabIn ease forwards;
+  animation-delay: .7s
+}
+
+.preroll #sidebar>menu {
+  transition: none;
+  transform: translateX(-70px);
+  animation: .7s objectPanelMenuIn ease forwards;
+  animation-delay: .3s
+}
+
+.preroll #search,
+.preroll #resultsSearch {
+  transition: none;
+  transform: translateX(-330px);
+  animation: .6s searchAndLayoutsIn ease forwards;
+  animation-delay: .7s
+}
+
+@keyframes objectPanelMenuIn {
+  0% {
+    transform: translateX(-70px)
+  }
+  100% {
+    transform: translateX(0)
+  }
+}
+
+@keyframes sceneControlbarIn {
+  0% {
+    transform: translateY(230px)
+  }
+  100% {
+    transform: translateY(0)
+  }
+}
+
+@keyframes objectPanelContentIn {
+  0% {
+    transform: translateX(-430px)
+  }
+  100% {
+    transform: translateX(0)
+  }
+}
+
+@keyframes canvaDocumentInnerIn {
+  0% {
+    transform: scale(.9);
+    opacity: 0
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1
+  }
+}
+
+@keyframes searchAndLayoutsIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-330px)
+  }
+  50% {
+    transform: translateX(7px)
+  }
+  80% {
+    opacity: .5;
+    transform: translateX(-2px)
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0)
+  }
+}
+
+@keyframes selectedTabIn {
+  0% {
+    transform: translateY(-140px)
+  }
+  50% {
+    transform: translateY(77px)
+  }
+  80% {
+    transform: translateY(68px)
+  }
+  100% {
+    transform: translateY(70px)
+  }
+}
+
+@keyframes zoomerIn {
+  0% {
+    transform: translateX(-430px)
+  }
+  70% {
+    transform: translateX(3px)
+  }
+  90% {
+    transform: translateX(-1px)
+  }
+  100% {
+    transform: translateX(0)
+  }
+}
+
+@keyframes headerIn {
+  0% {
+    transform: translateY(-60px)
+  }
+  100% {
+    transform: translateY(0)
+  }
+}
+
+@keyframes headerChildIn {
+  0% {
+    transform: translateY(-60px)
+  }
+  50% {
+    transform: translateY(5px)
+  }
+  80% {
+    transform: translateY(-3px)
+  }
+  100% {
+    transform: translateY(0)
+  }
+}
+
+@keyframes sceneBarChildIn {
+  0% {
+    transform: translateX(200px);
+    opacity: 0.1
+  }
+  60% {
+    transform: translateX(-8px);
+    opacity: 0.7
+  }
+  80% {
+    transform: translateX(3px);
+    opacity: 0.9
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1
+  }
+}

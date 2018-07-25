@@ -1,0 +1,491 @@
+#sidebar>.content {
+  position: absolute;
+  left: 70px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding: 20px 18px 20px 0;
+  text-align: left;
+  background-color: #3f4652
+}
+
+perfect-scrollbar>.ps.ps--active-y>.ps__rail-y:hover {
+  background-color: transparent !important;
+}
+perfect-scrollbar>.ps.ps--scrolling-y>.ps__rail-y {
+  background-color: transparent !important;
+}
+
+.layer {
+	// position: absolute;
+	// left: 0;
+	// right: -18px;
+	// top: 0;
+	// bottom: 0;
+	// z-index: 10;
+	// overflow-x: hidden;
+	// overflow-y: scroll;
+	// box-sizing: border-box;
+	padding: 20px 20px 20px 20px;
+	// transition: all .3s linear
+}
+
+.results {
+  position: absolute;
+  left: 0;
+  top: 50px;
+  bottom: 0;
+  z-index: -1;
+  width: 100%;
+  transition: all .3s ease-out
+}
+
+.slow .results {
+  transition: all .6s linear
+}
+
+.stage1 .results:nth-child(1),
+.stage2 .results:nth-child(2),
+.stage3 .results:nth-child(3),
+.stage4 .results:nth-child(4),
+.stage5 .results:nth-child(5),
+.stage6 .results:nth-child(6) {
+  z-index: 11
+}
+
+.stage1 .content>.results:nth-child(n+2),
+.stage2 .content>.results:nth-child(n+3),
+.stage3 .content>.results:nth-child(n+4),
+.stage4 .content>.results:nth-child(n+5),
+.stage5 .content>.results:nth-child(n+6),
+.stage6 .content>.results:nth-child(n+7) {
+  transform: translateY(33%);
+  opacity: 0
+}
+
+.stage2 .content>.results:nth-child(1),
+.stage3 .content>.results:nth-child(1),
+.stage3 .content>.results:nth-child(2),
+.stage4 .content>.results:nth-child(1),
+.stage4 .content>.results:nth-child(2),
+.stage4 .content>.results:nth-child(3),
+.stage5 .content>.results:nth-child(1),
+.stage5 .content>.results:nth-child(2),
+.stage5 .content>.results:nth-child(3),
+.stage5 .content>.results:nth-child(4),
+.stage6 .content>.results:nth-child(1),
+.stage6 .content>.results:nth-child(2),
+.stage6 .content>.results:nth-child(3),
+.stage6 .content>.results:nth-child(4),
+.stage6 .content>.results:nth-child(5) {
+  transform: translateY(-33%);
+  opacity: 0
+}
+
+.scrollElement {
+  outline: none
+}
+
+.scrollElement::-webkit-scrollbar {
+  display: none
+}
+
+.scrollPane::-webkit-scrollbar {
+  display: none
+}
+
+/*
+ * Search Style
+ */
+#resultsSearch .searchGroup {
+  position: static;
+  padding: 6px, 0;
+}
+#resultsSearch .searchSuggestion {
+  display: none;
+  font-style: italic;
+  margin: 5px 0;
+  text-align: center;
+  opacity: 0;
+  transition: opacity .3s linear;
+}
+#resultsSearch .noResults {
+  margin: 0 auto 2.5em;
+  text-align: center;
+  width: 80%;
+}
+/*
+ * Text Style
+ */
+#resultsText>.layer {
+  padding-top: 0
+}
+
+#resultsText.twoCol .photoGallery a,
+#resultsText.twoCol .infoPanelGallery a {
+  margin: 0 20px 30px 0
+}
+
+#resultsText .photoGallery a,
+#resultsText .infoPanelGallery a {
+  margin: 0 10px 10px 0
+}
+
+#resultsText .photoGallery .price.free,
+#resultsText .infoPanelGallery .price.free {
+  bottom: 0;
+  right: 0;
+  border: 1px solid rgba(0, 0, 0, .25)
+}
+
+.textControls:not(.clone) {
+  border-bottom: 1px solid rgba(255, 255, 255, .2);
+  margin: 20px 0;
+  padding-bottom: 10px;
+  text-align: center
+}
+
+.textControls>p {
+  opacity: .5;
+  padding: .5em 0
+}
+
+.textControls>ul {
+  font-size: 90%
+}
+
+.textControls li {
+  line-height: 1.3;
+  list-style: none;
+  margin: 10px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+.textControls li.pickedUp a {
+  opacity: 0
+}
+
+.textControls a {
+  text-decoration: none;
+  color: #fff;
+  opacity: 1
+}
+
+.textControls a.reappearing {
+  transition: opacity .3s linear
+}
+
+.elementGroupSearchResult {
+	padding: 5px;
+	font-size: 1.2em;
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+}
+.elementGroupSearchResult:first-child {
+	margin-top: 0px;
+}
+.photoGallery a.reappearing,
+.infoPanelGallery a.reappearing {
+	transition: opacity .3s linear
+}
+.photoGallery .loading a,
+.templateGallery .loading a {
+	background-clip: content-box;
+	background-color: rgba(255, 255, 255, .15)
+}
+/*
+ * Background Style
+ */
+#resultsBackground>.layer.hidden {
+	display: none
+}
+
+.colorControls {
+	margin: 5px 0 20px;
+	border-bottom: 1px solid rgba(255, 255, 255, .2);
+	padding-bottom: 10px;
+}
+
+.colorPalette {
+	border-radius: 5px;
+	padding: 15px 0 15px 15px;
+	width: 214px
+}
+
+.colorPaletteLabel {
+	color: rgba(63, 70, 82, .4);
+	font-size: 11px;
+	font-weight: 500;
+	margin: -2px 5px 8px 0;
+	text-transform: uppercase
+}
+
+#resultsBackground .colorPaletteLabel {
+	color: white
+}
+
+.workingPalette,
+.pinnedPalette {
+	margin: 19px 0
+}
+
+.workingPalette {
+	margin-top: 0
+}
+
+.pinnedPalette:last-child {
+	margin-bottom: 0
+}
+
+.colorPaletteAdd,
+.colorPaletteEntry {
+	list-style: none;
+	cursor: pointer;
+	width: 34px;
+  height: 34px;
+  margin: 6px;
+  border-radius: 17px;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .05), inset -1px -1px 0 rgba(0, 0, 0, .05);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: transparent;
+	background-color: currentColor;
+	display: inline-block
+}
+
+.colorPalette__row {
+	line-height: 0
+}
+
+.colorPaletteAdd {
+	position: relative;
+	box-sizing: border-box;
+	border: 1px solid rgba(255, 255, 255, .1);
+  box-shadow: none
+}
+
+.colorPaletteAdd:after {
+	content: '+';
+	display: block;
+	top: 0;
+	left: 0;
+	width: 32px;
+	height: 32px;
+	text-indent: 0;
+	font-size: 28px;
+	line-height: 30px;
+	text-align: center;
+	font-weight: 100;
+	color: #fff;
+	z-index: 2002;
+	position: absolute
+}
+
+#resultsBackground .colorPaletteAdd {
+	border-color: white
+}
+
+.colorPaletteEntry.fauxDraggerTarget {
+	box-shadow: none;
+	background-color: transparent
+}
+
+.colorPaletteEntry.fauxDraggerClone {
+	opacity: .7
+}
+
+.colorPaletteScrollable {
+	width: 222px;
+	margin-top: 30px;
+	margin-left: -30px
+}
+
+.colorPaletteScrollable>.scrollElement {
+	max-height: 300px;
+	overflow-y: scroll;
+	padding-right: 8px
+}
+
+#resultsBackground .colorPalette {
+	width: auto;
+	padding: 0
+}
+
+#overlays>.colorPalette {
+	animation: fadeOut .1s ease forwards;
+	position: absolute
+}
+
+#overlays>.colorPalette {
+	position: fixed
+}
+
+#overlays>.colorPalette.on {
+	animation: fadeIn .1s ease forwards
+}
+
+.colorPaletteCta {
+	color: #00c4cc;
+	transition: opacity .3s ease;
+	text-decoration: none
+}
+
+.colorPaletteCta:hover {
+	opacity: .6
+}
+
+.colorPaletteCta:visited {
+	color: #00c4cc
+}
+
+.colorPaletteApplyAll {
+	animation: colorPaletteApplyAllAppear .3s ease-out forwards;
+	padding: 5px 0 0 10px;
+	margin: 12px 0 -5px -15px;
+	border-top: 1px solid #eee
+}
+
+.colorPaletteApplyAllLabel {
+	font-size: 12px;
+	font-weight: 300
+}
+
+.colorPaletteApplyAllCheckbox {
+	margin-right: 6px
+}
+
+.colorPaletteApplyAllColor,
+.colorPaletteApplyAllResult {
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	position: relative;
+	top: 2px;
+	left: 7px;
+	border-radius: 2px;
+	box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .05), inset -1px -1px 0 rgba(0, 0, 0, .05);
+	margin-right: 8px
+}
+
+.colorPaletteApplyAllResult {
+	margin-right: 0;
+	left: 0
+}
+
+.colorPaletteApplyAllArrow {
+	font-size: 8px;
+	color: #777;
+	padding: 0 3px;
+	position: relative;
+	top: -1px
+}
+
+@keyframes colorPaletteApplyAllAppear {
+	0% {
+		height: 0;
+		padding: 0 0 0 10px;
+		margin: 0 0 0 -13px;
+		opacity: 0
+	}
+	50% {
+		height: 18px;
+		padding: 5px 0 0 10px;
+		margin: 12px 0 -5px -13px;
+		opacity: 50%
+	}
+	100% {
+		height: 18px;
+		padding: 5px 0 0 10px;
+		margin: 12px 0 -5px -13px;
+		opacity: 1
+	}
+}
+
+/*
+ * Upload style
+ */
+
+.uploadsFolderContentUploadButton[disabled] {
+	opacity: .5
+}
+
+@keyframes uploadButtonAppearing {
+	0% {
+		opacity: 0;
+		transform: scale(.75)
+	}
+	100% {
+		transform: none
+	}
+}
+
+.uploadsFolderContentEmpty>.uploadsFolderContentUploadButton {
+	margin: 0 auto 20px;
+	max-width: 200px;
+}
+
+.uploadsFolderContentShareable>.uploadsFolderContentUploadButton {
+	margin: 0 10px 6px 0;
+	max-width: calc(100% - 46px)
+}
+
+.uploadsFolderContentEmpty.uploadsFolderContentShareable>.uploadsFolderContentUploadButton {
+	margin-bottom: 20px
+}
+
+.uploadsFolderContentEmpty>.uploadsFolderContentShareButton {
+	display: block
+}
+.uploadsControls {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 20;
+	height: 0;
+	width: 1.8em;
+	overflow: hidden;
+	padding: 0 5px;
+	background-color: transparent;
+	line-height: 1.8;
+	text-align: right;
+	transition: height .2s ease-out;
+	.uploadsInfoButton {
+		position: absolute;
+		left: .2em;
+		top: .2em;
+		width: 1.4em !important;
+		height: 1.4em !important;
+		overflow: hidden;
+		border-radius: .7em;
+		background-color: rgba(0, 0, 0, .67);
+		font-family: Georgia, Times New Roman;
+		font-size: small;
+		font-weight: 700;
+		line-height: 1.6;
+		text-align: center;
+		transition: background-color .15s linear, color .15s linear
+	}
+	.uploadsInfoButton:hover {
+			background-color: #00c4cc;
+	}
+	.uploadsInfoButton:active {
+			background-color: #fff;
+			color: #3f4652;
+			transition: none;
+	}
+	.uploadsInfoButton:after {
+			display: none;
+	}
+}
+.uploadsFolderItem:hover {
+	.uploadsControls {
+		height: 1.8em;
+	}
+}

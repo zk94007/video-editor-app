@@ -1,0 +1,241 @@
+<div class="toolbar__wrapper">
+  <menu class="toolbar toolbar--element toolbar--right" style="visibility: visible;">
+    <ul class="toolbar__list">
+      <li class="toolbar__item toolbar__item--copy enabled">
+        <button type="button" placement="bottom" ngbTooltip="Copy" appButtonToolbar [name]="'copy'" [displayName]="'Copy'" (click)="copy()">
+        </button>
+      </li>
+      <li class="toolbar__item toolbar__item--arrange enabled  toolbar__item--submenu" [style.width.px]="72">
+        <button type="button" placement="bottom" ngbTooltip="Arrange" appButtonToolbar [name]="'arrange'" [displayName]="'Arrange'">
+        </button>
+        <menu class="toolbar toolbar--arrange toolbar--vertical">
+          <ul class="toolbar__list">
+            <li class="toolbar__item toolbar__item--forward {{ props.order !== null && props.order < props.overlay_count ? 'enabled' : 'disabled' }}" data-width="143">
+              <button data-item="forward" class="toolbar__button toolbar__button--forward toolbar__button--icon" (click)="changeArrange(1)">
+                <span class="toolbar__label toolbar__label--forward">Forward</span>
+                <!-- <span class="toolbar__spinner"></span>
+                <span class="toolbar__shortcut toolbar__shortcut--forward">Ctrl ]</span> -->
+              </button>
+            </li>
+            <li class="toolbar__item toolbar__item--back {{ props.order !== null && props.order > 1 ? 'enabled' : 'disabled' }}" data-width="143">
+              <button data-item="back" class="toolbar__button toolbar__button--back toolbar__button--icon" (click)="changeArrange(2)">
+                <span class="toolbar__label toolbar__label--back">Back</span>
+                <!-- <span class="toolbar__spinner"></span>
+                <span class="toolbar__shortcut toolbar__shortcut--back">Ctrl [</span> -->
+              </button>
+            </li>
+          </ul>
+        </menu>
+      </li>
+      <!-- <li class="toolbar__item toolbar__item--transparent enabled toolbar__item--submenu">
+        <button class="toolbar__button toolbar__button--transparent toolbar__button--icon" appButtonSubmenu [type]="'transparent'">
+        </button>
+        <menu class="toolbar toolbar--transparent toolbar--vertical ">
+          <ul class="toolbar__list">
+            <li class="toolbar__item toolbar__item--transparency enabled" [style.width.px]="350">
+              <div style="display: inline-block; margin-right: 15px">
+                Transparency
+              </div>
+              <div style="display: inline-block; width: 200px; margin-right: 10px">
+                <p-slider [(ngModel)]="props.opacity" [min]="0" [max]="100" (onChange)="changeTransparent()"></p-slider>
+              </div>
+              <div style="display: inline-block; width: 40px; color:black">
+                {{props.opacity}}
+              </div>
+            </li>
+          </ul>
+        </menu>
+      </li> -->
+      <li class="toolbar__item toolbar__item--delete enabled">
+        <button type="button" placement="bottom" ngbTooltip="Delete" appButtonToolbar [name]="'delete'" [displayName]="'Delete'" [iconable]="'true'" (click)="delete()">
+        </button>
+      </li>
+    </ul>
+  </menu>
+  <menu [hidden]="!isTextSelected" class="toolbar toolbar--group">
+      <ul class="toolbar__list">
+        <li class="toolbar__item toolbar__item--fontFamily enabled toolbar__item--submenu">
+          <button class="toolbar__button toolbar__button--fontFamily" appButtonSubmenu>
+            <span class="toolbar__label toolbar__label--fontFamily" [style.font-family]="props.fontFamily">
+              {{props.fontFamily}}
+            </span>
+          </button>
+          <div class="menuList">
+            <perfect-scrollbar [config]="scrollbarConfig" [attr.fxFlex]="'auto'" (psYReachEnd)="renderMore.next($event)">
+            <ul class="menuList__inner">
+              <li class="toolbar__menuHeader">
+                <div class="toolbar__menuHeaderLine"></div>
+                <div class="toolbar__menuListSeparator">English fonts</div>
+                <div class="toolbar__menuHeaderLine"></div>
+              </li>
+              <li appLiActiveHover *ngFor="let font of (props_fontpicker.currentFonts | StatefulSlice:0:props_fontpicker.loadedFonts)">
+                <button href="#" appButtonFontFamily [onSetFontFamily]="onSetFontFamily" (click)="setFontFamily($event)" [name]="font.family" [displayName]="font.family" [family]="font.family" title="font.family" [ngStyle]="{'font-family': font.family}">
+                </button>
+              </li>
+            </ul>
+            </perfect-scrollbar>
+          </div>
+        </li>
+        <li class="toolbar__item toolbar__item-fontSize enabled toolbar__item--submenu">
+          <button class="toolbar__button toolbar__button--fontSize" appButtonSubmenu [type]="'textSize'">
+            <input class="toolbar__inputButton toolbar__inputButton--fontSize" type="text" value="{{props.fontSize}}" (change)="changeFontSize($event.target.value)">
+          </button>
+          <div class="menuList">
+            <perfect-scrollbar [config]="scrollbarConfig" [attr.fxFlex]="'auto'">
+            <ul class="menuList__inner">
+              <li class="selectable" appappLiActiveHover>
+                <button appButtonFontSize [size]="6" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="8" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="10" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="12" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="14" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="16" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="18" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="21" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="24" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="28" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="32" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="36" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="42" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="48" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="56" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="64" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="72" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="80" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="88" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="96" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="104" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="120" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+              <li class="selectable" appLiActiveHover>
+                <button appButtonFontSize [size]="144" [onSetFontSize]="onSetFontSize" (click)="setFontSize($event)"></button>
+              </li>
+            </ul>
+            </perfect-scrollbar>
+          </div>
+        </li>
+        <li class="toolbar__item toolbar__separator toolbar__subheading">
+        </li>
+        <li class="toolbar__item toolbar__item--textColor enabled toolbar__item--submenu">
+          <!-- <span class="toolbar__button toolbar__button--color toolbar__button--icon toolbar__target--text " [(colorPicker)]="props.textColor" [cpSaveClickOutside]="'false'" [cpPosition]="'bottom'" [style.background]="props.textColor" (colorPickerChange)="changeTextColor()"></span> -->
+          <button class="toolbar__button toolbar__button--textColor toolbar__button--icon" appButtonSubmenu [type]="'textColor'" [style.background]="props.textColor" style="border:1px solid #aaa"></button>
+          <menu class="toolbar toolbar--textColor">
+            <ul class="toolbar__list">
+              <div class="my-colorpicker" style="width: 200px; height: 290px"></div>
+              <div class="my-colorpicker-colorcode">
+                <span>Color code #</span>
+                <input class="my-colorpicker-hexcode" [(ngModel)]="colorPickerColor" id="my-colorpicker-hexcode"(input)="onColorHexChange($event.target.value)" maxlength="6">
+              </div>
+            </ul>
+          </menu>
+        </li>
+        <li class="toolbar__item toolbar__separator toolbar__subheading">
+        </li>
+        <li class="toolbar__item toolbar__item--bold enabled">
+          <button placement="bottom" ngbTooltip="Bold" appButtonToolbar [name]="'bold'" [displayName]="'Bold'" [iconable]="'true'" [checkable]="'true'" [onCheck]="onSetTextBold" (click)="setTextBold()"></button>
+        </li>
+        <li class="toolbar__item toolbar__item--italic enabled">
+          <button placement="bottom" ngbTooltip="Italic" appButtonToolbar [name]="'italic'" [displayName]="'Italic'" [iconable]="'true'" [checkable]="'true'" [onCheck]="onSetTextItalic" (click)="setTextItalic()"></button>
+        </li>
+        <li class="toolbar__item toolbar__item--underline enabled">
+          <button placement="bottom" ngbTooltip="Underline" appButtonToolbar [name]="'underline'" [displayName]="'Underline'" [iconable]="'true'" [checkable]="'true'" [onCheck]="onSetTextUnderline" (click)="setTextUnderline()"></button>
+        </li>
+        <li class="toolbar__item toolbar__item--textAlign enabled toolbar__item--submenu">
+          <button class="toolbar__button toolbar__button--textAlign toolbar__button--icon {{classTextAlign[props.textAlign]}}" appButtonSubmenu [type]="'textAlign'">
+          </button>
+          <menu class="toolbar toolbar--textAlign ">
+            <ul class="toolbar__list">
+              <li class="toolbar__item toolbar__item--left enabled" [style.width.px]="34">
+                <button appButtonTextAlign [textAlign]="'left'" [onSetTextAlign]="onSetTextAlign" (click)="setTextAlign('left')">
+                </button>
+              </li>
+              <li class="toolbar__item toolbar__item--center enabled" [style.width.px]="38">
+                <button appButtonTextAlign [textAlign]="'center'" [onSetTextAlign]="onSetTextAlign" (click)="setTextAlign('center')">
+                </button>
+              </li>
+              <li class="toolbar__item toolbar__item--right enabled" [style.width.px]="34">
+                <button appButtonTextAlign [textAlign]="'right'" [onSetTextAlign]="onSetTextAlign" (click)="setTextAlign('right')">
+                </button>
+              </li>
+            </ul>
+          </menu>
+        </li>
+        <li class="toolbar__item toolbar__separator toolbar__subheading">
+        </li>
+        <li class="toolbar__item toolbar__item--spacing enabled toolbar__item--submenu">
+            <button class="toolbar__button toolbar__button--spacing toolbar__button--icon" appButtonSubmenu [type]="'spacing'" style="width:62px">Spacing
+            </button>
+            <menu class="toolbar toolbar--spacing toolbar--vertical ">
+              <ul class="toolbar__list">
+                <li class="toolbar__item toolbar__item--lineheight enabled" [style.width.px]="350">
+                  <div style="display: inline-block; margin-right: 15px; text-align: right; width: 100px">
+                    Line Height
+                  </div>
+                  <div style="display: inline-block; width: 200px; margin-right: 10px">
+                    <p-slider [min]="1" [max]="100" [(ngModel)]="fakelineHeight" (onChange)="changeLineHeight()"></p-slider>
+                  </div>
+                  <div style="display: inline-block; width: 40px; color:black">
+                    {{props.textLineHeight}}
+                  </div>
+                </li>
+              </ul>
+              <ul class="toolbar__list">
+                  <li class="toolbar__item toolbar__item--charspacing enabled" [style.width.px]="350">
+                    <div style="display: inline-block; margin-right: 15px; text-align: right; width: 100px">
+                      Char spacing
+                    </div>
+                    <div style="display: inline-block; width: 200px; margin-right: 10px">
+                      <p-slider [(ngModel)]="props.textCharSpacing" [min]="-200" [max]="800" [step]="10" (onChange)="changeCharSpacing()"></p-slider>
+                    </div>
+                    <div style="display: inline-block; width: 40px; color:black">
+                      {{props.textCharSpacing}}
+                    </div>
+                  </li>
+                </ul>
+            </menu>
+          </li>
+      </ul>
+  </menu>
+</div>

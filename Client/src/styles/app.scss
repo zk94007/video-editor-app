@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/bootstrap";
+@import "spinner";
+@import "utils";
+@import "rtl";
+@import "responsive";
+
+@import "variables";
+
+$fa-font-path: "../../node_modules/font-awesome/fonts";
+@import "../../node_modules/font-awesome/scss/font-awesome.scss";
+
+@import "basic";
+
+@import "./sign/form";
+
+@import "./project/_layout";
+@import "./project/list";
+@import "./project/detail";
+
+@import "./video-studio/main";
+@import "./video-studio/animation";
+@import "./video-studio/sidebar";
+@import "./video-studio/sidebar-panel";
+@import "./video-studio/controlbar";
+@import "./video-studio/workspace";
+@import "./video-studio/frameline";
+@import "./video-studio/workarea";
+@import "./video-studio/workarea-latest";
+@import "./video-studio/toolbar";
+@import "./video-studio/reposition";
+@import "./video-studio/complete";

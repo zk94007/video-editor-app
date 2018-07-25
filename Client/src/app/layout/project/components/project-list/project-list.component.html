@@ -1,0 +1,101 @@
+<div class="projects-container">
+    <div class="page-button clearfix">
+        <button type="button" class="btn btn-custom btn-green btn-md float-right" (click)="openCreateProjectModal()">Create Project</button>
+    </div>
+    <div *ngIf="projects?.length !== 0" style="overflow:auto">
+        <div class="clearfix">
+            <div class="float-right sorting">
+                <ol class="nya-bs-select" ngbDropdown role="group" aria-label="Button group with nested dropdown" placement="bottom-right">
+                    <span ngbDropdownToggle>Sort: {{ props.sortTypes[props.selectedSortType] }}</span>
+                    <ol class="dropdown-menu" ngbDropdownMenu>
+                        <li class="dropdown-item" (click)="sortProject(0)">{{props.sortTypes[0]}}</li>
+                        <li class="dropdown-item" (click)="sortProject(1)">{{props.sortTypes[1]}}</li>
+                        <li class="dropdown-item" (click)="sortProject(2)">{{props.sortTypes[2]}}</li>
+                    </ol>
+                </ol>
+            </div>
+        </div>
+
+        <div class="media-items-container clearfix">
+            <div class="media-item" *ngFor="let project of projects">
+                <div class="project-container">
+                    <div class="horizontal-vertical-center hovereffect">
+                        <div class="img-wrapper">
+                            <img *ngIf="isImage(project.prj_representative)" class="representative" src="{{ project.prj_representative }}">
+                            <video *ngIf="isVideo(project.prj_representative)" class="representative video-js" preload="auto">
+                                <source src="{{ project.prj_representative }}">
+                            </video>
+                            <img *ngIf="!isImage(project.prj_representative) && !isVideo(project.prj_representative)" class="representative" src="../../../../../assets/layout/images/empty.png">
+                        </div>
+
+                        <div class="img-cover project-overlay">
+                            <div class="btn-group menu-option" ngbDropdown is-open="status.isopen"  placement="bottom-right">
+                                <button id="single-button" type="button" class="btn btn-custom btn-grey btn-sm" ngbDropdownToggle>Options</button>
+                                <ul class="dropdown-menu" ngbDropdownMenu role="menu" aria-labelledby="single-button">
+                                    <li role="menuitem" (click)="showProjectVideo(project.result_video, project.prj_representative, project.prj_name)"><a>Play</a></li>
+                                    <li class="divider"></li>
+                                    <li role="menuitem" (click)="deleteProject( project.prj_id )"><a>Delete</a></li>
+                                </ul>
+                            </div>
+                            <span class="menu-edit btn btn-custom btn-outline btn-md" [routerLink]="['detail', project.prj_id]">View Project</span>
+                        </div>
+                    </div>
+                    <h4 class="project-title">{{ project.prj_name }}</h4>
+                    <p class="project-desc">{{ project.prj_frame_count }} screens</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="projects?.length === 0">
+        <div  class="text-center">
+            <img class="representative" (click)="openCreateProjectModal()" src="../../../../../assets/layout/icons/blurbiz_create_project.png" style="margin: 0 auto; width: 200px; height: 175px;">
+            <h3>Oops, You have no projects.</h3>
+            <p class="grey">Click here or on "Create Project" to start</p>
+        </div>
+    </div>
+
+    <div class="backdrop" [ngStyle]="{'display':props.displayCreateProjectModal}"></div>
+    <div id="createProjectModal" class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.displayCreateProjectModal}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span class="btn-close" (click)="cancelCreateProject()"></span>
+                    <h3 class="modal-title" id="modal-title">Create Project</h3>
+                    <input type="text" class="form-control" name="projectname" #projectname="ngModel" [(ngModel)]="props.newProject.prj_name" required placeholder="Your project name" (keyup.enter)="okCreateProject()"/>
+                    <span class="text-danger">{{props.newProject.perror}}</span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-custom btn-green btn-md" type="button" (click)="okCreateProject()">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="backdrop" [ngStyle]="{'display':props.displayDeleteProjectModal}"></div>
+    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.displayDeleteProjectModal}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span class="btn-close" (click)="cancelDeleteProject()" role="button" tabindex="0"></span>
+                    <h3 class="modal-title">Are you sure want to delete your project?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-custom btn-white with-border btn-md" (click)="cancelDeleteProject(); ">Cancel</button>
+                    <button class="btn btn-custom btn-orange btn-md" (click)="okDeleteProject(); ">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+.backdrop{
+  background-color:rgba(0,0,0,0.6);
+  position: fixed;;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+}
+</style>

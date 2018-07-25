@@ -1,0 +1,280 @@
+<div class="project_edit projects-container">
+    <div class="projects-menu clearfix">
+        <div ngbDropdown class="d-inline-block pull-left">
+            <a ngbDropdownToggle class="btn btn-add btn-custom btn-white with-border dropdown-toggle" id="add-media-file-dropdown">
+                <img class="icon" src="../../../../../assets/layout/icons/icon-add-green.png">
+                <span>Add Media Files</span>
+            </a>
+            
+            <ul ngbDropdownMenu class="dropdown-menu media-menu" aria-labelledby="add-media-file-dropdown" style="min-width: 100px;">
+                <li>
+                    <ng5-files-click (filesSelect)="filesSelect($event)" multiple="multiple" class="menu-item dropdown-item">
+                        <div>
+                            <img class="icon" src="../../../../../assets/layout/icons/cloud-computing.png">
+                            <span>Computer</span>
+                        </div>
+                    </ng5-files-click>
+                    <!-- <a href id="dropbox_first" ng-show="connectionStates.dropbox" drop-box-picker db-picker-files="dpfiles" class="menu-item">
+                        <img class="icon" src="assets/icons/dropbox.png">
+                        <span>Dropbox</span>
+                    </a>
+                    <a href id="dropbox_second" ng-hide="connectionStates.dropbox" ng-click="showConnectToService('dropbox')" class="menu-item">
+                        <img class="icon" src="assets/icons/dropbox.png">
+                        <span>Dropbox</span>
+                    </a>
+
+                    <a href id="google_drive_first" ng-show="connectionStates.google_drive" lk-google-picker on-picked="onGoogleFilePicked(docs)" on-loaded="onGoogleFileLoaded()" on-cancel="onGoogleFileCancel()" class="menu-item">
+                        <img class="icon" src="assets/icons/drive.png">
+                        <span>Google Drive</span>
+                    </a>
+                    <a href id="google_drive_second" ng-hide="connectionStates.google_drive" ng-click="showConnectToService('google_drive')" class="menu-item">
+                        <img class="icon" src="assets/icons/drive.png">
+                        <span>Google Drive</span>
+                    </a>
+
+                    <a href id="box_first" ng-show="connectionStates.box" box-picker box-picker-files="boxfiles" class="menu-item icon-big">
+                        <img class="icon" src="assets/icons/box.png">
+                        <span>Box</span>
+                    </a>
+                    <a href id="box_second" ng-hide="connectionStates.box" ng-click="showConnectToService('box')" class="menu-item icon-big">
+                        <img class="icon" src="assets/icons/box.png">
+                        <span>Box</span>
+                    </a>
+
+
+                    <a href id="instagram_first" ng-show="connectionStates.instagram2" ng-click="instagram()"  class="menu-item">
+                        <img class="icon" src="assets/icons/instagram.png">
+                        <span>Instagram</span>
+                    </a>
+                    <a href id="instagram_second" ng-hide="connectionStates.instagram2" ng-click="showConnectToService('instagram2')" class="menu-item">
+                        <img class="icon" src="assets/icons/instagram.png">
+                        <span>Instagram</span>
+                    </a> -->
+                    <!-- <a href custom-link-invoker is-editing="custom_link_editing" ng-click="customFileType = 'youtube'" class="menu-item icon-big">
+                        <img class="icon" src="assets/icons/youtube.png">
+                        <span>Youtube</span>
+                    </a> -->
+                    <!-- <a href custom-link-invoker is-editing="custom_link_editing" ng-click="customFileType = 'custom'" class="menu-item">
+                        <img class="icon" src="assets/icons/url-link.png">
+                        <span>URL</span>
+                    </a> -->
+                </li>
+                <!-- <li custom-link-invoker is-editing="custom_link_editing" class="link" ng-show="custom_link_editing">
+                    <div class="custom-link-wrapper" ng-class="{'bg-youtube': customFileType == 'youtube'}">
+                        <form ng-submit="saveCustomFile(customFileType)">
+                            <input class="custom-link-box"  type="text" ng-model="url" placeholder="Paste URL" />
+                        </form>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+        <div class="float-right menu-right">
+            <a target="_self" id="downloadButton" (click)="downloadProjectVideo()" class="menu-item" [ngClass]="props.disableDownloadButton ? 'disabled' : ''">
+                <div class="icon-holder">
+                    <img src="../../../../../assets/layout/icons/arrow-down-line.png" />
+                </div>
+                <span>Download</span>
+            </a>
+            <div href (click)="playProjectVideo()" class="menu-item" [ngClass]="props.disableDownloadButton ? 'disabled' : ''" style="cursor: pointer">
+                <div class="icon-holder">
+                    <img src="../../../../../assets/layout/icons/icon-play.png" />
+                </div>
+                <span>Play</span>
+            </div>
+            <!-- <span class="btn-group" ngbDropdown placement="bottom-right">
+                <a class="menu-item dropdown-toggle" ngbDropdownToggle>
+                    <div class="icon-holder">
+                        <img src="../../../../../assets/layout/icons/icon-share-green.png" />
+                    </div>
+                    <span>Share</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right menu-social" ngbDropdownMenu>
+                    <li ng-show="$parent.user.snapchat">                   
+                        <div ng-click="openShareModal('snapchat')" class="dropdown-sharelink" >
+                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/snapchat-btn.png">
+                            <span> Send to Snapchat</span>
+                        </div>
+                    </li>
+                    <li ng-show="$parent.user.facebook">      
+                         <div ng-click="openShareModal('facebook')" class="dropdown-sharelink">
+                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/facebook-btn.png">
+                            <span> Share to Facebook</span>
+                        </div>      
+                     </li>
+                    <li ng-show="$parent.user.twitter">   
+                         <div ng-click="openShareModal('twitter')"  class="dropdown-sharelink">
+                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/twitter-btn.png">                    
+                            <span> Send to Twitter</span>
+                        </div>
+                     </li>
+                    <li ng-show="$parent.user.instagram">   
+                         <div ng-click="openShareModal('instagram')"  class="dropdown-sharelink">
+                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/instagram-btn.png">                    
+                            <span> Send to Instagram</span>
+                        </div>                     
+                    </li>
+                    <li ng-show="$parent.user.pinterest">
+                        <div ng-click="openShareModal('pinterest')" class="dropdown-sharelink" >
+                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/pinterest-btn.png">
+                            <span> Pin to Pinterest</span>
+                        </div>
+                    </li>
+                    <li class="divider"></li>                       
+                    <li>
+                        <div ng-click="openShareModal('twitter')"  class="dropdown-sharelink">
+                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/schedule-btn.png">
+                            <span> Schedule Post</span>
+                        </div>           
+                    </li>                            
+                </ul>
+            </span> -->
+        </div>
+    </div>
+    
+    <!-- <div class="row">
+
+        Upload Log:
+        <pre>{{log}}</pre>
+    </div>  -->
+
+    <div>
+        <div class="media-items-container" *ngIf="props.showProjects">
+            <div [sortablejs]="props.media" [sortablejsOptions]="options">
+                <div class="media-item media-cell" *ngFor="let m of props.media">
+                    <div class="project-container project-cell text-center fixed-size-item-responsive">
+                        <div class="hovereffect horizontal-vertical-center">
+                            <div class="img-wrapper detail">
+                                <img *ngIf="isImage(m.frm_path)" class="representative" [src]="m.frm_path">
+
+                                <!-- <video *ngIf="isVideo(m.frm_path)" [attr.id]="{{ getUuid(m.frm_path) }}"  class="video-js" controls preload="auto" height="180" vjs-video vjs-media="{'sources': [{ 'src': m.frm_path, 'type': 'video/mp4' }]}"> -->
+                                    <!-- <vg-player *ngIf="isVideo(m.frm_path)" [attr.id]="getUuid(m.frm_path)" [vgMedia]="media" #media style="background-color: transparent" (click)="pauseVideo(m.frm_id)"> -->
+                                        <video *ngIf="isVideo(m.frm_path)" preload="auto" height="180" [attr.id]="getUuid(m.frm_path)" (click)="pauseVideo(m.frm_id)">
+                                            <source [src]="m.frm_path" type="video/mp4">
+                                        </video>
+                                    <!-- </vg-player> -->
+                            </div>
+
+                            <!-- <div class="img-cover project-overlay" ng-hide="isFake(m.frm_path)" ng-attr-data-for="{{ getUuid(m.frm_path) }}"> -->
+                            <div class="img-cover project-overlay" [hidden]="m.isUploading || m.isPlaying">
+                                <a class="menu-delete" (click)="deleteFile(m.frm_id)">
+                                    <span class="fa fa-trash"></span>
+                                </a>
+                                
+                                <div class="menu-play-video" *ngIf="isVideo(m.frm_path)">
+                                    <a (click)="playVideo(m.frm_id)">
+                                        <img src="../../../../../assets/layout/icons/play-button-white.png" style="width: 30px; height: 30px"/>
+                                    </a>
+                                </div>
+
+                                <a class="btn menu-edit btn-custom btn-outline btn-md" href="/video-studio/{{props.projectId}}" style="margin-top: 70px;">Edit</a>
+                            </div>
+                        </div>
+                        <!-- {{ m.order_in_project }} -->
+                        <div class="media-item-footer">
+                            <div *ngIf="m.isUploading" class="progress" style="margin-bottom: 0px;">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': m.uploadPercent}">
+                                    {{m.uploadPercent}}
+                                </div>
+                            </div>
+                            <!-- <h4 class="project-title">{{ m.name | limitLength:true:15:' ...' }}</h4> -->
+                            <h4 class="project-title">{{ resolveFilename(m.frm_name) }}</h4>
+                            <p class="project-desc" *ngIf="!m.isUploading">{{ m.frm_resolution ? m.frm_resolution.width + ' x ' + m.frm_resolution.height : '' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <div *ngIf="!props.showProjects" style="width: 100%">
+            <div class="text-center">
+                <div>
+                    <img class="representative" src="../../../../../assets/layout/icons/blurbiz_drag-and-drop.png" style="margin: 0 auto; width: 207px; height: 190px;">
+                    <h4>Drop your media files here!</h4>
+                    <p>Or Upload from Dropbox, Google Drive, Box & Instagram!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div id="holder"></div><p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p><p id="filereader">File API & FileReader API not supported</p><p id="formdata">XHR2's FormData is not supported</p><p id="progress">XHR2's upload progress isn't supported</p><p>Upload progress: <progress id="uploadprogress" min="0" max="100" value="0">0</progress></p>-->
+
+<div class="modalContent modalContentBlurAndDarken" [hidden]="!props.isPlayingProjectVideo">
+    <div class="modalContentMask"></div>
+    <div class="multipageDialog playDialog" *ngIf="props.isPlayingProjectVideo">
+        <div class="multipageDialogPageWrapper">
+            <div class="multipageDialogPage multipageDialogCurrentPage">
+            <div class="play">
+                <div class="playDialogFeaturePromo playBody">
+                    <vg-player (onPlayerReady)="onPlayerReady($event)">
+                        <vg-overlay-play></vg-overlay-play>
+                        <vg-buffering></vg-buffering>
+
+                        <vg-controls>
+                            <vg-play-pause></vg-play-pause>
+                    
+                            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+                    
+                            <vg-scrub-bar [vgSlider]="true">
+                                <vg-scrub-bar-current-time [vgSlider]="true"></vg-scrub-bar-current-time>
+                                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                            </vg-scrub-bar>
+
+                            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+                            <vg-mute></vg-mute>
+                            <vg-volume></vg-volume>
+                            <vg-fullscreen></vg-fullscreen>
+                        </vg-controls>
+                        <video [vgMedia]="media" #media preload="auto" name="media">
+                            <source [src]="props.videoPath" type="video/mp4" *ngIf="props.videoPath != ''">
+                        </video>
+                    </vg-player>
+                </div>
+                <button class="buttonLink dialogMaskCloseButton playDialogCloseButton" (click)="onCloseModal()" style="opacity: 1; z-index: 1000; color: white">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="backdrop" [ngStyle]="{'display':props.displayDeleteFileModal}"></div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.displayDeleteFileModal}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="btn-close" (click)="cancelDeleteFileConfirm()" role="button" tabindex="0"></span>
+                <h3 class="modal-title">Are you sure want to delete this file?</h3>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-custom btn-white with-border btn-md" (click)="cancelDeleteFileConfirm(); ">Cancel</button>
+                <button class="btn btn-custom btn-orange btn-md" (click)="okDeleteFileConfirm(); ">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    /*#holder { border: 10px dashed #ccc; width: 300px; min-height: 300px; margin: 20px auto;}*/
+    #holder.hover { border: 10px dashed #0c0; }
+    #holder.hover .img-cover { display: none; }
+    #holder img.representative { display: block; }
+    progress { width: 100%; }
+    progress:after { content: '%'; }
+    .fail { background: #c00; padding: 2px; color: #fff; }
+    .hidden { display: none !important;}
+    
+    .loader{
+        top: 20%;
+        left: 40%;
+        position: absolute;
+    }
+    .backdrop{
+        background-color:rgba(0,0,0,0.6);
+        position: fixed;;
+        top:0;
+        left:0;
+        width:100%;
+        height:100vh;
+    }
+    
+</style>
+
+

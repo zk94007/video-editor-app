@@ -1,0 +1,38 @@
+<div class="inner">
+  <div id="overlays">
+  </div>
+
+  <section class="page on selected" style="text-align: center">
+    <div id="workarea-container">
+      <div id="workarea-background"></div>
+      <div id="frame">
+        <vg-player [hidden]="props.frame ? props.frame.frm_type !== 1 : true" style="position: absolute; object-fit: fill; background:transparent">
+          <vg-buffering></vg-buffering>
+ 
+          <video id="video-frame" [vgMedia]="media" #media preload="auto" name="media" style="position: relative;" (timeupdate)="onTimeUpdate()"></video>
+        </vg-player>
+
+        <img id="image-frame" [hidden]="props.frame ? props.frame.frm_type !== 2 : true"  style="position: absolute; object-fit: fill">
+      </div>
+      <canvas id="workarea-canvas"></canvas>
+    </div>
+    <div id="seekbar" style="height:35px; background-color:#191E22 !important; min-width: 350px">
+      <div class="detail-video-icon" [hidden]="props.frame ? props.frame.frm_type===2 : true" (click)="playPauseVideo()">
+        <i id="videoPlayer" class="fa fa-play fa-4" [hidden]="props.seek.isPlayingVideo"></i>
+        <i id="videoPlayer" class="fa fa-pause fa-4" [hidden]="!props.seek.isPlayingVideo"></i>
+      </div>
+      <div class="detail-video-bar custom-slider">
+        <p-slider *ngIf="props.frame?.frm_type === 1" class="controls-container" id="video-seek-element" [(ngModel)]="props.seek.video.seekRangeValue" [min]="0"
+          [max]="props.seek.video.totalSeconds * 10" [range]="true" (onSlideEnd)="changeVideoSeek()" (onChange)="changeVideoDuration()" (mouseover)="showCurrentTimeSlider()" (mousemove)="changeCurrentTimeSlider($event)" (mouseleave)="setCurrentTimeSliderOption()" (mousedown)="hideCurrentTimeSlider()" (mouseup)="showCurrentTimeSlider()"></p-slider>
+      </div>
+      <div class="detail-video-range" *ngIf="props.frame?.frm_type === 1">
+        <label>{{timeFormat(props.seek.video.seekRangeValue[0])}} : {{timeFormat(props.seek.video.seekRangeValue[1])}}</label>
+      </div>
+      <div class="detail-image-bar" *ngIf="props.frame?.frm_type === 2">
+        <p-slider class="detail-image-slider" [(ngModel)]="props.seek.image.seekValue" [min]="1" [max]="props.seek.image.seekMaxValue"
+          (onSlideEnd)="changeImageSeek()" (onChange)="changeImageDuration()"></p-slider>
+        <span class="detail-image-value">{{props.seek.image.seekValue}} s</span>
+      </div>
+    </div>
+  </section>
+</div>

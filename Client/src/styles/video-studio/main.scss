@@ -1,0 +1,264 @@
+#draggableText.selected {
+  transition: all 0.3s;
+}
+#draggableText.moving {
+  transition: none;
+}
+#draggableImage.selected {
+  transition: all 0.3s;
+}
+#draggableImage.moving {
+  transition: none;
+}
+
+.enterFullscreen #content {
+  animation: enterFullscreenFadeOut .1s ease-out forwards
+}
+
+.enterFullscreen.fullscreenModeTransitionIn #content {
+  animation: enterFullscreenFadeIn .7s ease-out forwards
+}
+
+body.modalContentBlurAndDarkenVisible #content {
+  filter: blur(5px)
+}
+
+body.modalContentVisible {
+  overflow: hidden
+}
+
+.modalContent {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000
+}
+
+.modalContentMask {
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity .3s linear;
+  z-index: -1
+}
+
+.modalContentNone {
+  pointer-events: none
+}
+
+.modalContentDarken>.modalContentMask,
+.modalContentBlurAndDarken>.modalContentMask {
+  background-color: #000
+}
+
+.modalContentOn>.modalContentMask {
+  opacity: .333
+}
+
+.modalContentBlurAndDarken.modalContentOn>.modalContentMask {
+  opacity: .5
+}
+
+@media screen and (-ms-high-contrast:active),
+(-ms-high-contrast:none) {
+  .modalContentBlurAndDarken.modalContentOn>.modalContentMask {
+    opacity: .75
+  }
+}
+
+.multipageDialog {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0
+}
+
+.multipageDialogPageWrapper {
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+  transition: transform .4s ease-in-out
+}
+
+.multipageDialogPage {
+  transition: transform .4s ease-in-out
+}
+
+@keyframes multipageDialogPageAppearing {
+  from {
+    opacity: 0;
+    transform: scale(.67)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1)
+  }
+}
+
+.multipageDialogAppearing .multipageDialogCurrentPage {
+  animation: multipageDialogPageAppearing .3s forwards
+}
+
+.multipageDialogDisappearing .multipageDialogCurrentPage {
+  animation: multipageDialogPageAppearing .3s reverse forwards
+}
+
+.multipageDialogAppearing .multipageDialogPage:not(.multipageDialogCurrentPage),
+.multipageDialogDisappearing .multipageDialogPage:not(.multipageDialogCurrentPage) {
+  visibility: hidden
+}
+
+.repositionDialog .multipageDialogPage .reposition,
+.playDialog .multipageDialogPage .play {
+  padding: 20px 0
+}
+
+.repositionDialog .multipageDialogPage .reposition .repositionBody,
+.playDialog .multipageDialogPage .play .playBody {
+  width: calc(100vw * 0.7);
+  height: calc(100vh * 0.7);
+}
+
+.dialogMaskCloseButton {
+  position: absolute;
+  right: 6px;
+  top: 0px;
+  color: #bbb;
+  text-decoration: none;
+  opacity: .8;
+  text-indent: -9999em;
+  cursor: pointer;
+}
+
+.playDialogCloseButton,
+.repositionDialogCloseButton {
+  left: calc(100vw * 0.85 + 50px);
+  top: calc(100vh * 0.15 - 70px);
+}
+
+.dialogMaskCloseButton:hover {
+  opacity: 1
+}
+
+.dialogMaskCloseButton:after {
+  content: "\f057";
+  font: 36px 'icomoon', sans-serif;
+  font-family: FontAwesome;
+  text-indent: 0;
+  display: block;
+  position: absolute;
+  padding: 10px;
+  right: 6px;
+}
+
+.buttonLink,
+.buttonLink:hover,
+.buttonPlain,
+.buttonPlain:hover {
+  background: none;
+  border: none;
+  color: inherit;
+  min-width: 0;
+  padding: 0
+}
+
+.buttonLink:hover {
+  color: #ffffff;
+  text-decoration: underline
+}
+
+.buttonLink:focus {
+  outline-width: 5px
+}
+
+.buttonLink:disabled {
+  background-color: transparent
+}
+
+.repositionDialog .repositionBody,
+.playDialog .playBody {
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .15);
+  border-radius: 10px;
+  overflow: hidden
+}
+
+.repositionDialogFeaturePromo,
+.playDialogFeaturePromo {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 455px
+}
+
+#content {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  color: #222;
+  opacity: 1;
+  transition: filter .3s linear;
+}
+
+#content.preparing,
+#content.on {
+  display: block
+}
+
+.edit-container {
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  top: 54px;
+  right: 0;
+  bottom: 0;
+  left: 0
+}
+
+#app-vs-sidebar {
+  width: 33.333%;
+  min-width: 300px;
+  max-width: 430px;
+}
+
+.mask2Background {
+  transition: filter .3s ease
+}
+
+.mask2Background--blurred {
+  filter: blur(2px)
+}
+
+.app-div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#app-vs-complete {
+  width: 100%;
+  height: 100%;
+}
+
+#app-vs-reposition {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,167 @@
+#app-vs-workspace {
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  position: relative
+}
+
+.workspace {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#workarea {
+  box-sizing: border-box;
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  min-height: calc(100% - 170px);
+}
+
+#footer {
+    clear: both;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height: 170px;
+}
+
+#scene-controlbar {
+  height: 50px;
+  background-color: #191E22;
+}
+
+#app-vs-frameline {
+  clear: both;
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width:100%;
+  height: 120px;
+}
+
+#scenebar-title-menu {
+  height: 0;
+  left: 10px;
+  position: absolute;
+  right: 5px;
+  transition: transform .6s ease-out
+}
+
+#scenebar-menu {
+  position: absolute;
+  float: left;
+  top: 2px;
+  list-style: none;
+  transition: margin .5s ease;
+  text-align: center;
+  margin: 1px;
+}
+
+#scenebar-menu li {
+  float: left;
+}
+
+.outline-thumbnail {
+  position: relative;
+  border: 1.5px dashed white;
+  border-radius: 5px;
+  box-shadow: none;
+  height: 40px;
+  text-indent: -9999px;
+  width: 40px;
+}
+
+.outline-thumbnail:before {
+  content: '';
+  position: absolute;
+  left: -1.5px;
+  top: -1.5px;
+  width: calc(100% + 3px);
+  height: calc(100% + 3px);
+  border: 1.5px solid #00c4cc;
+  border-radius: 5px;
+  opacity: 0;
+  transition: all .5s ease, opacity .15s ease-out
+}
+
+.outline-thumbnail:hover.outline-thumbnail:before {
+  opacity: 0.9
+}
+
+.outline-thumbnail.active.outline-thumbnail:before {
+  opacity: 1;
+  border: 1.5px solid #00c4cc;
+}
+
+.button.outline-button {
+  background: none
+}
+
+.button.outline-button {
+  color: #fff;
+  min-width: 2em;
+  border-color: transparent;
+  padding: 0;
+}
+
+.scene-ratio-label {
+  position: absolute;
+  top: 3px;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+}
+
+.nine-16 {
+  left: 2px;
+  pointer-events:none;
+}
+
+.one-1 {
+  left: 16px;
+  pointer-events:none;
+}
+
+.sixteen-9 {
+  left: 29px;
+  pointer-events:none;
+
+}
+
+.preroll .tool-bar {
+  opacity: 0
+}
+
+.tool-bar {
+  background: white;
+  color: #3f4652;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 46px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(63, 70, 82, .15);
+  z-index: 100;
+  transform: translate(0, -46px);
+  transition: transform .2s cubic-bezier(0, 0, 0, .99);
+  pointer-events: all;
+  transition-delay: .3s
+}
+
+.tool-bar--active {
+  transform: translate(0, 0);
+  pointer-events: all;
+  transition-delay: 0s
+}
+
+.tool-bar--noAnimation {
+  transition: none
+}

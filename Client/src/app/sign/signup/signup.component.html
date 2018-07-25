@@ -1,0 +1,51 @@
+<div class="signup-page">
+  <form class="form-signup" name="form" (ngSubmit)="signup()" #f="ngForm">
+      <h2>BLURBIZ</h2>
+      <div class="form-group" placement="bottom" ngbPopover="Please fill out this field." triggers="manual" #popoverCompany="ngbPopover">
+          <input type="text" (click)="popoverCompany.close()" class="form-control" id="company" name="company" #company="ngModel" [(ngModel)]="model.company" required placeholder="Your Company"/>
+      </div>
+      <div class="form-group" placement="bottom" ngbPopover="Please fill out this field." triggers="manual" #popoverName="ngbPopover">
+          <input type="text" (click)="popoverName.close()" class="form-control"  id="name" name="name" #name="ngModel" [(ngModel)]="model.name" required placeholder="Your Name"/>
+      </div>
+      <div class="form-group" placement="bottom" ngbPopover="Please fill out this field." triggers="manual" #popoverEmail="ngbPopover">
+          <input type="text" (click)="popoverEmail.close()" class="form-control"  id="email" name="email" #email="ngModel" [(ngModel)]="model.email"  required placeholder="Your Email" />
+      </div>
+      <div class="form-group" placement="bottom" ngbPopover="Please fill out this field." triggers="manual" #popoverPassword="ngbPopover">
+          <input type="password" (click)="popoverPassword.close()" class="form-control"  id="password" name="password" #password="ngModel" [(ngModel)]="model.password" required placeholder="Your Password" />
+      </div>
+      
+      <button [disabled]="loading" type="submit" class="btn btn-custom btn-sm btn-green btn-submit">Sign Up</button>
+      <p>By clicking "Sign Up" you agree to Blurbiz <a href="http://blurbiz.io/terms" target="_blank">Terms of Services</a></p>
+
+      <div *ngIf="notification.error" class="alert alert-danger">{{ notification.error }}</div>
+      <div *ngIf="notification.success" class="alert alert-success">{{ notification.success }}</div>
+  </form>
+
+  <p>I already have an account. <a [routerLink]="['/login']">Login</a></p>
+  
+</div>
+<div class="backdrop" [ngStyle]="{'display':display_backdrop}"></div>
+<!-- <div class="backdrop" [ngStyle]="{'display':'block'}"></div> -->
+<i *ngIf="loading" class="fa fa-spinner fa-pulse fa-4x fa-fw loader"></i>
+<style>
+.alert.alert-danger {
+  color: #FFF;
+  background-color: rgba(255, 0, 0, 0.8);
+  border: none;
+}
+.backdrop{
+  background-color:rgba(0,0,0,0.6);
+  position: fixed;;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+}
+.loader {
+position: absolute;
+z-index: 15;
+top: 50%;
+left: 50%;
+margin: 0px -50px;
+}
+</style>

@@ -1,0 +1,28 @@
+<div id="sidebar-wrapper" ng-hide="isBared">
+  <ul class="sidebar">
+    <li class="sidebar-main">
+      <a (click)="toggleSidebar()">
+        <span class="logo-holder">
+          <img src="assets/layout/images/bb-logo.png">
+        </span>
+        <span class="menu-text">Blurbiz</span>
+      </a>
+    </li>
+    <li ui-sref-active="active" class="sidebar-list">
+      <a [routerLink]="['/project']">
+        <span class="icon-holder">
+          <img class="sidebar-icon" src="assets/layout/icons/sidebar-home-icon.png">
+        </span>
+        <span class="menu-text">Home</span>
+      </a>
+    </li>
+    <li ui-sref-active="active" class="sidebar-list">
+      <a ui-sref="tables">
+        <span class="icon-holder">
+          <img class="sidebar-icon" src="assets/layout/icons/sidebar-clock-icon.png">
+        </span>
+        <span class="menu-text"> Schedule </span>
+      </a>
+    </li>
+  </ul>
+</div>

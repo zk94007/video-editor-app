@@ -1,0 +1,138 @@
+#sidebar {
+  position: relative;
+  height: 100%;
+  z-index: 100;
+  box-sizing: border-box;
+  padding: 19px 30px 15px 100px;
+  color: #fff;
+  background: linear-gradient(to right, #272c33 0, #272c33 72px, #ebeced 72px, #ebeced 100%);
+  -webkit-transform: translate3d(0, 0, 0)
+}
+
+#selectedTab {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  width: 70px;
+  height: 70px;
+  background-color: #3f4652;
+  transform: translateY(0);
+  transition: transform .3s ease-out
+}
+
+#selectedTab span {
+  position: absolute;
+  right: 0;
+  top: -7px;
+  width: 7px;
+  height: 7px;
+  background-color: #3f4652
+}
+
+#selectedTab span:last-child {
+  top: auto;
+  bottom: -7px
+}
+
+#selectedTab span:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background-color: #272c33
+}
+
+#selectedTab span:last-child:after {
+  top: 0;
+  bottom: auto
+}
+
+.stage2 #selectedTab {
+  transform: translateY(70px)
+}
+
+.stage3 #selectedTab {
+  transform: translateY(140px)
+}
+
+.stage4 #selectedTab {
+  transform: translateY(210px)
+}
+
+.stage5 #selectedTab {
+  transform: translateY(280px)
+}
+
+.stage6 #selectedTab {
+  transform: translateY(350px)
+}
+
+#sidebar>menu {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 11;
+  width: 70px;
+  list-style: none;
+  text-align: center;
+  background: transparent
+}
+
+#sidebar>menu li {
+  font-size: 70%;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative
+}
+
+#sidebar>menu a {
+  display: -ms-flexbox;
+  display: flex;
+  width: 70px;
+  height: 70px;
+  padding-top: 17px;
+  box-sizing: border-box;
+  color: rgba(255, 255, 255, .5);
+  text-decoration: none;
+  transition: all .15s linear, opacity 0s linear;
+  -ms-flex-direction: column;
+  flex-direction: column
+}
+
+#sidebar>menu a svg {
+  width: 22px;
+  height: 22px;
+  margin: 0 auto 3px
+}
+
+#sidebar>menu a svg * {
+  fill: rgba(255, 255, 255, .5);
+  transition: all .15s linear, opacity 0s linear
+}
+
+#sidebar>menu .on a {
+  color: #fff
+}
+
+#sidebar>menu .on a svg,
+#sidebar>menu .on a svg * {
+  fill: #fff
+}
+
+#sidebar>menu li:not(.on) a:hover {
+  color: #00c4cc
+}
+
+#sidebar>menu li:not(.on) a:hover svg,
+#sidebar>menu li:not(.on) a:hover svg * {
+  fill: #00c4cc
+}
+
+#sidebar>menu em {
+  text-transform: none
+}

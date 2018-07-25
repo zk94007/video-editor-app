@@ -1,0 +1,14 @@
+#wrapper {
+	position: relative;
+	&.bared {
+		#content-wrapper {
+			padding: 0;
+		}
+	}
+
+}
+
+#content-wrapper {
+	padding: 0 0 0 65px;
+    transition: all ease 0.5s;
+}

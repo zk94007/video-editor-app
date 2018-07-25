@@ -1,0 +1,27 @@
+<div id="frameline">
+  <perfect-scrollbar [config]="config">
+    <div id="frameline-pane">
+      <div [sortablejs]="frames" [sortablejsOptions]="sortableOptions" [@frameAnimation]="frames?.length">
+        <a *ngFor="let frame of frames" class="frame-item">
+          <div class="frame-item-container {{props.selectedFrmId === frame.frm_id ? 'active' : ''}}" (click)="selectFrame(frame.frm_id)">
+            <div class="frame-image-container">
+              <img *ngIf="frame.frm_type === 2" class="representative" [src]="frame.frm_path">
+              <video *ngIf="frame.frm_type === 1" class="video-js vjs-big-play-centered" preload="auto">
+                <source [src]="frame.frm_path" type="video/mp4">
+              </video>
+            </div>
+            <div ngbDropdown class="d-inline-block option" placement="bottom-right">
+              <a ngbDropdownToggle id="option-dropdown" class="dropdown-toggle option-title">
+                <span>Option</span>
+              </a>
+              <ul ngbDropdownMenu aria-labelledby="option-dropdown" id="option-content">
+                  <button class="dropdown-item" (click)="deleteFrame($event, frame.frm_id)"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</button>
+                  <button class="dropdown-item" (click)="duplicateFrame($event, frame.frm_id)"><i class="fa fa-clone"></i>&nbsp;&nbsp;Duplicate</button>
+              </ul>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </perfect-scrollbar>
+</div>

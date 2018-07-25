@@ -1,0 +1,87 @@
+#workarea .inner {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ebeced
+}
+
+#overlays {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 2;
+    overflow: visible;
+    -webkit-backface-visibility: hidden
+}
+
+#overlays.shakeOverlays {
+    transform: translate3d(0, 0, 0);
+    animation: shakeOverlays .82s cubic-bezier(.36, .07, .19, .97) both
+}
+
+@keyframes shakeOverlays {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0)
+    }
+    20%,
+    80% {
+        transform: translate3d(1px, 0, 0)
+    }
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-2px, 0, 0)
+    }
+    40%,
+    60% {
+        transform: translate3d(1px, 0, 0)
+    }
+}
+
+#workarea .page,
+#hotspots .page {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #222;
+    opacity: 0;
+    transition: color .3s linear, opacity .8s linear;
+    width: 100%;
+    height: 100%;
+}
+
+#workarea .page:not(:first-of-type) {
+    opacity: 0
+}
+
+#workarea .page.on {
+    opacity: 1;
+    animation: none
+}
+
+#workarea .page.dark {
+    color: #fff
+}
+
+#workarea .page:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition: outline .3s linear;
+    outline: 3px solid rgba(0, 196, 204, 0)
+}
+
+.canvas-container {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+  
