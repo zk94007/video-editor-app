@@ -25,6 +25,7 @@ export class VsRepositionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // this.canvas.clearCanvas();
     this.canvas.destructor();
   }
 

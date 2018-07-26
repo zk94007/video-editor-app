@@ -1,5 +1,5 @@
 <div style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; background-color: #102126; z-index: 200; overflow: hidden;">
-  <div class="video_loading-container" style="text-align: center;" [hidden]="!props.isConcatenating">
+  <div class="video_loading-container" style="text-align: center;" *ngIf="props.isConcatenating == true">
     <div class="pre-loader" style="margin-bottom: 10px">
       <img src="../../../assets/video-studio/merge-project/pre-loader.png" alt="">
     </div>
@@ -15,7 +15,7 @@
     </div>
     <h6>{{this.props.loading}}</h6>
   </div>
-  <div [hidden]="props.isConcatenating" style="width: 100%; height: 100%">
+  <div *ngIf="props.isConcatenating == false" style="width: 100%; height: 100%">
     <button class="buttonLink dialogMaskCloseButton" (click)="onCloseModal()">Close</button>
     <div style="position: absolute; top: 43px; right: 90px">
       <a style="width: 50px; text-align: center;" target="_self" download="download.mp4" href="{{props.finalvideo}}">

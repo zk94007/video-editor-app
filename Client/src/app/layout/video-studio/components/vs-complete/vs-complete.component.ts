@@ -20,9 +20,9 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
   private api: any;
 
   public props: any = {
-    isConcatenating: false,
-    percent: 10,
-    loading: 'publishing',
+    isConcatenating: null,
+    percent: null,
+    loading: '',
     finalvideo: '',
 
     previousURL: ''
@@ -42,8 +42,10 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
       } else {
         this.props.isConcatenating = false;
         this.props.finalvideo = this.vsService.getProjectVideoPath();
-        this.api.getDefaultMedia().currentTime = 0;
-        this.api.play();
+        if (this.api) {
+          this.api.getDefaultMedia().currentTime = 0;
+          this.api.play();
+        }
       }
     }));
 
@@ -57,8 +59,10 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
         this.props.isConcatenating = false;
         this.props.finalvideo = response.finalvideo;
 
-        this.api.getDefaultMedia().currentTime = 0;
-        this.api.play();
+        if (this.api) {
+          this.api.getDefaultMedia().currentTime = 0;
+          this.api.play();
+        }
       } else {
       }
     }));
@@ -68,19 +72,9 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
   onPlayerReady(api: VgAPI) {
     this.api = api;
 
-    // this.api.getDefaultMedia().subscriptions.canPlayThrough.subscribe(() => {
-    //   this.api.play();
-    // });
-
-    // this.api.getDefaultMedia().subscriptions.loadedData.subscribe(() => {
-    //   this.api.play();
-    // });
     this.api.getDefaultMedia().subscriptions.ended.subscribe(() => {
-      // Set the video to the beginning
-      // this.api.getDefaultMedia().currentTime = 0;
     });
     this.api.getDefaultMedia().subscriptions.seeked.subscribe(() => {
-      console.log(this.api.getDefaultMedia().currentTime);
     });
   }
 

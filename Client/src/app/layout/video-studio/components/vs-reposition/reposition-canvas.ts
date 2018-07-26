@@ -433,4 +433,8 @@ export class RepositionCanvas {
 
         return videoE;
     }
+
+    clearCanvas() {
+        this.element.canvas.clear();
+    }
 }
