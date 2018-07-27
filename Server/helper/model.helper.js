@@ -23,12 +23,21 @@ module.exports = {
                 responseHelper.onError('error: update table', callback);
                 return;
             }
+	    
 
-            let names = [];
-            let values = [];
+	    var setp ='';
+            var loop = 0;
+            var names = '';
+            var values = ''
             _.each(data, (element) => {
-                names.push(element.name);
-                values.push("'" + element.value + "'");
+                names=(element.name);
+                values=("'" + element.value + "'");
+                loop++;
+		if(data.length == loop) {
+                setp = setp + ' ' + names + '=' + values; 
+                } else {
+		setp = setp + ' ' + names + '=' + values + ',';
+		}
             });
 
             let whereclause = [];
@@ -36,7 +45,7 @@ module.exports = {
                 whereclause.push(element.name + " '" + element.value + "'");
             });
 
-            let query = 'UPDATE public.' + tableName + ' SET (' + names.join(', ') + ') = (' + values.join(', ') + ') WHERE ' + whereclause.join(' AND ') + ';';
+            let query = 'UPDATE public.' + tableName + ' SET ' + setp + ' WHERE ' + whereclause.join(' AND ') + ';';
 
             console.log(query);
         
