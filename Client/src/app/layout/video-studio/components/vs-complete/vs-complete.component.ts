@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { NgProgressComponent } from '@ngx-progressbar/core';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 import { VgAPI } from 'videogular2/core';
@@ -29,26 +29,24 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
   };
 
   constructor(private vsService: VideoStudioService, private location: Location) {
-  }
-
-  ngOnInit() {
-
-    this.$uns.push(this.vsService.onStartConcatenate.subscribe((complete) => {
-      if (complete === true) {
-        this.props.isConcatenating = true;
-        this.props.percent = 10;
-        this.props.loading = '';
-        this.props.finalvideo = '';
-      } else {
-        this.props.isConcatenating = false;
-        this.props.finalvideo = this.vsService.getProjectVideoPath();
-        if (this.api) {
-          this.api.getDefaultMedia().currentTime = 0;
-          this.api.play();
-        }
+    let response : string;
+    response = localStorage.getItem('complete_preview');
+    if (response === 'true') {
+      this.props.isConcatenating = true;
+      this.props.percent = 10;
+      this.props.loading = '';
+      this.props.finalvideo = '';
+    } else if (response === 'false') {
+      this.props.isConcatenating = false;
+      this.props.finalvideo = this.vsService.getProjectVideoPath();
+      if (this.api) {
+        this.api.getDefaultMedia().currentTime = 0;
+        this.api.play();
       }
-    }));
-
+    } else {
+      this.location.back();
+    }
+    
     this.$uns.push(this.vsService.onConcatenateProgress.subscribe((response) => {
       this.props.percent = response.percent;
       this.props.loading = response.loading;
@@ -66,6 +64,16 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
       } else {
       }
     }));
+  }
+
+  ngOnInit() {
+
+    // console.log('b');
+    // setTimeout(() => {
+      // if (this.props.isConcatenating == null) {
+      //   this.location.back();
+      // }
+    // }, 300);
 
   }
 

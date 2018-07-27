@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-vs-controlbar',
@@ -18,7 +18,8 @@ export class VsControlbarComponent implements OnInit, OnDestroy {
     completeText: ''
   };
 
-  constructor(private vsService: VideoStudioService, public router: Router) {
+  constructor(private vsService: VideoStudioService, private router: Router, private route: ActivatedRoute) {
+    localStorage.setItem('complete_preview', null);
     this.$uns.push(this.vsService.onLoad.subscribe(() => {
       this.props.projectId = vsService.project.prj_id;
       if (this.vsService.isModified()) {
@@ -28,11 +29,14 @@ export class VsControlbarComponent implements OnInit, OnDestroy {
       }
     }));
     this.$uns.push(this.vsService.onModified.subscribe(() => {
-      console.log('complete');
       this.props.completeText = 'Complete';
     }));
     this.$uns.push(this.vsService.onConcatenate.subscribe(() => {
       this.props.completeText = 'Preview';
+    }));
+    this.$uns.push(this.vsService.onStartConcatenate.subscribe((complete) => {
+      localStorage.setItem('complete_preview', complete);
+      this.router.navigate(['complete'], {relativeTo: this.route});
     }));
   }
 
@@ -49,14 +53,11 @@ export class VsControlbarComponent implements OnInit, OnDestroy {
     this.onRepositionFrame.emit();
   }
   public complete() {
-    setTimeout(() => {
-      if (this.props.completeText === 'Complete') {
-        console.log('true');
-        this.vsService._startConcatenate(true);
-      } else if (this.props.completeText === 'Preview') {
-        this.vsService._startConcatenate(false);
-      }
-    }, 300);
+    if (this.props.completeText === 'Complete') {
+      this.vsService._startConcatenate(true);
+    } else if (this.props.completeText === 'Preview') {
+      this.vsService._startConcatenate(false);
+    }
   }
   public replace() {}
 }

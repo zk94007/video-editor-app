@@ -23,7 +23,7 @@
           <button class="button editorActionReplace prerollAnimation prerollDelay3" (click)="replace()"><i class="fa fa-refresh" aria-hidden="true"></i> &nbsp;Replace</button>
         </li> -->
         <li>
-          <button class="button editorActionComplete prerollAnimation prerollDelay5" [routerLink]="['complete']" (click)="complete()"><i class="fa fa-eye" aria-hidden="true"></i> &nbsp;{{props.completeText}}</button>
+          <button class="button editorActionComplete prerollAnimation prerollDelay5" (click)="complete()"><i class="fa fa-eye" aria-hidden="true"></i> &nbsp;{{props.completeText}}</button>
         </li>
         <li>
           <a class="button editorActionBack prerollAnimation prerollDelay6" href="/project/detail/{{props.projectId}}"><i class="fa fa-angle-left" aria-hidden="true"></i> &nbsp;Back</a>
