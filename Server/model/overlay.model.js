@@ -99,7 +99,7 @@ module.exports = {
      */
     updateOvlContentByOvlId(ovl_id, ovl_content, callback) {
         try {
-            helper.query.runQuery('UPDATE public.overlay SET (ovl_content) = ($2) WHERE ovl_id=$1', [ovl_id, ovl_content], (err) => {
+            helper.query.runQuery('UPDATE public.overlay SET ovl_content = $2 WHERE ovl_id=$1', [ovl_id, ovl_content], (err) => {
                 if (err) {
                     helper.response.onError('error: updateOvlContentByOvlId', callback);
                     return;
@@ -141,7 +141,7 @@ module.exports = {
      */
     updateOverlayByOvlId(ovl_id, ovl_content, ovl_json, callback) {
         try {
-            helper.query.runQuery('UPDATE public.overlay SET (ovl_content, ovl_json) = ($2, $3) WHERE ovl_id = $1;', [ovl_id, ovl_content, ovl_json], (err) => {
+            helper.query.runQuery('UPDATE public.overlay SET ovl_content = $2, ovl_json = $3 WHERE ovl_id = $1;', [ovl_id, ovl_content, ovl_json], (err) => {
                 if (err) {
                     helper.response.onError('error: updateOverlayByOvlId', callback);
                     return;
@@ -172,7 +172,7 @@ module.exports = {
 
                 _.each(result.rows, (row) => {
                     parallelTasks.push((parallel_callback) => {
-                        helper.query.runQuery('UPDATE public.overlay SET (ovl_order) = ($1) WHERE ovl_id = $2', [row.ovl_order - 1, row.ovl_id], (_err) => {
+                        helper.query.runQuery('UPDATE public.overlay SET ovl_order = $1 WHERE ovl_id = $2', [row.ovl_order - 1, row.ovl_id], (_err) => {
                             parallel_callback(_err);
                         });
                     });
@@ -257,7 +257,7 @@ module.exports = {
 
                 _.each(result.rows, (row) => {
                     parallelTasks.push((parallel_callback) => {
-                        helper.query.runQuery('UPDATE public.overlay SET (ovl_order) = ($1) WHERE ovl_id = $2', [row.ovl_order - 1, row.ovl_id], (_err) => {
+                        helper.query.runQuery('UPDATE public.overlay SET ovl_order = $1 WHERE ovl_id = $2', [row.ovl_order - 1, row.ovl_id], (_err) => {
                             parallel_callback(_err);
                         });
                     });
@@ -295,7 +295,7 @@ module.exports = {
 
                 _.each(result.rows, (row) => {
                     parallelTasks.push(function (parallel_callback) {
-                        helper.query.runQuery('UPDATE public.overlay SET (ovl_order) = ($1) WHERE ovl_id = $2', [row.ovl_order + 1, row.ovl_id], (_err) => {
+                        helper.query.runQuery('UPDATE public.overlay SET ovl_order = $1 WHERE ovl_id = $2', [row.ovl_order + 1, row.ovl_id], (_err) => {
                             parallel_callback(_err);
                         });
                     });

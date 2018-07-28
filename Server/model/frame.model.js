@@ -183,7 +183,7 @@ module.exports = {
 
                 _.each(result.rows, (row) => {
                     parallelTasks.push((parallel_callback) => {
-                        helper.query.runQuery('UPDATE public.frame SET (frm_order) = ($1) WHERE frm_id = $2', [row.frm_order - 1, row.frm_id], (_err) => {
+                        helper.query.runQuery('UPDATE public.frame SET frm_order = $1 WHERE frm_id = $2', [row.frm_order - 1, row.frm_id], (_err) => {
                             parallel_callback(_err);
                         });
                     });
