@@ -213,7 +213,7 @@ module.exports = {
         try {
             helper.query.runQuery('SELECT frm_id, frm_order FROM public.frame WHERE prj_id = $1 AND frm_order > $2', [prj_id, frm_order], (err, result) => {
                 if (err) {
-                    helper.response.onError('error: backwardOrder', callback);
+                    helper.response.onError('error: backwardOrder1', callback);
                     return;
                 }
 
@@ -221,7 +221,7 @@ module.exports = {
 
                 _.each(result.rows, (row) => {
                     parallelTasks.push(function (parallel_callback) {
-                        helper.query.runQuery('UPDATE public.frame SET (frm_order) = ($1) WHERE frm_id = $2', [row.frm_order + 1, row.frm_id], (_err) => {
+                        helper.query.runQuery('UPDATE public.frame SET frm_order = $1 WHERE frm_id = $2', [row.frm_order + 1, row.frm_id], (_err) => {
                             parallel_callback(_err);
                         });
                     });
@@ -229,7 +229,7 @@ module.exports = {
 
                 async.parallel(parallelTasks, (_err) => {
                     if (_err) {
-                        helper.response.onError('error: backwardOrder', callback);
+                        helper.response.onError('error: backwardOrder2', callback);
                         return;
                     }
 
@@ -237,7 +237,7 @@ module.exports = {
                 });
             });
         } catch (err) {
-            helper.response.onError('error: backwardOrder', callback);
+            helper.response.onError('error: backwardOrder3', callback);
         }
     },
 
