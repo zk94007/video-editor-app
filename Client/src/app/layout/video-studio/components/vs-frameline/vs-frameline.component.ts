@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { frameAnimation } from './animations';
 
-import {
-  PerfectScrollbarConfigInterface,
-  PerfectScrollbarComponent, PerfectScrollbarDirective
-} from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
+
+const loadingURL = 'assets/video-studio/wait.gif';
 
 @Component({
   selector: 'app-vs-frameline',
@@ -20,7 +19,8 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
   public frames: any = [];
   public props: any = {
-    selectedFrmId: null
+    selectedFrmId: null,
+    isDuplicating: -1
   };
 
   public sortableOptions: any;
@@ -56,7 +56,8 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
     }));
 
     this.$uns.push(this.vsService.onDuplicateFrame.subscribe((response) => {
-      this.frames.splice(response.index, 0, response.frame);
+      this.frames[this.props.isDuplicating] = response.frame;
+      this.props.isDuplicating = -1;
     }));
   }
 
@@ -94,6 +95,16 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
   duplicateFrame($event, frm_id) {
     $event.stopPropagation();
+    if (this.props.isDuplicating != -1) {
+      return;
+    }
+    const index = this.frames.findIndex(f => f.frm_id === frm_id);
+    let fake_frame = {
+      frm_path: loadingURL,
+      frm_type: 2
+    }
+    this.frames.splice(index + 1, 0, fake_frame);
+    this.props.isDuplicating = index + 1;
     this.vsService._duplicateFrame(frm_id);
   }
 
