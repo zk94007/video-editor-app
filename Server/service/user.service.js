@@ -123,7 +123,7 @@ module.exports = {
                         return;
                     }
 
-                    let confirmLink = front_path + '/' + uae_code;
+                    let confirmLink = front_path  + uae_code;
                     helper.email.sendConfirmationEmail(usr_email, confirmLink, (__err, __result) => {
                         if (__err) {
                             helper.response.onError('Can not send a verification email', callback);
