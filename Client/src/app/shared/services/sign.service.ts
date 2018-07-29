@@ -43,7 +43,7 @@ export class SignService {
    */
   _signup(company, name, email, password) {
     // tslint:disable-next-line:max-line-length
-    this.socket.sendMessage('SIGNUP', { company: company, usr_name: name, usr_email: email, usr_password: password, front_path: this.front_url + '/confirm/' });
+    this.socket.sendMessage('SIGNUP', { company: company, usr_name: name, usr_email: email, usr_password: password, front_path: this.front_url + 'confirm/' });
   }
 
   /**
