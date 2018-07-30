@@ -221,7 +221,7 @@ module.exports = {
         let fileListString = tsFiles.join('|');
         if (tsFiles.length > 0) {
             let filepath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
-            shell.exec('ffmpeg -i "concat:' + fileListString + '" -c copy -bsf:v h264_mp4toannexb -c:a libmp3lame ' + filepath, (code) => {
+            shell.exec('ffmpeg -i "concat:' + fileListString + '" -c copy -bsf:v h264_mp4toannexb -c:a aac -ac 2 -b:a 128k ' + filepath, (code) => {
                 if (code != 0) {
                     responseHelper.onError('error: concatenate', callback);
                     return;
