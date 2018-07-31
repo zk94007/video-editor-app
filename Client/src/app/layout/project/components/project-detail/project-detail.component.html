@@ -138,7 +138,7 @@
     </div>  -->
 
     <div>
-        <div class="media-items-container" *ngIf="props.showProjects">
+        <div class="media-items-container" *ngIf="props.showProjects == true">
             <div [sortablejs]="props.media" [sortablejsOptions]="options">
                 <div class="media-item media-cell" *ngFor="let m of props.media">
                     <div class="project-container project-cell text-center fixed-size-item-responsive">
@@ -178,13 +178,18 @@
             </div>
         </div>  
 
-        <div *ngIf="!props.showProjects" style="width: 100%">
+        <div *ngIf="props.showProjects == false" style="width: 100%">
             <div class="text-center">
                 <div>
                     <img class="representative" src="../../../../../assets/layout/icons/blurbiz_drag-and-drop.png" style="margin: 0 auto; width: 207px; height: 190px;">
                     <h4>Drop your media files here!</h4>
                     <p>Or Upload from Dropbox, Google Drive, Box & Instagram!</p>
                 </div>
+            </div>
+        </div>
+        <div *ngIf="props.showProjects == null">
+            <div class="text-center">
+                <img src="../../../../../assets/layout/images/loading projects.gif">
             </div>
         </div>
     </div>

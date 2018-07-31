@@ -56,7 +56,7 @@ export class VsWorkspaceComponent implements OnInit, OnDestroy {
       hours = hours < 10 ? '0' + hours : hours;
       let minutes: any = Math.floor( time / 60 );
       minutes = minutes < 10 ? '0' + minutes : minutes;
-      let seconds: any = (time % 60).toFixed(2);
+      let seconds: any = (time % 60).toFixed(0);
       seconds = seconds < 10 ? '0' + seconds : seconds;
 
       let output = '';

@@ -19,7 +19,7 @@
       <div class="layer scrollPane scrollElement">
         <div class="inner">
           <div class="textControls">
-            <p>Click or drag to add text:</p>
+            <p>Drag and drop to add text:</p>
             <ul>
               <li style="color: auto; text-align: center;">
                 <a class="add" data-style="title" style="color: auto; font-family: 'Abril Fatface'; font-size: 40px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Abril Fatface', 40, 'normal', 'Add heading')" (mouseup)="mouseUpText($event)">Add heading</a>
@@ -122,7 +122,7 @@
                   </ng5-files-click>
                 </div>
               </div>
-              <p *ngIf="props_upload.uploadedFiles.length==0" class="uploadsFolderContentEmptyMessage">…or just drag them from your desktop</p>
+              <p class="uploadsFolderContentEmptyMessage" style="padding-bottom: 10px">Drag and drop to the editor</p>
               <div>
                 <ng-masonry-grid (onNgMasonryInit)="onMasonryInit($event)" [masonryOptions]="{ transitionDuration: '0.4s', gutter: 10, percentPosition: true, horizontalOrder: true }" [useAnimation]="true" [useImagesLoaded]="true" [scrollAnimationOptions]="{ animationEffect: 'effect-1', minDuration : 0.4, maxDuration : 0.7 }">
                   <!-- Masonry Grid Item -->

@@ -34,7 +34,7 @@ perfect-scrollbar>.ps.ps--scrolling-y>.ps__rail-y {
 .results {
   position: absolute;
   left: 0;
-  top: 50px;
+  top: 0px;
   bottom: 0;
   z-index: -1;
   width: 100%;
@@ -141,7 +141,6 @@ perfect-scrollbar>.ps.ps--scrolling-y>.ps__rail-y {
 
 .textControls:not(.clone) {
   border-bottom: 1px solid rgba(255, 255, 255, .2);
-  margin: 20px 0;
   padding-bottom: 10px;
   text-align: center
 }

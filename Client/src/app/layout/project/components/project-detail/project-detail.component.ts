@@ -18,7 +18,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         projectId: null,
         projectName: '',
         media: [],
-        showProjects: false,
+        showProjects: null,
         disableDownloadButton: true,
         videoPath: null,
 
@@ -69,7 +69,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             this.service._getFrameList(this.props.projectId);
         }));
 
-        this.props.showProjects = true;
         this.props.displayDeleteFileModal = 'none';
     }
 
@@ -90,7 +89,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.props.showProjects = false;
         this.props.isPlaying = false;
         this.props.isPlayingProjectVideo = false;
         this.props.media = [];
@@ -99,6 +97,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
         this.$uns.push(this.service.onGetFrameList.subscribe((message) => {
             const success = message['success'];
+            console.log(message);
             if (success) {
                 this.service.changePageTitle(message.project.prj_name);
 
@@ -111,11 +110,14 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 this.props.projectName = message.project.prj_name;
 
                 this.props.media = message['frames'];
-                if (this.props.media.length === 0) {
-                    this.props.showProjects = false;
-                } else {
-                    this.props.showProjects = true;
-                }
+                setTimeout(() => {
+                    console.log(this.props.showProjects);
+                    if (this.props.media.length === 0) {
+                        this.props.showProjects = false;
+                    } else {
+                        this.props.showProjects = true;
+                    }
+                }, 2000);
             } else {
                 console.log('Error get frame list');
             }

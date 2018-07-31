@@ -26,7 +26,7 @@
           [max]="props.seek.video.totalSeconds * 10" [range]="true" (onSlideEnd)="changeVideoSeek()" (onChange)="changeVideoDuration()" (mouseover)="showCurrentTimeSlider()" (mousemove)="changeCurrentTimeSlider($event)" (mouseleave)="setCurrentTimeSliderOption()" (mousedown)="hideCurrentTimeSlider()" (mouseup)="showCurrentTimeSlider()"></p-slider>
       </div>
       <div class="detail-video-range" *ngIf="props.frame?.frm_type === 1">
-        <label>{{timeFormat(props.seek.video.seekRangeValue[0])}} : {{timeFormat(props.seek.video.seekRangeValue[1])}}</label>
+        <label>{{timeFormat(props.seek.video.seekRangeValue[0])}} / {{timeFormat(props.seek.video.seekRangeValue[1])}}</label>
       </div>
       <div class="detail-image-bar" *ngIf="props.frame?.frm_type === 2">
         <p-slider class="detail-image-slider" [(ngModel)]="props.seek.image.seekValue" [min]="1" [max]="props.seek.image.seekMaxValue"
