@@ -145,16 +145,11 @@
                         <div class="hovereffect horizontal-vertical-center">
                             <div class="img-wrapper detail">
                                 <img *ngIf="isImage(m.frm_path)" class="representative" [src]="m.frm_path">
-
-                                <!-- <video *ngIf="isVideo(m.frm_path)" [attr.id]="{{ getUuid(m.frm_path) }}"  class="video-js" controls preload="auto" height="180" vjs-video vjs-media="{'sources': [{ 'src': m.frm_path, 'type': 'video/mp4' }]}"> -->
-                                    <!-- <vg-player *ngIf="isVideo(m.frm_path)" [attr.id]="getUuid(m.frm_path)" [vgMedia]="media" #media style="background-color: transparent" (click)="pauseVideo(m.frm_id)"> -->
-                                        <video *ngIf="isVideo(m.frm_path)" preload="auto" height="180" [attr.id]="getUuid(m.frm_path)" (click)="pauseVideo(m.frm_id)">
-                                            <source [src]="m.frm_path" type="video/mp4">
-                                        </video>
-                                    <!-- </vg-player> -->
+                                <video *ngIf="isVideo(m.frm_path)" preload="auto" height="180" [attr.id]="getUuid(m.frm_path)" (click)="pauseVideo(m.frm_id)">
+                                    <source [src]="m.frm_path" type="video/mp4">
+                                </video>
                             </div>
 
-                            <!-- <div class="img-cover project-overlay" ng-hide="isFake(m.frm_path)" ng-attr-data-for="{{ getUuid(m.frm_path) }}"> -->
                             <div class="img-cover project-overlay" [hidden]="m.isUploading || m.isPlaying">
                                 <a class="menu-delete" (click)="deleteFile(m.frm_id)">
                                     <span class="fa fa-trash"></span>
@@ -169,14 +164,12 @@
                                 <a class="btn menu-edit btn-custom btn-outline btn-md" href="/video-studio/{{props.projectId}}" style="margin-top: 70px;">Edit</a>
                             </div>
                         </div>
-                        <!-- {{ m.order_in_project }} -->
                         <div class="media-item-footer">
                             <div *ngIf="m.isUploading" class="progress" style="margin-bottom: 0px;">
                                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': m.uploadPercent}">
                                     {{m.uploadPercent}}
                                 </div>
                             </div>
-                            <!-- <h4 class="project-title">{{ m.name | limitLength:true:15:' ...' }}</h4> -->
                             <h4 class="project-title">{{ resolveFilename(m.frm_name) }}</h4>
                             <p class="project-desc" *ngIf="!m.isUploading">{{ m.frm_resolution ? m.frm_resolution.width + ' x ' + m.frm_resolution.height : '' }}</p>
                         </div>
@@ -196,7 +189,6 @@
         </div>
     </div>
 </div>
-<!--<div id="holder"></div><p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p><p id="filereader">File API & FileReader API not supported</p><p id="formdata">XHR2's FormData is not supported</p><p id="progress">XHR2's upload progress isn't supported</p><p>Upload progress: <progress id="uploadprogress" min="0" max="100" value="0">0</progress></p>-->
 
 <div class="modalContent modalContentBlurAndDarken" [hidden]="!props.isPlayingProjectVideo">
     <div class="modalContentMask"></div>
@@ -252,7 +244,6 @@
     </div>
 </div>
 <style>
-    /*#holder { border: 10px dashed #ccc; width: 300px; min-height: 300px; margin: 20px auto;}*/
     #holder.hover { border: 10px dashed #0c0; }
     #holder.hover .img-cover { display: none; }
     #holder img.representative { display: block; }

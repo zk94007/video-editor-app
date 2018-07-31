@@ -20,7 +20,8 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   public frames: any = [];
   public props: any = {
     selectedFrmId: null,
-    isDuplicating: -1
+    isDuplicating: -1,
+    isDeleting: -1
   };
 
   public sortableOptions: any;
@@ -52,7 +53,8 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
     }));
 
     this.$uns.push(this.vsService.onDeleteFrame.subscribe((response) => {
-      // this.frames.splice(response.index, 1);
+      this.frames.splice(this.props.isDeleting, 1);
+      this.props.isDeleting = -1;
     }));
 
     this.$uns.push(this.vsService.onDuplicateFrame.subscribe((response) => {
@@ -79,10 +81,19 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   }
 
   deleteFrame($event, frm_id) {
+    if (this.props.isDeleting != -1) {
+      return;
+    }
     if (this.frames.length >= 2) {
       $event.stopPropagation();
       const index = this.frames.findIndex(f => f.frm_id === frm_id);
-      this.frames.splice(index, 1);
+      let fake_frame = {
+        frm_path: loadingURL,
+        frm_type: 2
+      }
+      this.frames[index] = fake_frame;
+      this.props.isDeleting = index;
+
       if (index === this.frames.length - 1) {
         this.vsService.selectFrame(this.frames[index - 1].frm_id);
       } else {

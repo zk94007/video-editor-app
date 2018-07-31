@@ -5,6 +5,8 @@ import { ProjectService } from '../../../../shared/services/project.service';
 import * as path from 'path';
 import { VgAPI } from 'videogular2/core';
 
+const loadingURL = 'assets/video-studio/wait.gif';
+
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
@@ -25,9 +27,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             uploadPercent: null
         },
 
-        deleteFrmId: null,
         isPlaying: null,
         isPlayingProjectVideo: false,
+        isDeleting: -1,
 
         displayDeleteFileModal: null,
 
@@ -75,7 +77,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         const orders = [];
         const $this = this;
         this.props.media.forEach((item, index) => {
-            console.log(item);
             if (item.frm_order !== index + 1) {
                 $this.props.media[index].frm_order = index + 1;
 
@@ -137,7 +138,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             const success = message.success;
             this.props.upload.uploadPercent = 0;
             if (success) {
-                console.dir(message);
                 if (this.props.media !== null) {
                     const index = this.props.media.findIndex(m => m.guid === message.guid);
                     const temp = {
@@ -218,10 +218,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         $('body').toggleClass('modalContentBlurAndDarkenVisible');
         $('body').toggleClass('modalContentVisible');
         $('.modalContent').toggleClass('modalContentOn');
-        // $('.multipageDialog').toggleClass('multipageDialogAppearing');
-        setTimeout(() => {
-            // $('.multipageDialog').toggleClass('multipageDialogAppearing');
-        }, 300);
     }
     onCloseModal() {
         $('.modalContent').toggleClass('modalContentOn');
@@ -234,7 +230,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
 
     fakePreview(previewPath) {
-        // tslint:disable-next-line:max-line-length
         return {frm_name: previewPath.substring(previewPath.lastIndexOf('/') + 1), frm_path: this.props.wait, guid:  this.guid(), isUploading: true, uploadPercent: 0, frm_order: this.props.media.length + 1, isPlaying: false};
     }
 
@@ -278,11 +273,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         return fakePath === this.props.wait;
     }
 
-
     // Option for each file
     deleteFile( frm_id ) {
         this.openDeleteFileConfirmModal();
-        this.props.deleteFrmId = frm_id;
+        this.props.isDeleting = this.props.media.findIndex((m) => m.frm_id == frm_id);
     }
     openDeleteFileConfirmModal() {
         this.props.displayDeleteFileModal = 'block';
@@ -292,7 +286,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
     okDeleteFileConfirm() {
         this.props.displayDeleteFileModal = 'none';
-        this.service._deleteFrame(this.props.deleteFrmId);
+        if (this.props.isDeleting != -1) {
+            this.props.media[this.props.isDeleting].frm_path = loadingURL;
+            this.service._deleteFrame(this.props.media[this.props.isDeleting].frm_id);
+        }
     }
 
     playVideo(frm_id) {
