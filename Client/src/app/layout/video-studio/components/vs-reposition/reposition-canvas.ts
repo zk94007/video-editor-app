@@ -151,9 +151,7 @@ export class RepositionCanvas {
             (this.props.size.height - this.props.canvas.paddingTop - this.props.canvas.paddingBottom)
             / this.props.ratio.height);
 
-        // tslint:disable-next-line:max-line-length
         this.props.canvas.border.left = (this.props.size.width - this.props.ratio.width * this.props.canvas.scale) / ((this.props.canvas.paddingLeft + this.props.canvas.paddingRight) / this.props.canvas.paddingLeft);
-        // tslint:disable-next-line:max-line-length
         this.props.canvas.border.top = (this.props.size.height - this.props.ratio.height * this.props.canvas.scale) / ((this.props.canvas.paddingTop + this.props.canvas.paddingBottom) / this.props.canvas.paddingTop);
         this.props.canvas.border.width = this.props.ratio.width * this.props.canvas.scale;
         this.props.canvas.border.height = this.props.ratio.height * this.props.canvas.scale;
@@ -173,7 +171,6 @@ export class RepositionCanvas {
             selectable: false,
             strokeWidth: 3
         }));
-        // tslint:disable-next-line:max-line-length
         borders.push(new fabric.Line([this.props.canvas.border.width / this.props.canvas.scale, 0, this.props.canvas.border.width / this.props.canvas.scale, this.props.canvas.border.height / this.props.canvas.scale], {
             left: Math.ceil((this.props.canvas.border.width - 3) / this.props.canvas.scale),
             top: 0,
@@ -181,7 +178,6 @@ export class RepositionCanvas {
             selectable: false,
             strokeWidth: 3
         }));
-        // tslint:disable-next-line:max-line-length
         borders.push(new fabric.Line([0, this.props.canvas.border.height / this.props.canvas.scale, this.props.canvas.border.width / this.props.canvas.scale, this.props.canvas.border.height / this.props.canvas.scale], {
             left: 0,
             top: Math.ceil((this.props.canvas.border.height - 3) / this.props.canvas.scale),
@@ -196,19 +192,15 @@ export class RepositionCanvas {
                 y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale)
             },
             {
-                // tslint:disable-next-line:max-line-length
                 x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale) + Math.floor(this.props.canvas.border.left / this.props.canvas.scale),
                 y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale)
             },
             {
-                // tslint:disable-next-line:max-line-length
                 x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale) + Math.floor(this.props.canvas.border.left / this.props.canvas.scale),
-                // tslint:disable-next-line:max-line-length
                 y: -Math.floor(this.props.canvas.border.top / this.props.canvas.scale) + Math.floor(this.props.size.height / this.props.canvas.scale)
             },
             {
                 x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale),
-                // tslint:disable-next-line:max-line-length
                 y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale) + Math.floor(this.props.size.height / this.props.canvas.scale),
             },
             {
@@ -229,12 +221,10 @@ export class RepositionCanvas {
             },
             {
                 x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale),
-                // tslint:disable-next-line:max-line-length
                 y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale) + Math.floor(this.props.size.height / this.props.canvas.scale),
             },
             {
                 x: - Math.floor(this.props.canvas.border.left / this.props.canvas.scale),
-                // tslint:disable-next-line:max-line-length
                 y: -Math.floor(this.props.canvas.border.top / this.props.canvas.scale) + Math.floor(this.props.size.height / this.props.canvas.scale)
             }
         ];
@@ -262,7 +252,6 @@ export class RepositionCanvas {
         this.element.canvas.add(polygon);
 
         function fit_video_2_frame(videoWidth, videoHeight, frameWidth, frameHeight) {
-            // tslint:disable-next-line:no-shadowed-variable
             const fit = { width: 0, height: 0, offsetX: 0, offsetY: 0 };
 
             const videoRatio = videoWidth / videoHeight;
@@ -277,7 +266,6 @@ export class RepositionCanvas {
             } else {
                 const scale = frameWidth / videoWidth;
                 fit.width = frameWidth % 2 === 0 ? frameWidth : frameWidth + 1;
-                // tslint:disable-next-line:max-line-length
                 fit.height = Math.ceil(videoHeight * scale) % 2 === 0 ? Math.ceil(videoHeight * scale) : Math.ceil(videoHeight * scale) + 1;
                 fit.offsetX = 0;
                 fit.offsetY = Math.floor((frameHeight - fit.height) / 2);
@@ -297,7 +285,6 @@ export class RepositionCanvas {
 
             if (this.props.frame.frm_type === 2) {
                 if (this.isGif(this.props.frame.frm_path)) {
-                    // tslint:disable-next-line:max-line-length
                     this.addFrameGifToCanvas(this.props.frame.frm_path, this.props.frame.frm_reposition, this.props.frame.frm_resolution, this.props.frame.frm_gif_delays);
                 } else {
                     this.addFrameImageToCanvas(this.props.frame.frm_path, this.props.frame.frm_reposition, this.props.frame.frm_resolution);
@@ -308,7 +295,6 @@ export class RepositionCanvas {
         }
 
         this.element.canvas.setDimensions(this.props.size);
-        // tslint:disable-next-line:max-line-length
         this.element.canvas.setViewportTransform([this.props.canvas.scale, 0, 0, this.props.canvas.scale, this.props.canvas.border.left, this.props.canvas.border.top]);
         this.element.canvas.renderAll();
     }

@@ -9,13 +9,11 @@ export class LiActiveHoverDirective {
 
   @HostListener('mouseenter')
   onMouseEnter() {
-    // tslint:disable-next-line:no-unused-expression
     !$(this.dom).hasClass('active') ? $(this.dom).addClass('active') : '';
   }
 
   @HostListener('mouseleave')
   onMouseLeave() {
-    // tslint:disable-next-line:no-unused-expression
     $(this.dom).hasClass('active') ? $(this.dom).removeClass('active') : '';
   }
 

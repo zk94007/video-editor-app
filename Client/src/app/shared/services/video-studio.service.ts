@@ -240,7 +240,6 @@ export class VideoStudioService {
       }
       this.project.modified = true;
       frame.frm_duration = duration;
-      // tslint:disable-next-line:max-line-length
       this.socket.sendMessageWithToken('UPDATE_FRAME', { frm_id: this.selected_frm_id, data: [{ name: 'frm_duration', value: JSON.stringify(duration) }] });
     }
   }
@@ -268,7 +267,6 @@ export class VideoStudioService {
       }
       this.project.modified = true;
       frame.frm_reposition = reposition;
-      // tslint:disable-next-line:max-line-length
       this.socket.sendMessageWithToken('UPDATE_FRAME', { frm_id: this.selected_frm_id, data: [{ name: 'frm_reposition', value: JSON.stringify(reposition) }] });
     }
   }
@@ -280,11 +278,9 @@ export class VideoStudioService {
       }
       this.project.setSceneRatio(sceneRatio);
       this.onChangeSceneRatio.emit(this.project.getSceneRatio());
-      // tslint:disable-next-line:max-line-length
       this.socket.sendMessageWithToken('UPDATE_PROJECT', { prj_id: this.project.prj_id, data: [{ name: 'prj_scene_ratio', value: sceneRatio }] });
       const frames = this.project.getFrames2Json();
       frames.forEach(element => {
-        // tslint:disable-next-line:max-line-length
         this.socket.sendMessageWithToken('UPDATE_FRAME', { frm_id: element.frm_id, data: [{ name: 'frm_reposition', value: JSON.stringify(element.frm_reposition)}]});
       });
     }
@@ -549,7 +545,6 @@ export class VideoStudioService {
     this.onStartConcatenate.emit(complete);
     if (complete === true) {
       setTimeout(() => {
-        // tslint:disable-next-line:max-line-length
         this.socket.sendMessageWithToken('CONCATENATE', { prj_id: this.project.prj_id, prj_scene_ratio: this.project.prj_scene_ratio, prj_name: this.project.prj_name });
       }, 5000);
     }

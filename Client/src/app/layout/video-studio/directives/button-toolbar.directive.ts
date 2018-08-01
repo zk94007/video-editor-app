@@ -30,10 +30,8 @@ export class ButtonToolbarDirective implements OnInit, OnDestroy {
       this.$uns = this.onCheck.subscribe({
         next: (check) => {
           if (check) {
-            // tslint:disable-next-line:no-unused-expression
             !$(this.dom).parent().hasClass('toolbar__item--active') ? $(this.dom).parent().addClass('toolbar__item--active') : '';
           } else {
-            // tslint:disable-next-line:no-unused-expression
             $(this.dom).parent().hasClass('toolbar__item--active') ? $(this.dom).parent().removeClass('toolbar__item--active') : '';
           }
         }
@@ -46,7 +44,6 @@ export class ButtonToolbarDirective implements OnInit, OnDestroy {
     if ($event.target !== this.dom) {
       if (this.name === 'arrange' || this.name === 'transparent') {
         $(this.dom).parent().hasClass('toolbar__item--submenuExpanded') ?
-        // tslint:disable-next-line:no-unused-expression
         $(this.dom).parent().removeClass('toolbar__item--submenuExpanded') : '';
       }
     } else {

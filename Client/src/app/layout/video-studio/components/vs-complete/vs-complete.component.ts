@@ -68,13 +68,6 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // console.log('b');
-    // setTimeout(() => {
-      // if (this.props.isConcatenating == null) {
-      //   this.location.back();
-      // }
-    // }, 300);
-
   }
 
   onPlayerReady(api: VgAPI) {

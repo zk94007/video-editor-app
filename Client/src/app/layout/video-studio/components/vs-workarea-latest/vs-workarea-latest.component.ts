@@ -218,9 +218,7 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
     this.props.seek.video.videoElement.currentTime = currentTime;
     this.props.seek.video.currentTimeSliderElement.style.left = (percent * 100) + '%';
 
-    // tslint:disable-next-line:max-line-length
     this.props.seek.video.currentTimeBadgeElement.style.top = (this.props.seek.video.currentTimeSliderElement.getBoundingClientRect().top - 30) + 'px';
-    // tslint:disable-next-line:max-line-length
     this.props.seek.video.currentTimeBadgeElement.style.left = (this.props.seek.video.currentTimeSliderElement.getBoundingClientRect().left - 25) + 'px';
     this.props.seek.video.currentTimeBadgeElement.innerHTML = currentTime.toFixed(1) + 's';
   }

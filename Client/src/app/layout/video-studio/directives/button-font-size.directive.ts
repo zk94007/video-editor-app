@@ -23,10 +23,8 @@ export class ButtonFontSizeDirective implements OnInit, OnDestroy {
     this.$uns = this.onSetFontSize.subscribe({
       next: (fontSize) => {
         if (this.size === fontSize) {
-          // tslint:disable-next-line:no-unused-expression
           !$(this.dom).hasClass('toolbar__button--selected') ? $(this.dom).addClass('toolbar__button--selected') : '';
         } else {
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).hasClass('toolbar__button--selected') ? $(this.dom).removeClass('toolbar__button--selected') : '';
         }
       }

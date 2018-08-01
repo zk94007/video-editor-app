@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, EventEmitter, ChangeDetectorRef, Input } 
 
 import { FontPickerService } from '../../../../shared/services/font-picker.service';
 import { Font, FontInterface, GoogleFontInterface, GoogleFontsInterface } from '../../../../shared/interfaces/font-picker.interfaces';
-// tslint:disable-next-line:import-blacklist
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
@@ -300,7 +299,6 @@ export class VsToolbarComponent implements OnInit, OnDestroy {
 
   private loadMoreFonts(): void {
     if (!this.props_fontpicker.loading && this.props_fontpicker.loadedFonts < this.props_fontpicker.currentFonts.length) {
-      // tslint:disable-next-line:max-line-length
       const moreFonts = this.props_fontpicker.currentFonts.slice(this.props_fontpicker.loadedFonts, this.props_fontpicker.loadedFonts + this.props_fontpicker.fontAmount);
 
       this.loadGoogleFonts(moreFonts);

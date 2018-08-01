@@ -16,7 +16,7 @@ import {
 import { Ng5FilesSelected } from '../../declarations';
 
 @Component({
-    selector: 'ng5-files-drop', // tslint:disable-line
+    selector: 'ng5-files-drop',
     templateUrl: './ng5-files-drop.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })

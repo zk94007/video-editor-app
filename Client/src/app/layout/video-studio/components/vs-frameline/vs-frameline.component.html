@@ -2,7 +2,7 @@
   <perfect-scrollbar [config]="config">
     <div id="frameline-pane">
       <div [sortablejs]="frames" [sortablejsOptions]="sortableOptions" [@frameAnimation]="frames?.length">
-        <a *ngFor="let frame of frames" class="frame-item">
+        <a *ngFor="let frame of frames" class="frame-item" [class.disabled]="props.isDuplicating == true">
           <div class="frame-item-container {{props.selectedFrmId === frame.frm_id ? 'active' : ''}}" (click)="selectFrame(frame.frm_id)">
             <div class="frame-image-container">
               <img *ngIf="frame.frm_type === 2" class="representative" [src]="frame.frm_path">

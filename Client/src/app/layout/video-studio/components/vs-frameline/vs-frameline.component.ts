@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { frameAnimation } from './animations';
 
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
@@ -20,8 +20,8 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   public frames: any = [];
   public props: any = {
     selectedFrmId: null,
-    isDuplicating: -1,
-    isDeleting: -1
+    isDuplicating: false,
+    isDeleting: false
   };
 
   public sortableOptions: any;
@@ -30,7 +30,7 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   @ViewChild(PerfectScrollbarComponent) componentScroll: PerfectScrollbarComponent;
   @ViewChild(PerfectScrollbarDirective) directiveScroll: PerfectScrollbarDirective;
 
-  constructor(private vsService: VideoStudioService) {
+  constructor(private vsService: VideoStudioService, private cdRef: ChangeDetectorRef) {
     this.config = {
       wheelSpeed: 1,
       wheelPropagation: true,
@@ -40,8 +40,12 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
     this.sortableOptions = {
       animation: 150,
+      filter: '.disabled',
       onUpdate: (event: any) => {
         this.changeOrders();
+      },
+      onMove: (event: any) => {
+        return !event.related.classList.contains('disabled');
       }
     };
 
@@ -53,13 +57,16 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
     }));
 
     this.$uns.push(this.vsService.onDeleteFrame.subscribe((response) => {
-      this.frames.splice(this.props.isDeleting, 1);
-      this.props.isDeleting = -1;
+      const index = this.frames.findIndex(f => f.frm_id === response.frm_id);
+      this.frames.splice(index, 1);
+      this.props.isDeleting = false;
+      this.changeOrders();
     }));
 
     this.$uns.push(this.vsService.onDuplicateFrame.subscribe((response) => {
-      this.frames[this.props.isDuplicating] = response.frame;
-      this.props.isDuplicating = -1;
+      this.frames[response.index] = response.frame;
+      this.props.isDuplicating = false;
+      this.cdRef.detectChanges();
     }));
   }
 
@@ -77,11 +84,14 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
   selectFrame(frm_id) {
     this.props.selectedFrmId = frm_id;
-    this.vsService.selectFrame(frm_id);
+    const index = this.frames.findIndex(f => f.frm_id == frm_id);
+    if (this.frames[index].frm_path != loadingURL) {
+      this.vsService.selectFrame(frm_id);
+    }
   }
 
   deleteFrame($event, frm_id) {
-    if (this.props.isDeleting != -1) {
+    if (this.props.isDeleting == true || this.props.isDuplicating == true) {
       return;
     }
     if (this.frames.length >= 2) {
@@ -92,7 +102,7 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
         frm_type: 2
       }
       this.frames[index] = fake_frame;
-      this.props.isDeleting = index;
+      this.props.isDeleting = true;
 
       if (index === this.frames.length - 1) {
         this.vsService.selectFrame(this.frames[index - 1].frm_id);
@@ -106,30 +116,33 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   }
 
   duplicateFrame($event, frm_id) {
-    $event.stopPropagation();
-    if (this.props.isDuplicating != -1) {
+    if (this.props.isDuplicating == true || this.props.isDeleting == true) {
       return;
     }
+    $event.stopPropagation();
     const index = this.frames.findIndex(f => f.frm_id === frm_id);
     let fake_frame = {
       frm_path: loadingURL,
       frm_type: 2
     }
     this.frames.splice(index + 1, 0, fake_frame);
-    this.props.isDuplicating = index + 1;
+    this.props.isDuplicating = true;
+    
     this.vsService._duplicateFrame(frm_id);
   }
 
   changeOrders() {
-    const orders = [];
+    if (this.props.isDeleting == false && this.props.isDuplicating == false) {
+      const orders = [];
 
-    for (let i = 0; i < this.frames.length; i++) {
-      orders.push({
-        frm_id: this.frames[i].frm_id,
-        frm_order: i + 1
-      });
+      for (let i = 0; i < this.frames.length; i++) {
+        orders.push({
+          frm_id: this.frames[i].frm_id,
+          frm_order: i + 1
+        });
+      }
+  
+      this.vsService._updateFrameOrders(orders);
     }
-
-    this.vsService._updateFrameOrders(orders);
   }
 }

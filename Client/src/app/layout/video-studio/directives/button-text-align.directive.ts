@@ -21,10 +21,8 @@ export class ButtonTextAlignDirective implements OnInit, OnDestroy {
     this.$uns = this.onSetTextAlign.subscribe({
       next: (textAlign) => {
         if (this.textAlign === textAlign) {
-          // tslint:disable-next-line:no-unused-expression
           !$(this.dom).parent().hasClass('toolbar__item--active') ? $(this.dom).parent().addClass('toolbar__item--active') : '';
         } else {
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).parent().hasClass('toolbar__item--active') ? $(this.dom).parent().removeClass('toolbar__item--active') : '';
         }
       }

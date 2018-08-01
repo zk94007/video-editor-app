@@ -16,7 +16,6 @@ export class ButtonSubmenuDirective {
         if ($event.target === $(this.dom).children()[0]) {
         } else {
           $(this.dom).parent().hasClass('toolbar__item--submenuExpanded') ?
-            // tslint:disable-next-line:no-unused-expression
             $(this.dom).parent().removeClass('toolbar__item--submenuExpanded') : '';
           $(this.dom).children().removeClass('toolbar__inputButton--active');
         }
@@ -26,21 +25,18 @@ export class ButtonSubmenuDirective {
             $event.target === $('.toolbar__button--right')[0]) {
         } else {
           $(this.dom).parent().hasClass('toolbar__item--submenuExpanded') ?
-            // tslint:disable-next-line:no-unused-expression
             $(this.dom).parent().removeClass('toolbar__item--submenuExpanded') : '';
         }
       } else if (this.type === 'transparent') {
         if (this.findAllChildren($('.toolbar--transparent'), $event) === true) {
         } else {
           $(this.dom).parent().hasClass('toolbar__item--submenuExpanded') ?
-            // tslint:disable-next-line:no-unused-expression
             $(this.dom).parent().removeClass('toolbar__item--submenuExpanded') : '';
         }
       } else if (this.type === 'spacing') {
         if (this.findAllChildren($('.toolbar--spacing'), $event) === true) {
         } else {
           $(this.dom).parent().hasClass('toolbar__item--submenuExpanded') ?
-            // tslint:disable-next-line:no-unused-expression
             $(this.dom).parent().removeClass('toolbar__item--submenuExpanded') : '';
         }
       } else if (this.type === 'textColor') {
@@ -48,28 +44,22 @@ export class ButtonSubmenuDirective {
             this.findAllChildren($('.my-colorpicker-colorcode'), $event) === true) {
         } else {
           $(this.dom).parent().hasClass('toolbar__item--submenuExpanded') ?
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).parent().removeClass('toolbar__item--submenuExpanded') : '';
         }
       } else {
         $(this.dom).parent().hasClass('toolbar__item--submenuExpanded') ?
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).parent().removeClass('toolbar__item--submenuExpanded') : '';
       }
     } else {
       if (this.type === 'textSize') {
         !$(this.dom).parent().hasClass('toolbar__item--submenuExpanded') ?
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).parent().addClass('toolbar__item--submenuExpanded') : '';
         !$(this.dom).children().hasClass('toolbar__inputButton--active') ?
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).children().addClass('toolbar__inputButton--active') : '';
 
         $(this.dom).children().hasClass('toolbar__inputButton--active') ?
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).children().focus() : '';
         $(this.dom).children().hasClass('toolbar__inputButton--active') ?
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).children().select() : '';
       } else {
         $(this.dom).parent().toggleClass('toolbar__item--submenuExpanded');

@@ -1,13 +1,12 @@
-import { Component, OnInit, OnDestroy, Output, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {
   PerfectScrollbarConfigInterface,
   PerfectScrollbarComponent, PerfectScrollbarDirective
 } from 'ngx-perfect-scrollbar';
-import { Rgba, ColorPickerService } from '../../../../shared/module/color-picker';
+import { ColorPickerService } from '../../../../shared/module/color-picker';
 import { FontPickerService } from '../../../../shared/services/font-picker.service';
-import { Font, FontInterface, GoogleFontInterface, GoogleFontsInterface } from '../../../../shared/interfaces/font-picker.interfaces';
+import { Font, GoogleFontInterface, GoogleFontsInterface } from '../../../../shared/interfaces/font-picker.interfaces';
 
-// tslint:disable-next-line:import-blacklist
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } from '../../../../shared/module/ng5-files';
@@ -80,7 +79,6 @@ export class VsSidebarPanelComponent implements OnInit {
 
     // Background Panel config
     this.props_background.addRecentColor = '#ff0000';
-    // tslint:disable-next-line:max-line-length
     this.props_background.backgroundDefaultPalette1 = ['#6d6fe1', '#0090fa', '#00b9e4', '#49d1fb', '#00dd77', '#ff4b65', '#ff5936', '#ffa82e', '#ffd53c', '#fd109f'];
     this.props_background.backgroundDefaultPalette2 = ['#000000', '#666666', '#a8a8a8', '#d9d9d9', '#ffffff'];
 
@@ -225,7 +223,6 @@ export class VsSidebarPanelComponent implements OnInit {
 
   private loadMoreFonts(): void {
     if (!this.props_font.loading && this.props_font.loadedFonts < this.props_font.currentFonts.length) {
-      // tslint:disable-next-line:max-line-length
       const moreFonts = this.props_font.currentFonts.slice(this.props_font.loadedFonts, this.props_font.loadedFonts + this.props_font.fontAmount);
 
       this.loadGoogleFonts(moreFonts);

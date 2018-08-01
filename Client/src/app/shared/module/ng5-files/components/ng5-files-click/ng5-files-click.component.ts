@@ -17,7 +17,7 @@ import {
 import { Ng5FilesSelected } from '../../declarations/ng5-files-selected';
 
 @Component({
-    selector: 'ng5-files-click', // tslint:disable-line
+    selector: 'ng5-files-click',
     templateUrl: './ng5-files-click.component.html',
     styles: ['.ng5-files-upload-btn { display: none; }'],
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -50,7 +50,6 @@ export class Project /*extends ProjectRecord*/ {
 
         this.prj_frames.forEach((frame) => {
             function fit_video_2_frame(videoWidth, videoHeight, frameWidth, frameHeight) {
-                // tslint:disable-next-line:no-shadowed-variable
                 const fit = {width: 0, height: 0, offsetX: 0, offsetY: 0};
 
                 const videoRatio = videoWidth / videoHeight;
@@ -65,7 +64,6 @@ export class Project /*extends ProjectRecord*/ {
                 } else {
                     const scale = frameWidth / videoWidth;
                     fit.width = frameWidth % 2 === 0 ? frameWidth : frameWidth + 1;
-                    // tslint:disable-next-line:max-line-length
                     fit.height = Math.ceil(videoHeight * scale) % 2 === 0 ? Math.ceil(videoHeight * scale) : Math.ceil(videoHeight * scale) + 1;
                     fit.offsetX = 0;
                     fit.offsetY = Math.floor((frameHeight - fit.height) / 2);
@@ -103,7 +101,6 @@ export class Project /*extends ProjectRecord*/ {
     }
 
     getOverlay(ovl_id) {
-        // tslint:disable-next-line:no-shadowed-variable
         const frame = this.prj_frames.find(frame => frame.frm_overlays.find(overlay => '' + overlay.ovl_id === '' + ovl_id) !== undefined);
         if (frame !== undefined) {
             return frame.getOverlay(ovl_id);
@@ -112,7 +109,6 @@ export class Project /*extends ProjectRecord*/ {
     }
 
     getOverlayIndex(ovl_id) {
-        // tslint:disable-next-line:no-shadowed-variable
         const frame = this.prj_frames.find(frame => frame.frm_overlays.find(overlay => '' + overlay.ovl_id === '' + ovl_id) !== undefined);
         if (frame !== undefined) {
             return frame.getOverlayIndex(ovl_id);
@@ -198,7 +194,6 @@ export class Project /*extends ProjectRecord*/ {
     }
 
     deleteOverlay(ovl_id) {
-        // tslint:disable-next-line:no-shadowed-variable
         const frame = this.prj_frames.find(frame => frame.frm_overlays.find(overlay => '' + overlay.ovl_id === '' + ovl_id) !== undefined);
         if (frame !== undefined) {
             this.modified = true;

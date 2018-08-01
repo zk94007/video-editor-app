@@ -270,7 +270,6 @@ export class WorkareaCanvas {
         }));
 
         this.$uns.push(this.vsService.onChangeTextProps.subscribe((result) => {
-            // tslint:disable-next-line:forin
             for (const key in result) {
                 if (key === 'fontFamily') {
                     this.setFontFamily(result[key]);
@@ -309,7 +308,6 @@ export class WorkareaCanvas {
 
                 if (activeObject.type === 'textbox') {
                     activeObject.setCoords(true);
-                    // tslint:disable-next-line:max-line-length
                     this.props.overlays[id].dataurl = activeObject.toDataURL({ format: 'png' });
                 }
                 this.props.overlays[id].object = JSON.parse(JSON.stringify(activeObject.toObject()));
@@ -389,7 +387,6 @@ export class WorkareaCanvas {
 
                     if (modifiedObject.type === 'textbox') {
                         modifiedObject.setCoords(true);
-                        // tslint:disable-next-line:max-line-length
                         this.props.overlays[id].dataurl = modifiedObject.toDataURL({ format: 'png' });
                     }
                     this.props.overlays[id].object = JSON.parse(JSON.stringify(modifiedObject.toObject()));
@@ -435,7 +432,6 @@ export class WorkareaCanvas {
                     if (this.props.overlays[id].state === 'added') {
                         if (addedObject.type === 'textbox') {
                             addedObject.setCoords(true);
-                            // tslint:disable-next-line:max-line-length
                             this.props.overlays[id].dataurl = addedObject.toDataURL({ format: 'png' });
                         }
                         this.element.canvas.moveTo(addedObject, this.element.canvas.getObjects().length - 1 - this.props.borders.length);
@@ -561,7 +557,6 @@ export class WorkareaCanvas {
                         if (overlay.object.type === 'image') {
                             data.ovl_content = overlay.object.src;
                         } else {
-                            // tslint:disable-next-line:max-line-length
                             data.ovl_content = path.dirname(overlay.object.src) + '/' + path.basename(overlay.object.src, path.extname(overlay.object.src)) + '.gif';
                         }
                         data.width = overlay.object.width * overlay.object.scaleX;
@@ -597,7 +592,6 @@ export class WorkareaCanvas {
                         if (overlay.object.type === 'image') {
                             data.ovl_content = overlay.object.src;
                         } else {
-                            // tslint:disable-next-line:max-line-length
                             data.ovl_content = path.dirname(overlay.object.src) + '/' + path.basename(overlay.object.src, path.extname(overlay.object.src)) + '.gif';
                         }
                         data.width = overlay.object.width * overlay.object.scaleX;
@@ -723,9 +717,7 @@ export class WorkareaCanvas {
 
         this.vsService.changeCanvasScale(this.props.canvas.scale);
 
-        // tslint:disable-next-line:max-line-length
         this.props.canvas.border.left = (this.props.size.width - this.props.ratio.width * this.props.canvas.scale) / ((this.props.canvas.paddingLeft + this.props.canvas.paddingRight) / this.props.canvas.paddingLeft);
-        // tslint:disable-next-line:max-line-length
         this.props.canvas.border.top = (this.props.size.height - this.props.ratio.height * this.props.canvas.scale) / ((this.props.canvas.paddingTop + this.props.canvas.paddingBottom) / this.props.canvas.paddingTop);
         this.props.canvas.border.width = this.props.ratio.width * this.props.canvas.scale;
         this.props.canvas.border.height = this.props.ratio.height * this.props.canvas.scale;
@@ -749,7 +741,6 @@ export class WorkareaCanvas {
             hoverCursor: 'grab',
             strokeWidth: 3
         }));
-        // tslint:disable-next-line:max-line-length
         this.props.borders.push(new fabric.Line([this.props.canvas.border.width / this.props.canvas.scale, 0, this.props.canvas.border.width / this.props.canvas.scale, this.props.canvas.border.height / this.props.canvas.scale], {
             left: this.props.canvas.border.width / this.props.canvas.scale,
             top: 0,
@@ -759,7 +750,6 @@ export class WorkareaCanvas {
             hoverCursor: 'grab',
             strokeWidth: 3
         }));
-        // tslint:disable-next-line:max-line-length
         this.props.borders.push(new fabric.Line([0, this.props.canvas.border.height / this.props.canvas.scale, this.props.canvas.border.width / this.props.canvas.scale, this.props.canvas.border.height / this.props.canvas.scale], {
             left: 0,
             top: this.props.canvas.border.height / this.props.canvas.scale,
@@ -776,7 +766,6 @@ export class WorkareaCanvas {
         }
 
         this.element.canvas.setDimensions(this.props.size);
-        // tslint:disable-next-line:max-line-length
         this.element.canvas.setViewportTransform([this.props.canvas.scale, 0, 0, this.props.canvas.scale, this.props.canvas.border.left, this.props.canvas.border.top]);
         this.element.canvas.renderAll();
 
@@ -868,9 +857,7 @@ export class WorkareaCanvas {
 
         if (activeObject) {
             const object = JSON.parse(JSON.stringify(activeObject.toObject()));
-            // tslint:disable-next-line:radix
             object.left = parseInt(object.left) + 10;
-            // tslint:disable-next-line:radix
             object.top = parseInt(object.top) + 10;
             object.id = this.vsService.fakeId();
             const overlay = {
@@ -1007,7 +994,6 @@ export class WorkareaCanvas {
     }
 
     setFontSize(fontSize) {
-        // tslint:disable-next-line:radix
         this.setActiveProp('fontSize', parseInt(fontSize));
     }
 
@@ -1035,7 +1021,6 @@ export class WorkareaCanvas {
 
             if (activeObject.type === 'textbox') {
                 activeObject.setCoords(true);
-                // tslint:disable-next-line:max-line-length
                 this.props.overlays[id].dataurl = activeObject.toDataURL({ format: 'png' });
             }
             this.props.overlays[id].object = JSON.parse(JSON.stringify(activeObject.toObject()));

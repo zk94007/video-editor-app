@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.$uns.push(this.service.onLogin.subscribe((response) => {
             const success = response['success'];
             if (success) {
-                console.log(response);
                 if (response['token']) {
                     localStorage.setItem('usr_name', response.user.usr_name);
                     localStorage.setItem('usr_password', response.user.usr_password);
@@ -61,7 +60,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         } else if (!this.model.password) {
             this.popover_password.open();
         } else {
-            console.log(this.model.email);
             this.service._login(this.model.email, this.model.password);
         }
     }

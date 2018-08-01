@@ -10,7 +10,6 @@ export class ProjectComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('project component');
   }
 
 }

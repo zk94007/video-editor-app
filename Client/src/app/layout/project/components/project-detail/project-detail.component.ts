@@ -72,22 +72,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.props.displayDeleteFileModal = 'none';
     }
 
-    postChangesToServer() {
-        const orders = [];
-        const $this = this;
-        this.props.media.forEach((item, index) => {
-            if (item.frm_order !== index + 1) {
-                $this.props.media[index].frm_order = index + 1;
-
-                if (!item.isUploading) {
-                    orders.push({frm_id: item.frm_id, frm_order: index + 1});
-                }
-            }
-        });
-
-        this.service._updateFrameOrder(orders);
-    }
-
     ngOnInit() {
         this.props.isPlaying = false;
         this.props.isPlayingProjectVideo = false;
@@ -97,7 +81,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
         this.$uns.push(this.service.onGetFrameList.subscribe((message) => {
             const success = message['success'];
-            console.log(message);
             if (success) {
                 this.service.changePageTitle(message.project.prj_name);
 
@@ -110,14 +93,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 this.props.projectName = message.project.prj_name;
 
                 this.props.media = message['frames'];
-                setTimeout(() => {
-                    console.log(this.props.showProjects);
-                    if (this.props.media.length === 0) {
-                        this.props.showProjects = false;
-                    } else {
-                        this.props.showProjects = true;
-                    }
-                }, 2000);
+                if (this.props.media.length === 0) {
+                    this.props.showProjects = false;
+                } else {
+                    this.props.showProjects = true;
+                }
             } else {
                 console.log('Error get frame list');
             }
@@ -166,6 +146,22 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.$uns.push(this.service.onGenerateSas.subscribe((message) => {
             this.download(this.props.projectName, this.props.videoPath + '?' + message.token);
         }));
+    }
+
+    postChangesToServer() {
+        const orders = [];
+        const $this = this;
+        this.props.media.forEach((item, index) => {
+            if (item.frm_order !== index + 1) {
+                $this.props.media[index].frm_order = index + 1;
+
+                if (!item.isUploading) {
+                    orders.push({frm_id: item.frm_id, frm_order: index + 1});
+                }
+            }
+        });
+
+        this.service._updateFrameOrder(orders);
     }
 
     filesSelect(selectedFiles: Ng5FilesSelected): void {

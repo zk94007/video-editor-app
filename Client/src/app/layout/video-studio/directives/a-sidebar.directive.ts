@@ -19,10 +19,8 @@ export class ASidebarDirective implements OnInit, OnDestroy {
     this.$uns = this.onChangeStage.subscribe({
       next: (stage: number) => {
         if (stage === this.value) {
-          // tslint:disable-next-line:no-unused-expression
           !$(this.dom).parent().hasClass('on') ? $(this.dom).parent().addClass('on') : '';
         } else {
-          // tslint:disable-next-line:no-unused-expression
           $(this.dom).parent().hasClass('on') ? $(this.dom).parent().removeClass('on') : '';
         }
       }
