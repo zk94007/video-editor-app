@@ -140,8 +140,8 @@ export class RepositionCanvas {
         this.element.canvas.clear();
         this.element.canvas.selection = false;
 
-        this.props.size.width = this.element.container.width();
-        this.props.size.height = this.element.container.height();
+        this.props.size.width = this.element.container.width() + 1;
+        this.props.size.height = this.element.container.height() + 1;
 
         this.props.ratio = this.vsService.getSceneSize();
 

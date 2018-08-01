@@ -12,7 +12,7 @@
   position: absolute;
   height: 54px;
   width: 100%;
-  background-color: #00c4cc;
+  background-color: #ff1569;
   color: #fff;
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden
@@ -50,25 +50,17 @@ html.lightBrandTheme .controlbar-inner {
 }
 
 #primaryNavigation #editorLogo {
-  background: url(../assets/video-studio/editor-logo.png) no-repeat center 14px / 101px;
-  display: block;
-  height: 54px;
-  left: -85px;
   position: absolute;
-  text-indent: -9999px;
+  height: 54px;
+  left: -80px;
   top: -9px;
-  width: 100px
-}
-
-@media(-webkit-min-device-pixel-ratio:2),
-(min-resolution:192dpi) {
-  #primaryNavigation #editorLogo {
-    background-image: url(../assets/video-studio/editor-logo.png)
-  }
+  font-size: 1.8em;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
 }
 
 #primaryNavigation a {
-  padding: 0 5px;
+  padding: 5px 5px;
   text-decoration: none
 }
 
