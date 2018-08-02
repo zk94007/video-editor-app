@@ -398,7 +398,7 @@ export class WorkareaCanvas {
             },
             'object:added': (e) => {
                 const addedObject = e.target;
-                if (addedObject && !addedObject.toObject().border) {
+                if (addedObject && !addedObject.toObject().border ) {
                     if (this.props.frame.inital_loading) {
                         const objects = this.element.canvas.getObjects();
                         let exist_count = 0;
@@ -742,7 +742,7 @@ export class WorkareaCanvas {
             strokeWidth: 3
         }));
         this.props.borders.push(new fabric.Line([this.props.canvas.border.width / this.props.canvas.scale, 0, this.props.canvas.border.width / this.props.canvas.scale, this.props.canvas.border.height / this.props.canvas.scale], {
-            left: this.props.canvas.border.width / this.props.canvas.scale,
+            left: Math.ceil((this.props.canvas.border.width - 3) / this.props.canvas.scale),
             top: 0,
             stroke: this.props.canvas.border.color,
             selectable: false,
@@ -752,18 +752,105 @@ export class WorkareaCanvas {
         }));
         this.props.borders.push(new fabric.Line([0, this.props.canvas.border.height / this.props.canvas.scale, this.props.canvas.border.width / this.props.canvas.scale, this.props.canvas.border.height / this.props.canvas.scale], {
             left: 0,
-            top: this.props.canvas.border.height / this.props.canvas.scale,
+            top: Math.ceil((this.props.canvas.border.height - 3) / this.props.canvas.scale),
             stroke: this.props.canvas.border.color,
             selectable: false,
             strokeDashArray: [3, 3],
             hoverCursor: 'grab',
             strokeWidth: 3
         }));
+        const pointsInside = [
+            {
+                x: 0,
+                y: 0
+            },
+            {
+                x: this.props.canvas.border.width / this.props.canvas.scale,
+                y: 0
+            },
+            {
+                x: this.props.canvas.border.width / this.props.canvas.scale,
+                y: this.props.canvas.border.height / this.props.canvas.scale
+            },
+            {
+                x: 0,
+                y: this.props.canvas.border.height / this.props.canvas.scale
+            }
+        ];
+        const pointsOutside = [
+            {
+                x: -Math.floor(this.props.canvas.border.left / this.props.canvas.scale) - 1,
+                y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale) - 1
+            },
+            {
+                x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale) + Math.floor(this.props.canvas.border.left / this.props.canvas.scale) + 1,
+                y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale) - 1
+            },
+            {
+                x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale) + Math.floor(this.props.canvas.border.left / this.props.canvas.scale) + 1,
+                y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale) + Math.floor(this.props.size.height / this.props.canvas.scale) + 1
+            },
+            {
+                x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale),
+                y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale) + Math.floor(this.props.size.height / this.props.canvas.scale) + 1,
+            },
+            {
+                x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale),
+                y: 0,
+            },
+            {
+                x: 0,
+                y: 0
+            },
+            {
+                x: 0,
+                y: Math.floor(this.props.canvas.border.height / this.props.canvas.scale)
+            },
+            {
+                x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale),
+                y: Math.floor(this.props.canvas.border.height / this.props.canvas.scale)
+            },
+            {
+                x: Math.floor(this.props.canvas.border.width / this.props.canvas.scale),
+                y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale) + Math.floor(this.props.size.height / this.props.canvas.scale) + 1,
+            },
+            {
+                x: - Math.floor(this.props.canvas.border.left / this.props.canvas.scale) - 1,
+                y: - Math.floor(this.props.canvas.border.top / this.props.canvas.scale) + Math.floor(this.props.size.height / this.props.canvas.scale) + 1
+            }
+        ];
+
+        const polygonInside = new fabric.Polygon(pointsInside, {
+            left: pointsInside[0].x,
+            top: pointsInside[0].y,
+            fill: '#f00',
+            selectable: false,
+            evented: false,
+            objectCaching: false,
+            strokeWidth: 0
+        });
+        const polygonOutside = new fabric.Polygon(pointsOutside, {
+            left: pointsOutside[0].x,
+            top: pointsOutside[0].y,
+            fill: 'rgba(0, 0, 0, 0.2)',
+            selectable: false,
+            evented: false,
+            objectCaching: false,
+            strokeWidth: 0
+        });
 
         for (let i = 0; i < this.props.borders.length; i++) {
             this.extend(this.props.borders[i], { border: true });
             this.element.canvas.add(this.props.borders[i]);
         }
+        this.extend(polygonOutside, { border: true });
+        this.element.canvas.add(polygonOutside);
+
+        // this.extend(polygonInside, { border: true });
+        // this.element.canvas.add(polygonInside);
+        // this.element.canvas.sendToBack(polygonInside);
+        // this.element.canvas.setBackgroundColor('#f00', this.element.canvas.renderAll.bind(this.element.canvas));
+
 
         this.element.canvas.setDimensions(this.props.size);
         this.element.canvas.setViewportTransform([this.props.canvas.scale, 0, 0, this.props.canvas.scale, this.props.canvas.border.left, this.props.canvas.border.top]);
