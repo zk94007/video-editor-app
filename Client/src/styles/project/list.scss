@@ -202,27 +202,27 @@
                 margin-top: 10px;
                 border: none;
                 box-shadow: 1px 1px 6px 2px rgba(0, 0, 0, 0.3);
-                padding: 10px 0;
+                padding: 12px 0;
                 border-radius: 8px;
         
                 &:before {
                     content: '';
                     position: absolute;
-                    top: -8px;
+                    top: -5px;
                     left: #{"calc(50% - 10px)"};
-                    width: 15px;
-                    height: 15px;
+                    width: 12px;
+                    height: 12px;
                     transform: rotate(45deg);
                     display: block;
                     background-color: $color-white;
-                    box-shadow: 2px -1px 4px 0px rgba(0, 0, 0, 0.2);
+                    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
                 }
         
                 &:after {
                     content: '';
                     position: absolute;
                     width: 40px;
-                    height: 13px;
+                    height: 12px;
                     top: 0;
                     left: #{"calc(50% - 20px)"};
                     background-color: $color-white;
@@ -402,13 +402,13 @@
                 position: relative;
                 top: calc(50% - 20px);
                 font-weight: 600;
+                border: 1px solid $color-gray;
+                color: white;
     
                 &:hover {
-                    color: $color-white;
+                    border: 1px solid transparent;
+                    
                     background-color: $color-green;
-                }
-                &:visited {
-                    color: $color-white;
                 }
             }
     

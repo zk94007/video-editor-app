@@ -175,7 +175,7 @@ input[type=text]::-ms-clear {
 		position: absolute;
 		width: 32px;
 		height: 32px;
-		background-color: $color-orange;
+		background-color: $color-pink;
 		border-radius: 50%;
 		top: -9px;
 		right: -9px;
@@ -183,7 +183,7 @@ input[type=text]::-ms-clear {
 		outline: none;
 
 		&:hover {
-			background-color: darken($color-orange, 10%);
+			background-color: darken($color-pink, 10%);
 		}
 
 		&:before, &:after {
@@ -278,9 +278,18 @@ input[type=text]::-ms-clear {
   // float: initial;
 }
 
+.iro__slider__value,
+.iro__wheel {
+  cursor: crosshair;
+}
+.iro__marker {
+  cursor: move;
+}
+
 .iro__wheel__lightness {
   display: none !important;
 }
+
 .iro__marker__outer {
   fill: rgba(0,0,0,0.3);
   stroke: none;

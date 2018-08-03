@@ -166,7 +166,7 @@
               <div class="my-colorpicker" style="width: 200px; height: 290px"></div>
               <div class="my-colorpicker-colorcode">
                 <span>Color code #</span>
-                <input class="my-colorpicker-hexcode" [(ngModel)]="colorPickerColor" id="my-colorpicker-hexcode"(input)="onColorHexChange($event.target.value)" maxlength="6">
+                <input class="my-colorpicker-hexcode" [(ngModel)]="props.firstAdded == true ? 'ffffff' : colorPickerColor" id="my-colorpicker-hexcode"(input)="onColorHexChange($event.target.value)" maxlength="6">
               </div>
             </ul>
           </menu>
@@ -210,7 +210,7 @@
             <menu class="toolbar toolbar--spacing toolbar--vertical ">
               <ul class="toolbar__list">
                 <li class="toolbar__item toolbar__item--lineheight enabled" [style.width.px]="350">
-                  <div style="display: inline-block; margin-right: 15px; text-align: right; width: 100px">
+                  <div style="display: inline-block; margin-right: 15px; text-align: right; width: 90px">
                     Line Height
                   </div>
                   <div style="display: inline-block; width: 200px; margin-right: 10px">
@@ -223,7 +223,7 @@
               </ul>
               <ul class="toolbar__list">
                   <li class="toolbar__item toolbar__item--charspacing enabled" [style.width.px]="350">
-                    <div style="display: inline-block; margin-right: 15px; text-align: right; width: 100px">
+                    <div style="display: inline-block; margin-right: 15px; text-align: right; width: 90px">
                       Char spacing
                     </div>
                     <div style="display: inline-block; width: 200px; margin-right: 10px">

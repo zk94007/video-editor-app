@@ -103,8 +103,14 @@ export class VsToolbarComponent implements OnInit, OnDestroy {
         this.props.textLineHeight = selectedObject.lineHeight;
 
         this.props.textColor = selectedObject.fill;
-        this.colorPicker.setColor(this.props.textColor);
-        this.colorPickerColor = this.props.textColor.substring(1);
+        this.props.firstAdded = selectedObject.firstAdded;
+        if (this.props.firstAdded == true) {
+          this.colorPicker.setColor('#ffffff');
+          this.colorPickerColor = 'ffffff';
+        } else {
+          this.colorPicker.setColor(this.props.textColor);
+          this.colorPickerColor = this.props.textColor.substring(1);
+        }
 
         this.fakelineHeight = this.props.textLineHeight * 10;
 
@@ -124,12 +130,17 @@ export class VsToolbarComponent implements OnInit, OnDestroy {
     }));
 
     this.$uns.push(this.colorPicker.onColorChange.subscribe((color) => {
+      if (this.props.firstAdded == true) {
+        this.props.firstAdded = false;
+        return;
+      }
       this.props.textColor = color;
       if (this.isChangeColorInput === false) {
         this.colorPickerColor = this.props.textColor.substring(1);
       } else {
         this.isChangeColorInput = false;
       }
+      this.props.firstAdded = false;
       this.vsService.changeTextProps(this.props);
     }));
     /*

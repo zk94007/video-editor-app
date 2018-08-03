@@ -169,8 +169,6 @@ export class WorkareaCanvas {
         }
     };
 
-    private selected: any;
-
     isGif(src) {
         return path.extname(src) === '.gif' || path.extname(src) === '.GIF';
     }
@@ -196,7 +194,8 @@ export class WorkareaCanvas {
                 scaleY: 1,
                 hasRotatingPoint: true,
                 lockScalingY: true,
-                type: 'textbox'
+                type: 'textbox',
+                firstAdded: true
             };
 
             const overlay = {
@@ -233,7 +232,7 @@ export class WorkareaCanvas {
                 scaleY: ideal_height / resolution.height,
                 hasRotatingPoint: true,
                 type: this.isGif(image.src) ? 'sprite' : 'image',
-                delays: image.gif_delays.delays,
+                delays: image.gif_delays.delays
             };
 
             const overlay = {
@@ -311,6 +310,7 @@ export class WorkareaCanvas {
                     this.props.overlays[id].dataurl = activeObject.toDataURL({ format: 'png' });
                 }
                 this.props.overlays[id].object = JSON.parse(JSON.stringify(activeObject.toObject()));
+                this.props.overlays[id].object.firstAdded = result['firstAdded'];
                 activeObject.setCoords();
 
                 $('#documentSyncStatus').html('Unsaved changes');
@@ -340,6 +340,8 @@ export class WorkareaCanvas {
             const order = this.props.overlays[fake_id].order;
             const dataurl = this.props.overlays[fake_id].dataurl;
 
+            console.log('onAddOverlay :');
+            console.log(this.props.overlays[fake_id].object);
             delete this.props.overlays[fake_id];
 
             this.props.overlays[ovl_id] = {
@@ -350,6 +352,7 @@ export class WorkareaCanvas {
                 object: object,
                 dataurl: dataurl,
             };
+            console.log(this.props.overlays[ovl_id].object);
 
             this.extend(this.getObject(fake_id), { id: ovl_id });
         }));
@@ -449,6 +452,7 @@ export class WorkareaCanvas {
 
                 if (selectedObject) {
                     const data = selectedObject.toObject();
+                    data.firstAdded = this.props.overlays[data.id].object.firstAdded;
                     data.order = this.props.overlays[data.id].order;
                     data.overlay_count = this.props.frame.total_overlay_count;
                     this.vsService.selectOverlay(data);
@@ -470,6 +474,7 @@ export class WorkareaCanvas {
 
                 if (updatedObject) {
                     const data = updatedObject.toObject();
+                    data.firstAdded = this.props.overlays[data.id].object.firstAdded;
                     data.order = this.props.overlays[data.id].order;
                     data.overlay_count = this.props.frame.total_overlay_count;
                     this.vsService.selectOverlay(data);
@@ -1091,7 +1096,7 @@ export class WorkareaCanvas {
     setLineHeight(lineHeight) {
         this.setActiveProp('lineHeight', parseFloat(lineHeight));
     }
-
+    
     setFill(fill) {
         this.setActiveProp('fill', fill);
     }
