@@ -173,10 +173,11 @@ export class WorkareaCanvas {
 
         // Keycodes
 
+        backspaceKeycode: 8,
+        deleteKeycode: 46,
         cKeycode: 67,
         vKeycode: 86,
         zKeycode: 90,
-        deleteKeycode: 46,
         upKeycode: 38,
         downKeycode: 40,
         leftKeycode: 37,
@@ -411,7 +412,7 @@ export class WorkareaCanvas {
                 }
             }
             switch (event.keyCode) {
-                case this.props.deleteKeycode:
+                case this.props.deleteKeycode || this.props.backspaceKeycode:
                     this.vsService.deleteOverlay();
                     break;
                 case this.props.upKeycode:
