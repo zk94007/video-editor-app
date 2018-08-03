@@ -166,7 +166,21 @@ export class WorkareaCanvas {
             padding: 4,
             cornerStyle: 'circle',
             borderDashArray: [3, 3]
-        }
+        },
+        copiedObject: null,
+        movementDelta: 2,
+        longMovementDelta: 10,
+
+        // Keycodes
+
+        cKeycode: 67,
+        vKeycode: 86,
+        zKeycode: 90,
+        deleteKeycode: 46,
+        upKeycode: 38,
+        downKeycode: 40,
+        leftKeycode: 37,
+        rightKeycode: 39
     };
 
     isGif(src) {
@@ -253,7 +267,7 @@ export class WorkareaCanvas {
         }));
 
         this.$uns.push(this.vsService.onCopyOverlay.subscribe((response) => {
-            this.clone();
+            this.clone(this.element.canvas.getActiveObject());
         }));
 
         this.$uns.push(this.vsService.onDeleteOverlay.subscribe((response) => {
@@ -340,8 +354,6 @@ export class WorkareaCanvas {
             const order = this.props.overlays[fake_id].order;
             const dataurl = this.props.overlays[fake_id].dataurl;
 
-            console.log('onAddOverlay :');
-            console.log(this.props.overlays[fake_id].object);
             delete this.props.overlays[fake_id];
 
             this.props.overlays[ovl_id] = {
@@ -352,7 +364,6 @@ export class WorkareaCanvas {
                 object: object,
                 dataurl: dataurl,
             };
-            console.log(this.props.overlays[ovl_id].object);
 
             this.extend(this.getObject(fake_id), { id: ovl_id });
         }));
@@ -378,6 +389,87 @@ export class WorkareaCanvas {
             fabric.util.requestAnimFrame(render);
         });
 
+        document.addEventListener('keyup', (event) => {
+
+        });
+        document.addEventListener('keydown', (event) => {
+            let activeObject = this.element.canvas.getActiveObject();
+            let activeGroup = this.element.canvas.getActiveObjects();
+
+            if (event.ctrlKey || event.metaKey) {
+                switch (event.which) {
+                    case this.props.cKeycode:       // copy object
+                        this.props.copiedObject = activeObject;
+                        break;
+                    case this.props.vKeycode:       // paste object
+                        this.clone(this.props.copiedObject);
+                        break;
+                    case this.props.zKeycode:       // undo action
+                        break;
+                    default:
+                        break;
+                }
+            }
+            switch (event.keyCode) {
+                case this.props.deleteKeycode:
+                    this.vsService.deleteOverlay();
+                    break;
+                case this.props.upKeycode:
+                    event.preventDefault(); // Prevent the default action
+                    if (activeObject) {
+                        let object = activeObject.get('top') - (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
+                        activeObject.set('top', object);
+                    }
+                    else if (activeGroup) {
+                        let object = activeGroup.get('top') - (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
+                        activeGroup.set('top', object);
+                    }
+                    break;
+                case this.props.downKeycode:
+                    event.preventDefault(); // Prevent the default action
+                    if (activeObject) {
+                        let object = activeObject.get('top') + (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
+                        activeObject.set('top', object);
+                    }
+                    else if (activeGroup) {
+                        let object = activeGroup.get('top') + (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
+                        activeGroup.set('top', object);
+                    }
+                    break;
+                case this.props.leftKeycode:
+                    event.preventDefault(); // Prevent the default action
+                    if (activeObject) {
+                        let object = activeObject.get('left') - (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
+                        activeObject.set('left', object);
+                    }
+                    else if (activeGroup) {
+                        let object = activeGroup.get('left') - (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
+                        activeGroup.set('left', object);
+                    }
+                    break;
+                case this.props.rightKeycode:
+                    event.preventDefault(); // Prevent the default action
+                    if (activeObject) {
+                        let object = activeObject.get('left') + (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
+                        activeObject.set('left', object);
+                    }
+                    else if (activeGroup) {
+                        let object = activeGroup.get('left') + (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
+                        activeGroup.set('left', object);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if (activeObject) {
+                activeObject.setCoords();
+                this.element.canvas.renderAll();
+            } else if (activeGroup) {
+                activeGroup.setCoords();
+                this.element.canvas.renderAll();
+            }
+        })
         this.element.canvas.on({
             'object:modified': (e) => {
                 const modifiedObject = e.target;
@@ -944,9 +1036,7 @@ export class WorkareaCanvas {
         }, { crossOrigin: 'Anonymous', width: data.width, height: data.height, delays: data.delays });
     }
 
-    clone() {
-        const activeObject = this.element.canvas.getActiveObject();
-
+    clone(activeObject) {
         if (activeObject) {
             const object = JSON.parse(JSON.stringify(activeObject.toObject()));
             object.left = parseInt(object.left) + 10;
