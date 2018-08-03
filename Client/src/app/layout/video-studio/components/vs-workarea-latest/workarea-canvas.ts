@@ -366,7 +366,9 @@ export class WorkareaCanvas {
                 dataurl: dataurl,
             };
 
-            this.extend(this.getObject(fake_id), { id: ovl_id });
+            if (this.getObject(fake_id)) {
+                this.extend(this.getObject(fake_id), { id: ovl_id });
+            }
         }));
 
         this.$uns.push(this.vsService.onStartConcatenate.subscribe(() => {
@@ -393,7 +395,7 @@ export class WorkareaCanvas {
         document.addEventListener('keyup', (event) => {
             if (event.keyCode == this.props.deleteKeycode || event.keyCode == this.props.backspaceKeycode) {
                 event.preventDefault();
-                this.vsService.deleteOverlay();
+                this.removeSelected();
             }
         });
         document.addEventListener('keydown', (event) => {
@@ -467,10 +469,10 @@ export class WorkareaCanvas {
                 activeObject.setCoords();
                 this.element.canvas.renderAll();
             } else if (activeGroup) {
-                activeGroup.setCoords();
+                // activeGroup.setCoords();
                 this.element.canvas.renderAll();
             }
-        })
+        });
         this.element.canvas.on({
             'object:modified': (e) => {
                 const modifiedObject = e.target;

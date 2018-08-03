@@ -272,7 +272,7 @@ export class VideoStudioService {
   }
 
   _changeSceneRatio(sceneRatio) {
-    if (this.project.getSceneRatio !== sceneRatio) {
+    if (this.project && this.project.getSceneRatio !== sceneRatio) {
       if (!this.isModified()) {
         this.onModified.emit();
       }

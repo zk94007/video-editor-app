@@ -16,21 +16,19 @@ export class VsWorkspaceComponent implements OnInit, OnDestroy {
 
   constructor(private vsService: VideoStudioService) {
     this.$uns.push(this.vsService.onLoad.subscribe(() => {
-      const frames = this.vsService.getFrames();
-      this.props.sceneRatio = this.vsService.getSceneRatio();
-      if (frames.length > 0) {
-        frames.forEach(frame => {
-          if (frame.frm_type === 1) {
-            this.props.totalDuration += parseFloat(frame.frm_duration.endTime) - parseFloat(frame.frm_duration.seekTime);
-          } else {
-            this.props.totalDuration += parseFloat(frame.frm_duration);
-          }
-        });
-      }
+      this.getFrames();
     }));
 
     this.$uns.push(this.vsService.onChangeDuration.subscribe((delta) => {
       this.props.totalDuration += delta;
+    }));
+
+    this.$uns.push(this.vsService.onDuplicateFrame.subscribe((response) => {
+      this.getFrames();
+    }));
+
+    this.$uns.push(this.vsService.onDeleteFrame.subscribe((response) => {
+      this.getFrames();
     }));
   }
 
@@ -43,6 +41,21 @@ export class VsWorkspaceComponent implements OnInit, OnDestroy {
     this.$uns.forEach(element => {
       element.unsubscribe();
     });
+  }
+
+  getFrames() {
+    const frames = this.vsService.getFrames();
+    this.props.sceneRatio = this.vsService.getSceneRatio();
+    this.props.totalDuration = 0;
+    if (frames.length > 0) {
+      frames.forEach(frame => {
+        if (frame.frm_type === 1) {
+          this.props.totalDuration += parseFloat(frame.frm_duration.endTime) - parseFloat(frame.frm_duration.seekTime);
+        } else {
+          this.props.totalDuration += parseFloat(frame.frm_duration);
+        }
+      });
+    }
   }
 
   setSceneRatio(sceneRatio) {

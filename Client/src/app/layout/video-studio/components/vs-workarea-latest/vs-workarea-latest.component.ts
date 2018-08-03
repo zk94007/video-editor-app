@@ -175,7 +175,7 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
     }
   }
   hideCurrentTimeSlider() {
-    if (this.props.seek.video.currentTimeSliderElement) {
+    if (this.props.seek.video.currentTimeSliderElement != null) {
       this.props.seek.video.currentTimeSliderElement.style.display = 'none';
       this.props.seek.video.currentTimeBadgeElement.style.display = 'none';
     }
