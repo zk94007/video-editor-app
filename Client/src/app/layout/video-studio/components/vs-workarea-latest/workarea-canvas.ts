@@ -391,7 +391,10 @@ export class WorkareaCanvas {
         });
 
         document.addEventListener('keyup', (event) => {
-
+            if (event.keyCode == this.props.deleteKeycode || event.keyCode == this.props.backspaceKeycode) {
+                event.preventDefault();
+                this.vsService.deleteOverlay();
+            }
         });
         document.addEventListener('keydown', (event) => {
             let activeObject = this.element.canvas.getActiveObject();
@@ -412,9 +415,6 @@ export class WorkareaCanvas {
                 }
             }
             switch (event.keyCode) {
-                case this.props.deleteKeycode || this.props.backspaceKeycode:
-                    this.vsService.deleteOverlay();
-                    break;
                 case this.props.upKeycode:
                     event.preventDefault(); // Prevent the default action
                     if (activeObject) {
