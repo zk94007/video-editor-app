@@ -393,7 +393,7 @@ export class WorkareaCanvas {
         });
 
         document.addEventListener('keyup', (event) => {
-            if (event.keyCode == this.props.deleteKeycode || event.keyCode == this.props.backspaceKeycode) {
+            if (event.keyCode == this.props.deleteKeycode) {
                 event.preventDefault();
                 this.removeSelected();
             }
