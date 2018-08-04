@@ -3,7 +3,6 @@ import { frameAnimation } from './animations';
 
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
-import { Overlay } from '../../../../shared/models/overlay.model';
 
 const loadingURL = 'assets/video-studio/wait.gif';
 
@@ -22,7 +21,8 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   public props: any = {
     selectedFrmId: null,
     frames: {},
-    modified: false
+    modified: false,
+    duplicatingObject: null
   };
 
   public sortableOptions: any;
@@ -98,7 +98,9 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
       const index = this.frames.findIndex(f => f.frm_id === fake_id);
 
-      this.frames[index].frm_id = frm_id;
+      this.props.duplicatingObject.frm_id = frm_id;
+      this.frames[index] = this.props.duplicatingObject;
+      this.props.duplicatingObject = null;
     }));
 
     //@Kostya
@@ -168,6 +170,9 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   }
 
   selectFrame(frm_id) {
+    if (this.isFake(frm_id)) {
+      return;
+    }
     this.props.selectedFrmId = frm_id;
     const index = this.frames.findIndex(f => f.frm_id == frm_id);
     if (this.frames[index].frm_path != loadingURL) {
@@ -196,12 +201,6 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
       $('#documentSyncStatus').html('Unsaved changes');
       this.props.modified = true;
-      // if (index === this.frames.length - 1) {
-      //   this.vsService.selectFrame(this.frames[index - 1].frm_id);
-      // } else {
-      //   this.vsService.selectFrame(this.frames[index + 1].frm_id);
-      // }
-      // this.vsService._deleteFrame(frm_id);
     } else {
       alert('There must be at least one frame');
     }
@@ -211,16 +210,16 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   duplicateFrame($event, frm_id) {
     $event.stopPropagation();
     const index = this.frames.findIndex(f => f.frm_id === frm_id);
-    const object = JSON.parse(JSON.stringify(this.frames[index]));
+    this.props.duplicatingObject = JSON.parse(JSON.stringify(this.frames[index]));
     const frame = {
       id: this.vsService.fakeId(),
       state: 'added',
       ostate: 'updated',
       order: index + 2,
-      src_id: object.frm_id
+      src_id: this.props.duplicatingObject.frm_id
     };
     if (this.isFake(frame.src_id)) {
-      frame.src_id = this.props.frames[object.frm_id].src_id;
+      frame.src_id = this.props.frames[this.props.duplicatingObject.frm_id].src_id;
     }
 
     for (const id in this.props.frames) {
@@ -234,8 +233,13 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
     this.props.frames[frame.id] = frame;
 
-    object.frm_id = frame.id;
-    this.frames.splice(index + 1, 0, object);
+    this.props.duplicatingObject.frm_id = frame.id;
+    let fake_frame = {
+      frm_id: frame.id,
+      frm_path: loadingURL,
+      frm_type: 2
+    }
+    this.frames.splice(index + 1, 0, fake_frame);
 
     $('#documentSyncStatus').html('Unsaved changes');
     this.props.modified = true;
