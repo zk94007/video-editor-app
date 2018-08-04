@@ -22,7 +22,6 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
     selectedFrmId: null,
     frames: {},
     modified: false,
-    duplicatingObject: null
   };
 
   public sortableOptions: any;
@@ -46,7 +45,22 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
         this.changeOrders();
       },
       onMove: (event: any) => {
-        return !event.related.classList.contains('disabled');
+        console.log("move");
+        return true;
+        // console.log(event);
+        // return !event.related.classList.contains('disabled');
+      },
+      // onAdd: (event: any) => {
+      //   console.log(event);
+      // },
+      // onAddOriginal: (event: any) => {
+      //   console.log(event);
+      // },
+      onChoose: (event: any) => {
+        console.log(event);
+      },
+      onUnchoose: (event: any) => {
+        console.log(event);
       }
     };
 
@@ -98,9 +112,7 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
       const index = this.frames.findIndex(f => f.frm_id === fake_id);
 
-      this.props.duplicatingObject.frm_id = frm_id;
-      this.frames[index] = this.props.duplicatingObject;
-      this.props.duplicatingObject = null;
+      this.frames[index].frm_id = frm_id;
     }));
 
     //@Kostya
@@ -210,16 +222,16 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   duplicateFrame($event, frm_id) {
     $event.stopPropagation();
     const index = this.frames.findIndex(f => f.frm_id === frm_id);
-    this.props.duplicatingObject = JSON.parse(JSON.stringify(this.frames[index]));
+    const object = JSON.parse(JSON.stringify(this.frames[index]));
     const frame = {
       id: this.vsService.fakeId(),
       state: 'added',
       ostate: 'updated',
       order: index + 2,
-      src_id: this.props.duplicatingObject.frm_id
+      src_id: object.frm_id
     };
     if (this.isFake(frame.src_id)) {
-      frame.src_id = this.props.frames[this.props.duplicatingObject.frm_id].src_id;
+      frame.src_id = this.props.frames[object.frm_id].src_id;
     }
 
     for (const id in this.props.frames) {
@@ -232,14 +244,8 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
     }
 
     this.props.frames[frame.id] = frame;
-
-    this.props.duplicatingObject.frm_id = frame.id;
-    let fake_frame = {
-      frm_id: frame.id,
-      frm_path: loadingURL,
-      frm_type: 2
-    }
-    this.frames.splice(index + 1, 0, fake_frame);
+    object.frm_id = frame.id;
+    this.frames.splice(index + 1, 0, object);
 
     $('#documentSyncStatus').html('Unsaved changes');
     this.props.modified = true;

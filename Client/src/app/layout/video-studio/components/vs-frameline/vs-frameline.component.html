@@ -2,13 +2,18 @@
   <perfect-scrollbar [config]="config">
     <div id="frameline-pane">
       <div [sortablejs]="frames" [sortablejsOptions]="sortableOptions" [@frameAnimation]="frames?.length">
-        <a *ngFor="let frame of frames" class="frame-item" [class.disabled]="props.isDuplicating == true">
+        <a *ngFor="let frame of frames" class="frame-item">
           <div class="frame-item-container {{props.selectedFrmId === frame.frm_id ? 'active' : ''}}" (click)="selectFrame(frame.frm_id)">
             <div class="frame-image-container">
-              <img *ngIf="frame.frm_type === 2" class="representative" [src]="frame.frm_path">
-              <video *ngIf="frame.frm_type === 1" class="video-js vjs-big-play-centered" preload="auto">
-                <source [src]="frame.frm_path" type="video/mp4">
-              </video>
+              <div *ngIf="!isFake(frame.frm_id)">
+                <img *ngIf="frame.frm_type === 2" class="representative" [src]="frame.frm_path">
+                <video *ngIf="frame.frm_type === 1" class="video-js vjs-big-play-centered" preload="auto">
+                  <source [src]="frame.frm_path" type="video/mp4">
+                </video>
+              </div>
+              <div *ngIf="isFake(frame.frm_id)">
+                <img class="representative" src="../../../../../assets/layout/images/wait.gif">
+              </div>
             </div>
             <div ngbDropdown class="d-inline-block option" placement="bottom-right">
               <a ngbDropdownToggle id="option-dropdown" class="dropdown-toggle option-title">
