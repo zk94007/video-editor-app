@@ -1089,7 +1089,7 @@ export class WorkareaCanvas {
     removeSelected() {
         const activeObject = this.element.canvas.getActiveObject();
 
-        if (activeObject) {
+        if (activeObject && !activeObject.isEditing) {
             const aid = activeObject.toObject().id;
             this.props.overlays[aid].state = 'removed';
             this.props.frame.total_overlay_count -= 1;
