@@ -254,6 +254,7 @@ module.exports = {
         try {
             let frm_id = message.frm_id;
             let frm_path = message.frm_path;
+            let is_video_studio = message.is_video_studio;
 
             if (frm_id != '' && frm_id != undefined) {
                 let seriesTasks = [];
@@ -271,9 +272,11 @@ module.exports = {
                         }
 
                         //@Kostya
-                        // frameModel.forwardOrder(result.prj_id, result.frm_order, function (_err, _result) {
-                        //     series_callback(_err);
-                        // });
+                        if (is_video_studio == undefined) {
+                            frameModel.forwardOrder(result.prj_id, result.frm_order, function (_err, _result) {
+                                series_callback(_err);
+                            });
+                        }
                     });
                 });
 

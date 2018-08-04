@@ -326,7 +326,7 @@ export class VideoStudioService {
       this.onModified.emit();
     }
     this.project.modified = true;
-    this.socket.sendMessageWithToken('DELETE_FRAME', { frm_id: frm_id });
+    this.socket.sendMessageWithToken('DELETE_FRAME', { frm_id: frm_id, is_video_studio: true });
   }
 
   _deleteFrameResponse(response) {
@@ -358,7 +358,7 @@ export class VideoStudioService {
       // @Kostya
       result.frm_id = response.new_frm_id;
       result.fake_id = response.fake_id;
-      
+
       $this.onDuplicateFrame.emit(result);
     }
   }
