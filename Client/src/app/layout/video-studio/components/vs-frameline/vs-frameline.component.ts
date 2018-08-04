@@ -246,17 +246,19 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
   }
 
   changeOrders() {
-    if (this.props.isDeleting == false && this.props.isDuplicating == false) {
-      const orders = [];
+    let is_modified = false;
 
-      for (let i = 0; i < this.frames.length; i++) {
-        orders.push({
-          frm_id: this.frames[i].frm_id,
-          frm_order: i + 1
-        });
+    for (let i = 0; i < this.frames.length; i++) {
+      if (i + 1 != this.props.frames[this.frames[i].frm_id].order) {
+        this.props.frames[this.frames[i].frm_id].order = i + 1;
+        this.props.frames[this.frames[i].frm_id].ostate = 'modified';
+        is_modified = true;
       }
+    }
   
-      this.vsService._updateFrameOrders(orders);
+    if (is_modified) {
+      $('#documentSyncStatus').html('Unsaved changes');
+      this.props.modified = true;
     }
   }
 }
