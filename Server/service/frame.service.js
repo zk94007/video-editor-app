@@ -143,6 +143,8 @@ module.exports = {
     duplicateFrame(userInfo, message, callback) {
         try {
             let frm_id = message.frm_id;
+            let fake_id = message.fake_id;
+            let frm_order = message.frm_order;
 
             let notFilledFields = [];
             frm_id == undefined ? notFilledFields.push('frm_id') : '';
@@ -163,18 +165,23 @@ module.exports = {
                     return;
                 }
 
-                frameModel.backwardOrder(frame.prj_id, frame.frm_order, (err) => {
-                    if (err) {
-                        helper.response.onError(err, callback);
-                        return;
-                    }
+                //@Kostya
+                // frameModel.backwardOrder(frame.prj_id, frame.frm_order, (err) => {
+                //     if (err) {
+                //         helper.response.onError(err, callback);
+                //         return;
+                //     }
 
                     org_frm_id = frame.frm_id;
 
                     let data = [frame.prj_id,
                         frame.frm_path,
                         frame.frm_resolution,
-                        frame.frm_order + 1,
+                        
+                        //@Kostya
+                        frm_order,
+                        //frame.frm_order + 1,
+                        
                         frame.frm_name,
                         frame.frm_duration,
                         frame.frm_reposition,
@@ -221,12 +228,16 @@ module.exports = {
                                     org_frm_id: org_frm_id,
                                     new_frm_id: new_frm_id,
                                     new_frm_order: new_frm_order,
-                                    new_overlay_ids: new_overlay_ids
+                                    new_overlay_ids: new_overlay_ids,
+
+                                    //@Kostya
+                                    fake_id: fake_id
                                 });
                             });
                         });
                     });
-                });
+
+                // });
             });
         } catch (err) {
             helper.response.onError('error: duplicateFrame', callback);
@@ -259,9 +270,10 @@ module.exports = {
                             return;
                         }
 
-                        frameModel.forwardOrder(result.prj_id, result.frm_order, function (_err, _result) {
-                            series_callback(_err);
-                        });
+                        //@Kostya
+                        // frameModel.forwardOrder(result.prj_id, result.frm_order, function (_err, _result) {
+                        //     series_callback(_err);
+                        // });
                     });
                 });
 

@@ -173,7 +173,10 @@ export class Project /*extends ProjectRecord*/ {
         const frame = this.getFrame(frm_id);
         if (frame !== undefined) {
             this.modified = true;
-            this.prj_frames.forEach(f => { if (f.frm_order > frame.frm_order) { f.frm_order--; } });
+
+            //@Kostya
+            // this.prj_frames.forEach(f => { if (f.frm_order > frame.frm_order) { f.frm_order--; } });
+            
             this.prj_frames.splice(this.getFrameIndex(frm_id), 1);
         }
     }
@@ -182,7 +185,10 @@ export class Project /*extends ProjectRecord*/ {
         const frame = this.getFrame(org_frm_id);
         if (frame !== undefined) {
             this.modified = true;
-            this.prj_frames.forEach(f => { if (f.frm_order > frame.frm_order) { f.frm_order ++; }});
+
+            //@Kostya
+            // this.prj_frames.forEach(f => { if (f.frm_order > frame.frm_order) { f.frm_order ++; }});
+            
             const new_frame = frame.clone();
             new_frame.frm_id = new_frm_id;
             new_frame.frm_order = new_frm_order;

@@ -63,6 +63,9 @@ export class VideoStudioService {
 
   @Output() onUpdateCanvas = new EventEmitter();
 
+  //@Kostya
+  @Output() onUpdateFrameline = new EventEmitter();
+
   @Output() onChangeDuration = new EventEmitter();
 
   @Output() onStartFrameReposition = new EventEmitter();
@@ -314,6 +317,7 @@ export class VideoStudioService {
 
     setInterval(() => {
       $this.onUpdateCanvas.emit($this.project.getFrame($this.selected_frm_id).getOverlays2Json());
+      $this.onUpdateFrameline.emit($this.project.getFrames2Json());
     }, 3000);
   }
 
@@ -335,12 +339,12 @@ export class VideoStudioService {
     }
   }
 
-  _duplicateFrame(frm_id) {
+  _duplicateFrame(frm_id, fake_id, frm_order) {
     if (!this.isModified()) {
       this.onModified.emit();
     }
     this.project.modified = true;
-    this.socket.sendMessageWithToken('DUPLICATE_FRAME', { frm_id: frm_id });
+    this.socket.sendMessageWithToken('DUPLICATE_FRAME', { frm_id: frm_id, fake_id: fake_id, frm_order: frm_order });
   }
 
   _duplicateFrameResponse(response) {
@@ -350,6 +354,11 @@ export class VideoStudioService {
       const result: any = {};
       result.index = $this.project.getFrameIndex(frame.frm_id);
       result.frame = frame.toJSON();
+
+      // @Kostya
+      result.frm_id = response.new_frm_id;
+      result.fake_id = response.fake_id;
+      
       $this.onDuplicateFrame.emit(result);
     }
   }
