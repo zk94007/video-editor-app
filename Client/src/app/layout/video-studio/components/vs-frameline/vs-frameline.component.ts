@@ -44,24 +44,6 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
       onUpdate: (event: any) => {
         this.changeOrders();
       },
-      onMove: (event: any) => {
-        console.log("move");
-        return true;
-        // console.log(event);
-        // return !event.related.classList.contains('disabled');
-      },
-      // onAdd: (event: any) => {
-      //   console.log(event);
-      // },
-      // onAddOriginal: (event: any) => {
-      //   console.log(event);
-      // },
-      onChoose: (event: any) => {
-        console.log(event);
-      },
-      onUnchoose: (event: any) => {
-        console.log(event);
-      }
     };
 
     this.$uns.push(this.vsService.onLoad.subscribe(() => {
