@@ -210,7 +210,7 @@ export class WorkareaCanvas {
                 hasRotatingPoint: true,
                 lockScalingY: true,
                 type: 'textbox',
-                firstAdded: true
+                colorModified: true
             };
 
             const overlay = {
@@ -322,10 +322,10 @@ export class WorkareaCanvas {
 
                 if (activeObject.type === 'textbox') {
                     activeObject.setCoords(true);
+                    this.extend(activeObject, {colorModified: result['colorModified']});
                     this.props.overlays[id].dataurl = activeObject.toDataURL({ format: 'png' });
                 }
                 this.props.overlays[id].object = JSON.parse(JSON.stringify(activeObject.toObject()));
-                this.props.overlays[id].object.firstAdded = result['firstAdded'];
                 activeObject.setCoords();
 
                 $('#documentSyncStatus').html('Unsaved changes');
@@ -547,7 +547,6 @@ export class WorkareaCanvas {
 
                 if (selectedObject) {
                     const data = selectedObject.toObject();
-                    data.firstAdded = this.props.overlays[data.id].object.firstAdded;
                     data.order = this.props.overlays[data.id].order;
                     data.overlay_count = this.props.frame.total_overlay_count;
                     this.vsService.selectOverlay(data);
@@ -569,7 +568,6 @@ export class WorkareaCanvas {
 
                 if (updatedObject) {
                     const data = updatedObject.toObject();
-                    data.firstAdded = this.props.overlays[data.id].object.firstAdded;
                     data.order = this.props.overlays[data.id].order;
                     data.overlay_count = this.props.frame.total_overlay_count;
                     this.vsService.selectOverlay(data);
@@ -1006,7 +1004,7 @@ export class WorkareaCanvas {
     addTextOverlay(data) {
         data.hasRotatingPoint = true;
         const text = new fabric.Textbox(data.text, data);
-        this.extend(text, {id: data.id});
+        this.extend(text, {id: data.id, colorModified: data.colorModified});
         text.set(this.props.cornerProps);
         text.setControlsVisibility({'tl': false, 'tr': false, 'mt': false, 'mb': false, 'bl': false, 'br': false});
         this.element.canvas.add(text);
