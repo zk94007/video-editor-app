@@ -103,18 +103,27 @@ module.exports = {
                     return;
                 }
 
-                commandLine = 'gifsicle.exe -bl ' + newPath;
-                shellHelper.shell(commandLine, (_err) => {
-                    if (_err) {
-                        responseHelper.onError('error: bl ' + _err, callback);
-                        return;
-                    }
-
-                    responseHelper.onSuccess(callback, newPath);
-                });                
+                responseHelper.onSuccess(callback, newPath);
             });
         } catch (err) {
             responseHelper.onError('error: resize' + err, callback);
+        }
+    },
+
+    fixGif(filepath, callback) {
+        try {
+            let commandLine = 'gifsicle.exe -bl ' + filepath;
+
+            shellHelper.shell(commandLine, (err) => {
+                if (err) {
+                    responseHelper.onError('error: bl' + err, callback);
+                    return;
+                }
+
+                responseHelper.onSuccess(callback);
+            });
+        } catch(err) {
+            responseHelper.onError('error: bl' + err, callback);
         }
     },
 

@@ -274,32 +274,34 @@ module.exports = {
             } else {
                 newFileName += '.' + ext;
                 if (ext === 'gif' || ext === 'GIF') {
-                    imageHelper.convertGif2Sprite(filepath, (err, result) => {
-                        if (err) {
-                            series_callback(err);
-                        } else {
-                            gif_delays = result.delays;
-                            this.putFileToCloud(path.basename(result.spritepath), '', result.spritepath, (_err, cloudPath) => {
-                                if (_err) {
-                                    series_callback(_err);
-                                } else {
-                                    this.deleteFiles(result.deleteFiles, (__err) => {
-                                        if (__err) {
-                                            series_callback(__err);
-                                        } else {
-                                            gm(filepath)
-                                                .size((___err, size) => {
-                                                    if (!___err) {
-                                                        resolution = size;
-                                                    }
-                                                    series_callback(___err);
-                                                });
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
+                    imageHelper.fixGif(filepath, () => {
+                        imageHelper.convertGif2Sprite(filepath, (err, result) => {
+                            if (err) {
+                                series_callback(err);
+                            } else {
+                                gif_delays = result.delays;
+                                this.putFileToCloud(path.basename(result.spritepath), '', result.spritepath, (_err, cloudPath) => {
+                                    if (_err) {
+                                        series_callback(_err);
+                                    } else {
+                                        this.deleteFiles(result.deleteFiles, (__err) => {
+                                            if (__err) {
+                                                series_callback(__err);
+                                            } else {
+                                                gm(filepath)
+                                                    .size((___err, size) => {
+                                                        if (!___err) {
+                                                            resolution = size;
+                                                        }
+                                                        series_callback(___err);
+                                                    });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });                    
                 } else {
                     gm(filepath)
                         .size((err, size) => {
