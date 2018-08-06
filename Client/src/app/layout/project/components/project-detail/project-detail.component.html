@@ -138,55 +138,57 @@
     </div>  -->
 
     <div>
-        <div class="media-items-container" *ngIf="props.showProjects == true">
-            <div [sortablejs]="props.media" [sortablejsOptions]="options">
-                <div class="media-item media-cell" *ngFor="let m of props.media">
-                    <div class="project-container project-cell text-center fixed-size-item-responsive">
-                        <div class="hovereffect horizontal-vertical-center">
-                            <div class="img-wrapper detail">
-                                <img *ngIf="isImage(m.frm_path)" class="representative" [src]="m.frm_path">
-                                <video *ngIf="isVideo(m.frm_path)" preload="auto" height="180" [attr.id]="getUuid(m.frm_path)" (click)="pauseVideo(m.frm_id)">
-                                    <source [src]="m.frm_path" type="video/mp4">
-                                </video>
-                            </div>
+        <ng5-files-drop (filesSelect)="filesSelect($event)">
+            <div class="media-items-container" *ngIf="props.showProjects == true">
+                <div [sortablejs]="props.media" [sortablejsOptions]="options">
+                    <div class="media-item media-cell" *ngFor="let m of props.media">
+                        <div class="project-container project-cell text-center fixed-size-item-responsive">
+                            <div class="hovereffect horizontal-vertical-center">
+                                <div class="img-wrapper detail">
+                                    <img *ngIf="isImage(m.frm_path)" class="representative" [src]="m.frm_path">
+                                    <video *ngIf="isVideo(m.frm_path)" preload="auto" height="180" [attr.id]="getUuid(m.frm_path)" (click)="pauseVideo(m.frm_id)">
+                                        <source [src]="m.frm_path" type="video/mp4">
+                                    </video>
+                                </div>
 
-                            <div class="img-cover project-overlay" [hidden]="m.isUploading || m.isPlaying">
-                                <a class="menu-delete" (click)="deleteFile(m.frm_id)">
-                                    <span class="fa fa-trash"></span>
-                                </a>
-                                
-                                <div class="menu-play-video" *ngIf="isVideo(m.frm_path)">
-                                    <a (click)="playVideo(m.frm_id)">
-                                        <img src="../../../../../assets/layout/icons/play-button-white.png" style="width: 30px; height: 30px"/>
+                                <div class="img-cover project-overlay" [hidden]="m.isUploading || m.isPlaying">
+                                    <a class="menu-delete" (click)="deleteFile(m.frm_id)">
+                                        <span class="fa fa-trash"></span>
                                     </a>
-                                </div>
+                                    
+                                    <div class="menu-play-video" *ngIf="isVideo(m.frm_path)">
+                                        <a (click)="playVideo(m.frm_id)">
+                                            <img src="../../../../../assets/layout/icons/play-button-white.png" style="width: 30px; height: 30px"/>
+                                        </a>
+                                    </div>
 
-                                <a class="btn menu-edit btn-custom btn-outline btn-md" href="/video-studio/{{props.projectId}}" style="margin-top: 70px;">Edit</a>
-                            </div>
-                        </div>
-                        <div class="media-item-footer">
-                            <div *ngIf="m.isUploading" class="progress" style="margin-bottom: 0px;">
-                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': m.uploadPercent}">
-                                    {{m.uploadPercent}}
+                                    <a class="btn menu-edit btn-custom btn-outline btn-md" href="/video-studio/{{props.projectId}}" style="margin-top: 70px;">Edit</a>
                                 </div>
                             </div>
-                            <h4 class="project-title">{{ resolveFilename(m.frm_name) }}</h4>
-                            <p class="project-desc" *ngIf="!m.isUploading">{{ m.frm_resolution ? m.frm_resolution.width + ' x ' + m.frm_resolution.height : '' }}</p>
+                            <div class="media-item-footer">
+                                <div *ngIf="m.isUploading" class="progress" style="margin-bottom: 0px;">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': m.uploadPercent}">
+                                        {{m.uploadPercent}}
+                                    </div>
+                                </div>
+                                <h4 class="project-title">{{ resolveFilename(m.frm_name) }}</h4>
+                                <p class="project-desc" *ngIf="!m.isUploading">{{ m.frm_resolution ? m.frm_resolution.width + ' x ' + m.frm_resolution.height : '' }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>  
+            </div>  
 
-        <div *ngIf="props.showProjects == false" style="width: 100%">
-            <div class="text-center">
-                <div>
-                    <img class="representative" src="../../../../../assets/layout/icons/blurbiz_drag-and-drop.png" style="margin: 0 auto; width: 207px; height: 190px;">
-                    <h4>Drop your media files here!</h4>
-                    <p>Or Upload from Dropbox, Google Drive, Box & Instagram!</p>
+            <div *ngIf="props.showProjects == false" style="width: 100%; height: 100%">
+                <div class="text-center">
+                    <div>
+                        <img class="representative" src="../../../../../assets/layout/icons/blurbiz_drag-and-drop.png" style="margin: 0 auto; width: 207px; height: 190px;">
+                        <h4>Drop your media files here!</h4>
+                        <p>Or Upload from Dropbox, Google Drive, Box & Instagram!</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ng5-files-drop>
         <div *ngIf="props.showProjects == null">
             <div class="text-center">
                 <img src="../../../../../assets/layout/images/loading projects.gif">
