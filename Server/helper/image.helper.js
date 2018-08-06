@@ -103,7 +103,15 @@ module.exports = {
                     return;
                 }
 
-                responseHelper.onSuccess(callback, newPath);
+                commandLine = 'gifsicle.exe -bl ' + newPath;
+                shellHelper.shell(commandLine, (_err) => {
+                    if (_err) {
+                        responseHelper.onError('error: bl ' + _err, callback);
+                        return;
+                    }
+
+                    responseHelper.onSuccess(callback, newPath);
+                });                
             });
         } catch (err) {
             responseHelper.onError('error: resize' + err, callback);
