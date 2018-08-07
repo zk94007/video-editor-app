@@ -63,7 +63,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
           this.props.displayCreateProjectModal = 'none';
           this.router.navigate(['/detail', message['prj_id']]);
         } else {
-          this.props.newProject.perror = 'OOPS! A project with this name already exits';
+          this.props.newProject.perror = 'OOPS! A project with this name already exists';
         }
     }));
 
@@ -126,6 +126,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   // CreateProjectModal Dialog management
   openCreateProjectModal() {
     this.props.displayCreateProjectModal = 'block';
+    this.props.newProject.perror = null;
   }
   cancelCreateProject() {
     this.props.displayCreateProjectModal = 'none';

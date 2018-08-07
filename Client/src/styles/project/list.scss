@@ -57,6 +57,12 @@
                 fill: $color-white;
             }
         }
+        .btn-edit-project.disabled {
+            color: $color-gray;
+            .svgIcon {
+                fill: $color-gray;
+            }
+        }
 
 		.menu-right {
 			.menu-item {
