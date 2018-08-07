@@ -86,6 +86,26 @@ module.exports = {
         }
     },
 
+    updateUserByUsrId(usr_id, data, callback) {
+        try {
+            helper.model.update('user', data, [
+                {
+                    name: 'usr_id =',
+                    value: usr_id
+                }
+            ], (err) => {
+                if (err) {
+                    helper.response.onError('error: updateUser' + err, callback);
+                    return;
+                }
+
+                helper.response.onSuccess(callback);
+            });
+        } catch (err) {
+            helper.response.onError('error: updateUser' + err, callback);
+        }
+    },
+
     /**
      * 
      * @param {*} usr_id 

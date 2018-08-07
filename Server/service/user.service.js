@@ -80,6 +80,31 @@ module.exports = {
         }
     },
 
+    updateUser(userInfo, message, callback) {
+        try {
+            let data = message.data;
+
+            let notFilledFields = [];
+            !data ? notFilledFields.push('data') : '';
+
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            userModel.updateUserByUsrId(userInfo.usr_id, data, (err) => {
+                if (err) {
+                    helper.response.onError(err, callback);
+                    return;
+                }
+
+                helper.response.onSuccessPlus(callback);
+            });
+        } catch (err) {
+            helper.response.onError('error: updateUser', callback);
+        }
+    },
+
     /**
      * 
      * @param {*} message 
