@@ -8,13 +8,15 @@ import { HeaderComponent } from './components/header/header.component';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectService } from '../shared/services/project.service';
+import { YoutubePlayerModule } from 'ngx-youtube-player';
 
 @NgModule({
     imports: [
         CommonModule,
         LayoutRoutingModule,
         NgbDropdownModule.forRoot(),
-        FormsModule
+        FormsModule,
+        YoutubePlayerModule
     ],
     providers: [
         ProjectService

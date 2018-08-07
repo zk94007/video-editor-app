@@ -7,13 +7,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-  public isInVideoStudio: boolean;
+  public props = {
+    isInVideoStudio: null,
+    showGetStartedDialog: null,
+    videoId: 'gwuKBkMcUuo',
+    player: null,
+    ytEvent: null
+  }
 
   constructor(private _router: Router) {
-    this.isInVideoStudio = _router.url.split('/')[1] === 'video-studio' ? true : false;
+    this.props.isInVideoStudio = _router.url.split('/')[1] === 'video-studio' ? true : false;
   }
 
   ngOnInit() {
+    this.props.showGetStartedDialog = true;
+  }
+
+  savePlayer(player) {
+    this.props.player = player;
+  }
+
+  onStateChange(event) {
+    this.props.ytEvent = event.data;
   }
 
 }

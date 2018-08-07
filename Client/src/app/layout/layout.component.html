@@ -9,4 +9,24 @@
     </div>
   </div>
 </div>
-<router-outlet *ngIf = "isInVideoStudio"></router-outlet>
+<router-outlet *ngIf = "props.isInVideoStudio"></router-outlet>
+<div class="backdrop" [ngStyle]="{'display':props.showGetStartedDialog}"></div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.showGetStartedDialog}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="btn-close" (click)="cancelDeleteFileConfirm()" role="button" tabindex="0"></span>
+                <h3 class="modal-title">Are you sure want to delete this file?</h3>
+            </div>
+            <div class="modal-footer">
+              <youtube-player
+                [videoId]="id"
+                (ready)="savePlayer($event)"
+                (change)="onStateChange($event)"
+              >
+              </youtube-player>
+              <button class="btn btn-custom btn-orange btn-md" (click)="okDeleteFileConfirm(); ">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
