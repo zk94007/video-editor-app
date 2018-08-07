@@ -3,7 +3,60 @@
 	.projects-menu {
 		background-color: $color-white-m;
 		border-bottom: 1px solid $color-gray-l;
-		padding: 5px 0 5px 15px;
+        padding: 5px 0 5px 15px;
+        
+        .dropdown .dropdown-menu {
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -ms-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+        
+            max-height: 0;
+            display: block;
+            overflow: hidden;
+            opacity: 0;
+        }
+        
+        .dropdown.show .dropdown-menu {
+            max-height: 300px;
+            opacity: 1;
+        }
+        .add-media-file-dropdown {
+            border: 1px solid $color-gray-l;
+            border-radius: 4px;
+            .svgIcon {
+                vertical-align: middle;
+                fill: $color-green;
+            }
+        }
+        .add-media-file-dropdown:hover {
+            background-color: $color-green;
+            color: $color-white;
+            .svgIcon {
+                fill: $color-white;
+            }
+        }
+        .add-media-file-dropdown::after {
+            display: none;
+        }
+        .btn-edit-project {
+            border: 1px solid $color-gray-l;
+            border-radius: 4px;
+            padding-right: 22px;
+            background-color: transparent;
+            .svgIcon {
+                vertical-align: middle;
+                fill: $color-orange;
+            }
+        }
+        .btn-edit-project:hover {
+            background-color: $color-orange;
+            color: $color-white;
+            .svgIcon {
+                fill: $color-white;
+            }
+        }
 
 		.menu-right {
 			.menu-item {
@@ -50,7 +103,7 @@
 
 		.media-menu {
 			padding: 0;
-			margin-top: 4px;
+            padding-top: 5px;
 
 			.menu-item {
 				display: inline-block;
@@ -74,14 +127,12 @@
 					margin-bottom: 10px;
 				}
 
-				&.icon-big {
-					img {
-						width: 40px;
-						height: 40px;
-						margin-top: -5px;
-						margin-bottom: 5px;
-					}
-				}
+				.icon {
+                    transition: all .2s ease-in-out;
+                }
+                .icon:hover {
+                    transform: scale(1.2);
+                }
 
 				span {
                     display: block;

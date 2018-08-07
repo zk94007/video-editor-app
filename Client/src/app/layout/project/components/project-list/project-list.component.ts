@@ -7,6 +7,8 @@ import {
 } from 'ngx-perfect-scrollbar';
 import { ProjectService } from '../../../../shared/services/project.service';
 
+const loadingURL = 'assets/video-studio/wait.gif';
+
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
@@ -57,11 +59,11 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.$uns.push(this.service.onCreateProject.subscribe((message) => {
       const success = message['success'];
         if (success) {
-          this.props.newProject.perror = '';
+          this.props.newProject.perror = null;
           this.props.displayCreateProjectModal = 'none';
           this.router.navigate(['/detail', message['prj_id']]);
         } else {
-          this.props.newProject.perror = 'This project name already exits...';
+          this.props.newProject.perror = 'OOPS! A project with this name already exits';
         }
     }));
 
@@ -131,10 +133,13 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   okCreateProject() {
     if (this.props.newProject.prj_name && (this.props.newProject.prj_name).trim() !== '') {
       this.service._createProject(this.props.newProject.prj_name);
-      this.props.displayCreateProjectModal = 'none';
+      // this.props.displayCreateProjectModal = 'none';
     } else {
       this.props.newProject.perror = 'Please enter project name.';
     }
+  }
+  onChangeCreateProjectName() {
+    this.props.newProject.perror = null;
   }
 
   // DeleteProjectModal Dialog management
@@ -150,6 +155,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
   okDeleteProject() {
     this.props.displayDeleteProjectModal = 'none';
+    const index = this.projects.findIndex((p) => p.prj_id === this.props.deletedPrjId);
+    this.projects[index].prj_representative = loadingURL;
     this.service._deleteProject(this.props.deletedPrjId);
   }
 

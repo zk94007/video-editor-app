@@ -56,14 +56,17 @@
     </div>
 
     <div class="backdrop" [ngStyle]="{'display':props.displayCreateProjectModal}"></div>
-    <div id="createProjectModal" class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.displayCreateProjectModal}">
+    <div id="createProjectModal" class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.displayCreateProjectModal}" [ngClass]="props.newProject.perror != null ? 'shake-dialog' : ''">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
                     <span class="btn-close" (click)="cancelCreateProject()"></span>
                     <h3 class="modal-title" id="modal-title">Create Project</h3>
-                    <input type="text" class="form-control" name="projectname" #projectname="ngModel" [(ngModel)]="props.newProject.prj_name" required placeholder="Your project name" (keyup.enter)="okCreateProject()"/>
-                    <span class="text-danger">{{props.newProject.perror}}</span>
+                    <input type="text" class="form-control" name="projectname" #projectname="ngModel" [(ngModel)]="props.newProject.prj_name" required placeholder="Your project name" (keyup.enter)="okCreateProject()" (input)="onChangeCreateProjectName()"/>
+                    <div  style="margin-top: 10px" *ngIf="props.newProject.perror != null">
+                        <span class="error-icon">!</span>
+                        <span class="text-danger">{{props.newProject.perror}}</span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-custom btn-green btn-md" type="button" (click)="okCreateProject()">Create</button>
