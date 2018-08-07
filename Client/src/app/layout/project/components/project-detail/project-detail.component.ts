@@ -27,6 +27,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             uploadPercent: null
         },
 
+        isUploading: false,
         isPlaying: null,
         isPlayingProjectVideo: false,
         isDeleting: -1,
@@ -121,6 +122,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             this.props.upload.uploadPercent = 0;
             if (success) {
                 if (this.props.media !== null) {
+                    this.props.isUploading = false;
                     const index = this.props.media.findIndex(m => m.guid === message.guid);
                     const temp = {
                         frm_id: message.frm_id,
@@ -176,6 +178,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 if (!file.$error) {
                     const preview = this.fakePreview(file.name);
                     this.props.showProjects = true;
+                    this.props.isUploading = true;
                     this.props.media.push(preview);
                     this.service._addFrame(file, {prj_id: this.props.projectId, guid: preview.guid});
                 }

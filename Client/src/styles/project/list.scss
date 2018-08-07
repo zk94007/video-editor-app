@@ -25,6 +25,8 @@
         .add-media-file-dropdown {
             border: 1px solid $color-gray-l;
             border-radius: 4px;
+            padding-top: 2px;
+            padding-bottom: 2px;
             .svgIcon {
                 vertical-align: middle;
                 fill: $color-green;
@@ -44,6 +46,8 @@
             border: 1px solid $color-gray-l;
             border-radius: 4px;
             padding-right: 22px;
+            padding-top: 2px;
+            padding-bottom: 2px;
             background-color: transparent;
             .svgIcon {
                 vertical-align: middle;
