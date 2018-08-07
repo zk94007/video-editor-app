@@ -127,6 +127,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   openCreateProjectModal() {
     this.props.displayCreateProjectModal = 'block';
     this.props.newProject.perror = null;
+    this.props.newProject.prj_name = '';
   }
   cancelCreateProject() {
     this.props.displayCreateProjectModal = 'none';
