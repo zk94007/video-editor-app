@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectService } from '../shared/services/project.service';
 import { YoutubePlayerModule } from 'ngx-youtube-player';
+import { SignService } from '../shared/services/sign.service';
+import { UserService } from '../shared/services/user.service';
 
 @NgModule({
     imports: [
@@ -19,7 +21,8 @@ import { YoutubePlayerModule } from 'ngx-youtube-player';
         YoutubePlayerModule
     ],
     providers: [
-        ProjectService
+        ProjectService,
+        UserService
     ],
     declarations: [
         LayoutComponent,

@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     localStorage.setItem('usr_company', response.user.usr_company);
                     localStorage.setItem('token', response['token']);
                     localStorage.setItem('is_confirmed', response['usr_is_verified']);
+                    localStorage.setItem('is_get_started', response['usr_is_get_started']);
 
                     localStorage.setItem('isLoggedin', 'true');
                     this.router.navigate([this.returnUrl]);
