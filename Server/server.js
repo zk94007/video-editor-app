@@ -75,6 +75,16 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.updateUser, function (message) {
+        helper.log.system('received update user message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.updateUser, message, function (err, userInfo) {
+            service.user.updateUser(userInfo, message, function (err, result) {
+                socket.emit(constant.method.updateUser + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.getProjectList, function(message) {
         helper.log.system('received project list message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.getProjectList, message, function(err, userInfo) {

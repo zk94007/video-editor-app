@@ -33,11 +33,11 @@ module.exports = {
                 names=(element.name);
                 values=("'" + element.value + "'");
                 loop++;
-		if(data.length == loop) {
-                setp = setp + ' ' + names + '=' + values; 
+		        if(data.length == loop) {
+                    setp = setp + ' ' + names + '=' + values; 
                 } else {
-		setp = setp + ' ' + names + '=' + values + ',';
-		}
+		            setp = setp + ' ' + names + '=' + values + ',';
+		        }
             });
 
             let whereclause = [];
@@ -46,9 +46,6 @@ module.exports = {
             });
 
             let query = 'UPDATE public.' + tableName + ' SET ' + setp + ' WHERE ' + whereclause.join(' AND ') + ';';
-
-            console.log(query);
-        
             queryHelper.runQuery(query, [], (err) => {
                 if (err) {
                     responseHelper.onError('error: update table' + err, callback);

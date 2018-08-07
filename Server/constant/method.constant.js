@@ -10,6 +10,7 @@ module.exports = {
     confirmEmail:               'CONFIRM_EMAIL',
     forgetPassword:             'FORGET_PASSWORD',
     resetPassword:              'RESET_PASSWORD',
+    updateUser:                 'UPDATE_USER',
 
     getProjectList:             'GET_PROJECT_LIST',
     createProject:              'CREATE_PROJECT',
