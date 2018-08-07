@@ -63,6 +63,7 @@ module.exports = {
                             helper.response.onSuccessPlus(callback, {
                                 'user': user,
                                 'usr_is_verified': user.usr_is_verified,
+                                'usr_is_get_started': user.usr_is_get_started,
                                 'token': helper.token.getToken(user),
                             });
                         } else {
