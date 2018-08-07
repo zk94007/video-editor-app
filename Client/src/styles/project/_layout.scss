@@ -142,7 +142,15 @@
                         font-size: 14px;
                         line-height: 16px;
                         color: #656E7C;
-                        text-decoration: none;
+						text-decoration: none;
+						
+						.new_banner {
+							border: 1px solid $color-pink;
+							border-radius: 4px;
+							color: $color-pink;
+							padding: 2px;
+							font-size: 0.9em;
+						}
 					}
 				}
 			}
