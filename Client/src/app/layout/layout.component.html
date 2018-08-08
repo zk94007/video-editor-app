@@ -1,4 +1,4 @@
-<div *ngIf="!isInVideoStudio">
+<div *ngIf="!props.isInVideoStudio">
   <div id="wrapper" ngClass="{'open': toggle, 'toggled-2': !toggle, 'bared': isBared}" ngCloak>
     <app-sidebar></app-sidebar>
     <div id="content-wrapper">
@@ -11,7 +11,7 @@
 </div>
 <router-outlet *ngIf = "props.isInVideoStudio"></router-outlet>
 <div class="backdrop" [hidden]="!props.showGetStartedDialog"></div>
-<div class="modal" tabindex="-1" role="dialog" [hidden]="!props.showGetStartedDialog" style="display: block">
+  <div class="modal" tabindex="-1" role="dialog" [hidden]="!props.showGetStartedDialog" style="display: block">
     <div class="modal-dialog" style="max-width: 700px;">
         <div class="modal-content">
             <div class="modal-body">

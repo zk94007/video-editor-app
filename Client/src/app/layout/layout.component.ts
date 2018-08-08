@@ -11,6 +11,7 @@ export class LayoutComponent implements OnInit {
   private padding = 32;
   public props = {
     isInVideoStudio: null,
+    isInProject: null,
     showGetStartedDialog: null,
     videoId: 'gwuKBkMcUuo',
     player: null,
@@ -20,10 +21,11 @@ export class LayoutComponent implements OnInit {
 
   constructor(private _router: Router, public service: UserService) {
     this.props.isInVideoStudio = _router.url.split('/')[1] === 'video-studio' ? true : false;
+    this.props.isInProject = _router.url.split('/')[1] === 'project' ? true : false;
   }
 
   ngOnInit() {
-    if (localStorage.getItem('is_get_started') == 'false') {
+    if (localStorage.getItem('is_get_started') == 'false' && this.props.isInProject) {
       this.props.showGetStartedDialog = true;
     }
   }
