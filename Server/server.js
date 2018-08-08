@@ -75,6 +75,16 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.resendConfirmEmail, function (message) {
+        helper.log.system('received resend confirm email message: ' + JSON.stringify(message));
+        helper.socket.validateMessage(socket, constant.method.resendConfirmEmail, message, function () {
+            service.user.resendConfirmEmail(message, function (err, result) {
+                socket.emit(constant.method.resendConfirmEmail + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.updateUser, function (message) {
         helper.log.system('received update user message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.updateUser, message, function (err, userInfo) {

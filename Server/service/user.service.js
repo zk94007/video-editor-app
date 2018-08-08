@@ -159,7 +159,7 @@ module.exports = {
 
                         helper.response.onSuccessPlus(callback, {msg: 'Please confirm email'});
                     });
-                })
+                });
             });
         } catch(err) {
             helper.response.onError('error: signup' + err, callback);
@@ -304,5 +304,53 @@ module.exports = {
         } catch(err) {
             helper.response.onError('error: resetPassword', callback);
         }
-    }
+    },
+
+    /**
+     * 
+     * @param {*} message 
+     * @param {*} callback 
+     */
+    resendConfirmEmail(message, callback) {
+        try {
+            let usr_email = message.usr_email;
+            let front_path = message.front_path;
+
+            let notFilledFields = [];
+            !usr_email ? notFilledFields.push('usr_email') : '';
+            !front_path ? notFilledFields.push('front_path') : '';
+
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fields are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            userModel.getUserByEmail(usr_email, (err, user) => {
+                if (err || !user) {
+                    helper.response.onError('Not a valid email', callback);
+                    return;
+                }
+
+                let uae_code = uuidGen.v4();
+                userAuthEmail.createConfirmEmail(result.usr_id, uae_code, (_err, _result) => {
+                    if (_err) {
+                        helper.response.onError('Can not send a verification email', callback);
+                        return;
+                    }
+
+                    let confirmLink = front_path  + uae_code;
+                    helper.email.sendConfirmationEmail(usr_email, confirmLink, (__err, __result) => {
+                        if (__err) {
+                            helper.response.onError('Can not send a verification email', callback);
+                            return;
+                        }
+
+                        helper.response.onSuccessPlus(callback, {msg: 'Please confirm email'});
+                    });
+                });
+            });
+        } catch (err) {
+            helper.response.onError('error: resendConfirmEmail' + err, callback);
+        }
+    },
 }

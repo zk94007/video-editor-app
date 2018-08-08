@@ -11,6 +11,7 @@ module.exports = {
     forgetPassword:             'FORGET_PASSWORD',
     resetPassword:              'RESET_PASSWORD',
     updateUser:                 'UPDATE_USER',
+    resendConfirmEmail:         'RESEND_CONFIRM_EMAIL',
 
     getProjectList:             'GET_PROJECT_LIST',
     createProject:              'CREATE_PROJECT',
