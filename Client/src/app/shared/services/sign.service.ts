@@ -12,6 +12,7 @@ export class SignService {
   public onConfirm = new EventEmitter();
   public onForgot = new EventEmitter();
   public onReset = new EventEmitter();
+  public onResend = new EventEmitter();
 
   private front_url = environment.front_url;
 
@@ -23,6 +24,7 @@ export class SignService {
     this.socket.bind('CONFIRM_EMAIL_RESPONSE', this._confirmResponse);
     this.socket.bind('FORGET_PASSWORD_RESPONSE', this._forgotResponse);
     this.socket.bind('RESET_PASSWORD_RESPONSE', this._resetResponse);
+    this.socket.bind('RESEND_CONFIRM_EMAIL_RESPONSE', this._resendResponse);
   }
 
   /**
@@ -63,6 +65,14 @@ export class SignService {
 
   /**
    *
+   * @param email
+   */
+  _resend(email) {
+    this.socket.sendMessage('RESEND_CONFIRM_EMAIL', { usr_email: email, front_path: this.front_url + 'confirm/' });
+  }
+
+  /**
+   *
    * @param password
    * @param emailCode
    */
@@ -93,5 +103,9 @@ export class SignService {
 
   _resetResponse(response) {
     $this.onReset.emit(response);
+  }
+
+  _resendResponse(response) {
+    $this.onResend.emit(response);
   }
 }
