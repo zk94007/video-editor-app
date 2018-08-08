@@ -45,8 +45,7 @@
           <button class="btn btn-custom btn-login btn-white">Login</button>
       </div>
 
-      <div *ngIf="notification.error" class="alert alert-danger">{{ notification.error }}</div>
+      <div *ngIf="notification.error" class="alert alert-danger">{{ notification.error }} &nbsp;&nbsp; <a [routerLink]="['/resend']" style="text-decoration: underline">Resend</a></div>
       <div *ngIf="notification.success" class="alert alert-success">{{ notification.success }}</div>
-
   </form>
 </div>

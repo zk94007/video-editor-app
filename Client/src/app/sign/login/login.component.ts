@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public model: any = {};
     public notification: any = {};
     public returnUrl = '/project';
+    public showResend = false;
 
     public $uns: any = [];
 
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
+        this.showResend = false;
         this.$uns.push(this.service.onLogin.subscribe((response) => {
             const success = response['success'];
             if (success) {
@@ -38,6 +40,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
                     localStorage.setItem('isLoggedin', 'true');
                     this.router.navigate([this.returnUrl]);
+                } else {
+                    this.notification = {
+                        'error': 'Please check your email.',
+                        'success': false
+                    };
+                    this.showResend = true;
                 }
             } else {
                 this.notification = {

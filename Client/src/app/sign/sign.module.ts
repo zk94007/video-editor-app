@@ -11,6 +11,7 @@ import { SignComponent } from './sign.component';
 import { FormsModule } from '@angular/forms';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { SignService } from '../shared/services/sign.service';
+import { ResendComponent } from './resend/resend.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { SignService } from '../shared/services/sign.service';
     SignComponent,
     LoginComponent,
     ForgotPasswordComponent,
+    ResendComponent,
     ResetPasswordComponent,
     SignupComponent,
     ConfirmEmailComponent,
