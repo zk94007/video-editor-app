@@ -39,6 +39,7 @@ export class ConfirmEmailComponent implements OnInit {
           localStorage.setItem('isLoggedin', 'true');
           localStorage.setItem('token', message['token']);
           localStorage.setItem('is_confirmed', 'true');
+          localStorage.setItem('is_get_started', 'false');
           this.router.navigate(['/project']);
         }, 4000);
       } else {
