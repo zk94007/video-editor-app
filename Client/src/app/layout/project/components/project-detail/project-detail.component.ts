@@ -27,6 +27,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             uploadPercent: null
         },
 
+        isDragAvailable: false,
         isUploading: false,
         isPlaying: null,
         isPlayingProjectVideo: false,
@@ -184,6 +185,16 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 }
             }
         }
+    }
+
+    onDragEnter($event) {
+        this.props.isDragAvailable = true;
+    }
+    onDragLeave($event) {
+        this.props.isDragAvailable = false;
+    }
+    onDrop($event) {
+        this.props.isDragAvailable = false;
     }
 
     downloadProjectVideo() {

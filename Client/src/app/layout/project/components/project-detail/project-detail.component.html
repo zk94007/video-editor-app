@@ -138,7 +138,51 @@
     </div>
     
     <div>
-        <ng5-files-drop (filesSelect)="filesSelect($event)">
+        <ng5-files-drop (filesSelect)="filesSelect($event)" (dragenter)="onDragEnter($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+            <div class="pointerEvents-none position-relative" style="z-index: 401;">
+                <div style="transition: opacity 150ms ease-in-out;" [ngStyle]="{'opacity': props.isDragAvailable ? '1' : '0'}">
+                    <div class="position-fixed pinAll" [ngClass]="props.isDragAvailable ? '' : 'pointerEvents-none'" style="background: rgba(255, 255, 255, 0.8);">
+                        <div class="type__absolute___3D3rm position-absolute location__center___1LDaN pinCenter width-100">
+                            <div class="">
+                                <div class="type__center___1qmwE textAlign-center">
+                                    <div style="transition: transform 300ms cubic-bezier(0.075, 0.82, 0.165, 1);" [ngStyle]="{'opacity': props.isDragAvailable ? '1' : '0', 'transform': 'scale(' + (props.isDragAvailable ? '1' : '0') + ')'}">
+                                        <div class="bg-smoke borderRadius-circle display-inlineBlock" style="width: 600px; height: 600px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="type__absolute___3D3rm position-absolute location__center___1LDaN pinCenter width-100">
+                            <div class="">
+                                <div class="type__center___1qmwE textAlign-center">
+                                    <div style="transition: transform 300ms cubic-bezier(0.075, 0.82, 0.165, 1);" [ngStyle]="{'opacity': props.isDragAvailable ? '1' : '0', 'transform': 'scale(' + (props.isDragAvailable ? '1' : '0') + ')'}">
+                                        <svg class="fill-smoke--xd" width="30" height="30" viewBox="0 0 30 30" style="width: 100px; height: 100px; margin-bottom: 120px;">
+                                            <path d="M15 0c-8.284 0-15 6.716-15 15 0 8.284 6.716 15 15 15s15-6.716 15-15c0-8.284-6.716-15-15-15zm7.376 15.069c-2.597 4.053-6.654 7.591-6.817 7.732-.324.265-.793.265-1.1 0-.18-.141-4.165-3.627-6.761-7.644-.126-.141-.198-.318-.198-.531 0-.46.378-.832.848-.832h3.318c.397-2.584.992-5.202 1.208-5.609.396-.707 1.063-1.185 2.127-1.185 1.045 0 1.713.478 2.11 1.186.234.406.812 3.025 1.208 5.609h3.336c.306 0 .595.159.738.424.145.266.145.584-.017.85z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="type__absolute___3D3rm position-absolute location__center___1LDaN pinCenter width-100">
+                            <div class="">
+                                <div class="type__center___1qmwE textAlign-center">
+                                    <div style="transition: opacity 150ms ease-in-out;" [ngStyle]="{'opacity': props.isDragAvailable ? '1' : '0'}">
+                                        <div style="margin-top: 150px;">
+                                            <div class="marginTopBottom-xs">
+                                                <div class="size__xxl___2M4oE fontSize-xl lineHeight-xl breakPointM-fontSize-xxl breakPointM-lineHeight-xxl color__black___2f0FY c-black weight__semibold___19uxy fontWeight-5 div">Drop your designs in</div>
+                                            </div>
+                                            <p class="size__m___Wii-G fontSize-s lineHeight-s breakPointM-fontSize-m breakPointM-lineHeight-m color__silver___1GcWN c-silver">
+                                                <span class="centered display-block" style="max-width: 200px;">
+                                                You can drop multiple PSDs, JPEGs, PNGs or GIFs</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="media-items-container" *ngIf="props.showProjects == true">
                 <div [sortablejs]="props.media" [sortablejsOptions]="options">
                     <div class="media-item media-cell" *ngFor="let m of props.media">

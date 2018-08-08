@@ -38,6 +38,7 @@ export class LayoutComponent implements OnInit {
 
   closeVideoModal() {
     this.props.showGetStartedDialog = false;
+    this.props.player.pauseVideo();
   }
 
   onDontShowAgain($event) {
@@ -48,5 +49,6 @@ export class LayoutComponent implements OnInit {
   }
   okayIgotIt() {
     this.props.showGetStartedDialog = false;
+    this.props.player.pauseVideo();
   }
 }
