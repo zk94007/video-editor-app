@@ -12,7 +12,7 @@
 <router-outlet *ngIf = "props.isInVideoStudio"></router-outlet>
 <div class="backdrop" [hidden]="!props.showGetStartedDialog"></div>
   <div class="modal" tabindex="-1" role="dialog" [hidden]="!props.showGetStartedDialog" style="display: block">
-    <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <span class="btn-close" (click)="closeVideoModal()" role="button" tabindex="0"></span>
@@ -21,8 +21,7 @@
             </div>
             <youtube-player
               [videoId]="props.videoId"
-              [width]="668"
-              [height]="400"
+              [width]="468"
               (ready)="savePlayer($event)"
               (change)="onStateChange($event)"
               style="text-align: center"
