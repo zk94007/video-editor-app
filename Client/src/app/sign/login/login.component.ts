@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.$uns.push(this.service.onLogin.subscribe((response) => {
             const success = response['success'];
             if (success) {
-                if (response['token']) {
+                if (response['token'] != null) {
                     localStorage.setItem('usr_name', response.user.usr_name);
                     localStorage.setItem('usr_password', response.user.usr_password);
                     localStorage.setItem('usr_company', response.user.usr_company);
@@ -38,8 +38,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
                     localStorage.setItem('isLoggedin', 'true');
                     this.router.navigate([this.returnUrl]);
-                } else {
-                    console.log('EROOR: token is null');
                 }
             } else {
                 this.notification = {

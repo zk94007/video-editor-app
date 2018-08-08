@@ -67,10 +67,11 @@ module.exports = {
                                 'token': helper.token.getToken(user),
                             });
                         } else {
-                            helper.response.onSuccessPlus(callback, {
-                                'usr_is_verified': user.usr_is_verified,
-                            });
-
+                            // helper.response.onSuccessPlus(callback, {
+                            //     'usr_is_verified': user.usr_is_verified,
+                            // });
+                            helper.response.onError('You have to confirm the verify email. Please check your inbox of your email.', callback);
+                            return;
                         }                        
                     });
                 });

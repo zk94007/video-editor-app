@@ -13,7 +13,7 @@ export class SignService {
   public onForgot = new EventEmitter();
   public onReset = new EventEmitter();
 
-  private front_url = environment.api;
+  private front_url = environment.front_url;
 
   constructor(private socket: SocketService) {
     $this = this;
