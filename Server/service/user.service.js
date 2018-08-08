@@ -330,7 +330,7 @@ module.exports = {
                 }
 
                 let uae_code = uuidGen.v4();
-                userAuthEmail.createConfirmEmail(result.usr_id, uae_code, (_err, _result) => {
+                userAuthEmail.createConfirmEmail(user.usr_id, uae_code, (_err, _result) => {
                     if (_err) {
                         helper.response.onError('Can not send a verification email', callback);
                         return;
