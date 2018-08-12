@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SignService } from '../../shared/services/sign.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
+declare var mixpanel: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -40,6 +42,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
                     localStorage.setItem('isLoggedin', 'true');
                     this.router.navigate([this.returnUrl]);
+
+                    // mixpanel.track("UserLogin");
+                    mixpanel.identify(response.user.usr_email);
+                    mixpanel.people.set({
+                        "$email": response.user.usr_email,    // only special properties need the $
+                        "$created": response.user.usr_created_at,
+                        "$last_login": new Date(),         // properties can be dates...
+                        "$company": response.user.usr_company,
+                    });
                 } else {
                     this.notification = {
                         'error': 'Please check your email.',
