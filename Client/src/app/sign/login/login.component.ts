@@ -43,13 +43,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
                     localStorage.setItem('isLoggedin', 'true');
 
-                    // mixpanel.track("UserLogin");
                     mixpanel.identify(response.user.usr_email);
                     mixpanel.people.set({
                         "$email": response.user.usr_email,
                         "$last_login": new Date(),
-                        "$company": response.user.usr_company,
-                        "$name": response.user.usr_name,
                     });
 
                     this.router.navigate([this.returnUrl]);
