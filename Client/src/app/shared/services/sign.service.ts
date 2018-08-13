@@ -44,7 +44,7 @@ export class SignService {
    * @param password
    */
   _signup(company, name, email, password) {
-    this.socket.sendMessage('SIGNUP', { company: company, usr_name: name, usr_email: email, usr_password: password, front_path: this.front_url + 'confirm/' });
+    this.socket.sendMessage('SIGNUP', { usr_company: company, usr_name: name, usr_email: email, usr_password: password, front_path: this.front_url + 'confirm/' });
   }
 
   /**
