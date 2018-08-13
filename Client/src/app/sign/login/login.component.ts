@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                     localStorage.setItem('is_get_started', response['usr_is_get_started']);
 
                     localStorage.setItem('isLoggedin', 'true');
-                    this.router.navigate([this.returnUrl]);
 
                     // mixpanel.track("UserLogin");
                     mixpanel.identify(response.user.usr_email);
@@ -52,6 +51,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                         "$company": response.user.usr_company,
                         "$name": response.user.usr_name,
                     });
+
+                    this.router.navigate([this.returnUrl]);
                 } else {
                     this.notification = {
                         'error': 'Please check your email.',

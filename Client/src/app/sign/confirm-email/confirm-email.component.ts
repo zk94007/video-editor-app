@@ -45,7 +45,7 @@ export class ConfirmEmailComponent implements OnInit {
           localStorage.setItem('usr_company', message['user'].usr_company);
           localStorage.setItem('is_confirmed', 'true');
           localStorage.setItem('is_get_started', 'false');
-          
+
           // mixpanel.track("UserLogin");
           mixpanel.identify(message['user'].usr_email);
           mixpanel.people.set({
