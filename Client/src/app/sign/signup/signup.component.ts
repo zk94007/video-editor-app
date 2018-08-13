@@ -85,7 +85,7 @@ export class SignupComponent implements OnInit {
         this.popover_password.open();
     } else {
         
-        // mixpanel.track("UserLogin");
+        mixpanel.identify(this.model.email);
         mixpanel.people.set({
             "$email": this.model.email,
             "$company": this.model.company,
