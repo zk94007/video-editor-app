@@ -49,6 +49,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                         "$last_login": new Date(),
                     });
 
+                    alert("working");
+
                     this.router.navigate([this.returnUrl]);
                 } else {
                     this.notification = {
