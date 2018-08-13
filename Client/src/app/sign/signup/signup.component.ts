@@ -3,6 +3,8 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SignService } from '../../shared/services/sign.service';
 
+declare var mixpanel: any;
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -73,18 +75,27 @@ export class SignupComponent implements OnInit {
   }
 
   signup() {
-      if (!this.model.company) {
-          this.popover_company.open();
-      } else if (!this.model.name) {
-          this.popover_name.open();
-      } else if (!this.model.email) {
-          this.popover_email.open();
-      } else if (!this.model.password) {
-          this.popover_password.open();
-      } else {
-          this.service._signup(this.model.company, this.model.name, this.model.email, this.model.password);
-          this.loading = true;
-          this.display_backdrop = 'block';
+    if (!this.model.company) {
+        this.popover_company.open();
+    } else if (!this.model.name) {
+        this.popover_name.open();
+    } else if (!this.model.email) {
+        this.popover_email.open();
+    } else if (!this.model.password) {
+        this.popover_password.open();
+    } else {
+        
+        // mixpanel.track("UserLogin");
+        mixpanel.people.set({
+            "$email": this.model.email,
+            "$company": this.model.company,
+            "$name": this.model.name,
+            "$created": new Date(),
+        });
+
+        this.service._signup(this.model.company, this.model.name, this.model.email, this.model.password);
+        this.loading = true;
+        this.display_backdrop = 'block';
       }
   }
 }

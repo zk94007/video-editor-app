@@ -46,12 +46,10 @@ export class ConfirmEmailComponent implements OnInit {
           localStorage.setItem('is_confirmed', 'true');
           localStorage.setItem('is_get_started', 'false');
 
-          // mixpanel.track("UserLogin");
+          mixpanel.identify(message['user'].usr_email);
           mixpanel.people.set({
               "$email": message['user'].usr_email,
-              "$company": message['user'].usr_company,
-              "$name": message['user'].usr_name,
-              "$created": new Date(),
+              "$last_login": new Date(),
           });
 
           this.router.navigate(['/project']);
