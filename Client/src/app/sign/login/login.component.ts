@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             const success = response['success'];
             if (success) {
                 if (response['token'] != null) {
+                    localStorage.setItem('usr_email', response.user.usr_email);
                     localStorage.setItem('usr_name', response.user.usr_name);
                     localStorage.setItem('usr_password', response.user.usr_password);
                     localStorage.setItem('usr_company', response.user.usr_company);
@@ -46,10 +47,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                     // mixpanel.track("UserLogin");
                     mixpanel.identify(response.user.usr_email);
                     mixpanel.people.set({
-                        "$email": response.user.usr_email,    // only special properties need the $
-                        "$created": response.user.usr_created_at,
-                        "$last_login": new Date(),         // properties can be dates...
+                        "$email": response.user.usr_email,
+                        "$last_login": new Date(),
                         "$company": response.user.usr_company,
+                        "$name": response.user.usr_name,
                     });
                 } else {
                     this.notification = {

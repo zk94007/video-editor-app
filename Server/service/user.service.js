@@ -248,6 +248,7 @@ module.exports = {
 
                         helper.response.onSuccessPlus(callback, {
                             token: helper.token.getToken(user),
+                            user: user
                         });
                     });
                 });

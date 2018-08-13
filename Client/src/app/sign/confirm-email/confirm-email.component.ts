@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { SignService } from '../../shared/services/sign.service';
 
+declare var mixpanel: any;
+
 @Component({
   selector: 'app-confirm-email',
   templateUrl: './confirm-email.component.html',
@@ -38,8 +40,21 @@ export class ConfirmEmailComponent implements OnInit {
         setTimeout(() => {
           localStorage.setItem('isLoggedin', 'true');
           localStorage.setItem('token', message['token']);
+          localStorage.setItem('usr_email', message['user'].usr_email);
+          localStorage.setItem('usr_name', message['user'].usr_name);
+          localStorage.setItem('usr_company', message['user'].usr_company);
           localStorage.setItem('is_confirmed', 'true');
           localStorage.setItem('is_get_started', 'false');
+          
+          // mixpanel.track("UserLogin");
+          mixpanel.identify(message['user'].usr_email);
+          mixpanel.people.set({
+              "$email": message['user'].usr_email,
+              "$last_login": new Date(),
+              "$company": message['user'].usr_company,
+              "$name": message['user'].usr_name,
+          });
+          
           this.router.navigate(['/project']);
         }, 4000);
       } else {
