@@ -9,7 +9,7 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'project'},
             { path: 'project', loadChildren: './project/project.module#ProjectModule' },
-            { path: 'video-studio/:prj_id', loadChildren: './video-studio/video-studio.module#VideoStudioModule'},
+            { path: 'video-studio', loadChildren: './video-studio/video-studio.module#VideoStudioModule'},
         ]
     }
 ];

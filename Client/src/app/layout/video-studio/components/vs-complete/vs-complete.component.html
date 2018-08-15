@@ -17,6 +17,7 @@
   </div>
   <div *ngIf="props.isConcatenating == false" style="width: 100%; height: 100%">
     <div class="vs-complete-top__bar">
+      <a [routerLink]="['/video-studio']">asdf</a>
       <button class="buttonLink dialogMaskCloseButton" style="top: -15px" (click)="onCloseModal()">Close</button>
       <div class="vs-complete-download__icon">
         <a style="width: 50px; text-align: center;" target="_self" download="download.mp4" href="{{props.finalvideo}}">

@@ -5,3 +5,4 @@ export * from './vs-toolbar/vs-toolbar.component';
 export * from './vs-workarea-latest/vs-workarea-latest.component';
 export * from './vs-workspace/vs-workspace.component';
 export * from './vs-sidebar-panel/vs-sidebar-panel.component';
+export * from './vs-main/vs-main.component';

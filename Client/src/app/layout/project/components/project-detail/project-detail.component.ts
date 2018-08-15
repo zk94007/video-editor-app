@@ -69,6 +69,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.$uns.push(this.route.params.subscribe( (params) => {
             this.props.projectId = params['prj_id'];
             this.service._getFrameList(this.props.projectId);
+            localStorage.setItem('selectedProjectId', this.props.projectId);
         }));
 
         this.props.displayDeleteFileModal = 'none';
