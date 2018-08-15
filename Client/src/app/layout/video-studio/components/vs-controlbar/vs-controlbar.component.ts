@@ -36,7 +36,7 @@ export class VsControlbarComponent implements OnInit, OnDestroy {
     }));
     this.$uns.push(this.vsService.onStartConcatenate.subscribe((complete) => {
       localStorage.setItem('complete_preview', complete);
-      this.router.navigate(['video-studio/complete']);
+      this.router.navigate(['complete'], {relativeTo: this.route});
     }));
   }
 

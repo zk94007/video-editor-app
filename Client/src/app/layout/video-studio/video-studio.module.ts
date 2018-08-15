@@ -54,7 +54,6 @@ import { VideoStudioService } from '../../shared/services/video-studio.service';
 import { VsRepositionComponent } from './components/vs-reposition/vs-reposition.component';
 import { VsCompleteComponent } from './components/vs-complete/vs-complete.component';
 import { DivModalDirective } from './directives/div-modal.directive';
-import { VsMainComponent } from './components/vs-main/vs-main.component';
 
 @NgModule({
     imports: [
@@ -77,14 +76,12 @@ import { VsMainComponent } from './components/vs-main/vs-main.component';
         AngularDraggableModule
     ],
     declarations: [
-        VideoStudioComponent,
-        VsCompleteComponent,
-        VsMainComponent,
         VsSidebarComponent,
         VsControlbarComponent,
         VsWorkspaceComponent,
         VsFramelineComponent,
         VsToolbarComponent,
+        VideoStudioComponent,
         VsSidebarPanelComponent,
         ButtonSubmenuDirective,
         ASidebarDirective,
@@ -98,7 +95,7 @@ import { VsMainComponent } from './components/vs-main/vs-main.component';
         FontStylesPipe,
         ButtonArrangeDirective,
         VsRepositionComponent,
-        
+        VsCompleteComponent,
         DivModalDirective,
         VsWorkareaLatestComponent
     ],

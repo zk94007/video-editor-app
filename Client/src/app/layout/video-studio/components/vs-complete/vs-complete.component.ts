@@ -3,7 +3,6 @@ import { NgProgressComponent } from '@ngx-progressbar/core';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 import { VgAPI } from 'videogular2/core';
 import { Location } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
@@ -29,7 +28,7 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
     previousURL: ''
   };
 
-  constructor(private vsService: VideoStudioService, private location: Location, private router: Router, private route: ActivatedRoute) {
+  constructor(private vsService: VideoStudioService, private location: Location) {
     let response : string;
     response = localStorage.getItem('complete_preview');
     if (response === 'true') {
@@ -89,7 +88,7 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
   }
 
   onCloseModal() {
-    window.location.href = "/video-studio";
+    this.location.back();
   }
 
   ngOnDestroy() {
