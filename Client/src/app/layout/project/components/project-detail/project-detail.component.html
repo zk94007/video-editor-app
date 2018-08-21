@@ -139,7 +139,7 @@
     
     <div>
         <ng5-files-drop (filesSelect)="filesSelect($event)" (dragenter)="onDragEnter($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-            <div class="pointerEvents-none position-relative" style="z-index: 401;">
+            <div class="pointerEvents-none position-relative" style="z-index: 901;">
                 <div style="transition: opacity 150ms ease-in-out;" [ngStyle]="{'opacity': props.isDragAvailable ? '1' : '0'}">
                     <div class="position-fixed pinAll" [ngClass]="props.isDragAvailable ? '' : 'pointerEvents-none'" style="background: rgba(255, 255, 255, 0.8);">
                         <div class="type__absolute___3D3rm position-absolute location__center___1LDaN pinCenter width-100">
@@ -221,9 +221,9 @@
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
 
-            <div *ngIf="props.showProjects == false" style="width: 100%; height: 100%">
+            <div *ngIf="props.showProjects == false" style="width: fit-content; margin:auto">
                 <div class="text-center">
                     <div>
                         <img class="representative" src="../../../../../assets/layout/icons/blurbiz_drag-and-drop.png" style="margin: 0 auto; width: 207px; height: 190px;">
