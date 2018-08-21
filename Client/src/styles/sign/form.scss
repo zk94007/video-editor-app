@@ -141,7 +141,6 @@
 .signup-page {
 	font-family: "Helvetica Neue", sans-serif;
 	background-color: $color-gray-dark-l;
-	padding-top: 75px;
 
 	position: absolute;
     top: 0;
@@ -151,11 +150,11 @@
     overflow: auto;
     text-align: center;
     color: #fff;
-    padding: 3em;
 
 	p {
 		font: normal, 13px, 15px, $color-white;
 		text-align: center;
+		margin-top: 20px;
 
 		a {
 			color: $color-cyan;
@@ -165,23 +164,25 @@
 	.form-signup {
 		max-width: 420px;
 		width: 100%;
-		margin: 0 auto 30px;
+		margin: 0 auto;
 		box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.5);
 		border: 0.5px solid $color-cyan;
 		border-radius: 4px;
-		padding: 45px;
+		padding: 30px 30px 10px 30px;
+
 		background-color: $color-white;
+		margin-top: calc(50vh - 250px);
 
 		p {
-			margin-left: -20px;
 			width: "calc(100% + 40px)";
 			color: $color-gray;
-			margin-bottom: 0;
+			margin-bottom: 10px;
+			margin-top: 10px;
 		}
 
 		h2 {
 			font: bold, 36px, 1, $color-gray-dark-l;
-			margin: 0 auto 30px;
+			margin: 0 auto 10px;
 			text-align: center;
 			color: $color-black;
 		}
@@ -192,16 +193,16 @@
 
 		input.form-control {
 			font: 600, 13px, 16px, $color-gray-dark-l;
-			padding: 13px 14px;
+			padding: 10px 15px;
 			border-radius: 8px;
 			border-color: $color-gray;
 		}
 
 		.btn-submit {
 			width: 100%;
-			margin: 20px 0;
+			margin: 10px 0;
 			font: bold, 13px, 16px, $color-white;
-			padding: 12px;
+			padding: 10px;
 		}
 	}
 }
