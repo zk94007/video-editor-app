@@ -6,19 +6,22 @@ import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FormsModule } from '@angular/forms';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectService } from '../shared/services/project.service';
 import { YoutubePlayerModule } from 'ngx-youtube-player';
-import { SignService } from '../shared/services/sign.service';
 import { UserService } from '../shared/services/user.service';
+import { SettingsComponent } from './settings/settings.component';
+import { Ng5FilesModule } from '../shared/module/ng5-files';
 
 @NgModule({
     imports: [
         CommonModule,
         LayoutRoutingModule,
         NgbDropdownModule.forRoot(),
+        NgbTabsetModule.forRoot(),
         FormsModule,
-        YoutubePlayerModule
+        YoutubePlayerModule,
+        Ng5FilesModule
     ],
     providers: [
         ProjectService,
@@ -27,7 +30,8 @@ import { UserService } from '../shared/services/user.service';
     declarations: [
         LayoutComponent,
         SidebarComponent,
-        HeaderComponent
+        HeaderComponent,
+        SettingsComponent
     ]
 })
 export class LayoutModule { }

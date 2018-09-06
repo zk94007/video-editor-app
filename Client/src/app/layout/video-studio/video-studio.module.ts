@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { VideoStudioRoutingModule } from './video-studio-routing.module';
 import { VideoStudioComponent } from './video-studio.component';
-import { SortablejsModule} from 'angular-sortablejs';
+import { SortablejsModule} from 'angular-sortablejs/dist';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ColorPickerModule } from '../../shared/module/color-picker';
 import { Ng5FilesModule } from '../../shared/module/ng5-files';

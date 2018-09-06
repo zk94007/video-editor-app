@@ -1,0 +1,147 @@
+.profile-setting {
+    padding: 30px;
+    text-align: center;
+
+    .nav-tabs {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        border-bottom: none;
+        
+        font-size: 1rem;
+
+        .nav-link.active {
+            border-color: #cccccc #cccccc #fff;
+            color: $color-cyan;
+        }
+    }
+
+    .profile-setting-account {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        
+        .profile-setting-change-panel {
+            border: solid 1px #cccccc;
+            border-radius: 4px;
+            border-top-left-radius: 0px;
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 10px;
+            display: flex;
+
+            .profile-text-change-panel {
+                text-align: left;
+                font-size: 1.1rem;
+                flex: 1;
+
+                .form-control {
+                    margin-top: 6px;
+                }
+                button {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                    font-weight: 600;
+                    font-size: 0.8rem;
+                    height: 40px;
+                    vertical-align: middle;
+                    padding-left: 30px;
+                    padding-right: 30px;
+                    margin-right: 20px;
+                }
+                .btn-cancel {
+                    color: #888888;
+                    background-color: white;
+                    border-color: #888888;
+                }
+            }
+            .profile-avatar-change-panel {
+                width: 150px;
+                margin-left: 30px;
+                img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 50%;
+
+                    margin-bottom: 20px;
+                }
+                .btn-change-picture {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                    font-weight: 600;
+                    font-size: 0.8rem;
+                    height: 40px;
+                    line-height: 24px;
+                    width: 100%;
+                    vertical-align: middle;
+                    padding-left: 20px;
+                    padding-right: 20px;
+
+                    color: #888888;
+                    background-color: white;
+                    border-color: #888888;
+                }
+            }
+        }
+
+        .profile-setting-delete-panel {
+            padding: 30px;
+            margin-top: 20px;
+            border: solid 1px #cccccc;
+            border-radius: 4px;
+            background-color: white;
+            text-align: left;
+
+            .profile-setting-delete-content {
+                display: flex;
+                margin-top: 20px;
+                h6 {
+                    flex: 1;
+                    padding-right: 30px;
+                }
+                button {
+                    width: 150px;
+                    text-align: center;
+
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                    font-weight: 600;
+                    font-size: 0.8rem;
+                    height: 40px;
+                    vertical-align: middle;
+                    padding-left: 24px;
+                    padding-right: 24px;
+
+                    color: white;
+                    background-color: $color-pink;
+                }
+            }
+        }
+    }
+
+    .modal {
+        text-align: left;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color: $color-gray;
+
+        .modal-body {
+            padding: 3rem;
+            input {
+                margin-top: 1rem;
+            }
+            button {
+                margin-top: 2rem;
+                width: 100%;
+                text-align: center;
+
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-weight: 600;
+                font-size: 0.8rem;
+                height: 40px;
+                vertical-align: middle;
+                padding-left: 24px;
+                padding-right: 24px;
+
+                color: white;
+                background-color: $color-pink;
+            }
+        }
+    }
+}

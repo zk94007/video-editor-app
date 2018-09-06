@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
     {
@@ -10,6 +11,7 @@ const routes: Routes = [
             { path: '', redirectTo: 'project'},
             { path: 'project', loadChildren: './project/project.module#ProjectModule' },
             { path: 'video-studio/:prj_id', loadChildren: './video-studio/video-studio.module#VideoStudioModule'},
+            { path: 'settings', component: SettingsComponent}
         ]
     }
 ];

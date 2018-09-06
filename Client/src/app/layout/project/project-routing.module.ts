@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProjectComponent } from './project.component';
 import {
     ProjectListComponent,
-    ProjectDetailComponent } from './components/index';
+    ProjectDetailComponent } from './components';
 
 const routes: Routes = [
     {

@@ -19,8 +19,8 @@ export class UserService {
    * 
    * @param isGetStarted 
    */
-  _updateUser(isGetStarted) {
-    this.socket.sendMessageWithToken('UPDATE_USER', {data: [{name:'usr_is_get_started', value: isGetStarted}] });
+  _updateUser(data) {
+    this.socket.sendMessageWithToken('UPDATE_USER', {data: data });
   }
 
   _updateUserResponse(response) {

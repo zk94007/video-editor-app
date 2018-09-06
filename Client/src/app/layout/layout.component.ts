@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../shared/services/user.service';
-import { DomSanitizer } from '../../../node_modules/@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-layout',
@@ -43,7 +43,8 @@ export class LayoutComponent implements OnInit {
     this.props.dontShowAgain = !this.props.dontShowAgain;
     localStorage.setItem('is_get_started', '' + this.props.dontShowAgain);
 
-    this.service._updateUser(this.props.dontShowAgain);
+    const data = [{name:'usr_is_get_started', value: this.props.dontShowAgain}];
+    this.service._updateUser(data);
   }
   okayIgotIt() {
     this.props.showGetStartedDialog = false;
