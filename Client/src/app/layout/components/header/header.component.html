@@ -16,7 +16,7 @@
   <div class="user-info">
     <div ngbDropdown class="d-inline-block user-menu" placement="bottom-right">
       <a id="user-setting-dropdown" class="dropdown-toggle" ngbDropdownToggle>
-        <img class="img-circle" style="border-radius: 50%" src="{{ props.user.usr_photo }}">
+        <img class="img-circle" style="border-radius: 50%" [src]="props.user.usr_photo">
       </a>
       <ul ngbDropdownMenu aria-labelledby="user-setting-dropdown" class="dropdown-content">
         <li class="dropdown-header">

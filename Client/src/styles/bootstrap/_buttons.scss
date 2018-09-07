@@ -48,7 +48,9 @@
     }
   }
 }
-
+.btn:hover {
+  filter: brightness(90%);
+}
 // Future-proof disabling of clicks on `<a>` elements
 a.btn.disabled,
 fieldset[disabled] a.btn {
