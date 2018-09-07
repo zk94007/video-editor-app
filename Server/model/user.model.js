@@ -226,7 +226,7 @@ module.exports = {
                 }
 
                 helper.query.runQuery('DELETE FROM public.user WHERE usr_id = $1', [usr_id], (_err, _result) => {
-                    if (_err || _result.rows.length == 0) {
+                    if (_err) {
                         helper.response.onError('error: deleteUserById', callback);
                         return;
                     }
