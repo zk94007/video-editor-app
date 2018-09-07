@@ -106,17 +106,7 @@ module.exports = {
 
     deleteUser(userInfo, message, callback) {
         try {
-            let data = message.data;
-
-            let notFilledFields = [];
-            !data ? notFilledFields.push('data') : '';
-
-            if (notFilledFields.length > 0) {
-                helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
-                return;
-            }
-
-            userModel.deleteUserById(userInfo.usr_id, data, (err) => {
+            userModel.deleteUserById(userInfo.usr_id, (err) => {
                 if (err) {
                     helper.response.onError(err, callback);
                     return;
