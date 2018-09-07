@@ -104,6 +104,44 @@ module.exports = {
         }
     },
 
+    updateUserProfile(message, profilePath, callback) {
+        try {
+            let usr_email = message.usr_email;
+            
+            let notFilledFields = [];
+            !usr_email ? notFilledFields.push('usr_email') : '';
+
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            userModel.getUserByEmail(usr_email, (err, user) => {
+                if (err) {
+                    helper.response.onError(err, callback);
+                    return;
+                }
+
+                let data = [
+                    {
+                        name: 'usr_profile_path',
+                        value: profilePath
+                    }
+                ];
+                userModel.updateUserByUsrId(user.usr_id, data, (_err) => {
+                    if (_err) {
+                        helper.response.onError(_err, callback);
+                        return;
+                    }
+
+                    helper.response.onSuccessPlus(callback, {usr_profile_path: profilePath});
+                });
+            });
+        } catch (err) {
+            helper.response.onError('error: updateUserProfile', callback);
+        }
+    },
+
     /**
      * 
      * @param {*} message 

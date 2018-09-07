@@ -95,6 +95,37 @@ io.on('connection', function(socket) {
         });
     });
 
+    ss(socket).on(constant.method.updateUserProfile, function (stream, message) {
+        helper.log.system('received update user profile: ' + JSON.stringify(message));
+        helper.file.writeStream(stream, config.server.uploadPath, message.filename, function (err, filepath) {
+            if (err) {
+                const result = {};
+                result.success = false;
+                result.msg = err;
+                result.guid = message.guid;
+                socket.emit(constant.method.updateUserProfile + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            } else {
+                helper.file.putMediaToCloud(filepath, (percent) => { }, (_err, metadata) => {
+                    if (_err) {
+                        const result = {};
+                        result.success = false;
+                        result.msg = _err;
+                        result.guid = message.guid;
+                        socket.emit(constant.method.updateUserProfile + '_RESPONSE', result);
+                        helper.log.system(JSON.stringify(result));
+                    } else {
+                        service.user.updateUserProfile(message, metadata.cloudPath, function (__err, result) {
+                            result.guid = message.guid;
+                            socket.emit(constant.method.updateUserProfile + '_RESPONSE', result);
+                            helper.log.system(JSON.stringify(result));
+                        });
+                    }
+                });
+            }
+        });
+    });
+
     socket.on(constant.method.getProjectList, function(message) {
         helper.log.system('received project list message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.getProjectList, message, function(err, userInfo) {
