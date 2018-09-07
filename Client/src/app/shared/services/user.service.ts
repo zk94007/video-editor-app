@@ -9,12 +9,14 @@ let $this: UserService;
 export class UserService {
   public onUpdateProject = new EventEmitter();
   public onUpdateUserProfile = new EventEmitter();
+  public onDeleteUser = new EventEmitter();
 
   constructor(private socket: SocketService) {
     $this = this;
 
     this.socket.bind('UPDATE_USER_RESPONSE', this._updateUserResponse);
     this.socket.bind('UPDATE_USER_PROFILE_RESPONSE', this._updateUserProfileResponse);
+    this.socket.bind('DELETE_USER_RESPONSE', this._deleteUserResponse);
   }
 
   /**
@@ -34,11 +36,19 @@ export class UserService {
     this.socket.sendStream('UPDATE_USER_PROFILE', file, metadata, null);
   }
 
+  _deleteUser() {
+    this.socket.sendMessageWithToken('DELETE_USER', {});
+  }
+
   _updateUserResponse(response) {
     $this.onUpdateProject.emit(response);
   }
 
   _updateUserProfileResponse(response) {
     $this.onUpdateUserProfile.emit(response);
+  }
+
+  _deleteUserResponse(response) {
+    $this.onDeleteUser.emit(response);
   }
 }

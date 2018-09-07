@@ -95,6 +95,16 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.deleteUser, function (message) {
+        helper.log.system('received delete user message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.deleteUser, message, function (err, userInfo) {
+            service.user.deleteUser(userInfo, message, function (err, result) {
+                socket.emit(constant.method.deleteUser + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     ss(socket).on(constant.method.updateUserProfile, function (stream, message) {
         helper.log.system('received update user profile: ' + JSON.stringify(message));
         helper.file.writeStream(stream, config.server.uploadPath, message.filename, function (err, filepath) {

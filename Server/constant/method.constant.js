@@ -13,6 +13,7 @@ module.exports = {
     updateUser:                 'UPDATE_USER',
     resendConfirmEmail:         'RESEND_CONFIRM_EMAIL',
     updateUserProfile:          'UPDATE_USER_PROFILE',
+    deleteUser:                 'DELETE_USER',
 
     getProjectList:             'GET_PROJECT_LIST',
     createProject:              'CREATE_PROJECT',

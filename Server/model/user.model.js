@@ -211,4 +211,31 @@ module.exports = {
             helper.response.onError('error: createUser' + err, callback);
         }
     },
+
+    /**
+     * 
+     * @param {*} usr_id 
+     * @param {*} callback 
+     */
+    deleteUserById(usr_id, callback) {
+        try {
+            helper.query.runQuery('SELECT * FROM public.user WHERE usr_id = $1', [usr_id], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: deleteUserById', callback);
+                    return;
+                }
+
+                helper.query.runQuery('DELETE FROM public.user WHERE usr_id = $1', [usr_id], (_err, _result) => {
+                    if (_err || _result.rows.length == 0) {
+                        helper.response.onError('error: deleteUserById', callback);
+                        return;
+                    }
+                    
+                    helper.response.onSuccess(callback, {});
+                });
+            });
+        } catch (err) {
+            helper.response.onError('error: deleteUserById', callback);
+        }
+    },
 }
