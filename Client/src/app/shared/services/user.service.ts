@@ -7,7 +7,7 @@ let $this: UserService;
 
 @Injectable()
 export class UserService {
-  public onUpdateProject = new EventEmitter();
+  public onUpdateUser = new EventEmitter();
   public onUpdateUserProfile = new EventEmitter();
   public onDeleteUser = new EventEmitter();
 
@@ -41,7 +41,7 @@ export class UserService {
   }
 
   _updateUserResponse(response) {
-    $this.onUpdateProject.emit(response);
+    $this.onUpdateUser.emit(response);
   }
 
   _updateUserProfileResponse(response) {
