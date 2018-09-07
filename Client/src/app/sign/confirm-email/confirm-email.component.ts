@@ -43,6 +43,7 @@ export class ConfirmEmailComponent implements OnInit {
           localStorage.setItem('usr_email', message['user'].usr_email);
           localStorage.setItem('usr_name', message['user'].usr_name);
           localStorage.setItem('usr_company', message['user'].usr_company);
+          localStorage.setItem('usr_profile_path', message['user'].usr_profile_path);
           localStorage.setItem('is_confirmed', 'true');
           localStorage.setItem('is_get_started', 'false');
 
