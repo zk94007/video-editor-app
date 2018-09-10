@@ -67,7 +67,7 @@ module.exports = {
                 responseHelper.onSuccess(callback, cloudPath);
             });
         } else {
-            blobService.createBlockBlobFromLocalFile('stage', filename, localPath, { contentSettings: { contentDisposition: 'attachment; filename="' + prjname + '.mp4"'} }, (err, result, response) => {
+            blobService.createBlockBlobFromLocalFile('stage', filename, localPath, { contentSettings: { contentDisposition: 'attachment; filename="' + encodeURI(prjname) + '.mp4"'} }, (err, result, response) => {
                 if (err) {
                     responseHelper.onError('error: putFileToCloud', callback);
                     return;
