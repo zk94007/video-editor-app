@@ -12,6 +12,7 @@ import { YoutubePlayerModule } from 'ngx-youtube-player';
 import { UserService } from '../shared/services/user.service';
 import { SettingsComponent } from './settings/settings.component';
 import { Ng5FilesModule } from '../shared/module/ng5-files';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { Ng5FilesModule } from '../shared/module/ng5-files';
         LayoutComponent,
         SidebarComponent,
         HeaderComponent,
-        SettingsComponent
+        SettingsComponent,
+        UserManagementComponent
     ]
 })
 export class LayoutModule { }
