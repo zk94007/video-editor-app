@@ -73,7 +73,7 @@
                   This will instantly delete your Blurbiz account, including all projects. <b>This cannot be undone.</b>
                   
                   <input class="form-control" [(ngModel)]="props.deleteConfirmInput" placeholder="type 'delete' to confirm"/>
-                  <button class="btn btn-custom btn-orange btn-md" (click)="onConfirmDeleteAccount(); ">Delete Account</button>
+                  <button [disabled]="props.deleteConfirmInput != 'delete'" class="btn btn-custom btn-orange btn-md" (click)="onConfirmDeleteAccount(); ">Delete Account</button>
               </div>
           </div>
       </div>
