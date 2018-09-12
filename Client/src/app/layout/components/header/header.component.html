@@ -1,11 +1,11 @@
 <div class="page-info clearfix">
   <div class="page-meta">
-    <div *ngIf="!props.isInProjectDetail">
+    <div *ngIf="!props.isTitleEditable">
       <div class="page-title">
-        <span>All Projects</span>
+        <span>{{props.pageTitle}}</span>
       </div>
     </div>
-    <div *ngIf="props.isInProjectDetail">
+    <div *ngIf="props.isTitleEditable">
       <input appFocus focus="true" *ngIf="props.isProjectTitleEditing" class="page-title-input" [(ngModel)]="props.pageTitle" (keyup.enter)="saveProjectTitle()">
       <div class="page-title" *ngIf="!props.isProjectTitleEditing">
         <span (click)="editProjectTitle()" [ngStyle]="{'display': 'inline-block'}">{{props.pageTitle}}</span>
@@ -25,14 +25,14 @@
         </li>
         <li class="divider"></li>
         <li>
+          <a [routerLink]="['/settings']">Settings</a>
+        </li>
+        <li>
           <a target="_blank" href="https://blurbiz.cnflx.io/public">
             Suggest a Feature&nbsp;&nbsp;
             <span class="new_banner">&nbsp;&nbsp;New&nbsp;&nbsp;</span>
           </a>
-        </li>
-        <li>
-          <a [routerLink]="['/settings']">Settings</a>
-        </li>
+        </li>        
         <li>
           <a target="_blank" href="http://blurbiz.io/support">Help</a>
         </li>

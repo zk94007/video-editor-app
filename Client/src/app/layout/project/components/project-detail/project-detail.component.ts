@@ -84,7 +84,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.$uns.push(this.service.onGetFrameList.subscribe((message) => {
             const success = message['success'];
             if (success) {
-                this.service.changePageTitle(message.project.prj_name);
+                this.service.changePageTitle({
+                    pageTitle: message.project.prj_name,
+                    isTitleEditable: true
+                });
 
                 if (message.project.prj_video_path !== null) {
                     this.props.videoPath = message.project.prj_video_path;

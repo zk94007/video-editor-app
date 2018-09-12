@@ -81,6 +81,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // GET PROJECT LIST
     this.projects = this.service._getProjectList();
+    this.service.changePageTitle(this.props.pageData);
   }
 
   ngOnDestroy() {

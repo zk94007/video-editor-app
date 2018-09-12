@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public props: any = {
     pageTitle: '',
-    isInProjectDetail: false,
+    isTitleEditable: false,
     isProjectTitleEditing: false,
     user: {
       usr_name: 'Test',
@@ -34,15 +34,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else {
       this.props.user.usr_photo = '../../assets/avatar.jpg';
     }
-    this.props.isInProjectDetail = this.router.url.split('/')[1] === 'project' && this.router.url.split('/')[2] === 'detail' ? true : false;
+    // this.props.isInProjectDetail = this.router.url.split('/')[1] === 'project' && this.router.url.split('/')[2] === 'detail' ? true : false;
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.props.isInProjectDetail = event.url.split('/')[1] === 'project' && event.url.split('/')[2] === 'detail' ? true : false;
-      }
-    });
-    this.$uns.push(this.service.onChangePageTitle.subscribe((pageTitle) => {
-      this.props.pageTitle = pageTitle;
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     this.props.isInProjectDetail = event.url.split('/')[1] === 'project' && event.url.split('/')[2] === 'detail' ? true : false;
+    //   }
+    // });
+    this.$uns.push(this.service.onChangePageTitle.subscribe((pageData) => {
+      this.props.pageTitle = pageData.pageTitle;
+      this.props.isTitleEditable = pageData.isTitleEditable;
     }));
 
     this.$uns.push(this.userService.onUpdateUserProfile.subscribe((message) =>{

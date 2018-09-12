@@ -3,6 +3,7 @@ import { UserService } from '../../shared/services/user.service';
 import { Ng5FilesConfig, Ng5FilesService, Ng5FilesSelected, Ng5FilesStatus } from '../../shared/module/ng5-files';
 import * as path from 'path';
 import { Router } from '../../../../node_modules/@angular/router';
+import { ProjectService } from '../../shared/services/project.service';
 
 @Component({
   selector: 'app-settings',
@@ -31,7 +32,7 @@ export class SettingsComponent implements OnInit {
 
   public fileUploadConfig: Ng5FilesConfig;
 
-  constructor(private userService: UserService, private ng5FilesService: Ng5FilesService, private router: Router) {
+  constructor(private userService: UserService, private projectService: ProjectService, private ng5FilesService: Ng5FilesService, private router: Router) {
     this.fileUploadConfig = {
       acceptExtensions: ['png', 'jpeg', 'jpg'],
       maxFilesCount: 5,
@@ -44,6 +45,10 @@ export class SettingsComponent implements OnInit {
     this.init();
 
     this.ng5FilesService.addConfig(this.fileUploadConfig);
+    this.projectService.changePageTitle({
+      pageTitle: 'Settings',
+      isTitleEditable: false
+    });
 
     this.$uns.push(this.userService.onUpdateUserProfile.subscribe((message) =>{
       const success = message['success'];
