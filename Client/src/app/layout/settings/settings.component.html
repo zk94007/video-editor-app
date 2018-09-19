@@ -1,116 +1,114 @@
 <div class="profile-setting">
-  <ngb-tabset>
-      <ngb-tab title="My account">
-        <ng-template ngbTabContent>
-          <div class="profile-setting-account">
-            <div class="profile-setting-change-panel">
-              <div class="profile-text-change-panel">
-                <form (ngSubmit)="onSubmitChange()" #f="ngForm">
-                  Name
-                  <div class="form-group">
-                      <input type="text" class="form-control"  id="name" name="name" #name="ngModel" [(ngModel)]="user.name" required placeholder="Your Name" (input)="onNameChange()"/>
-                  </div>
-                  Company
-                  <div class="form-group">
-                      <input type="text" class="form-control" id="company" name="company" #company="ngModel" [(ngModel)]="user.company" required placeholder="Your Company" (input)="onCompanyChange()"/>
-                  </div>
-                  Email
-                  <div class="form-group">
-                      <input type="text" class="form-control"  id="email" name="email" #email="ngModel" [(ngModel)]="user.email"  required placeholder="Your Email" (input)="onEmailChange()"/>
-                  </div>
-                  <div *ngIf="props.isChangingPassword">
-                    Password
-                    <div class="form-group">
-                        <input type="password" class="form-control"  id="password" name="password" #password="ngModel" [(ngModel)]="user.password" required placeholder="Old Password" />
-                        <input type="password" class="form-control"  id="newpassword" name="newpassword" #newpassword="ngModel" [(ngModel)]="user.new_password" required placeholder="New Password" />
+    <ngb-tabset>
+        <ngb-tab title="My account">
+            <ng-template ngbTabContent>
+                <div class="profile-setting-account">
+                    <div class="profile-setting-change-panel">
+                        <div class="profile-text-change-panel">
+                            <form (ngSubmit)="onSubmitChange()" #f="ngForm">
+                                Name
+                                <div class="form-group">
+                                    <input type="text" class="form-control"  id="name" name="name" #name="ngModel" [(ngModel)]="user.name" required placeholder="Your Name" (input)="onNameChange()"/>
+                                </div>
+                                Company
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="company" name="company" #company="ngModel" [(ngModel)]="user.company" required placeholder="Your Company" (input)="onCompanyChange()"/>
+                                </div>
+                                Email
+                                <div class="form-group">
+                                    <input type="text" class="form-control"  id="email" name="email" #email="ngModel" [(ngModel)]="user.email"  required placeholder="Your Email" (input)="onEmailChange()"/>
+                                </div>
+                                <div *ngIf="props.isChangingPassword">
+                                    Password
+                                    <div class="form-group">
+                                        <input type="password" class="form-control"  id="password" name="password" #password="ngModel" [(ngModel)]="user.password" required placeholder="Old Password" />
+                                        <input type="password" class="form-control"  id="newpassword" name="newpassword" #newpassword="ngModel" [(ngModel)]="user.new_password" required placeholder="New Password" />
+                                    </div>
+                                    <div *ngIf="notification.error" class="alert alert-danger">{{ notification.error }}</div>
+                                    <div *ngIf="notification.success" class="alert alert-success">{{ notification.success }}</div>
+                                    <div *ngIf="props.isInfoChanged">
+                                        <button type="submit" class="btn btn-green">Save Changes</button>
+                                        <button class="btn btn-cancel" (click)="onCancelChange()">Cancel</button>
+                                    </div>
+                                </div>
+                                <div *ngIf="!props.isChangingPassword">
+                                    <div *ngIf="props.isInfoChanged" style="margin-bottom: 20px">
+                                        <button type="submit" class="btn btn-green">Save Changes</button>
+                                        <button class="btn btn-cancel" (click)="onCancelChange()">Cancel</button>
+                                    </div>
+                                    Password
+                                    <div class="form-group">
+                                        <input type="password" class="form-control"  id="password" name="password" #password="ngModel" [(ngModel)]="user.password" required placeholder="Password" [attr.disabled]="!props.isChangingPassword ? '' : null"/>
+                                    </div>
+                                    <button class="btn btn-cancel" (click)="onPasswordChange()">Change password</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="profile-avatar-change-panel">
+                            <img [src]="user.avatar" alt="Avatar">
+                            <ng5-files-click (filesSelect)="filesSelect($event)">
+                                <span class="btn btn-change-picture">Change picture</span>
+                            </ng5-files-click>
+                        </div>
                     </div>
-                    <div *ngIf="notification.error" class="alert alert-danger">{{ notification.error }}</div>
-                    <div *ngIf="notification.success" class="alert alert-success">{{ notification.success }}</div>
-                    <div *ngIf="props.isInfoChanged">
-                      <button type="submit" class="btn btn-green">Save Changes</button>
-                      <button class="btn btn-cancel" (click)="onCancelChange()">Cancel</button>
+                    <div class="profile-setting-delete-panel">
+                        <h4>Delete</h4>
+                        <div class="profile-setting-delete-content">
+                            <h6>If you delete your account you will no longer be able to access any of your projects on Blurbiz.</h6>
+                            <button class="btn btn-delete-account" (click)="onDeleteAccount()">Delete Account</button>
+                        </div>
                     </div>
-                  </div>
-                  <div *ngIf="!props.isChangingPassword">
-                    <div *ngIf="props.isInfoChanged" style="margin-bottom: 20px">
-                      <button type="submit" class="btn btn-green">Save Changes</button>
-                      <button class="btn btn-cancel" (click)="onCancelChange()">Cancel</button>
-                    </div>
-                    Password
-                    <div class="form-group">
-                        <input type="password" class="form-control"  id="password" name="password" #password="ngModel" [(ngModel)]="user.password" required placeholder="Password" [attr.disabled]="!props.isChangingPassword ? '' : null"/>
-                    </div>
-                    <button class="btn btn-cancel" (click)="onPasswordChange()">Change password</button>
-                  </div>
-
-                </form>
-              </div>
-              <div class="profile-avatar-change-panel">
-                <img [src]="user.avatar" alt="Avatar">
-                <ng5-files-click (filesSelect)="filesSelect($event)">
-                  <span class="btn btn-change-picture">Change picture</span>
-                </ng5-files-click>
-              </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+    <div class="backdrop" [ngStyle]="{'display':props.isDeleteAccount}"></div>
+    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.isDeleteAccount}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span class="btn-close" (click)="onCancelDeleteAccount()" role="button" tabindex="0"></span>
+                    <h3 class="modal-title">Delete Account?</h3>
+                    This will instantly delete your Blurbiz account, including all projects. <b>This cannot be undone.</b>
+                    <input class="form-control" [(ngModel)]="props.deleteConfirmInput" placeholder="type 'delete' to confirm"/>
+                    <button [disabled]="props.deleteConfirmInput != 'delete'" class="btn btn-custom btn-orange btn-md" (click)="onConfirmDeleteAccount(); ">Delete Account</button>
+                </div>
             </div>
-            <div class="profile-setting-delete-panel">
-              <h4>Delete</h4>
-              <div class="profile-setting-delete-content">
-                <h6>If you delete your account you will no longer be able to access any of your projects on Blurbiz.</h6>
-                <button class="btn btn-delete-account" (click)="onDeleteAccount()">Delete Account</button>
-              </div>
+        </div>
+    </div>
+
+    <div class="backdrop" [ngStyle]="{'display':props.isChangeAccount}"></div>
+    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.isChangeAccount}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span class="btn-close" (click)="onCancelChangeAccount()" role="button" tabindex="0"></span>
+                    <h3 class="modal-title">Confirm your changes</h3>
+                    Are you sure to change your account informations?
+                    <button class="btn btn-custom btn-orange btn-md" (click)="onConfirmChangeAccount(); ">Confirm</button>
+                </div>
             </div>
-          </div>
-        </ng-template>
-      </ngb-tab>
-  </ngb-tabset>
-  <div class="backdrop" [ngStyle]="{'display':props.isDeleteAccount}"></div>
-  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.isDeleteAccount}">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-body">
-                  <span class="btn-close" (click)="onCancelDeleteAccount()" role="button" tabindex="0"></span>
-                  <h3 class="modal-title">Delete Account?</h3>
-                  This will instantly delete your Blurbiz account, including all projects. <b>This cannot be undone.</b>
-                  
-                  <input class="form-control" [(ngModel)]="props.deleteConfirmInput" placeholder="type 'delete' to confirm"/>
-                  <button [disabled]="props.deleteConfirmInput != 'delete'" class="btn btn-custom btn-orange btn-md" (click)="onConfirmDeleteAccount(); ">Delete Account</button>
-              </div>
-          </div>
-      </div>
-  </div>
+        </div>
+    </div>
 
-  <div class="backdrop" [ngStyle]="{'display':props.isChangeAccount}"></div>
-  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.isChangeAccount}">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-body">
-                  <span class="btn-close" (click)="onCancelChangeAccount()" role="button" tabindex="0"></span>
-                  <h3 class="modal-title">Confirm your changes</h3>
-                  Are you sure to change your account informations?
-                  <button class="btn btn-custom btn-orange btn-md" (click)="onConfirmChangeAccount(); ">Confirm</button>
-              </div>
-          </div>
-      </div>
-  </div>
-
-  <div class="backdrop" [ngStyle]="{'display':props.isUpdatingNow == true ? 'block' : 'none'}"></div>
-  <i *ngIf="props.isUpdatingNow" class="fa fa-spinner fa-pulse fa-4x fa-fw loader"></i>
+    <div class="backdrop" [ngStyle]="{'display':props.isUpdatingNow == true ? 'block' : 'none'}"></div>
+    <i *ngIf="props.isUpdatingNow" class="fa fa-spinner fa-pulse fa-4x fa-fw loader"></i>
 </div>
 
 <style>
 .backdrop{
-  background-color:rgba(0,0,0,0.2);
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
+    background-color:rgba(0,0,0,0.2);
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
 }
 .loader {
-  position: absolute;
-  z-index: 15;
-  top: 50%;
-  left: 50%;
-  margin: 0px -50px;
+    position: absolute;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: 0px -50px;
 }
 </style>
