@@ -97,21 +97,21 @@ export class UserManagementComponent implements OnInit {
 
         response.users.forEach(user => {
           const registeredDate = new Date(user.usr_created_at);
-          const lastLoginDate = new Date(user.usr_lastlogin_at);
+          const lastLoginDate = user.usr_lastlogin_at ? new Date(user.usr_lastlogin_at) : null;
 
           let newUser = {
             id: user.usr_id,
             userInfo: {
               name: user.usr_name,
-              userAvatar: user.usr_profile_path,
+              userAvatar: user.usr_profile_path ? user.usr_profile_path : '/assets/avatar.jpg',
               registeredDate: this.datePipe.transform(registeredDate, 'MMM dd, yyyy')
             },
             usage: {
               usagePercent: 90,
               usagePeriod: 'Jun 11, 2015 - Jul 10, 2015'
             },
-            lastLoginDate: this.diffsBetweenDate(current, lastLoginDate),
-            company: user.usr_usr_company,
+            lastLoginDate: lastLoginDate ? this.diffsBetweenDate(current, lastLoginDate) + ' ago' : '',
+            company: user.usr_company,
             playOrPause: true
           }
 
@@ -228,6 +228,7 @@ export class UserManagementComponent implements OnInit {
     var diffDays = Math.floor(diffMs / 86400000); // days
     var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+    var diffSecs = Math.round((((diffMs % 86400000) % 3600000) % 60000) / 1000); // seconds
 
     var returnValue = '';
     if (diffDays != 0) {
@@ -241,6 +242,9 @@ export class UserManagementComponent implements OnInit {
     if (diffMins != 0) {
       returnValue += diffMins;
       returnValue += (diffMins == 1) ? ' minute ' : ' minutes ';
+    }
+    if (diffDays == 0 && diffHrs == 0 && diffMins == 0 && diffSecs != 0) {
+      returnValue = diffSecs + ' seconds';
     }
     return returnValue;
   }
