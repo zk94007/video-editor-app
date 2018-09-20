@@ -4,6 +4,7 @@
  * 2018-03-10
  */
 
+var async = require('async');
 var uuidGen = require('node-uuid');
 
 var helper = require('../helper/helper');
@@ -116,6 +117,51 @@ module.exports = {
             });
         } catch (err) {
             helper.response.onError('error: deleteUser', callback);
+        }
+    },
+
+    getUsers(userInfo, message, callback) {
+        try {
+            let seriesTasks = [];
+            var users_count;
+            var today_signedup_users_count;
+            var users;
+
+            seriesTasks.push((series_callback) => {
+                userModel.getUsersCount((err, _users_count) => {
+                    users_count = _users_count;
+                    series_callback(err);
+                })
+            });
+            
+            seriesTasks.push((series_callback) => {
+                userModel.getTodaySignedupUsersCount((err, _today_signedup_users_count) => {
+                    today_signedup_users_count = _today_signedup_users_count;
+                    series_callback(err);
+                });
+            });
+
+            seriesTasks.push((series_callback) => {
+                userModel.getUsers((err, _users) => {
+                    users = _users;
+                    series_callback(err);
+                });
+            });
+
+            async.series(seriesTasks, (err) => {
+                if (err) {
+                    helper.response.onError('error: getUsers', callback);
+                    return;
+                }
+
+                helper.response.onSuccessPlus(callback, {
+                    users_count: users_count,
+                    today_signedup_users_count: today_signedup_users_count,
+                    users: users
+                });
+            });
+        } catch (err) {
+            helper.response.onError('error: getUsers', callback);
         }
     },
 

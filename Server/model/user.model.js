@@ -212,6 +212,77 @@ module.exports = {
         }
     },
 
+    getUsersCount(callback) {
+        try {
+            helper.query.runQuery('SELECT COUNT(*) from public.user;', [], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: getUsersCount' + err, callback);
+                    return;
+                }
+
+                let users_count = result.rows[0].count;
+                helper.response.onSuccess(callback, users_count);
+            });
+        } catch(err) {
+            helper.response.onError('error: getUsersCount' + err, callback);
+        }
+    },
+
+    getUsers(callback) {
+        try {
+            helper.query.runQuery('SELECT * from public.user;', [], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: getUsers' + err, callback);
+                    return;
+                }
+
+                let users = result.rows;
+                helper.response.onSuccess(callback, users);
+            });
+        } catch(err) {
+            helper.response.onError('error: getUsers' + err, callback);
+        }
+    },
+
+    getTodaySignedupUsersCount(callback) {
+        try {
+            function startDate(date) {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+            
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+            
+                return [year, month, day].join('-') + ' 00:00:00';
+            }
+            function endDate(date) {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+            
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+            
+                return [year, month, day].join('-') + ' 23:59:59';
+            }
+
+            helper.query.runQuery('SELECT COUNT(*) from public.user where usr_created_at >= $1 and usr_created_at <= $2', [startDate(new Date()), endDate(new Date())], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: getTodaySignedupUsersCount' + err, callback);
+                    return;
+                }
+
+                let today_signedup_users_count = result.rows[0].count;
+                helper.response.onSuccess(callback, today_signedup_users_count);
+            });
+        } catch(err) {
+            helper.response.onError('error: getTodaySignedupUsersCount' + err, callback);
+        }
+    },
+
     /**
      * 
      * @param {*} usr_id 

@@ -17,6 +17,7 @@ export class UserService {
     this.socket.bind('UPDATE_USER_RESPONSE', this._updateUserResponse);
     this.socket.bind('UPDATE_USER_PROFILE_RESPONSE', this._updateUserProfileResponse);
     this.socket.bind('DELETE_USER_RESPONSE', this._deleteUserResponse);
+    this.socket.bind('GET_USERS_RESPONSE', this._getUsersResponse);
   }
 
   /**
@@ -25,6 +26,10 @@ export class UserService {
    */
   _updateUser(data) {
     this.socket.sendMessageWithToken('UPDATE_USER', {data: data });
+  }
+
+  _getUsers() {
+    this.socket.sendMessageWithToken('GET_USERS', {});
   }
 
   /**
@@ -50,5 +55,9 @@ export class UserService {
 
   _deleteUserResponse(response) {
     $this.onDeleteUser.emit(response);
+  }
+
+  _getUsersResponse(response) {
+    console.log(response);
   }
 }

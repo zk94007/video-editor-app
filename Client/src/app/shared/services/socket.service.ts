@@ -14,6 +14,11 @@ export class SocketService {
             'reconnectionDelay': 500,
             'reconnectionAttempts': 5
         });
+
+        var self = this;
+        this.socket.on('connect', function() {
+            self.socket.emit('auto-connect', {token: localStorage.getItem('token')});
+        });
     }
 
     sendMessage(method, data: any = {}) {

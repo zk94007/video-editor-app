@@ -14,6 +14,8 @@ module.exports = {
     resendConfirmEmail:         'RESEND_CONFIRM_EMAIL',
     updateUserProfile:          'UPDATE_USER_PROFILE',
     deleteUser:                 'DELETE_USER',
+    getUsers:                   'GET_USERS',
+    getOnlineUsers:             'GET_ONLINE_USERS',
 
     getProjectList:             'GET_PROJECT_LIST',
     createProject:              'CREATE_PROJECT',

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProjectService } from '../../../shared/services/project.service';
 import { NgbPopover } from '../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '../../../../../node_modules/@angular/forms';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-user-management',
@@ -41,7 +42,7 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  constructor(private projectService: ProjectService) {
+  constructor(private projectService: ProjectService, private userService: UserService) {
     this.user.totalUserCount = 12000;
     this.user.signedUpTodayUserCount = 1000;
 
@@ -120,6 +121,8 @@ export class UserManagementComponent implements OnInit {
       pageTitle: 'Admin',
       isTitleEditable: false
     });
+
+    this.userService._getUsers();
   }
 
   /**

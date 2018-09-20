@@ -22,13 +22,51 @@ var service = require('./service/service.js');
 var io = require('socket.io')(config.server.port);
 helper.log.system('socket server started at Port:' + config.server.port);
 
+var onlineUsers = [];
+
+function addOnlineUser(user) {
+    var _user = onlineUsers.find((u) => {return u.usr_id == user.usr_id;});
+    if (!_user) {
+        console.log('new user' + user);
+        onlineUsers.push(user);
+    }
+    console.log(onlineUsers);
+}
+
+function removeOnlineUser(user) {
+    var index = onlineUsers.findIndex((u) => {return u.usr_id == user.usr_id;});
+    if (index >= 0) {
+        onlineUsers.splice(index, 1);
+    }
+    console.log(onlineUsers);
+}
+
 io.on('connection', function(socket) {
+    var socket_user = {
+        usr_id: null
+    };
+
     helper.log.system('client connected');
     
+    socket.on('disconnect', function() {
+        removeOnlineUser(socket_user);
+    });
+
+    socket.on('auto-connect', function (message) {
+        helper.socket.authenticateMessage(socket, 'auto-connect', message, function (err, userInfo) {
+            socket_user.usr_id = userInfo.usr_id;
+            addOnlineUser(socket_user);
+        });
+    });
+
     socket.on(constant.method.signin, function (message) {
         helper.log.system('received signin message: ' + JSON.stringify(message));
         helper.socket.validateMessage(socket, constant.method.signin, message, function() {
             service.user.signin(message, function(err, result) {
+                if (result.success && result.token != undefined) {
+                    socket_user.usr_id = result.user.usr_id;
+                    addOnlineUser(socket_user);
+                }
                 socket.emit(constant.method.signin + '_RESPONSE', result);
                 helper.log.system(JSON.stringify(result));
             });
@@ -102,6 +140,24 @@ io.on('connection', function(socket) {
                 socket.emit(constant.method.deleteUser + '_RESPONSE', result);
                 helper.log.system(JSON.stringify(result));
             });
+        });
+    });
+
+    socket.on(constant.method.getUsers, function (message) {
+        helper.log.system('received get users message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.getUsers, message, function (err, userInfo) {
+            service.user.getUsers(userInfo, message, function (err, result) {
+                result.online_users = onlineUsers;
+                socket.emit(constant.method.getUsers + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
+    socket.on(constant.method.getOnlineUsers, function (message) {
+        helper.log.system('received get online users message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.getOnlineUsers, message, function (err, userInfo) {
+            socket.emit(constant.method.getOnlineUsers + '_RESPONSE', {online_users: onlineUsers});
         });
     });
 
