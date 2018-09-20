@@ -25,6 +25,7 @@ export class UserService {
     this.socket.bind('INVITE_ADMIN_RESPONSE', this._inviteAdminResponse);
     this.socket.bind('CONFIRM_ADMIN_RESPONSE', this._confirmAdminResponse);
     this.socket.bind('DELETE_USER_BY_ID_RESPONSE', this._deleteUserByIdResponse);
+    this.socket.bind('GET_USER_INFORMATION_RESPONSE', this._getUserInformationResponse);
   }
 
   /**
@@ -76,6 +77,10 @@ export class UserService {
     this.socket.sendMessage('CONFIRM_ADMIN', { uae_code: emailCode });
   }
 
+  _getUserInformation() {
+    this.socket.sendMessageWithToken('GET_USER_INFORMATION', {});
+  }
+
   /**
      *
      * @param file     
@@ -118,6 +123,10 @@ export class UserService {
   }
 
   _deleteUserByIdResponse(response) {
+    console.log(response);
+  }
+
+  _getUserInformationResponse(response) {
     console.log(response);
   }
 }

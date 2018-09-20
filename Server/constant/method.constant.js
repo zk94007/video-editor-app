@@ -20,6 +20,7 @@ module.exports = {
     getOnlineUsers:             'GET_ONLINE_USERS',
     updateUserById:             'UPDATE_USER_BY_ID',
     inviteAdmin:                'INVITE_ADMIN',
+    getUserInformation:         'GET_USER_INFORMATION',
 
     getProjectList:             'GET_PROJECT_LIST',
     createProject:              'CREATE_PROJECT',

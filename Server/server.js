@@ -181,6 +181,13 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.getUserInformation, function (message) {
+        helper.log.system('received get user information message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.getUserInformation, message, function (err, userInfo) {
+            socket.emit(constant.method.getUserInformation + '_RESPONSE', userInfo);
+        });
+    });
+
     socket.on(constant.method.getUsers, function (message) {
         helper.log.system('received get users message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.getUsers, message, function (err, userInfo) {
