@@ -16,6 +16,8 @@ module.exports = {
     deleteUser:                 'DELETE_USER',
     getUsers:                   'GET_USERS',
     getOnlineUsers:             'GET_ONLINE_USERS',
+    updateUserById:             'UPDATE_USER_BY_ID',
+    inviteAdmin:                'INVITE_ADMIN',
 
     getProjectList:             'GET_PROJECT_LIST',
     createProject:              'CREATE_PROJECT',

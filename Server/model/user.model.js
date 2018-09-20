@@ -79,7 +79,7 @@ module.exports = {
                         return;
                     }
 
-                    helper.response.onSuccessPlus(callback);
+                    helper.response.onSuccess(callback);
                 });
         } catch (err) {
             helper.response.onError('error: verifyByUsrId' + err, callback);
@@ -130,7 +130,7 @@ module.exports = {
                         return;
                     }
 
-                    helper.response.onSuccessPlus(callback);
+                    helper.response.onSuccess(callback);
                 });
         } catch (err) {
             helper.response.onError('error: updatePasswordByUsrId' + err, callback);
@@ -201,7 +201,7 @@ module.exports = {
                     }
 
                     let row = _result.rows[0];
-                    helper.response.onSuccessPlus(callback, {
+                    helper.response.onSuccess(callback, {
                         usr_id : row.usr_id,
                         usr_created_at : row.usr_created_at,
                     });

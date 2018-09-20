@@ -94,7 +94,7 @@ module.exports = {
 
             userModel.updateUserByUsrId(userInfo.usr_id, data, (err) => {
                 if (err) {
-                    helper.response.onError(err, callback);
+                    helper.response.onError('error: updateUser', callback);
                     return;
                 }
 
@@ -102,6 +102,56 @@ module.exports = {
             });
         } catch (err) {
             helper.response.onError('error: updateUser', callback);
+        }
+    },
+
+    inviteUser(userInfo, message, callbac) {
+        try {
+            let usr_id = message.usr_id;
+
+            let notFilledFields = [];
+            !usr_id ? notFilledFields.push('usr_id') : '';
+
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            userModel.updateUserByUsrId(usr_id, [{name: 'usr_role', value: '1'}], (err) => {
+                if (err) {
+                    helper.response.onError('error: inviteUser', callback);
+                    return;
+                }
+
+                helper.response.onSuccessPlus(callback);
+            });
+        }
+    },
+
+    updateUserById(userInfo, message, callback) {
+        try {
+            let usr_id = message.usr_id;
+            let data = message.data;
+
+            let notFilledFields = [];
+            !usr_id ? notFilledFields.push('usr_id') : '';
+            !data ? notFilledFields.push('data') : '';
+
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            userModel.updateUserByUsrId(usr_id, data, (err) => {
+                if (err) {
+                    helper.response.onError('error: updateUserById', callback);
+                    return;
+                }
+
+                helper.response.onSuccessPlus(callback);
+            });
+        } catch (err) {
+            helper.response.onError('error: updateUserById', callback);
         }
     },
 

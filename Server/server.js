@@ -133,6 +133,26 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.updateUserById, function (message) {
+        helper.log.system('received update user by id message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.updateUserById, message, function (err, userInfo) {
+            service.user.updateUserById(userInfo, message, function (err, result) {
+                socket.emit(constant.method.updateUserById + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
+    socket.on(constant.method.inviteAdmin, function (message) {
+        helper.log.system('received invite admin message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.inviteAdmin, message, function (err, userInfo) {
+            service.user.inviteAdmin(userInfo, message, function (err, result) {
+                socket.emit(constant.method.inviteAdmin + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.deleteUser, function (message) {
         helper.log.system('received delete user message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.deleteUser, message, function (err, userInfo) {
