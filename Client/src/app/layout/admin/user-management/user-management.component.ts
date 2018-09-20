@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ProjectService } from '../../../shared/services/project.service';
 import { NgbPopover } from '../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '../../../../../node_modules/@angular/forms';
 import { UserService } from '../../../shared/services/user.service';
+import { DatePipe } from '../../../../../node_modules/@angular/common';
 
 @Component({
   selector: 'app-user-management',
@@ -42,48 +43,11 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  constructor(private projectService: ProjectService, private userService: UserService) {
-    this.user.totalUserCount = 12000;
-    this.user.signedUpTodayUserCount = 1000;
+  public $uns : any = [];
 
-    this.user.users = [
-      {
-        id: 0,
-        userInfo: {
-          name: 'HeCToR',
-          userAvatar: '/assets/avatar.jpg',
-          registeredDate: 'Mar 2, 2018'
-        },
-        usage: {
-          usagePercent: 90,
-          usagePeriod: 'Jun 11, 2015 - Jul 10, 2015'
-        },
-        activity: {
-          activityType: 'Last login',
-          activityContent: '5 minutes ago'
-        },
-        company: 'Cocacola',
-        playOrPause: true
-      },
-      {
-        id: 1,
-        userInfo: {
-          name: 'Boris',
-          userAvatar: '/assets/avatar.jpg',
-          registeredDate: 'Mar 2, 2015'
-        },
-        usage: {
-          usagePercent: 60,
-          usagePeriod: 'Apr 13, 2016 - Aug 20, 2018'
-        },
-        activity: {
-          activityType: 'Last login',
-          activityContent: '5 minutes ago'
-        },
-        company: 'Apple',
-        playOrPause: false
-      }
-    ];
+  constructor(private projectService: ProjectService, private userService: UserService, private cdRef: ChangeDetectorRef, private datePipe: DatePipe) {
+    this.user.totalUserCount = 0;
+    this.user.signedUpTodayUserCount = 0;
   
     this.member.totalMemberCount = 12;
     this.member.signedUpTodayMemberCount = 1;
@@ -123,6 +87,42 @@ export class UserManagementComponent implements OnInit {
     });
 
     this.userService._getUsers();
+
+    this.$uns.push(this.userService.onGetUsers.subscribe((response) => {
+      const success = response.success;
+      if (success) {
+        this.user.users = [];
+
+        const current = new Date();
+
+        response.users.forEach(user => {
+          const registeredDate = new Date(user.usr_created_at);
+          const lastLoginDate = new Date(user.usr_lastlogin_at);
+
+          let newUser = {
+            id: user.usr_id,
+            userInfo: {
+              name: user.usr_name,
+              userAvatar: user.usr_profile_path,
+              registeredDate: this.datePipe.transform(registeredDate, 'MMM dd, yyyy')
+            },
+            usage: {
+              usagePercent: 90,
+              usagePeriod: 'Jun 11, 2015 - Jul 10, 2015'
+            },
+            lastLoginDate: this.diffsBetweenDate(current, lastLoginDate),
+            company: user.usr_usr_company,
+            playOrPause: true
+          }
+
+          this.user.users.push(newUser);
+        });
+        this.user.totalUserCount = response.users_count;
+        this.user.signedUpTodayUserCount = response.today_signedup_users_count;
+
+        this.cdRef.markForCheck();
+      }
+    }));
   }
 
   /**
@@ -132,7 +132,7 @@ export class UserManagementComponent implements OnInit {
 
 
   onActivateUser(event) {
-    this.user.activeUserId = event.row.id;
+    this.user.activeUserId = event.row.usr_id;
   }
 
   onDeleteUser() {
@@ -212,12 +212,37 @@ export class UserManagementComponent implements OnInit {
 
 
   numberFormat(_number, _sep) {
+    if (_number == 0) {
+      return 0;
+    }
     _number = typeof _number != "undefined" && _number > 0 ? _number : "";
     _number = _number.replace(new RegExp("^(\\d{" + (_number.length%3? _number.length%3:0) + "})(\\d{3})", "g"), "$1 $2").replace(/(\d{3})+?/gi, "$1 ").trim();
     if(typeof _sep != "undefined" && _sep != " ") {
         _number = _number.replace(/\s/g, _sep);
     }
     return _number;
+  }
+
+  diffsBetweenDate(date1, date2) {
+    var diffMs = (date1 - date2); // milliseconds between now & Christmas
+    var diffDays = Math.floor(diffMs / 86400000); // days
+    var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+    var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+
+    var returnValue = '';
+    if (diffDays != 0) {
+      returnValue += diffDays;
+      returnValue += (diffDays == 1) ? ' day ' : ' days ';
+    }
+    if (diffHrs != 0) {
+      returnValue += diffHrs;
+      returnValue += (diffHrs == 1) ? ' hour ' : ' hours ';
+    }
+    if (diffMins != 0) {
+      returnValue += diffMins;
+      returnValue += (diffMins == 1) ? ' minute ' : ' minutes ';
+    }
+    return returnValue;
   }
 
   nameComparator(propA, propB) {
