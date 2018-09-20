@@ -50,6 +50,7 @@
                         [limit]="5"
                         [selected]="user.selectedUsers"
                         [selectionType]="'checkbox'"
+                        [trackByProp]="'updated'"
                         (activate)="onActivateUser($event)">
                         <ngx-datatable-column
                             [width]="30"
@@ -94,14 +95,14 @@
                                 </div>
                             </ng-template>
                         </ngx-datatable-column>
-                        <ngx-datatable-column prop="activity" name="Activity">
+                        <ngx-datatable-column prop="lastLoginDate" name="Activity">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <div class="cell-activity">
                                     <div class="activity-type">
-                                        {{value.activityType}}
+                                        Last Login
                                     </div>
                                     <div class="activity-content">
-                                        {{value.activityContent}}
+                                        {{value}} ago
                                     </div>
                                 </div>
                             </ng-template>

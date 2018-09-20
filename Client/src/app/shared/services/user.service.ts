@@ -10,6 +10,7 @@ export class UserService {
   public onUpdateUser = new EventEmitter();
   public onUpdateUserProfile = new EventEmitter();
   public onDeleteUser = new EventEmitter();
+  public onGetUsers = new EventEmitter();
 
   constructor(private socket: SocketService) {
     $this = this;
@@ -58,6 +59,6 @@ export class UserService {
   }
 
   _getUsersResponse(response) {
-    console.log(response);
+    $this.onGetUsers.emit(response);
   }
 }

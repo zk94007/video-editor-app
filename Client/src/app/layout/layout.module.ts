@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
@@ -33,7 +33,8 @@ import { TagInputModule } from 'ngx-chips';
     ],
     providers: [
         ProjectService,
-        UserService
+        UserService,
+        DatePipe
     ],
     declarations: [
         LayoutComponent,
