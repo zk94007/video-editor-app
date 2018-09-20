@@ -86,6 +86,7 @@ export class UserManagementComponent implements OnInit {
       isTitleEditable: false
     });
 
+    this.userService._inviteAdmin(22);
     this.userService._getUsers();
 
     this.$uns.push(this.userService.onGetUsers.subscribe((response) => {
@@ -111,7 +112,7 @@ export class UserManagementComponent implements OnInit {
               usagePeriod: 'Jun 11, 2015 - Jul 10, 2015'
             },
             lastLoginDate: this.diffsBetweenDate(current, lastLoginDate),
-            company: user.usr_usr_company,
+            company: user.usr_company,
             playOrPause: true
           }
 

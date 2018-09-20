@@ -36,6 +36,27 @@ module.exports = {
         }
     },
 
+    createAdminInvitation(usr_id, uae_code, callback) {
+        try {
+            helper.query.runQuery('DELETE FROM public.user_auth_email WHERE usr_id = $1 AND uae_type = 3', [usr_id], (err) => {
+                if (err) {
+                    helper.response.onError('error: createAdminInvitation', callback);
+                    return;
+                }
+                helper.query.runQuery('INSERT INTO public.user_auth_email (usr_id, uae_code, uae_type) ' + 'VALUES ($1, $2, 3)', [usr_id, uae_code], (_err) => {
+                    if (_err) {
+                        helper.response.onError('error: createAdminInvitation', callback);
+                        return;
+                    }
+                    
+                    helper.response.onSuccess(callback);
+                });
+            });
+        } catch(err) {
+            helper.response.onError('error: createAdminInvitation', callback);
+        }
+    },
+
     /**
      * 
      * @param {*} usr_id 
@@ -118,6 +139,32 @@ module.exports = {
             });
         } catch (err) {
             helper.response.onError('error: getUserIdByConfirmCode', callback);
+        }
+    },
+
+    /**
+     * 
+     * @param {*} uae_code 
+     * @param {*} callback 
+     */
+    getUserIdByConfirmAdminCode(uae_code, callback) {
+        try {
+            helper.query.runQuery('SELECT usr_id from public.user_auth_email where uae_code = $1 AND uae_type = 3', [uae_code], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: getUserIdByConfirmAdminCode', callback);
+                    return;
+                }
+
+                let row = result.rows[0];
+                if (!row) {
+                    helper.response.onError('error: getUserIdByConfirmAdminCode', callback);
+                    return;
+                }
+
+                helper.response.onSuccess(callback, result.rows[0].usr_id);
+            });
+        } catch (err) {
+            helper.response.onError('error: getUserIdByConfirmAdminCode', callback);
         }
     },
 

@@ -16,6 +16,12 @@ module.exports = {
         html: '<b>To finish registration follow the link:</b> link_placeholder',
     },
 
+    template_admin_invitation: {
+        from: 'no.reply.blurbiz@gmal.com',
+        subject: 'Admin invitation confirmation',
+        html: '<b>To finish admin invitation follow the link:</b> link_placeholder',
+    },
+
     template_reset_password: {
         'from': 'no.reply.blurbiz@gmal.com',
         'subject': 'Reset password',

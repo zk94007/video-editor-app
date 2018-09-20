@@ -80,6 +80,12 @@ module.exports = {
         }
     },
 
+    /**
+     * 
+     * @param {*} userInfo 
+     * @param {*} message 
+     * @param {*} callback 
+     */
     updateUser(userInfo, message, callback) {
         try {
             let data = message.data;
@@ -105,29 +111,80 @@ module.exports = {
         }
     },
 
-    inviteUser(userInfo, message, callbac) {
+    /**
+     * 
+     * @param {*} userInfo 
+     * @param {*} message 
+     * @param {*} callback 
+     */
+    inviteAdmin(userInfo, message, callback) {
         try {
             let usr_id = message.usr_id;
+            let front_path = message.front_path;
 
             let notFilledFields = [];
             !usr_id ? notFilledFields.push('usr_id') : '';
+            !front_path ? notFilledFields.push('front_path') : '';
 
             if (notFilledFields.length > 0) {
                 helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
                 return;
             }
 
-            userModel.updateUserByUsrId(usr_id, [{name: 'usr_role', value: '1'}], (err) => {
+            userModel.getUserById(usr_id, (err, user) => {
                 if (err) {
                     helper.response.onError('error: inviteUser', callback);
                     return;
                 }
 
-                helper.response.onSuccessPlus(callback);
-            });
+                if (!user) {
+                    helper.response.onError('User does not exist.', callback);
+                    return;
+                }
+
+                if (user.usr_role == 1 && user.usr_admin_status == 1) {
+                    helper.response.onError('This user has already admin role.', callback);
+                    return;
+                }
+
+                userModel.updateUserByUsrId(usr_id, [{name: 'usr_role', value: 1},{name: 'usr_admin_status', value: 0}], (_err) => {
+                    if (_err) {
+                        helper.response.onError('error: inviteUser', callback);
+                        return;
+                    }
+    
+                    let uae_code = uuidGen.v4();
+                    userAuthEmail.createAdminInvitation(usr_id, uae_code, (__err) => {
+                        if (__err) {
+                            helper.response.onError('Can not send an admin invitation email', callback);
+                            return;
+                        }
+
+                        let adminInvitationLink = front_path  + uae_code;
+                        helper.email.sendAdminInvitationEmail(user.usr_email, adminInvitationLink, (___err) => {
+                            if (___err) {
+                                helper.response.onError('Can not send an admin invitation email', callback);
+                                return;
+                            }
+
+                            helper.response.onSuccessPlus(callback, {});
+                        });
+                    });
+                    
+                    helper.response.onSuccessPlus(callback);
+                });
+            });           
+        } catch (err) {
+            helper.response.onError('error: inviteUser', callback);
         }
     },
 
+    /**
+     * 
+     * @param {*} userInfo 
+     * @param {*} message 
+     * @param {*} callback 
+     */
     updateUserById(userInfo, message, callback) {
         try {
             let usr_id = message.usr_id;
@@ -155,6 +212,12 @@ module.exports = {
         }
     },
 
+    /**
+     * 
+     * @param {*} userInfo 
+     * @param {*} message 
+     * @param {*} callback 
+     */
     deleteUser(userInfo, message, callback) {
         try {
             userModel.deleteUserById(userInfo.usr_id, (err) => {
@@ -170,6 +233,43 @@ module.exports = {
         }
     },
 
+    /**
+     * 
+     * @param {*} userInfo 
+     * @param {*} message 
+     * @param {*} callback 
+     */
+    deleteUserById(userInfo, message, callback) {
+        try {
+            let usr_id = message.usr_id;
+            
+            let notFilledFields = [];
+            !usr_email ? notFilledFields.push('usr_id') : '';
+
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            userModel.deleteUserById(usr_id, (err) => {
+                if (err) {
+                    helper.response.onError(err, callback);
+                    return;
+                }
+
+                helper.response.onSuccessPlus(callback);
+            });
+        } catch (err) {
+            helper.response.onError('error: deleteUserById', callback);
+        }
+    },
+
+    /**
+     * 
+     * @param {*} userInfo 
+     * @param {*} message 
+     * @param {*} callback 
+     */
     getUsers(userInfo, message, callback) {
         try {
             let seriesTasks = [];
@@ -215,6 +315,12 @@ module.exports = {
         }
     },
 
+    /**
+     * 
+     * @param {*} message 
+     * @param {*} profilePath 
+     * @param {*} callback 
+     */
     updateUserProfile(message, profilePath, callback) {
         try {
             let usr_email = message.usr_email;
@@ -399,6 +505,51 @@ module.exports = {
                             token: helper.token.getToken(user),
                             user: user
                         });
+                    });
+                });
+            });
+        } catch (err) {
+            helper.log.service('user', err);
+            helper.response.onError(err, callback);
+        }
+    },
+
+    /**
+     * 
+     * @param {*} message 
+     * @param {*} callback 
+     */
+    confirmAdmin(message, callback) {
+        try {
+            let uae_code = message.uae_code;
+
+            var notFilledFields = [];
+            !uae_code ? notFilledFields.push('uae_code') : '';
+
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fields are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            userAuthEmail.getUserIdByConfirmAdminCode(uae_code, (err, usr_id) => {
+                if (err || !usr_id) {
+                    helper.response.onError('Not a valid verification code', callback);
+                    return;
+                }
+
+                userModel.getUserById(usr_id, (_err, user) => {
+                    if (_err) {
+                        helper.response.onError('Not a valid verification code', callback);
+                        return;
+                    }
+
+                    userModel.updateUserByUsrId(usr_id, [{name: 'usr_admin_status', value: 1}], (__err) => {
+                        if (__err) {
+                            helper.response.onError('Confirmation Error');
+                            return;
+                        }
+
+                        helper.response.onSuccessPlus(callback, {});
                     });
                 });
             });
