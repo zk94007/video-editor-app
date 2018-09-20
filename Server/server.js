@@ -30,7 +30,6 @@ function addOnlineUser(user) {
         console.log('new user' + user);
         onlineUsers.push(user);
     }
-    console.log(onlineUsers);
 }
 
 function removeOnlineUser(user) {
@@ -38,7 +37,6 @@ function removeOnlineUser(user) {
     if (index >= 0) {
         onlineUsers.splice(index, 1);
     }
-    console.log(onlineUsers);
 }
 
 io.on('connection', function(socket) {
@@ -153,11 +151,31 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.confirmAdmin, function (message) {
+        helper.log.system('received confirm admin message: ' + JSON.stringify(message));
+        helper.socket.validateMessage(socket, constant.method.confirmAdmin, message, function() {
+            service.user.confirmAdmin(message, function (err, result) {
+                socket.emit(constant.method.confirmAdmin + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.deleteUser, function (message) {
         helper.log.system('received delete user message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.deleteUser, message, function (err, userInfo) {
             service.user.deleteUser(userInfo, message, function (err, result) {
                 socket.emit(constant.method.deleteUser + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
+    socket.on(constant.method.deleteUserById, function (message) {
+        helper.log.system('received delete user by id message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.deleteUserById, message, function (err, userInfo) {
+            service.user.deleteUserById(userInfo, message, function (err, result) {
+                socket.emit(constant.method.deleteUserById + '_RESPONSE', result);
                 helper.log.system(JSON.stringify(result));
             });
         });

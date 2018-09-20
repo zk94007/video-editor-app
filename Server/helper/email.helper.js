@@ -77,6 +77,32 @@ module.exports = {
      * @param {*} link 
      * @param {*} callback 
      */
+    sendAdminInvitationEmail(email, link, callback) {
+        logHelper.helper('email', 'call sendAdminInvitation Email : ' + email);
+        
+        var template = emailConfig.template_admin_invitation;
+        var from = template.from;
+        var to = email;
+        var subject = template.subject;
+        var html = template.html;
+        html = html.replace('link_placeholder', link);
+
+        var options = {
+            from: from,
+            to: to,
+            subject: subject,
+            html: html,
+        };
+
+        this.sendEmail(options, callback);
+    },
+
+    /**
+     * 
+     * @param {*} email 
+     * @param {*} link 
+     * @param {*} callback 
+     */
     sendResetPasswordEmail(email, link, callback) {
         logHelper.helper('email', 'call resetPassword Email : ' + email);
 

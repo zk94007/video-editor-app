@@ -86,6 +86,12 @@ module.exports = {
         }
     },
 
+    /**
+     * 
+     * @param {*} usr_id 
+     * @param {*} data 
+     * @param {*} callback 
+     */
     updateUserByUsrId(usr_id, data, callback) {
         try {
             helper.model.update('user', data, [
@@ -212,6 +218,10 @@ module.exports = {
         }
     },
 
+    /**
+     * 
+     * @param {*} callback 
+     */
     getUsersCount(callback) {
         try {
             helper.query.runQuery('SELECT COUNT(*) from public.user;', [], (err, result) => {
@@ -228,6 +238,10 @@ module.exports = {
         }
     },
 
+    /**
+     * 
+     * @param {*} callback 
+     */
     getUsers(callback) {
         try {
             helper.query.runQuery('SELECT * from public.user;', [], (err, result) => {
@@ -244,6 +258,10 @@ module.exports = {
         }
     },
 
+    /**
+     * 
+     * @param {*} callback 
+     */
     getTodaySignedupUsersCount(callback) {
         try {
             function startDate(date) {

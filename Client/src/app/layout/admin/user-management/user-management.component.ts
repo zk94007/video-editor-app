@@ -86,6 +86,7 @@ export class UserManagementComponent implements OnInit {
       isTitleEditable: false
     });
 
+    this.userService._inviteAdmin(22);
     this.userService._getUsers();
 
     this.$uns.push(this.userService.onGetUsers.subscribe((response) => {
