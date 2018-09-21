@@ -59,9 +59,9 @@ export class UserManagementComponent implements OnInit {
             const success = response.success;
             if (success) {
                 this.props.currentUserRole = response.user.usr_role;
-                // if (this.props.currentUserRole == USER_ROLE_SUPER) {
+                if (this.props.currentUserRole == USER_ROLE_SUPER) {
                     this.props.showMemberPanel = true;
-                // }
+                }
                 this.userService._getUsers();
             }
         }));
