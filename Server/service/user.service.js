@@ -111,6 +111,21 @@ module.exports = {
         }
     },
 
+    getUserInformation(userInfo, message, callback) {
+        try {
+            userModel.getUserByEmail(userInfo.usr_email, (err, user) => {
+                if (err) {
+                    helper.response.onError('error: getUserInformation', callback);
+                    return;
+                }
+
+                helper.response.onSuccessPlus(callback, {token: helper.token.getToken(user), user: user});
+            });
+        } catch (err) {
+            helper.response.onError('error: getUserInformation', callback);
+        }
+    },
+
     /**
      * 
      * @param {*} userInfo 
