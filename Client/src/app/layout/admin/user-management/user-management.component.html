@@ -51,7 +51,7 @@
                         [selected]="user.selectedUsers"
                         [selectionType]="'checkbox'"
                         [trackByProp]="'updated'"
-                        (activate)="onActivateUser($event)">
+                        (activate)="onActivateRecord($event)">
                         <ngx-datatable-column
                             [width]="30"
                             [sortable]="false"
@@ -61,11 +61,11 @@
                             [headerCheckboxable]="true"
                             [checkboxable]="true">
                         </ngx-datatable-column>
-                        <ngx-datatable-column prop="userInfo" name="User" [comparator]="nameComparator">
+                        <ngx-datatable-column prop="info" name="User" [comparator]="nameComparator">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <div class="cell-user-info">
                                     <div class="user-avatar">
-                                        <img [src]="value.userAvatar" width="40"/>
+                                        <img [src]="value.avatar" width="40"/>
                                     </div>
                                     <div class="user-info">
                                         <div id="user-name">
@@ -110,7 +110,7 @@
                         <ngx-datatable-column prop="company" name="Company"></ngx-datatable-column>
                         <ngx-datatable-column prop="playOrPause" name="Play/Pause">
                             <ng-template let-value="value" ngx-datatable-cell-template>
-                                <img class="cell-play-or-pause" [src]="value == true ? '/assets/admin/play.svg' : '/assets/admin/pause.svg'"/>
+                                <img class="cell-play-or-pause" [src]="value == true ? '/assets/admin/play.svg' : '/assets/admin/pause.svg'" (click)="onPlayOrPause(value)"/>
                             </ng-template>
                         </ngx-datatable-column>
                         <ngx-datatable-column [sortable]="false">
@@ -118,7 +118,7 @@
                                 <div class="cell-option" [ngbPopover]="optionContent" placement="bottom" #optionPopover="ngbPopover" (document:click)="optionPopover.close()" (click)="$event.stopPropagation()"></div>
                             </ng-template>
                             <ng-template #optionContent>
-                                <div (click)="onDeleteUser()" class="cell-option-popover">
+                                <div (click)="onDeleteRecord()" class="cell-option-popover">
                                     <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete
                                 </div>
                                 </ng-template>
@@ -127,7 +127,7 @@
                 </div>
             </ng-template>
         </ngb-tab>
-        <ngb-tab title="Team Members">
+        <ngb-tab title="Team Members" *ngIf="props.showMemberPanel">
             <ng-template ngbTabContent>
                 <div class="member-analytic">
                     <div style="display: flex">
@@ -183,7 +183,7 @@
                         [limit]="5"
                         [selected]="member.selectedMembers"
                         [selectionType]="'checkbox'"
-                        (activate)="onActivateMember($event)">
+                        (activate)="onActivateRecord($event)">
                         <ngx-datatable-column
                             [width]="30"
                             [sortable]="false"
@@ -193,11 +193,12 @@
                             [headerCheckboxable]="true"
                             [checkboxable]="true">
                         </ngx-datatable-column>
-                        <ngx-datatable-column prop="memberInfo" name="Member" [comparator]="nameComparator">
+                        <ngx-datatable-column prop="info" name="Member" [comparator]="nameComparator">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <div class="cell-member-info">
                                     <div class="member-avatar">
-                                        <img [src]="value.memberAvatar" width="40"/>
+                                        <img [src]="value.avatar" width="40"/>
+                                        <div class="onOffLineIcon" [ngStyle]="{'background-color': isOnlineUser(value.id) ? '#37a000' : '#a0a0a0' }"></div>
                                     </div>
                                     <div class="member-info">
                                         <div id="member-name">
@@ -227,25 +228,32 @@
                                 </div>
                             </ng-template>
                         </ngx-datatable-column>
-                        <ngx-datatable-column prop="activity" name="Activity">
+                        <ngx-datatable-column prop="lastLoginDate" name="Activity">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <div class="cell-activity">
                                     <div class="activity-type">
-                                        {{value.activityType}}
+                                        Last Login
                                     </div>
                                     <div class="activity-content">
-                                        {{value.activityContent}}
+                                        {{value}}
                                     </div>
                                 </div>
                             </ng-template>
                         </ngx-datatable-column>
-                        <ngx-datatable-column prop="role" name="Role"></ngx-datatable-column>
+                        <ngx-datatable-column prop="role" name="Role">
+                            <ng-template let-value="value" ngx-datatable-cell-template>
+                                {{value == 1 ? 'Admin' : 'User'}}
+                            </ng-template>
+                        </ngx-datatable-column>
                         <ngx-datatable-column prop="status" name="Status">
-
+                            <ng-template let-value="value" ngx-datatable-cell-template>
+                                <div *ngIf="value == 0" style="color: #faa737">Pending</div>
+                                <div *ngIf="value == 1" style="color: #00b59a">Active</div>
+                            </ng-template>
                         </ngx-datatable-column>
                         <ngx-datatable-column prop="playOrPause" name="Play/Pause">
                             <ng-template let-value="value" ngx-datatable-cell-template>
-                                <img class="cell-play-or-pause" [src]="value == true ? '/assets/admin/play.svg' : '/assets/admin/pause.svg'"/>
+                                <img class="cell-play-or-pause" [src]="value == true ? '/assets/admin/play.svg' : '/assets/admin/pause.svg'" (click)="onPlayOrPause(value)"/>
                             </ng-template>
                         </ngx-datatable-column>
                         <ngx-datatable-column [sortable]="false">
@@ -253,7 +261,7 @@
                                 <div class="cell-option" [ngbPopover]="optionContent" placement="bottom" #optionPopover="ngbPopover" (document:click)="optionPopover.close()" (click)="$event.stopPropagation()"></div>
                             </ng-template>
                             <ng-template #optionContent>
-                                <div (click)="onDeleteMember()" class="cell-option-popover">
+                                <div (click)="onDeleteRecord()" class="cell-option-popover">
                                     <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete
                                 </div>
                                 </ng-template>
@@ -264,33 +272,17 @@
         </ngb-tab>
     </ngb-tabset>
 
-    <!-- Delete User Dialog-->
-    <div class="backdrop" [ngStyle]="{'display':user.isDeleteUser == true ? 'block' : 'none'}"></div>
-    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':user.isDeleteUser == true ? 'block' : 'none'}">
+    <!-- Delete Record Dialog-->
+    <div class="backdrop" [ngStyle]="{'display':props.isDeleteRecord == true ? 'block' : 'none'}"></div>
+    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.isDeleteRecord == true ? 'block' : 'none'}">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <span class="btn-close" (click)="onCancelDeleteUser()" role="button" tabindex="0"></span>
+                    <span class="btn-close" (click)="onCancelDeleteRecord()" role="button" tabindex="0"></span>
                     <h3 class="modal-title">Delete Account?</h3>
                     This will instantly delete your Blurbiz account, including all projects. <b>This cannot be undone.</b>
                     <input class="form-control" [(ngModel)]="props.deleteConfirmInput" placeholder="type 'delete' to confirm"/>
-                    <button [disabled]="props.deleteConfirmInput != 'delete'" class="btn btn-custom btn-orange btn-md" (click)="onConfirmDeleteUser(); ">Delete Account</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Member Dialog-->
-    <div class="backdrop" [ngStyle]="{'display':member.isDeleteMember == true ? 'block' : 'none'}"></div>
-    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':member.isDeleteMember == true ? 'block' : 'none'}">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <span class="btn-close" (click)="onCancelDeleteMember()" role="button" tabindex="0"></span>
-                    <h3 class="modal-title">Delete Account?</h3>
-                    This will instantly delete your Blurbiz account, including all projects. <b>This cannot be undone.</b>
-                    <input class="form-control" [(ngModel)]="props.deleteConfirmInput" placeholder="type 'delete' to confirm"/>
-                    <button [disabled]="props.deleteConfirmInput != 'delete'" class="btn btn-custom btn-orange btn-md" (click)="onConfirmDeleteMember(); ">Delete Account</button>
+                    <button [disabled]="props.deleteConfirmInput != 'delete'" class="btn btn-custom btn-orange btn-md" (click)="onConfirmDeleteRecord(); ">Delete Account</button>
                 </div>
             </div>
         </div>
@@ -309,13 +301,21 @@
                         [(ngModel)]="member.addMember.addMemberEmails"
                         [theme]="'dark'"
                         [modelAsStrings]="true"
-                        [dragZone]="'zone1'"
                         [editable]="true"
                         [separatorKeyCodes]="[32, 188]"
                         [secondaryPlaceholder]="'Enter a new email'"
                         [placeholder]="'Add email'"
-                        [errorMessages]="member.addMember.errorMessages"
-                        [validators]="member.addMember.validators">
+                        [onlyFromAutocomplete]="true">
+                        <tag-input-dropdown
+                            [showDropdownIfEmpty]="true"
+                            [focusFirstElement]="true"
+                            [autocompleteItems]="member.addMember.autoCompleteEmails"
+                            [appendToBody]="false"
+                            [displayBy]="'value'">
+                            <ng-template let-item="item" let-index="index">
+                                {{ item.name }}: {{ item.value }}
+                            </ng-template>
+                        </tag-input-dropdown>
                     </tag-input>
                     <div style="display: flex">
                         <div ngbDropdown class="d-inline-block select-role-panel">

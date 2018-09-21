@@ -11,6 +11,9 @@ export class UserService {
   public onUpdateUserProfile = new EventEmitter();
   public onDeleteUser = new EventEmitter();
   public onGetUsers = new EventEmitter();
+  public onGetUserInformation = new EventEmitter();
+  public onConfirmAdmin = new EventEmitter();
+  public onDeleteUserById = new EventEmitter();
 
   private front_url = environment.front_url;
 
@@ -55,9 +58,8 @@ export class UserService {
   /**
    * 
    * @param usr_id 
-   * @param data 
    */
-  _deleteUserById(usr_id, data) {
+  _deleteUserById(usr_id) {
     this.socket.sendMessageWithToken('DELETE_USER_BY_ID', {usr_id: usr_id});
   }
 
@@ -119,14 +121,14 @@ export class UserService {
   }
 
   _confirmAdminResponse(response) {
-    console.log(response);
+    $this.onConfirmAdmin.emit(response);
   }
 
   _deleteUserByIdResponse(response) {
-    console.log(response);
+    $this.onDeleteUserById.emit(response);
   }
 
   _getUserInformationResponse(response) {
-    console.log(response);
+    $this.onGetUserInformation.emit(response);
   }
 }

@@ -310,13 +310,13 @@ module.exports = {
         try {
             helper.query.runQuery('SELECT * FROM public.user WHERE usr_id = $1', [usr_id], (err, result) => {
                 if (err) {
-                    helper.response.onError('error: deleteUserById', callback);
+                    helper.response.onError('error: deleteUserById' + err, callback);
                     return;
                 }
 
                 helper.query.runQuery('DELETE FROM public.user WHERE usr_id = $1', [usr_id], (_err, _result) => {
                     if (_err) {
-                        helper.response.onError('error: deleteUserById', callback);
+                        helper.response.onError('error: deleteUserById' + _err, callback);
                         return;
                     }
                     
@@ -324,7 +324,7 @@ module.exports = {
                 });
             });
         } catch (err) {
-            helper.response.onError('error: deleteUserById', callback);
+            helper.response.onError('error: deleteUserById' + err, callback);
         }
     },
 }

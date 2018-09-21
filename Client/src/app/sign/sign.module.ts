@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { SignService } from '../shared/services/sign.service';
 import { ResendComponent } from './resend/resend.component';
+import { ConfirmAdminComponent } from './confirm-admin/confirm-admin.component';
+import { UserService } from '../shared/services/user.service';
 
 @NgModule({
   imports: [
@@ -21,7 +23,8 @@ import { ResendComponent } from './resend/resend.component';
     NgbPopoverModule.forRoot()
   ],
   providers: [
-    SignService
+    SignService,
+    UserService
   ],
   declarations: [
     SignComponent,
@@ -31,6 +34,7 @@ import { ResendComponent } from './resend/resend.component';
     ResetPasswordComponent,
     SignupComponent,
     ConfirmEmailComponent,
+    ConfirmAdminComponent,
     NotFoundComponent
   ]
 })

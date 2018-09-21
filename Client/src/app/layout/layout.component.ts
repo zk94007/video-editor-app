@@ -20,19 +20,33 @@ export class LayoutComponent implements OnInit {
     dontShowAgain: false
   };
   public url;
+  public $uns: any = [];
 
-  constructor(private _router: Router, public service: UserService, private sanitizer: DomSanitizer) {
+  constructor(private _router: Router, public userService: UserService, private sanitizer: DomSanitizer) {
     this.props.isInVideoStudio = _router.url.split('/')[1] === 'video-studio' ? true : false;
     this.props.isInProject = _router.url.split('/')[1] === 'project' ? true : false;
 
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.props.baseUrl + this.props.videoId);
+
+    this.$uns.push(this.userService.onGetUserInformation.subscribe((response) => {
+      const success = response.success;
+      if (success) {
+        if (response.user.usr_is_get_started == false && this.props.isInProject) {
+          this.props.showGetStartedDialog = true;
+          this.props.videoWidth = window.innerWidth * 0.6 < 700 ? window.innerWidth * 0.6 : 700;
+        }
+      }
+    }));
   }
 
   ngOnInit() {
-    if (localStorage.getItem('is_get_started') == 'false' && this.props.isInProject) {
-      this.props.showGetStartedDialog = true;
-      this.props.videoWidth = window.innerWidth * 0.6 < 700 ? window.innerWidth * 0.6 : 700;
-    }
+    this.userService._getUserInformation();
+  }
+
+  ngOnDestroy() {
+    this.$uns.forEach($uns => {
+      $uns.unsubscribe();
+    });
   }
 
   closeVideoModal() {
@@ -41,10 +55,9 @@ export class LayoutComponent implements OnInit {
 
   onDontShowAgain($event) {
     this.props.dontShowAgain = !this.props.dontShowAgain;
-    localStorage.setItem('is_get_started', '' + this.props.dontShowAgain);
 
     const data = [{name:'usr_is_get_started', value: this.props.dontShowAgain}];
-    this.service._updateUser(data);
+    this.userService._updateUser(data);
   }
   okayIgotIt() {
     this.props.showGetStartedDialog = false;

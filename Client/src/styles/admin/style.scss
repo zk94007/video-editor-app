@@ -219,8 +219,18 @@
             .member-avatar {
                 margin: auto 0px;
                 width: 2.5rem;
+                position: relative;
                 img {
                     border-radius: 50%;
+                }
+                .onOffLineIcon {
+                    width: 14px;
+                    height: 14px;
+                    border-radius: 50%;
+                    border: 2px solid white;
+                    position:absolute;
+                    bottom: 0px; 
+                    right: 0px;
                 }
             }
             .member-info {

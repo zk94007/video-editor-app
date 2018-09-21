@@ -8,6 +8,7 @@ import { SignupComponent } from './signup/signup.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ResendComponent } from './resend/resend.component';
+import { ConfirmAdminComponent } from './confirm-admin/confirm-admin.component';
 
 const routes: Routes = [
     {
@@ -20,6 +21,7 @@ const routes: Routes = [
             {path: 'password/reset/:email_code', component: ResetPasswordComponent},
             {path: 'signup', component: SignupComponent},
             {path: 'confirm/:email_code', component: ConfirmEmailComponent},
+            {path: 'confirm-admin/:email_code', component: ConfirmAdminComponent},
             {path: 'not-found', component: NotFoundComponent},
             {path: '**', redirectTo: 'not-found'}
         ]

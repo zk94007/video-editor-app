@@ -259,7 +259,7 @@ module.exports = {
             let usr_id = message.usr_id;
             
             let notFilledFields = [];
-            !usr_email ? notFilledFields.push('usr_id') : '';
+            !usr_id ? notFilledFields.push('usr_id') : '';
 
             if (notFilledFields.length > 0) {
                 helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
@@ -275,7 +275,7 @@ module.exports = {
                 helper.response.onSuccessPlus(callback);
             });
         } catch (err) {
-            helper.response.onError('error: deleteUserById', callback);
+            helper.response.onError('error: deleteUserById' + err, callback);
         }
     },
 
