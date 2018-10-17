@@ -268,8 +268,10 @@ export class UserManagementComponent implements OnInit {
     }
 
     nameComparator(propA, propB) {
-        if (propA.userName.toLowerCase() < propB.userName.toLowerCase()) return -1;
-        if (propA.userName.toLowerCase() > propB.userName.toLowerCase()) return 1;
+        if (!propA.name) return -1;
+        if (!propB.name) return 1;
+        if (propA.name.toLowerCase() < propB.name.toLowerCase()) return -1;
+        if (propA.name.toLowerCase() > propB.name.toLowerCase()) return 1;
         return 0;
     }
 
