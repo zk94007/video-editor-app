@@ -92,7 +92,10 @@ export class UserManagementComponent implements OnInit {
                                 usagePercent: 90,
                                 usagePeriod: 'Jun 11, 2015 - Jul 10, 2015'
                             },
-                            lastLoginDate: lastLoginDate ? this.diffsBetweenDate(current, lastLoginDate) + ' ago' : '',
+                            lastLoginDate: {
+                                diff: lastLoginDate ? this.diffsBetweenDate(current, lastLoginDate) + ' ago' : '',
+                                date: lastLoginDate
+                            },
                             company: user.usr_company,
                             role: user.usr_role,
                             status: user.usr_admin_status,
@@ -276,6 +279,12 @@ export class UserManagementComponent implements OnInit {
     usageComparator(propA, propB) {
         if (propA.usagePercent < propB.usagePercent) return -1;
         if (propA.usagePercent > propB.usagePercent) return 1;
+        return 0;
+    }
+
+    activityComparator(propA, propB) {
+        if (propA.date < propB.date) return -1;
+        if (propA.date > propB.date) return 1;
         return 0;
     }
 
