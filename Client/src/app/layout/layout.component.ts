@@ -30,6 +30,8 @@ export class LayoutComponent implements OnInit {
 
     this.$uns.push(this.userService.onGetUserInformation.subscribe((response) => {
       const success = response.success;
+      this.props.isInProject = _router.url.split('/')[1] === 'project' ? true : false;
+      console.log(this.props.isInProject);
       if (success) {
         if (response.user.usr_is_get_started == false && this.props.isInProject) {
           this.props.showGetStartedDialog = true;
@@ -67,5 +69,10 @@ export class LayoutComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.props.videoWidth = window.innerWidth * 0.6 < 700 ? window.innerWidth * 0.6 : 700;
+  }
+
+  @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
+    event.returnValue = false;
+    console.log(event);
   }
 }
