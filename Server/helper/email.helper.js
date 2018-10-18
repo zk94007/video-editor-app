@@ -19,12 +19,16 @@ var emailConfig = require('../config/email.config');
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
+    secure: true,
     auth: {
         type: 'OAuth2',
         user: 'no.reply.blurbiz@gmail.com',
         clientId: '804635358-gefbehbjrm2min0mgq8plmr6pghmk4fs.apps.googleusercontent.com',
         clientSecret: 'IG28lfMVq89PqNTHLACdVgGR',
         refreshToken: '1/dAgx5abWK2jrfdbBPNbQH5k8xajJBhhnblJ3nK4JjMw',
+    },
+    tls: {
+        rejectUnauthorized: false
     }
 });
 
