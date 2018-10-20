@@ -13,7 +13,7 @@ const routes: Routes = [
             { path: 'project', loadChildren: './project/project.module#ProjectModule' },
             { path: 'video-studio/:prj_id', loadChildren: './video-studio/video-studio.module#VideoStudioModule'},
             { path: 'settings', component: SettingsComponent},
-            { path: 'usermng', component: UserManagementComponent}
+            { path: 'user-management', component: UserManagementComponent}
         ]
     }
 ];

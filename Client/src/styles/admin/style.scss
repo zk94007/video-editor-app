@@ -1,0 +1,353 @@
+.user-setting {
+    padding: 1rem;
+
+    .nav-tabs {
+        border-color: transparent;
+        .nav-link.active {
+            font-weight: 700;
+            background-color: transparent;
+            border-color: transparent;
+        }
+        .nav-link:hover {
+            border-color: transparent;
+        }
+    }
+
+    .user-analytic {
+        display: flex;
+        height: 4rem;
+        width: 20rem;
+        padding: 7px;
+        border: 1px solid $color-gray-l;
+        border-radius: 4px;
+        background-color: white;
+
+        .user-analytic-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 4px;
+            background-color: $color-pink;
+            svg {
+                height: 2rem;
+                width: auto;
+                margin: 0.5rem;
+            }
+        }
+        .user-analytic-counts {
+            display: inline-block;
+            line-height: 1.5rem;
+            div {
+                div {
+                    display: inline-block;
+                    width: 70px;
+                    text-align: right;
+                    font-weight: 700;
+                    margin: auto 4px;
+                }
+            }
+        }
+    }
+
+    .users-table {
+        margin-top: 1rem;
+        .datatable-checkbox {
+            input[type='checkbox']:checked:before {
+                border-color: $color-pink;
+            }
+        }
+        .ngx-datatable.material .datatable-header .datatable-header-cell {
+            font-size: 1rem;
+        }
+
+        .cell-user-info {
+            display: flex;
+            .user-avatar {
+                margin: auto 0px;
+                width: 2.5rem;
+                img {
+                    border-radius: 50%;
+                }
+            }
+            .user-info {
+                display: inline-block;
+                margin: auto 1rem;
+                #user-name {
+                    font-size: 11pt;
+                }
+                #user-registered-date {
+                    color: $color-gray;
+                    font-size: 9pt;
+                }
+            }
+        }
+
+        .cell-usage {
+            display: grid;
+            margin: 7px 0;
+            .cell-usage-text {
+                width: 100%;
+                .cell-usage-percent {
+                    float: left;
+                    font-size: 11pt;
+                }
+                .cell-usage-period {
+                    float: right;
+                    color: $color-gray;
+                    font-size: 10pt;
+                }
+            }
+            .cell-usage-progress-bar {
+                width: 100%;
+                height: 6px;
+                border-radius: 3px;
+                background-color: $color-gray-l;
+                .cell-usage-progress-bar-inner {
+                    background-color: $color-red;
+                    border-radius: 3px;
+                    height: 100%;
+                }
+            }
+        }
+
+        .cell-activity {
+            .activity-type {
+                color: $color-gray;
+                font-size: 9pt;
+            }
+            .activity-content {
+                font-size: 11pt;
+            }
+        }
+
+        .cell-play-or-pause {
+            width: 2rem;
+            height: auto;
+        }
+
+        .cell-option {
+            width: 10px;
+        }
+        .cell-option:after {
+            content: '\2807';
+            font-size: 1.5rem;
+        }
+        .popover-body {
+            padding: 0;
+            .cell-option-popover {
+                padding: 0.5rem 0.75rem;
+            }
+            .cell-option-popover:hover {
+                color: $color-pink;
+            }
+        }
+        .bs-popover-bottom {
+            box-shadow: grey 0px 2px 8px;
+        }
+    }
+
+    .member-analytic {
+        display: inline-block;
+        height: 4rem;
+        width: 20rem;
+        padding: 7px;
+        border: 1px solid $color-gray-l;
+        border-radius: 4px;
+        background-color: white;
+
+        .member-analytic-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 4px;
+            background-color: $color-cyan;
+            svg {
+                height: 2rem;
+                width: auto;
+                margin: 0.5rem;
+            }
+        }
+        .member-analytic-counts {
+            display: inline-block;
+            line-height: 1.5rem;
+            div {
+                div {
+                    display: inline-block;
+                    width: 70px;
+                    text-align: right;
+                    font-weight: 700;
+                    margin: auto 4px;
+                }
+            }
+        }
+    }
+
+    .member-add {
+        float: right;
+        height: 4rem;
+        padding: 7px 1rem 7px 7px;
+        border: 1px solid $color-gray-l;
+        border-radius: 4px;
+        background-color: white;
+        transition: background-color .25s ease, color .25s ease;
+
+        font-weight: 700;
+        font-size: 12pt;
+
+        img {
+            height: 3rem;
+            margin-right: 1rem;
+            width: auto;
+        }
+    }
+    .member-add:hover {
+        background-color: $color-pink;
+        color: white;
+    }
+
+    .members-table {
+        margin-top: 1rem;
+        .datatable-checkbox {
+            input[type='checkbox']:checked:before {
+                border-color: $color-pink;
+            }
+        }
+        .ngx-datatable.material .datatable-header .datatable-header-cell {
+            font-size: 1rem;
+        }
+
+        .cell-member-info {
+            display: flex;
+            .member-avatar {
+                margin: auto 0px;
+                width: 2.5rem;
+                position: relative;
+                img {
+                    border-radius: 50%;
+                }
+                .onOffLineIcon {
+                    width: 14px;
+                    height: 14px;
+                    border-radius: 50%;
+                    border: 2px solid white;
+                    position:absolute;
+                    bottom: 0px; 
+                    right: 0px;
+                }
+            }
+            .member-info {
+                display: inline-block;
+                margin: auto 1rem;
+                #member-name {
+                    font-size: 11pt;
+                }
+                #member-registered-date {
+                    color: $color-gray;
+                    font-size: 9pt;
+                }
+            }
+        }
+
+        .cell-usage {
+            display: grid;
+            margin: 7px 0;
+            .cell-usage-text {
+                width: 100%;
+                .cell-usage-percent {
+                    float: left;
+                    font-size: 11pt;
+                }
+                .cell-usage-period {
+                    float: right;
+                    color: $color-gray;
+                    font-size: 10pt;
+                }
+            }
+            .cell-usage-progress-bar {
+                width: 100%;
+                height: 6px;
+                border-radius: 3px;
+                background-color: $color-gray-l;
+                .cell-usage-progress-bar-inner {
+                    background-color: $color-red;
+                    border-radius: 3px;
+                    height: 100%;
+                }
+            }
+        }
+
+        .cell-activity {
+            .activity-type {
+                color: $color-gray;
+                font-size: 9pt;
+            }
+            .activity-content {
+                font-size: 11pt;
+            }
+        }
+
+        .cell-play-or-pause {
+            width: 2rem;
+            height: auto;
+        }
+
+        .cell-option {
+            width: 10px;
+        }
+
+        .cell-option:after {
+            content: '\2807';
+            font-size: 1.5rem;
+        }
+
+        .popover-body {
+            padding: 0;
+            .cell-option-popover {
+                padding: 0.5rem 0.75rem;
+            }
+            .cell-option-popover:hover {
+                color: $color-pink;
+            }
+        }
+
+        .bs-popover-bottom {
+            box-shadow: grey 0px 2px 8px;
+        }
+    }
+
+    .modal {
+        text-align: left;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color: $color-gray;
+
+        .modal-body {
+            padding: 3rem;
+            input {
+                margin-top: 1rem;
+            }
+            button {
+                margin-top: 2rem;
+                width: 100%;
+                text-align: center;
+
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-weight: 600;
+                font-size: 0.8rem;
+                height: 40px;
+                vertical-align: middle;
+                padding-left: 24px;
+                padding-right: 24px;
+
+                color: white;
+                background-color: $color-pink;
+            }
+            button:disabled,
+            button[disabled]{
+                background-color: #cccccc;
+                color: #666666;
+            }
+            .select-role-panel {
+                margin-top: 2rem;
+                margin-right: 1rem;
+            }
+        }
+    }
+}

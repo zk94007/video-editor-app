@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../shared/services/user.service';
 import { Ng5FilesConfig, Ng5FilesService, Ng5FilesSelected, Ng5FilesStatus } from '../../shared/module/ng5-files';
 import * as path from 'path';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 import { ProjectService } from '../../shared/services/project.service';
 
 @Component({

@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             const success = response['success'];
             if (success) {
                 if (response['token'] != null) {
-                    console.log(response);
                     localStorage.setItem('usr_email', response.user.usr_email);
                     localStorage.setItem('usr_name', response.user.usr_name);
                     localStorage.setItem('usr_password', response.user.usr_password);

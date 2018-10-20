@@ -79,13 +79,19 @@ module.exports = {
                         return;
                     }
 
-                    helper.response.onSuccessPlus(callback);
+                    helper.response.onSuccess(callback);
                 });
         } catch (err) {
             helper.response.onError('error: verifyByUsrId' + err, callback);
         }
     },
 
+    /**
+     * 
+     * @param {*} usr_id 
+     * @param {*} data 
+     * @param {*} callback 
+     */
     updateUserByUsrId(usr_id, data, callback) {
         try {
             helper.model.update('user', data, [
@@ -130,7 +136,7 @@ module.exports = {
                         return;
                     }
 
-                    helper.response.onSuccessPlus(callback);
+                    helper.response.onSuccess(callback);
                 });
         } catch (err) {
             helper.response.onError('error: updatePasswordByUsrId' + err, callback);
@@ -201,7 +207,7 @@ module.exports = {
                     }
 
                     let row = _result.rows[0];
-                    helper.response.onSuccessPlus(callback, {
+                    helper.response.onSuccess(callback, {
                         usr_id : row.usr_id,
                         usr_created_at : row.usr_created_at,
                     });
@@ -214,6 +220,89 @@ module.exports = {
 
     /**
      * 
+     * @param {*} callback 
+     */
+    getUsersCount(callback) {
+        try {
+            helper.query.runQuery('SELECT COUNT(*) from public.user;', [], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: getUsersCount' + err, callback);
+                    return;
+                }
+
+                let users_count = result.rows[0].count;
+                helper.response.onSuccess(callback, users_count);
+            });
+        } catch(err) {
+            helper.response.onError('error: getUsersCount' + err, callback);
+        }
+    },
+
+    /**
+     * 
+     * @param {*} callback 
+     */
+    getUsers(callback) {
+        try {
+            helper.query.runQuery('SELECT * from public.user;', [], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: getUsers' + err, callback);
+                    return;
+                }
+
+                let users = result.rows;
+                helper.response.onSuccess(callback, users);
+            });
+        } catch(err) {
+            helper.response.onError('error: getUsers' + err, callback);
+        }
+    },
+
+    /**
+     * 
+     * @param {*} callback 
+     */
+    getTodaySignedupUsersCount(callback) {
+        try {
+            function startDate(date) {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+            
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+            
+                return [year, month, day].join('-') + ' 00:00:00';
+            }
+            function endDate(date) {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+            
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+            
+                return [year, month, day].join('-') + ' 23:59:59';
+            }
+
+            helper.query.runQuery('SELECT COUNT(*) from public.user where usr_created_at >= $1 and usr_created_at <= $2', [startDate(new Date()), endDate(new Date())], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: getTodaySignedupUsersCount' + err, callback);
+                    return;
+                }
+
+                let today_signedup_users_count = result.rows[0].count;
+                helper.response.onSuccess(callback, today_signedup_users_count);
+            });
+        } catch(err) {
+            helper.response.onError('error: getTodaySignedupUsersCount' + err, callback);
+        }
+    },
+
+    /**
+     * 
      * @param {*} usr_id 
      * @param {*} callback 
      */
@@ -221,13 +310,13 @@ module.exports = {
         try {
             helper.query.runQuery('SELECT * FROM public.user WHERE usr_id = $1', [usr_id], (err, result) => {
                 if (err) {
-                    helper.response.onError('error: deleteUserById', callback);
+                    helper.response.onError('error: deleteUserById' + err, callback);
                     return;
                 }
 
                 helper.query.runQuery('DELETE FROM public.user WHERE usr_id = $1', [usr_id], (_err, _result) => {
                     if (_err) {
-                        helper.response.onError('error: deleteUserById', callback);
+                        helper.response.onError('error: deleteUserById' + _err, callback);
                         return;
                     }
                     
@@ -235,7 +324,7 @@ module.exports = {
                 });
             });
         } catch (err) {
-            helper.response.onError('error: deleteUserById', callback);
+            helper.response.onError('error: deleteUserById' + err, callback);
         }
     },
 }

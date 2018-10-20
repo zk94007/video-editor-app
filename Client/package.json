@@ -5,7 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "startqa": "ng serve --environment=qa --host 0.0.0.0 -disable-host-check --extract-css=false",
+    "startdev": "ng serve --environment=dev --host 0.0.0.0 --port 4201 -disable-host-check --extract-css=false",
+    "startstaging": "ng serve --environment=staging --host 0.0.0.0 -disable-host-check --extract-css=false",
+    "startprod": "ng serve --environment=prod --host 0.0.0.0 -disable-host-check --extract-css=false",
+    "build": "ng build --prod --aot --extract-css=false",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -58,6 +62,7 @@
     "@angular/cli": "~1.7.3",
     "@angular/compiler-cli": "^5.2.10",
     "@angular/language-service": "^5.2.10",
+    "@swimlane/ngx-datatable": "^13.1.0",
     "@types/core-js": "^0.9.46",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
@@ -72,6 +77,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ngx-chips": "^1.9.7",
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",

@@ -10,6 +10,10 @@
 $fa-font-path: "../../node_modules/font-awesome/fonts";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
 
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
 @import "basic";
 
 @import "./sign/form";
@@ -32,3 +36,5 @@ $fa-font-path: "../../node_modules/font-awesome/fonts";
 @import "./video-studio/complete";
 
 @import "./settings/settings";
+
+@import "./admin/style";

@@ -18,29 +18,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     isTitleEditable: false,
     isProjectTitleEditing: false,
     user: {
-      usr_name: 'Test',
-      usr_photo: '../../assets/avatar.jpg',
-      usr_company: 'Blurbiz',
-      usr_password: 'password'
+      usr_photo: '/assets/avatar.jpg'
     }
   };
 
-  constructor(public router: Router, public service: ProjectService, public userService: UserService) {
-    this.props.user.usr_name = localStorage.getItem('usr_name');
-    this.props.user.usr_company = localStorage.getItem('usr_company');
-    
-    if(localStorage.getItem('usr_profile_path') !== 'null') {
-      this.props.user.usr_photo = localStorage.getItem('usr_profile_path');
-    } else {
-      this.props.user.usr_photo = '../../assets/avatar.jpg';
-    }
-    // this.props.isInProjectDetail = this.router.url.split('/')[1] === 'project' && this.router.url.split('/')[2] === 'detail' ? true : false;
-
-    // this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationEnd) {
-    //     this.props.isInProjectDetail = event.url.split('/')[1] === 'project' && event.url.split('/')[2] === 'detail' ? true : false;
-    //   }
-    // });
+  constructor(public router: Router, public service: ProjectService, public userService: UserService) {    
+    this.$uns.push(this.userService.onGetUserInformation.subscribe((response) => {
+      const success = response.success;
+      if (success) {
+        this.props.user.usr_name = response.user.usr_name;
+        this.props.user.usr_company = response.user.usr_company;
+        this.props.user.usr_photo = response.user.usr_profile_path ? response.user.usr_profile_path : '/assets/avatar.jpg';
+        this.props.user.usr_role = response.user.usr_role;
+      }
+    }));
     this.$uns.push(this.service.onChangePageTitle.subscribe((pageData) => {
       this.props.pageTitle = pageData.pageTitle;
       this.props.isTitleEditable = pageData.isTitleEditable;
@@ -55,6 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.userService._getUserInformation();
   }
 
   ngOnDestroy() {
