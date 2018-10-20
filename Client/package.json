@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "startqa": "ng serve --environment=qa --host 0.0.0.0 -disable-host-check --extract-css=false",
+    "startdev": "ng serve --environment=dev --host 0.0.0.0 --port 4201 -disable-host-check --extract-css=false",
     "startstaging": "ng serve --environment=staging --host 0.0.0.0 -disable-host-check --extract-css=false",
     "startprod": "ng serve --environment=prod --host 0.0.0.0 -disable-host-check --extract-css=false",
     "build": "ng build --prod --aot --extract-css=false",
