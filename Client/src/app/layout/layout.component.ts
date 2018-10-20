@@ -70,9 +70,4 @@ export class LayoutComponent implements OnInit {
   onResize(event) {
     this.props.videoWidth = window.innerWidth * 0.6 < 700 ? window.innerWidth * 0.6 : 700;
   }
-
-  @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
-    event.returnValue = false;
-    console.log(event);
-  }
 }

@@ -455,7 +455,7 @@ module.exports = {
 
             userModel.getUserByEmail(usr_email, (err, user) => {
                 if (err || !user) {
-                    helper.response.onError('Not a valid email', callback);
+                    helper.response.onError('Not a valid email: error->' + err + ' usr_email -> ' + usr_email, callback);
                     return;
                 }
 

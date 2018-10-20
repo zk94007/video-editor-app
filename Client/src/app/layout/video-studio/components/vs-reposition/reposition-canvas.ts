@@ -290,6 +290,7 @@ export class RepositionCanvas {
                     this.addFrameImageToCanvas(this.props.frame.frm_path, this.props.frame.frm_reposition, this.props.frame.frm_resolution);
                 }
             } else {
+                console.log(this.props.frame.frm_path);
                 this.addFrameVideoToCanvas(this.props.frame.frm_path, this.props.frame.frm_reposition, this.props.frame.frm_resolution);
             }
         }
@@ -378,28 +379,30 @@ export class RepositionCanvas {
 
     addFrameVideoToCanvas(frm_path: string, reposition: any, resolution): any {
         const videoE = this.getVideoElement(frm_path, resolution.width, resolution.height);
-        const video = new fabric.Image(videoE, {
-            left: reposition.offsetX,
-            top: reposition.offsetY,
-            width: resolution.width,
-            height: resolution.height,
-            scaleX: reposition.width / resolution.width,
-            scaleY: reposition.height / resolution.height,
-            angle: 0,
-            lockRotation: true,
-            hasRotatingPoint: false,
-            lockUniScaling: true
-        });
-        this.extend(video, { frame: true });
-        video.set(this.props.cornerProps);
-        this.element.canvas.add(video);
         const $this = this;
-        this.element.canvas.renderAll();
-        fabric.util.requestAnimFrame(function render() {
+        videoE.onloadedmetadata = function() {
+            const video = new fabric.Image(videoE, {
+                left: reposition.offsetX,
+                top: reposition.offsetY,
+                width: resolution.width,
+                height: resolution.height,
+                scaleX: reposition.width / resolution.width,
+                scaleY: reposition.height / resolution.height,
+                angle: 0,
+                lockRotation: true,
+                hasRotatingPoint: false,
+                lockUniScaling: true
+            });
+            $this.extend(video, { frame: true });
+            video.set($this.props.cornerProps);
+            $this.element.canvas.add(video);
             $this.element.canvas.renderAll();
-            fabric.util.requestAnimFrame(render);
-        });
-        return videoE;
+            fabric.util.requestAnimFrame(function render() {
+                $this.element.canvas.renderAll();
+                fabric.util.requestAnimFrame(render);
+            });
+            videoE.currentTime = 0;
+        }
     }
 
     destructor() {
