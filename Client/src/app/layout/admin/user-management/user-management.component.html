@@ -47,7 +47,7 @@
                         [headerHeight]="50"
                         [footerHeight]="50"
                         [rowHeight]="'auto'"
-                        [limit]="5"
+                        [limit]="50"
                         [selected]="user.selectedUsers"
                         [selectionType]="'checkbox'"
                         [trackByProp]="'updated'"
@@ -61,7 +61,7 @@
                             [headerCheckboxable]="true"
                             [checkboxable]="true">
                         </ngx-datatable-column>
-                        <ngx-datatable-column prop="info" name="User" [comparator]="nameComparator">
+                        <!-- <ngx-datatable-column prop="info" name="User" [comparator]="nameComparator">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <div class="cell-user-info">
                                     <div class="user-avatar">
@@ -77,8 +77,20 @@
                                     </div>
                                 </div>
                             </ng-template>
+                        </ngx-datatable-column> -->
+                        <ngx-datatable-column prop="name" name="User"></ngx-datatable-column>
+                        <ngx-datatable-column prop="email" name="Email"></ngx-datatable-column>
+                        <ngx-datatable-column prop="created" name="Created" [comparator]="createdComparator">
+                            <ng-template let-value="value" ngx-datatable-cell-template>
+                                {{value.date}}
+                            </ng-template>
                         </ngx-datatable-column>
-                        <ngx-datatable-column prop="usage" name="Usage" [comparator]="usageComparator">
+                        <ngx-datatable-column prop="activity" name="Last Seen" [comparator]="activityComparator">
+                            <ng-template let-value="value" ngx-datatable-cell-template>
+                                {{value.date}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <!-- <ngx-datatable-column prop="usage" name="Usage" [comparator]="usageComparator">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <div class="cell-usage">
                                     <div class="cell-usage-text">
@@ -94,8 +106,8 @@
                                     </div>
                                 </div>
                             </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column prop="lastLoginDate" name="Activity" [comparator]="activityComparator">
+                        </ngx-datatable-column> -->
+                        <!-- <ngx-datatable-column prop="lastLoginDate" name="Activity" [comparator]="activityComparator">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <div class="cell-activity">
                                     <div class="activity-type">
@@ -106,14 +118,22 @@
                                     </div>
                                 </div>
                             </ng-template>
-                        </ngx-datatable-column>
+                        </ngx-datatable-column> -->
                         <ngx-datatable-column prop="company" name="Company"></ngx-datatable-column>
-                        <ngx-datatable-column prop="playOrPause" name="Play/Pause">
+                        <ngx-datatable-column prop="playOrPause" name="Play/Pause/Delete" [sortable]="false">
                             <ng-template let-value="value" ngx-datatable-cell-template>
-                                <img class="cell-play-or-pause" [src]="value == true ? '/assets/admin/play.svg' : '/assets/admin/pause.svg'" (click)="onPlayOrPause(value)"/>
+                                <div style="float: left; margin-right: 40px;">
+                                    <img class="cell-play-or-pause" [src]="value == true ? '/assets/admin/play.svg' : '/assets/admin/pause.svg'" (click)="onPlayOrPause(value)"/>
+                                </div>                                
+                                <div style="float: left; top: -6px; position:relative;" class="cell-option" [ngbPopover]="optionContent" placement="bottom" #optionPopover="ngbPopover" (document:click)="optionPopover.close()" (click)="$event.stopPropagation()"></div>
+                            </ng-template>
+                            <ng-template #optionContent>
+                                <div (click)="onDeleteRecord()" class="cell-option-popover">
+                                    <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete
+                                </div>
                             </ng-template>
                         </ngx-datatable-column>
-                        <ngx-datatable-column [sortable]="false">
+                        <!-- <ngx-datatable-column [sortable]="false">
                             <ng-template ngx-datatable-cell-template>
                                 <div class="cell-option" [ngbPopover]="optionContent" placement="bottom" #optionPopover="ngbPopover" (document:click)="optionPopover.close()" (click)="$event.stopPropagation()"></div>
                             </ng-template>
@@ -121,8 +141,8 @@
                                 <div (click)="onDeleteRecord()" class="cell-option-popover">
                                     <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete
                                 </div>
-                                </ng-template>
-                        </ngx-datatable-column>
+                            </ng-template>
+                        </ngx-datatable-column> -->
                     </ngx-datatable>
                 </div>
             </ng-template>

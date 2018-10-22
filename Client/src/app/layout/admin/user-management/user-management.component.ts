@@ -82,12 +82,23 @@ export class UserManagementComponent implements OnInit {
 
                         let newUser = {
                             id: user.usr_id,
+                            name: user.usr_name,
+                            email: user.usr_email,
+                            activity: {
+                                date: lastLoginDate ? this.diffsBetweenDate(current, lastLoginDate) + ' ago' : '',
+                                _date: lastLoginDate
+                            },
+                            created: {
+                                date: this.datePipe.transform(registeredDate, 'MMM dd, yyyy'),
+                                _date: registeredDate
+                            },
                             info: {
                                 id: user.usr_id,
                                 name: user.usr_name,
                                 avatar: user.usr_profile_path ? user.usr_profile_path : '/assets/avatar.jpg',
                                 registeredDate: this.datePipe.transform(registeredDate, 'MMM dd, yyyy')
                             },
+                            
                             usage: {
                                 usagePercent: 90,
                                 usagePeriod: 'Jun 11, 2015 - Jul 10, 2015'
