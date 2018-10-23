@@ -256,7 +256,13 @@ module.exports = {
                                 getResolution(filepath)
                                     .then((size) => {
                                         resolution = size;
-                                        series_callback('');
+                                        videoHelper.getRotateMetadata(filepath, (err, rotate) => {
+                                            if (rotate == 90 || rotate == 270) {
+                                                resolution.width = size.height;
+                                                resolution.height = size.width;
+                                            }
+                                            series_callback(err);
+                                        });
                                     });
                                 series_callback(err);
                             });
@@ -268,7 +274,16 @@ module.exports = {
                     getResolution(filepath)
                         .then((size) => {
                             resolution = size;
-                            series_callback('');
+                            videoHelper.getRotateMetadata(filepath, (err, rotate) => {
+                                if (rotate == 90 || rotate == 270) {
+                                    resolution = {
+                                        width: size.height,
+                                        height: size.width
+                                    };
+                                }
+                                console.log(resolution);
+                                series_callback(err);
+                            });
                         });
                 }
             } else {
