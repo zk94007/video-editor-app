@@ -942,7 +942,7 @@ export class WorkareaCanvas {
             this.element.canvas.add(this.props.borders[i]);
         }
         this.extend(polygonOutside, { border: true });
-        // this.element.canvas.add(polygonOutside);
+        this.element.canvas.add(polygonOutside);
 
         // this.extend(polygonInside, { border: true });
         // this.element.canvas.add(polygonInside);
