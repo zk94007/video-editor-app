@@ -58,6 +58,9 @@
         .ngx-datatable.material .datatable-header .datatable-header-cell {
             font-size: 1rem;
         }
+        .ngx-datatable.material .datatable-body-cell {
+            padding: 6px 1.2rem;
+        }
 
         .cell-user-info {
             display: flex;
@@ -120,7 +123,7 @@
         }
 
         .cell-play-or-pause {
-            width: 2rem;
+            width: 1.2rem;
             height: auto;
         }
 
@@ -130,6 +133,7 @@
         .cell-option:after {
             content: '\2807';
             font-size: 1.5rem;
+            color: #3d3d3d;
         }
         .popover-body {
             padding: 0;

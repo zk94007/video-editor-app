@@ -34,6 +34,8 @@ export class UserManagementComponent implements OnInit {
         signedUpTodayUserCount: null,
     }
 
+    private temp = [];
+
     public member = {
         members: [],
         selectedMembers: [],
@@ -82,12 +84,23 @@ export class UserManagementComponent implements OnInit {
 
                         let newUser = {
                             id: user.usr_id,
+                            name: user.usr_name,
+                            email: user.usr_email,
+                            activity: {
+                                date: lastLoginDate ? this.diffsBetweenDate(current, lastLoginDate) + ' ago' : '',
+                                _date: lastLoginDate
+                            },
+                            created: {
+                                date: this.datePipe.transform(registeredDate, 'MMM dd, yyyy'),
+                                _date: registeredDate
+                            },
                             info: {
                                 id: user.usr_id,
                                 name: user.usr_name,
                                 avatar: user.usr_profile_path ? user.usr_profile_path : '/assets/avatar.jpg',
                                 registeredDate: this.datePipe.transform(registeredDate, 'MMM dd, yyyy')
                             },
+                            
                             usage: {
                                 usagePercent: 90,
                                 usagePeriod: 'Jun 11, 2015 - Jul 10, 2015'
@@ -123,6 +136,8 @@ export class UserManagementComponent implements OnInit {
                     });
                 }
                 this.cdRef.markForCheck();
+
+                this.temp = this.user.users;
             }
         }));
 
@@ -296,5 +311,21 @@ export class UserManagementComponent implements OnInit {
             return { "emailValidator": true };
         }
         return null;
+    }
+
+    updateFilter(event) {
+        const val = event.target.value.toLowerCase();
+
+        const temp = this.temp.filter(function(d) {
+            if (!val) return true;
+            if (d.name && d.name.toLowerCase().indexOf(val) !== -1)
+                return true;
+            if (d.email && d.email.toLowerCase().indexOf(val) !== -1)
+                return true;
+            if (d.company && d.company.toLowerCase().indexOf(val) !== -1)
+                return true;
+        });
+
+        this.user.users = temp;
     }
 }
