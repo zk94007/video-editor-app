@@ -127,6 +127,41 @@ module.exports = {
         });
     },
 
+    getRotateMetadata(filepath, callback) {
+        try {
+            if (filepath == undefined) {
+                responseHelper.onError('error: getRotateMetadata', callback);
+                return;
+            }
+
+            let commandLine = 'ffprobe -i ' + filepath + ' -show_entries stream_tags=rotate -loglevel error';
+
+            shell.exec(commandLine, (err, result) => {
+                if (err) {
+                    responseHelper.onError('error: gifInfo' + err, callback);
+                    return;
+                }
+
+                var rotate = 0;
+                if (result.indexOf("rotate=90") != -1) {
+                    rotate = 90;
+                }
+                if (result.indexOf("rotate=180") != -1) {
+                    rotate = 90;
+                }
+                if (result.indexOf("rotate=270") != -1) {
+                    rotate = 90;
+                }
+
+                // console.log(rotate);
+
+                responseHelper.onSuccess(callback, rotate);
+            });
+        } catch (err) {
+            responseHelper.onError('error: getRotateMetadata' + err, callback);
+        }
+    },
+
     /**
      * 
      * @param {*} filepath 
