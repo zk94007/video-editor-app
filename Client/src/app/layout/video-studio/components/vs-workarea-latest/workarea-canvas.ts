@@ -918,15 +918,15 @@ export class WorkareaCanvas {
             }
         ];
 
-        const polygonInside = new fabric.Polygon(pointsInside, {
-            left: pointsInside[0].x,
-            top: pointsInside[0].y,
-            fill: '#f00',
-            selectable: false,
-            evented: false,
-            objectCaching: false,
-            strokeWidth: 0
-        });
+        // const polygonInside = new fabric.Polygon(pointsInside, {
+        //     left: pointsInside[0].x,
+        //     top: pointsInside[0].y,
+        //     fill: '#f00',
+        //     selectable: false,
+        //     evented: false,
+        //     objectCaching: false,
+        //     strokeWidth: 0
+        // });
         const polygonOutside = new fabric.Polygon(pointsOutside, {
             left: pointsOutside[0].x,
             top: pointsOutside[0].y,

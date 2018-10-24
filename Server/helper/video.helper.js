@@ -153,7 +153,7 @@ module.exports = {
                     rotate = 90;
                 }
 
-                console.log(rotate);
+                // console.log(rotate);
 
                 responseHelper.onSuccess(callback, rotate);
             });
