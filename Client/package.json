@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --environment=local",
     "startqa": "ng serve --environment=qa --host 0.0.0.0 -disable-host-check --extract-css=false",
     "startdev": "ng serve --environment=dev --host 0.0.0.0 --port 4201 -disable-host-check --extract-css=false",
     "startstaging": "ng serve --environment=staging --host 0.0.0.0 -disable-host-check --extract-css=false",
