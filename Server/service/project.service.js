@@ -227,6 +227,7 @@ module.exports = {
                 let overlays = [];
                 let workfiles = [];
                 let pvFilePath = '';
+                let pvFilePathHD = '';
 
                 let seriesTasks = [];
                 
@@ -457,8 +458,14 @@ module.exports = {
                             return;
                         }
 
-                        pvFilePath = filepath;
+                        pvFilePathHD = filepath;
                         series_callback('');
+                    });
+                });
+
+                seriesTasks.push((series_callback) => {
+                    helper.video.resizevideo(pvFilePathHD, (err, filepath) => {
+                        pvFilePath = filepath
                     });
                 });
 

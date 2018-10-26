@@ -162,6 +162,23 @@ module.exports = {
         }
     },
 
+    resizevideo(filepath, destWidth, destHeight, callback) {
+        if (filepath == undefined) {
+            responseHelper.onError('error: resizevideo', callback);
+            return;
+        }
+
+        let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
+        shell.exec('ffmpeg -i ' + filepath + ' -vf scale=' + destWidth + ':' + destHeight + ' ' + newFilePath, (code) => {
+            if (code != 0) {
+                responseHelper.onError('error: resizevideo', callback);
+                return;
+            }
+
+            responseHelper.onSuccess(callback, newFilePath);
+        });
+    },
+
     /**
      * 
      * @param {*} filepath 

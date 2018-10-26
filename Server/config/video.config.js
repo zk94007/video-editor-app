@@ -18,5 +18,20 @@ module.exports = {
             width: 720,
             height: 1280
         },
+    },
+
+    default_scene: {
+        '169': {
+            width: 480,
+            height: 360
+        },
+        '11': {
+            width: 360,
+            height: 360,
+        },
+        '916': {
+            width: 360,
+            height: 480
+        },
     }
 }
