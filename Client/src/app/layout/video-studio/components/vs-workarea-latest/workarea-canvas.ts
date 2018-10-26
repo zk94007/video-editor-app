@@ -227,11 +227,11 @@ export class WorkareaCanvas {
 
         this.$uns.push(this.vsService.onAddImageOverlay.subscribe((image) => {
             const resolution = JSON.parse(JSON.stringify(image.resolution));
-            let ideal_width = 300;
+            let ideal_width = 400;
 
             if (this.isGif(image.src)) {
-                resolution.width = resolution.height = 120;
-                ideal_width = 120;
+                resolution.width = resolution.height = 160;
+                ideal_width = 160;
             }
             const ideal_height = (ideal_width / image.resolution.width) * image.resolution.height;
 

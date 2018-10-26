@@ -169,6 +169,9 @@ module.exports = {
         }
 
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
+
+        console.log('ffmpeg -i ' + filepath + ' -vf scale=' + destWidth + ':' + destHeight + ' ' + newFilePath);
+        
         shell.exec('ffmpeg -i ' + filepath + ' -vf scale=' + destWidth + ':' + destHeight + ' ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: resizevideo', callback);

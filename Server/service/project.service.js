@@ -464,8 +464,18 @@ module.exports = {
                 });
 
                 seriesTasks.push((series_callback) => {
-                    helper.video.resizevideo(pvFilePathHD, (err, filepath) => {
-                        pvFilePath = filepath
+                    helper.video.resizevideo(pvFilePathHD, config.video.default_scene[prj_scene_ratio].width, config.video.default_scene[prj_scene_ratio].height, (err, filepath) => {
+                        pvFilePath = filepath;
+                        series_callback(err);
+                    });
+                });
+
+                seriesTasks.push((series_callback) => {
+                    const cloudName = uuidGen.v1() + '.mp4';
+                    helper.file.putFileToCloud(cloudName, prj_name, pvFilePathHD, (err, filepath) => {
+                        workfiles.push(pvFilePathHD);
+                        pvFilePathHD = filepath;
+                        projectModel.updateProject(prj_id, [{name: 'prj_video_path_hd', value: filepath}], series_callback);
                     });
                 });
 
@@ -485,7 +495,8 @@ module.exports = {
                 async.series(seriesTasks, (err, res) => {
                     if (!err) {
                         helper.response.onSuccessPlus(callback, {
-                            'finalvideo': pvFilePath
+                            'finalvideo': pvFilePath,
+                            'finalvideoHD': pvFilePathHD
                         });
                     } else {
                         helper.response.onError(err, callback);
