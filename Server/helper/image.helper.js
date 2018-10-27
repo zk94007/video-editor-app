@@ -242,7 +242,7 @@ module.exports = {
             let resultName = path.basename(filepath, path.extname(filepath));
             let resultPath = config.server.downloadPath + resultName + '.png';
 
-            this.resize(filepath, 120, 120, (err, newPath) => {
+            this.resize(filepath, 160, 160, (err, newPath) => {
                 if (err) {
                     responseHelper.onError('error: converGif2Sprite' + err, callback);
                     return;
