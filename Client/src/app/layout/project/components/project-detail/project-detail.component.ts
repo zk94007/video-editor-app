@@ -21,6 +21,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         showProjects: null,
         disableDownloadButton: true,
         videoPath: null,
+        videoPathSD: null,
+        videoPathHD: null,
+        videoPathFullHD: null,
+        downloadOption: -1,
 
         upload: {
             selectedFiles: null,
@@ -91,6 +95,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
                 if (message.project.prj_video_path !== null) {
                     this.props.videoPath = message.project.prj_video_path;
+                    this.props.videoPathSD = message.project.prj_video_path_sd;
+                    this.props.videoPathHD = message.project.prj_video_path_hd;
+                    this.props.videoPathFullHD = message.project.prj_video_path_full_hd;
                     this.props.disableDownloadButton = false;
                 } else {
                     this.props.disableDownloadButton = true;
@@ -150,7 +157,13 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         }));
 
         this.$uns.push(this.service.onGenerateSas.subscribe((message) => {
-            this.download(this.props.projectName, this.props.videoPath + '?' + message.token);
+            if (this.props.downloadOption == 1) {
+                this.download(this.props.projectName, this.props.videoPathSD + '?' + message.token);
+            } else if (this.props.downloadOption == 2) {
+                this.download(this.props.projectName, this.props.videoPathHD + '?' + message.token);
+            } else if (this.props.downloadOption == 3) {
+                this.download(this.props.projectName, this.props.videoPathFullHD + '?' + message.token);
+            }
         }));
     }
 
@@ -201,6 +214,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
 
     downloadProjectVideo() {
+        this.service._generateSas();
+    }
+    _downloadProjectVideo(option) {
+        this.props.downloadOption = option;
         this.service._generateSas();
     }
     download(filename, src) {

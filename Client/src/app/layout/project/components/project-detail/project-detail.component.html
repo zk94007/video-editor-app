@@ -75,12 +75,32 @@
             </a>
         </div>
         <div class="float-right menu-right">
-            <a target="_self" id="downloadButton" (click)="downloadProjectVideo()" class="menu-item" [ngClass]="props.disableDownloadButton ? 'disabled' : ''">
+            <div ngbDropdown class="d-inline-block" placement="bottom-right">
+                <!-- <button class="btn btn-outline-primary" ngbDropdownToggle>Toggle dropdown</button> -->
+                <a id="dropdownBasic1"  [ngClass]="props.disableDownloadButton ? 'menu-item disabled' : 'menu-item'" ngbDropdownToggle>
+                    <div class="icon-holder">
+                        <img src="../../../../../assets/layout/icons/arrow-down-line.png" />
+                    </div>
+                    <span>Download</span>
+                </a>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <div class="row" style="margin: 10px;">
+                        <button (click)="_downloadProjectVideo(1)" class="dropdown-item">SD</button>
+                    </div>
+                    <div class="row" style="margin: 10px;">
+                        <button (click)="_downloadProjectVideo(2)" class="dropdown-item">HD</button>
+                    </div>
+                    <div class="row" style="margin: 10px;">
+                        <button (click)="_downloadProjectVideo(3)" class="dropdown-item">Full HD</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <a target="_self" id="downloadButton" (click)="downloadProjectVideo()" class="menu-item" [ngClass]="props.disableDownloadButton ? 'disabled' : ''">
                 <div class="icon-holder">
                     <img src="../../../../../assets/layout/icons/arrow-down-line.png" />
                 </div>
                 <span>Download</span>
-            </a>
+            </a> -->
             <div href (click)="playProjectVideo()" class="menu-item" [ngClass]="props.disableDownloadButton ? 'disabled' : ''" style="cursor: pointer">
                 <div class="icon-holder">
                     <img src="../../../../../assets/layout/icons/icon-play.png" />

@@ -74,7 +74,7 @@ module.exports = {
         
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
 
-        shell.exec('ffmpeg -i ' + videoPath + ' ' + forGif1 + ' -i ' + ovlPath + ' -filter_complex "' + filterString + '" -map "[out]" -map 0:a? -c:v libx264 -c:a? copy ' + newFilePath, (code) => {
+        shell.exec('ffmpeg -loglevel quiet -i ' + videoPath + ' ' + forGif1 + ' -i ' + ovlPath + ' -filter_complex "' + filterString + '" -map "[out]" -map 0:a? -c:v libx264 -c:a? copy ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: mergeOverlay2Video' + code, callback);
                 return;
@@ -117,7 +117,7 @@ module.exports = {
             + ",pad=" + destWidth + ":" + destHeight + ":" + (cropX + offsetX) + ":" + (cropY + offsetY) + ":color=white,setsar=1:1";
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
 
-        shell.exec('ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 ' + forGif + ' -i ' + filepath + ' -t ' + duration + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame -ab 320k -pix_fmt yuv420p ' + newFilePath, (code) => {
+        shell.exec('ffmpeg -loglevel quiet -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 ' + forGif + ' -i ' + filepath + ' -t ' + duration + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame -ab 320k -pix_fmt yuv420p ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: image2reposition', callback);
                 return;
@@ -134,7 +134,7 @@ module.exports = {
                 return;
             }
 
-            let commandLine = 'ffprobe -i ' + filepath + ' -show_entries stream_tags=rotate -loglevel error';
+            let commandLine = 'ffprobe -loglevel quiet -i ' + filepath + ' -show_entries stream_tags=rotate -loglevel error';
 
             shell.exec(commandLine, (err, result) => {
                 if (err) {
@@ -169,10 +169,8 @@ module.exports = {
         }
 
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
-
-        console.log('ffmpeg -i ' + filepath + ' -vf scale=' + destWidth + ':' + destHeight + ' ' + newFilePath);
         
-        shell.exec('ffmpeg -i ' + filepath + ' -vf scale=' + destWidth + ':' + destHeight + ' ' + newFilePath, (code) => {
+        shell.exec('ffmpeg -loglevel quiet -i ' + filepath + ' -vf scale=' + destWidth + ':' + destHeight + ' ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: resizevideo', callback);
                 return;
@@ -215,7 +213,7 @@ module.exports = {
             + ",pad=" + destWidth + ":" + destHeight + ":" + (cropX + offsetX) + ":" + (cropY + offsetY) + ":color=white,setsar=1:1";
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
 
-        shell.exec('ffmpeg -i ' + filepath + ' -ss ' + seekTime + ' -to ' + endTime + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame ' + newFilePath, (code) => {
+        shell.exec('ffmpeg -loglevel quiet -i ' + filepath + ' -ss ' + seekTime + ' -to ' + endTime + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: video2reposition', callback);
                 return;
@@ -239,7 +237,7 @@ module.exports = {
         }
 
         let filename = uuidGen.v1() + '.mp4';
-        shell.exec('ffmpeg -i ' + filepath + ' -f mp4 -codec:v libx264 -codec:a libmp3lame ' + outpath + filename, (code) => {
+        shell.exec('ffmpeg -loglevel quiet -i ' + filepath + ' -f mp4 -codec:v libx264 -codec:a libmp3lame ' + outpath + filename, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: convert2mp4', callback);
                 return;
@@ -257,7 +255,7 @@ module.exports = {
     convertTs(filepath, callback) {
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.ts';
 
-        shell.exec('ffmpeg -i ' + filepath + ' -c copy -bsf:v h264_mp4toannexb -f mpegts -acodec copy ' + newFilePath, (code) => {
+        shell.exec('ffmpeg -loglevel quiet -i ' + filepath + ' -c copy -bsf:v h264_mp4toannexb -f mpegts -acodec copy ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: convertTs', callback);
                 return;
@@ -276,7 +274,7 @@ module.exports = {
         let fileListString = tsFiles.join('|');
         if (tsFiles.length > 0) {
             let filepath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
-            shell.exec('ffmpeg -i "concat:' + fileListString + '" -c copy -bsf:v h264_mp4toannexb -c:a aac -ac 2 -b:a 128k ' + filepath, (code) => {
+            shell.exec('ffmpeg -loglevel quiet -i "concat:' + fileListString + '" -c copy -bsf:v h264_mp4toannexb -c:a aac -ac 2 -b:a 128k ' + filepath, (code) => {
                 if (code != 0) {
                     responseHelper.onError('error: concatenate', callback);
                     return;
