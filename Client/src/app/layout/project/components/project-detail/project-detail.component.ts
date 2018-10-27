@@ -17,6 +17,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     public props = {
         projectId: null,
         projectName: '',
+        projectNameAbbr: '',
         media: [],
         showProjects: null,
         disableDownloadButton: true,
@@ -103,6 +104,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                     this.props.disableDownloadButton = true;
                 }
                 this.props.projectName = message.project.prj_name;
+                this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
 
                 this.props.media = message['frames'];
                 if (this.props.media.length === 0) {

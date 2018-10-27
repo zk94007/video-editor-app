@@ -13,6 +13,9 @@ export class Project /*extends ProjectRecord*/ {
     prj_scene_ratio: string;
     prj_frames: Frame[];
     prj_video_path: string;
+    prj_video_path_sd: string;
+    prj_video_path_hd: string;
+    prj_video_path_full_hd: string;
     upload_images: UploadImage[];
     modified: boolean;
 

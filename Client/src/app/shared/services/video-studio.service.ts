@@ -138,6 +138,22 @@ export class VideoStudioService {
     return this.project.prj_video_path;
   }
 
+  getProjectVideoPathHD() {
+    return this.project.prj_video_path_hd;
+  }
+
+  getProjectVideoPathSD() {
+    return this.project.prj_video_path_sd;
+  }
+
+  getProjectVideoPathFullHD() {
+    return this.project.prj_video_path_full_hd;
+  }
+
+  getProjectName() {
+    return this.project.prj_name;
+  }
+
   getSceneRatio() {
     return this.project.getSceneRatio();
   }
