@@ -30,6 +30,7 @@ export class VsSidebarPanelComponent implements OnInit {
   public $uns: any = [];
 
   public selectedDomObject;
+  public isDraggingText: boolean = false;
 
   // BackgroundPanel Variables
   public props_background: any = {
@@ -147,6 +148,11 @@ export class VsSidebarPanelComponent implements OnInit {
     this.$uns.push(this.vsService.onDragEnd.subscribe(() => {
       if ($this.selectedDomObject != null) {
         $this.selectedDomObject.style.opacity = 1;
+
+        if (this.isDraggingText) {
+          this.isDraggingText = false;
+          $($this.selectedDomObject).css('fontSize', $($this.selectedDomObject).data('font-size'));
+        }
       }
     }));
 
@@ -159,6 +165,11 @@ export class VsSidebarPanelComponent implements OnInit {
   }
 
   mouseDownText($event, font_family, font_size, font_style, text) {
+    $event.target.style.opacity = 0;
+    
+    this.isDraggingText = true;
+    $($event.target).css('fontSize', font_size);
+
     const object = {
       event: $event,
       type: 'text',
@@ -170,11 +181,12 @@ export class VsSidebarPanelComponent implements OnInit {
     };
 
     this.selectedDomObject = $event.target;
-    $event.target.style.opacity = 0;
-
+    
     this.vsService.dragStart(object);
   }
   mouseUpText($event) {
+    this.isDraggingText = false;
+    $($event.target).css('fontSize', $($event.target).data('font-size'));
     this.selectedDomObject.style.opacity = 1;
   }
 

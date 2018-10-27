@@ -22,13 +22,13 @@
             <p>Drag and drop to add text:</p>
             <ul>
               <li style="color: auto; text-align: center;">
-                <a class="add" data-style="title" style="color: auto; font-family: 'Abril Fatface'; font-size: 40px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Abril Fatface', 54, 'normal', 'Add heading')" (mouseup)="mouseUpText($event)">Add heading</a>
+                <a class="add" data-style="title" data-font-size="40" style="color: auto; font-family: 'Abril Fatface'; font-size: 40px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Abril Fatface', 54, 'normal', 'Add heading')" (mouseup)="mouseUpText($event)">Add heading</a>
               </li>
               <li style="color: auto; text-align: center;">
-                <a class="add" data-style="subtitle" style="color: auto; font-family: 'Trocchi'; font-size: 30px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Trocchi', 40, 'normal', 'Add subheading')" (mouseup)="mouseUpText($event)">Add subheading</a>
+                <a class="add" data-style="subtitle" data-font-size="30" style="color: auto; font-family: 'Trocchi'; font-size: 30px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Trocchi', 40, 'normal', 'Add subheading')" (mouseup)="mouseUpText($event)">Add subheading</a>
               </li>
               <li style="color: auto; text-align: center;">
-                <a class="add" data-style="body" style="font-family: Arimo; font-size: 16px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Arimo', 21, 'normal', 'Add a little bit of body text')" (mouseup)="mouseUpText($event)">Add a little bit of body text</a>
+                <a class="add" data-style="body" data-font-size="16" style="font-family: Arimo; font-size: 16px; font-style: normal; font-weight: normal;" (mousedown)="mouseDownText($event, 'Arimo', 21, 'normal', 'Add a little bit of body text')" (mouseup)="mouseUpText($event)">Add a little bit of body text</a>
               </li>
             </ul>
           </div>
@@ -36,7 +36,7 @@
             <ul class="gallery infoPanelGallery photoGallery laidOut" style="text-align: center; list-style-type:none;">
               <li class="elementGroupSearchResult" *ngFor="let font of (props_font.currentFonts | StatefulSlice:0:props_font.loadedFonts)" style="color: #aaaaaa; padding: 20px 0 20px 0">
                 <a style="font-size: 20px">
-                  <span [ngStyle]="{'font-family': font.family}" (mousedown)="mouseDownText($event, font.family, 27, 'normal', 'A red flare silhouetted the jagged edge of a wing')" (mouseup)="mouseUpText($event)">A red flare silhouetted the jagged edge of a wing.</span>
+                  <span data-font-size="20" [ngStyle]="{'font-family': font.family}" (mousedown)="mouseDownText($event, font.family, 27, 'normal', 'A red flare silhouetted the jagged edge of a wing')" (mouseup)="mouseUpText($event)">A red flare silhouetted the jagged edge of a wing.</span>
                 </a>
               </li>
             </ul>
