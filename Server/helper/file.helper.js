@@ -264,7 +264,6 @@ module.exports = {
                                             series_callback(err);
                                         });
                                     });
-                                series_callback(err);
                             });
                         } else {
                             series_callback(err);

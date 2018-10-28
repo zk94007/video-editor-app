@@ -57,7 +57,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         private service: ProjectService,
     ) {
         this.fileUploadConfig = {
-            acceptExtensions: ['png', 'jpeg', 'jpg', 'avi', 'mp4', 'gif'],
+            acceptExtensions: ['png', 'jpeg', 'jpg', 'avi', 'mp4', 'gif', 'mov', 'mo'],
             maxFilesCount: 5,
             maxFileSize: 5120000,
             totalFilesSize: 10120000
@@ -193,7 +193,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         for (let i = 0; i < this.props.upload.selectedFiles.length; i ++) {
             const file = this.props.upload.selectedFiles[i];
             const ext = path.extname(file.name).toLowerCase();
-            if (ext === '.jpg' || ext === '.png' || ext === '.jpeg' || ext === '.mp4' || ext === '.gif') {
+            if (ext === '.jpg' || ext === '.png' || ext === '.jpeg' || ext === '.mp4' || ext === '.gif' || ext === '.mov' || ext === '.mo') {
                 if (!file.$error) {
                     const preview = this.fakePreview(file.name);
                     this.props.showProjects = true;

@@ -151,7 +151,6 @@ export class VsSidebarPanelComponent implements OnInit {
 
         if (this.isDraggingText) {
           this.isDraggingText = false;
-          $($this.selectedDomObject).css('fontSize', $($this.selectedDomObject).data('font-size'));
         }
       }
     }));
@@ -168,7 +167,6 @@ export class VsSidebarPanelComponent implements OnInit {
     $event.target.style.opacity = 0;
     
     this.isDraggingText = true;
-    $($event.target).css('fontSize', font_size);
 
     const object = {
       event: $event,
@@ -186,7 +184,6 @@ export class VsSidebarPanelComponent implements OnInit {
   }
   mouseUpText($event) {
     this.isDraggingText = false;
-    $($event.target).css('fontSize', $($event.target).data('font-size'));
     this.selectedDomObject.style.opacity = 1;
   }
 
