@@ -230,8 +230,8 @@ export class WorkareaCanvas {
             let ideal_width = 400;
 
             if (this.isGif(image.src)) {
-                resolution.width = resolution.height = 160;
-                ideal_width = 160;
+                resolution.width = resolution.height = 260;
+                ideal_width = 260;
             }
             const ideal_height = (ideal_width / image.resolution.width) * image.resolution.height;
 
