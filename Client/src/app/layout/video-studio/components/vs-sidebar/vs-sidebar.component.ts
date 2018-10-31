@@ -31,7 +31,8 @@ export class VsSidebarComponent implements OnInit {
   // public SIDEBAR_STAGE_UPLOAD = 6;
 
   public SIDEBAR_STAGE_TEXT = 1;
-  public SIDEBAR_STAGE_UPLOAD = 2;
+  public SIDEBAR_STAGE_BACKGROUND = 2;
+  public SIDEBAR_STAGE_UPLOAD = 3;  
 
   constructor() { }
 
