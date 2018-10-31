@@ -27,7 +27,7 @@
     "@angular/platform-browser": "^5.2.10",
     "@angular/platform-browser-dynamic": "^5.2.10",
     "@angular/router": "^5.2.10",
-    "@jaames/iro": "^3.4.1",
+    "@jaames/iro": "3.4.1",
     "@ng-bootstrap/ng-bootstrap": "^1.0.4",
     "@ngx-progressbar/core": "^4.3.0",
     "@ngx-translate/core": "^9.1.1",
