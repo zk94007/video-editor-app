@@ -54,10 +54,24 @@
             <div class="colorPalette on">
               <div>
                 <div class="workingPalette">
-                  <h3 class="colorPaletteLabel">Recent colors</h3>
+                  <h3 class="colorPaletteLabel">Choose color</h3>
                   <menu class="colorPaletteGroup">
                     <div class="colorPalette__row">
-                      <li class="colorPaletteAdd" [(colorPicker)]="props_background.addRecentColor" [cpSaveClickOutside]="'false'" [cpPositionOffset]="'-150%'"></li>
+                      <!-- <li class="colorPaletteAdd" [(colorPicker)]="props_background.addRecentColor" [cpSaveClickOutside]="'false'" [cpPositionOffset]="'-150%'"></li> -->
+                      <!-- <li class="colorPaletteAdd" appBlColorpicker></li> -->
+                      <li class="toolbar__item toolbar__item--textColor enabled toolbar__item--submenu">
+                        <!-- <button class="colorPaletteAdd" appBlColorpicker [iroClass]="'.bg-colorpicker'" [style.background]="colorPickerColor"></button> -->
+                        <button class="colorPaletteAdd" appBlColorpicker [iroClass]="'.bg-colorpicker'" ></button>
+                        <menu class="toolbar toolbar--textColor">
+                          <ul class="toolbar__list">
+                            <div class="bg-colorpicker" style="width: 200px; height: 290px"></div>
+                            <div class="bg-colorpicker-colorcode">
+                              <span style="color: #000;">Color code: </span>
+                              <input class="bg-colorpicker-hexcode" [(ngModel)]="colorPickerColor" id="bg-colorpicker-hexcode" (input)="onColorHexChange($event.target.value)" maxlength="6">
+                            </div>
+                          </ul>
+                        </menu>
+                      </li>
                       <li class="colorPaletteEntry" *ngFor="let color of props_background.backgroundRecentColors" title="{{color}}" [ngStyle]="{'color': color}"></li>
                     </div>
                   </menu>

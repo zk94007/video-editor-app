@@ -13,6 +13,8 @@ import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } fro
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 import { Masonry, MasonryGridItem } from 'ng-masonry-grid';
 import * as path from 'path';
+import '@jaames/iro';
+import { MyColorpicker } from '../vs-toolbar/colorpicker';
 
 declare const $: any;
 
@@ -28,6 +30,9 @@ export class VsSidebarPanelComponent implements OnInit {
 
   public config: PerfectScrollbarConfigInterface = {};
   public $uns: any = [];
+
+  public colorPicker: MyColorpicker;
+  public colorPickerColor: string = '#ffffff';
 
   public selectedDomObject;
   public isDraggingText: boolean = false;
@@ -78,6 +83,8 @@ export class VsSidebarPanelComponent implements OnInit {
       suppressScrollX: true
     };
 
+    this.colorPicker = new MyColorpicker('.bg-colorpicker');
+
     // Background Panel config
     this.props_background.addRecentColor = '#ff0000';
     this.props_background.backgroundDefaultPalette1 = ['#6d6fe1', '#0090fa', '#00b9e4', '#49d1fb', '#00dd77', '#ff4b65', '#ff5936', '#ffa82e', '#ffd53c', '#fd109f'];
@@ -115,6 +122,11 @@ export class VsSidebarPanelComponent implements OnInit {
       }
       this.setDisplayedFontSource();
     }, (error: any) => {}));
+
+    this.$uns.push(this.colorPicker.onInputEnd.subscribe((color) => {
+      this.colorPickerColor = color;
+      this.vsService._changeBackground(color);
+    }));
 
     this.$uns.push(this.vsService.onAddUploadImage.subscribe((response) => {
       this.props_upload.uploadedFiles.forEach(file => {

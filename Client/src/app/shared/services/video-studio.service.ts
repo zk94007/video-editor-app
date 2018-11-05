@@ -297,6 +297,7 @@ export class VideoStudioService {
       if (!this.isModified()) {
         this.onModified.emit();
       }
+
       this.project.modified = true;
       frame.frm_background = {
         color: color

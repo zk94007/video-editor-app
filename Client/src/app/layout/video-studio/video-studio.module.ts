@@ -54,6 +54,7 @@ import { VideoStudioService } from '../../shared/services/video-studio.service';
 import { VsRepositionComponent } from './components/vs-reposition/vs-reposition.component';
 import { VsCompleteComponent } from './components/vs-complete/vs-complete.component';
 import { DivModalDirective } from './directives/div-modal.directive';
+import { BlColorpickerDirective } from './directives/bl-colorpicker.directive';
 
 @NgModule({
     imports: [
@@ -97,7 +98,8 @@ import { DivModalDirective } from './directives/div-modal.directive';
         VsRepositionComponent,
         VsCompleteComponent,
         DivModalDirective,
-        VsWorkareaLatestComponent
+        VsWorkareaLatestComponent,
+        BlColorpickerDirective
     ],
     providers: [
         {
