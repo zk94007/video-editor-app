@@ -96,7 +96,7 @@ module.exports = {
      * @param {*} destHeight 
      * @param {*} callback 
      */
-    image2reposition(filepath, duration, srcWidth, srcHeight, offsetX, offsetY, destWidth, destHeight, callback) {
+    image2reposition(filepath, duration, srcWidth, srcHeight, offsetX, offsetY, destWidth, destHeight, color, callback) {
         if (filepath == undefined) {
             responseHelper.onError('error: image2reposition', callback);
             return;
@@ -114,7 +114,7 @@ module.exports = {
 
         let filterString = "-vf scale=" + srcWidth + ":" + srcHeight
             + ",crop=" + cropWidth + ":" + cropHeight + ":" + cropX + ":" + cropY
-            + ",pad=" + destWidth + ":" + destHeight + ":" + (cropX + offsetX) + ":" + (cropY + offsetY) + ":color=white,setsar=1:1";
+            + ",pad=" + destWidth + ":" + destHeight + ":" + (cropX + offsetX) + ":" + (cropY + offsetY) + ":color="+color+",setsar=1:1";
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
 
         shell.exec('ffmpeg -loglevel quiet -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 ' + forGif + ' -i ' + filepath + ' -t ' + duration + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame -ab 320k -pix_fmt yuv420p ' + newFilePath, (code) => {
@@ -193,7 +193,7 @@ module.exports = {
      * @param {*} destHeight 
      * @param {*} callback 
      */
-    video2reposition(filepath, seekTime, duration, endTime, srcWidth, srcHeight, offsetX, offsetY, destWidth, destHeight, callback) {
+    video2reposition(filepath, seekTime, duration, endTime, srcWidth, srcHeight, offsetX, offsetY, destWidth, destHeight, color, callback) {
         if (filepath == undefined) {
             responseHelper.onError('error: video2reposition', callback);
             return;
@@ -210,7 +210,7 @@ module.exports = {
 
         let filterString = "-vf scale=" + srcWidth + ":" + srcHeight
             + ",crop=" + cropWidth + ":" + cropHeight + ":" + cropX + ":" + cropY
-            + ",pad=" + destWidth + ":" + destHeight + ":" + (cropX + offsetX) + ":" + (cropY + offsetY) + ":color=white,setsar=1:1";
+            + ",pad=" + destWidth + ":" + destHeight + ":" + (cropX + offsetX) + ":" + (cropY + offsetY) + ":color="+color+",setsar=1:1";
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
 
         shell.exec('ffmpeg -loglevel quiet -i ' + filepath + ' -ss ' + seekTime + ' -to ' + endTime + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame ' + newFilePath, (code) => {

@@ -338,6 +338,7 @@ module.exports = {
                                     this.parseInt(frame.frm_reposition.offsetY),
                                     config.video.scene1080[prj_scene_ratio].width,
                                     config.video.scene1080[prj_scene_ratio].height,
+                                    frame.frm_background.color,
                                     (err, newPath) => {
                                         if (!err) {
                                             workfiles.push(newPath);
@@ -364,6 +365,7 @@ module.exports = {
                                     this.parseInt(frame.frm_reposition.offsetY),
                                     config.video.scene1080[prj_scene_ratio].width,
                                     config.video.scene1080[prj_scene_ratio].height,
+                                    frame.frm_background.color,
                                     (err, newPath) => {
                                         if (!err) {
                                             workfiles.push(newPath);
