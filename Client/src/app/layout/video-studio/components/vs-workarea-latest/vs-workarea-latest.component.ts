@@ -33,7 +33,7 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
       },
       width: null,
       previousDuration: null,
-      isPlayingVideo: false
+      isPlayingVideo: false,
     },
     frame: null,
   };
@@ -54,6 +54,14 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
 
     this.$uns.push(this.vsService.onEndFrameReposition.subscribe(() => {
       this.vsService.selectFrame(this.vsService.selected_frm_id);
+    }));
+
+    this.$uns.push(this.vsService.onChangeBackground.subscribe((background) => {
+      if (background.color != undefined) {
+        $('#frame-background').css('background-color', background.color);
+      } else {
+        $('#frame-background').css('background-color', '');
+      }
     }));
 
     this.props.seek.video.currentTimeBadgeElement = document.getElementById('ui-current-time-badge');
@@ -129,6 +137,19 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
     const size = this.canvas.getSize();
     $('#frame').width(size.width);
     $('#frame').height(size.height);
+    if (this.props.frame && this.props.frame.frm_background != undefined) {
+      const border = this.canvas.getBorder();
+      const scale = this.canvas.getScale();
+      $('#frame-background').css('left', border.left + 'px');
+      $('#frame-background').css('top', border.top + 'px');
+      $('#frame-background').width(this.vsService.getSceneSize().width * scale);
+      $('#frame-background').height(this.vsService.getSceneSize().height * scale);
+      if (this.props.frame.frm_background.color != undefined) {
+        $('#frame-background').css('background-color', this.props.frame.frm_background.color);
+      } else {
+        $('#frame-background').css('background-color', '');
+      }
+    }
     if (this.props.frame && this.props.frame.frm_type === 1) {
       $('#video-frame').attr('src', this.props.frame.frm_path);
       const border = this.canvas.getBorder();

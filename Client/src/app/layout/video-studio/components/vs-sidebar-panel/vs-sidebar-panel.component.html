@@ -66,14 +66,14 @@
                   <h3 class="colorPaletteLabel">Default palette</h3>
                   <menu class="colorPaletteGroup">
                     <div class="colorPalette__row">
-                      <li class="colorPaletteEntry" *ngFor="let color of props_background.backgroundDefaultPalette1" title="{{color}}" [ngStyle]="{'color': color}"></li>
+                      <li class="colorPaletteEntry" *ngFor="let color of props_background.backgroundDefaultPalette1" title="{{color}}" [ngStyle]="{'color': color}" (click)="onChangeBackground(color)"></li>
                     </div>
                   </menu>
                 </div>
                 <div class="pinnedPalette">
                   <menu class="colorPaletteGroup">
                     <div class="colorPalette__row">
-                      <li class="colorPaletteEntry" *ngFor="let color of props_background.backgroundDefaultPalette2" title="{{color}}" [ngStyle]="{'color': color}"></li>
+                      <li class="colorPaletteEntry" *ngFor="let color of props_background.backgroundDefaultPalette2" title="{{color}}" [ngStyle]="{'color': color}" (click)="onChangeBackground(color)"></li>
                     </div>
                   </menu>
                 </div>

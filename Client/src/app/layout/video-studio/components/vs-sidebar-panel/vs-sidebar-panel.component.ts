@@ -163,6 +163,10 @@ export class VsSidebarPanelComponent implements OnInit {
     });
   }
 
+  onChangeBackground(color) {
+    this.vsService._changeBackground(color);
+  }
+
   mouseDownText($event, font_family, font_size, font_style, text) {
     $event.target.style.opacity = 0;
     

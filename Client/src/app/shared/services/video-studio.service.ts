@@ -77,6 +77,7 @@ export class VideoStudioService {
   @Output() onModified = new EventEmitter();
 
   @Output() onChangeCanvasScale = new EventEmitter();
+  @Output() onChangeBackground = new EventEmitter();
 
   public binds = [
     {
@@ -287,6 +288,21 @@ export class VideoStudioService {
       this.project.modified = true;
       frame.frm_reposition = reposition;
       this.socket.sendMessageWithToken('UPDATE_FRAME', { frm_id: this.selected_frm_id, data: [{ name: 'frm_reposition', value: JSON.stringify(reposition) }] });
+    }
+  }
+
+  _changeBackground(color) {
+    const frame = this.project.getFrame(this.selected_frm_id);
+    if (frame) {
+      if (!this.isModified()) {
+        this.onModified.emit();
+      }
+      this.project.modified = true;
+      frame.frm_background = {
+        color: color
+      };
+      this.socket.sendMessageWithToken('UPDATE_FRAME', { frm_id: this.selected_frm_id, data: [{ name: 'frm_background', value: JSON.stringify(frame.frm_background) }] });
+      this.onChangeBackground.emit(frame.frm_background);
     }
   }
 
