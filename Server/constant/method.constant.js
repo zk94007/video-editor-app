@@ -30,6 +30,7 @@ module.exports = {
     generateSasToken:           'GENERATE_SAS',
 
     addFrame:                   'ADD_FRAME',
+    addFrameByUrl:              'ADD_FRAME_BY_URL',
     addUploadImage:             'ADD_UPLOAD_IMAGE',
     deleteUploadImage:          'DELETE_UPLOAD_IMAGE',
     uploadImageProgress:        'UPLOAD_IMAGE_PROGRESS',

@@ -18,6 +18,9 @@ var uuidGen = require('node-uuid');
 var getResolution = require('get-video-dimensions');
 var download = require('url-download');
 var _ = require('underscore');
+var youtubedl = require('youtube-dl');
+var imgur = require('imgur');
+var download_file = require('download-file');
 
 var config = require('../config/config');
 var logHelper = require('./log.helper');
@@ -217,6 +220,82 @@ module.exports = {
             .on('error', (err) => {
                 responseHelper.onError('error: getFileFromCloud', callback);
             });
+    },
+
+    matchYoutubeUrl(url) {
+        var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        if(url.match(p)){
+            return url.match(p)[1];
+        }
+        return false;
+    },
+
+    download_youtube_video_from_url(youtube_url, callback) {
+        if (!this.matchYoutubeUrl(youtube_url)) {
+            responseHelper.onError('error: invalid youtube url', callback);
+        }
+        
+        var video = youtubedl(youtube_url, ['--format=22'], {cwd: __dirname});
+        let filepath = config.server.downloadPath + uuidGen.v1() + '.mp4';
+        video.pipe(fs.createWriteStream('../' + filepath));
+        video.on('end', () => {
+            responseHelper.onSuccess(callback, filepath);
+        });
+        video.on('error', (err) => {
+            responseHelper.onError('error: download_youtube_video_from_url ' + err, callback);
+        });
+    },
+
+    isImgurURL(url) {
+        var _imgurDomain = /.*\/\/((i|m)\.)?imgur.com\/.*$/;
+        return _imgurDomain.test(url);
+    },
+
+    download_imgur_image_from_url(imgur_url, callback) {
+        if (!this.isImgurURL(imgur_url)) {
+            responseHelper.onError('error: invalid imgur url', callback);
+        }
+
+        function parseImageIds(url) {
+            var _imgurIdParse = /^.*\/([a-zA-Z0-9,]+)[\?#\.]?.*$/;
+            var match = _imgurIdParse.exec(url);
+            if(!match || !match[1]) {
+                return [];
+            }
+            return match[1].split(',');  
+        }
+
+        var idArr = parseImageIds(imgur_url);
+        if (idArr.length == 1) {
+            imgur.getInfo(idArr[0])
+                .then(function(json) {
+                    let filename = uuidGen.v1() + path.extname(json.data.link);
+                    download_file(json.data.link, {directory: '../' + config.server.downloadPath, filename: filename}, function(err) {
+                        if (err) {
+                            responseHelper.onError('error: invalid imgur url', callback);
+                        } else {
+                            responseHelper.onSuccess(callback, config.server.downloadPath + filename);
+                        }
+                    });
+                })
+                .catch(function(err) {
+                    responseHelper.onError('error: invalid imgur url', callback);
+                });
+        }
+        
+    },
+
+    /**
+     * 
+     * @param {*} url 
+     * @param {*} callback 
+     */
+    getFileFromUrl(url, callback) {
+        if (this.matchYoutubeUrl(url)) {
+            this.download_youtube_video_from_url(url, callback);
+        } else if (this.isImgurURL(url)) {
+            this.download_imgur_image_from_url(url, callback);
+        }
     },
 
     /**

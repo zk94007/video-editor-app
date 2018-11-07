@@ -331,6 +331,37 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.addFrameByUrl, function (message) {
+        helper.log.system('received add frame by url message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.addFrameByUrl, message, function (err, userInfo) {
+            if (message.url) {
+                helper.file.getFileFromUrl(message.url, function(err, filepath) {
+                    if (err) {
+                        const result = {};
+                        result.success = false;
+                        result.msg = err;
+                        result.guid = message.guid;
+                        socket.emit(constant.method.addFrameByUrl + '_RESPONSE', result);
+                    } else {
+                        helper.file.putMediaToCloud(filepath, (percent) => {socket.emit('ADD_FRAME_BY_URL_PROGRESS', { guid: message.guid, percent: percent }); }, (_err, metadata) => {
+                            if (_err) {
+                                const result = {};
+                                result.success = false;
+                                result.msg = err;
+                                result.guid = message.guid;
+                            } else {
+                                service.frame.addFrame(message, metadata, function(__err, result) {
+                                    result.guid = message.guid;
+                                    socket.emit(constant.method.addFrameByUrl + '_RESPONSE', result);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+
     ss(socket).on(constant.method.addFrame, function(stream, message) {
         helper.log.system('received add frame: ' + JSON.stringify(message));
         helper.file.writeStream(stream, config.server.uploadPath, message.filename, function(err, result) {

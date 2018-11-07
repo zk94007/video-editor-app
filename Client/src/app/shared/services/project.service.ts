@@ -18,8 +18,10 @@ export class ProjectService {
     public onUpdateFrameOrder = new EventEmitter();
     public onDeleteFrame = new EventEmitter();
     public onAddFrameProgress = new EventEmitter();
+    public onAddFrameByUrlProgress = new EventEmitter();
     public onChangePageTitle = new EventEmitter();
     public onAddFrame = new EventEmitter();
+    public onAddFrameByUrl = new EventEmitter();
 
     constructor(private socket: SocketService) {
         $this = this;
@@ -35,7 +37,9 @@ export class ProjectService {
         this.socket.bind('UPDATE_FRAME_ORDER_RESPONSE', this._updateFrameOrderResponse);
         this.socket.bind('DELETE_FRAME_RESPONSE', this._deleteFrameResponse);
         this.socket.bind('ADD_FRAME_RESPONSE', this._addFrameResponse);
+        this.socket.bind('ADD_FRAME_BY_URL_RESPONSE', this._addFrameByUrlResponse);
         this.socket.bind('ADD_FRAME_PROGRESS', this._addFrameProgress);
+        this.socket.bind('ADD_FRAME_BY_URL_PROGRESS', this._addFrameByUrlProgress);
     }
 
     changePageTitle(pageTitle) {
@@ -114,6 +118,10 @@ export class ProjectService {
         this.socket.sendStream('ADD_FRAME', file, metadata, this.onAddFrameProgress);
     }
 
+    _addFrameByUrl(filename, url, prj_id, guid) {
+        this.socket.sendMessageWithToken('ADD_FRAME_BY_URL', { filename: filename, url: url, prj_id: prj_id, guid: guid });
+    }
+
     _getProjectListResponse(response) {
         $this.onGetProjectList.emit(response);
     }
@@ -150,7 +158,15 @@ export class ProjectService {
         $this.onAddFrame.emit(response);
     }
 
+    _addFrameByUrlResponse(response) {
+        $this.onAddFrameByUrl.emit(response);
+    }
+
     _addFrameProgress(response) {
         $this.onAddFrameProgress.emit(response);
+    }
+
+    _addFrameByUrlProgress(response) {
+        $this.onAddFrameByUrlProgress.emit(response);
     }
 }
