@@ -175,6 +175,12 @@ export class VsSidebarPanelComponent implements OnInit {
     });
   }
 
+  onColorHexChange(color: string) {
+    this.colorPickerColor = color;
+    this.colorPicker.setColor(this.colorPickerColor);
+    this.vsService._changeBackground(color);
+  }
+
   onChangeBackground(color) {
     this.vsService._changeBackground(color);
   }
