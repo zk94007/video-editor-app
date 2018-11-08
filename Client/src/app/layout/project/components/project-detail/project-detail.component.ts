@@ -39,6 +39,12 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         isDeleting: -1,
 
         displayDeleteFileModal: null,
+        displayImportUrlModal: null,
+        newFrame: {
+            perror: null,
+            filename: null,
+            url: null
+        },
 
         wait: 'assets/layout/images/wait.gif'
     };
@@ -77,6 +83,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         }));
 
         this.props.displayDeleteFileModal = 'none';
+        this.props.displayImportUrlModal = 'none';
     }
 
     ngOnInit() {
@@ -148,10 +155,60 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                     this.props.media[index] = temp;
                     this.props.showProjects = true;
                 }
+            } else {
+                alert("The video you uploaded is invalid, please upload video or image.");
+                
+                this.props.isUploading = false;
+                if (this.props.media.length === 0) {
+                    this.props.showProjects = false;
+                } else {
+                    this.props.showProjects = true;
+                }
+                const index = this.props.media.findIndex(m => m.guid === message.guid);
+                this.props.media.splice(index, 1);
+            }
+        }));
+
+        this.$uns.push(this.service.onAddFrameByUrl.subscribe((message) => {
+            const success = message.success;
+            this.props.upload.uploadPercent = 0;
+            if (success) {
+                if (this.props.media !== null) {
+                    this.props.isUploading = false;
+                    const index = this.props.media.findIndex(m => m.guid === message.guid);
+                    const temp = {
+                        frm_id: message.frm_id,
+                        frm_name: message.frm_name,
+                        frm_order: message.frm_order,
+                        frm_path: message.frm_path,
+                        frm_resolution: message.frm_resolution,
+                        isUploading: false
+                    };
+                    this.props.media[index] = temp;
+                    this.props.showProjects = true;
+                }
+            } else {
+                alert("The url you inputed is invalid, please input real youtube or imgur url.");
+                
+                this.props.isUploading = false;
+                if (this.props.media.length === 0) {
+                    this.props.showProjects = false;
+                } else {
+                    this.props.showProjects = true;
+                }
+                const index = this.props.media.findIndex(m => m.guid === message.guid);
+                this.props.media.splice(index, 1);
             }
         }));
 
         this.$uns.push(this.service.onAddFrameProgress.subscribe((message) => {
+            if (this.props.media !== null) {
+                const index = this.props.media.findIndex(m => m.guid === message.guid);
+                this.props.media[index].uploadPercent = Math.round(message.percent) + '%';
+            }
+        }));
+
+        this.$uns.push(this.service.onAddFrameByUrlProgress.subscribe((message) => {
             if (this.props.media !== null) {
                 const index = this.props.media.findIndex(m => m.guid === message.guid);
                 this.props.media[index].uploadPercent = Math.round(message.percent) + '%';
@@ -343,5 +400,29 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.$uns.forEach($uns => {
             $uns.unsubscribe();
         });
+    }
+
+    openImportUrl() {
+        this.props.displayImportUrlModal = 'block';
+        this.props.newFrame.perror = null;
+        this.props.newFrame.filename = '';
+        this.props.newFrame.url = '';
+    }
+    cancelImportUrl() {
+        this.props.displayImportUrlModal = 'none';
+    }
+    okImportUrl() {
+        if (this.props.newFrame.filename && (this.props.newFrame.filename).trim() !== '' && this.props.newFrame.url && (this.props.newFrame.url).trim() !== '') {
+            this.props.displayImportUrlModal = 'none';
+
+            const preview = this.fakePreview(this.props.newFrame.filename);
+            this.props.showProjects = true;
+            this.props.isUploading = true;
+            this.props.media.push(preview);
+            this.service._addFrameByUrl(this.props.newFrame.filename, this.props.newFrame.url, this.props.projectId, preview.guid);
+            
+        } else {
+            this.props.newFrame.perror = 'Please input Filename and Url.';
+        }
     }
 }

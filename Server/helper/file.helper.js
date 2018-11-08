@@ -237,7 +237,7 @@ module.exports = {
         
         var video = youtubedl(youtube_url, ['--format=22'], {cwd: __dirname});
         let filepath = config.server.downloadPath + uuidGen.v1() + '.mp4';
-        video.pipe(fs.createWriteStream('../' + filepath));
+        video.pipe(fs.createWriteStream(filepath));
         video.on('end', () => {
             responseHelper.onSuccess(callback, filepath);
         });
@@ -270,7 +270,7 @@ module.exports = {
             imgur.getInfo(idArr[0])
                 .then(function(json) {
                     let filename = uuidGen.v1() + path.extname(json.data.link);
-                    download_file(json.data.link, {directory: '../' + config.server.downloadPath, filename: filename}, function(err) {
+                    download_file(json.data.link, {directory: config.server.downloadPath, filename: filename}, function(err) {
                         if (err) {
                             responseHelper.onError('error: invalid imgur url', callback);
                         } else {
@@ -295,6 +295,8 @@ module.exports = {
             this.download_youtube_video_from_url(url, callback);
         } else if (this.isImgurURL(url)) {
             this.download_imgur_image_from_url(url, callback);
+        } else {
+            responseHelper.onError('Invalid Url', callback);
         }
     },
 

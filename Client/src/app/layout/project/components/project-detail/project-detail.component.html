@@ -8,64 +8,25 @@
             
             <ul ngbDropdownMenu class="dropdown-menu media-menu" aria-labelledby="add-media-file-dropdown" style="min-width: 100px;">
                 <li>
-                    <ng5-files-click (filesSelect)="filesSelect($event)" multiple="multiple" class="menu-item dropdown-item">
-                        <div>
-                            <img class="icon" src="../../../../../assets/layout/icons/cloud-computing.png">
-                            <span>Computer</span>
-                        </div>
-                    </ng5-files-click>
-                    <!-- <a href id="dropbox_first" ng-show="connectionStates.dropbox" drop-box-picker db-picker-files="dpfiles" class="menu-item">
-                        <img class="icon" src="assets/icons/dropbox.png">
-                        <span>Dropbox</span>
-                    </a>
-                    <a href id="dropbox_second" ng-hide="connectionStates.dropbox" ng-click="showConnectToService('dropbox')" class="menu-item">
-                        <img class="icon" src="assets/icons/dropbox.png">
-                        <span>Dropbox</span>
-                    </a>
-
-                    <a href id="google_drive_first" ng-show="connectionStates.google_drive" lk-google-picker on-picked="onGoogleFilePicked(docs)" on-loaded="onGoogleFileLoaded()" on-cancel="onGoogleFileCancel()" class="menu-item">
-                        <img class="icon" src="assets/icons/drive.png">
-                        <span>Google Drive</span>
-                    </a>
-                    <a href id="google_drive_second" ng-hide="connectionStates.google_drive" ng-click="showConnectToService('google_drive')" class="menu-item">
-                        <img class="icon" src="assets/icons/drive.png">
-                        <span>Google Drive</span>
-                    </a>
-
-                    <a href id="box_first" ng-show="connectionStates.box" box-picker box-picker-files="boxfiles" class="menu-item icon-big">
-                        <img class="icon" src="assets/icons/box.png">
-                        <span>Box</span>
-                    </a>
-                    <a href id="box_second" ng-hide="connectionStates.box" ng-click="showConnectToService('box')" class="menu-item icon-big">
-                        <img class="icon" src="assets/icons/box.png">
-                        <span>Box</span>
-                    </a>
-
-
-                    <a href id="instagram_first" ng-show="connectionStates.instagram2" ng-click="instagram()"  class="menu-item">
-                        <img class="icon" src="assets/icons/instagram.png">
-                        <span>Instagram</span>
-                    </a>
-                    <a href id="instagram_second" ng-hide="connectionStates.instagram2" ng-click="showConnectToService('instagram2')" class="menu-item">
-                        <img class="icon" src="assets/icons/instagram.png">
-                        <span>Instagram</span>
-                    </a> -->
-                    <!-- <a href custom-link-invoker is-editing="custom_link_editing" ng-click="customFileType = 'youtube'" class="menu-item icon-big">
-                        <img class="icon" src="assets/icons/youtube.png">
-                        <span>Youtube</span>
-                    </a> -->
-                    <!-- <a href custom-link-invoker is-editing="custom_link_editing" ng-click="customFileType = 'custom'" class="menu-item">
-                        <img class="icon" src="assets/icons/url-link.png">
-                        <span>URL</span>
-                    </a> -->
+                    <ul style="width: 200px; list-style-type: none;">
+                        <li style="float: left;">
+                            <ng5-files-click (filesSelect)="filesSelect($event)" multiple="multiple" class="menu-item dropdown-item">
+                                <div>
+                                    <img class="icon" src="../../../../../assets/layout/icons/cloud-computing.png">
+                                    <span>Computer</span>
+                                </div>
+                            </ng5-files-click>
+                        </li>
+                        <li style="float: left;">
+                            <a (click)="openImportUrl()" class="menu-item dropdown-item">
+                                <div>
+                                    <img class="icon" src="../../../../../assets/layout/icons/search.svg">
+                                    <span>URL</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <!-- <li custom-link-invoker is-editing="custom_link_editing" class="link" ng-show="custom_link_editing">
-                    <div class="custom-link-wrapper" ng-class="{'bg-youtube': customFileType == 'youtube'}">
-                        <form ng-submit="saveCustomFile(customFileType)">
-                            <input class="custom-link-box"  type="text" ng-model="url" placeholder="Paste URL" />
-                        </form>
-                    </div>
-                </li> -->
             </ul>
         </div>
         <div class="d-inline-block pull-left" style="margin-left: 10px" *ngIf="props.media.length != 0 && props.isUploading == false">
@@ -397,6 +358,28 @@
         </div>
     </div>
 </div>
+
+<div class="backdrop" [ngStyle]="{'display':props.displayImportUrlModal}"></div>
+<div id="importUrlModal" class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.displayImportUrlModal}" [ngClass]="props.newFrame.perror != null ? 'shake-dialog' : ''">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="btn-close" (click)="cancelImportUrl()"></span>
+                <h3 class="modal-title" id="modal-title">Import From Url</h3>
+                <input type="text" class="form-control" name="filename" #filename="ngModel" [(ngModel)]="props.newFrame.filename" required placeholder="Filename" style="margin-bottom: 20px;"/>
+                <input type="text" class="form-control" name="url" #url="ngModel" [(ngModel)]="props.newFrame.url" required placeholder="Youtube or Imgur Url"/>
+                <div  style="margin-top: 10px" *ngIf="props.newFrame.perror != null">
+                    <span class="error-icon">!</span>
+                    <span class="text-danger">{{props.newFrame.perror}}</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-custom btn-green btn-md" type="button" (click)="okImportUrl()">Import</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="backdrop" [ngStyle]="{'display':props.displayDeleteFileModal}"></div>
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':props.displayDeleteFileModal}">
     <div class="modal-dialog">
