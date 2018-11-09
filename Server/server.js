@@ -335,15 +335,17 @@ io.on('connection', function(socket) {
         helper.log.system('received add frame by url message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.addFrameByUrl, message, function (err, userInfo) {
             if (message.url) {
-                helper.file.getFileFromUrl(message.url, function(err, filepath) {
+                helper.file.getFileFromUrl(message.url, function(err, _result) {
                     if (err) {
                         const result = {};
                         result.success = false;
                         result.msg = err;
                         result.guid = message.guid;
+                        result.type = _result.type != undefined ? _result.type : 0;
                         socket.emit(constant.method.addFrameByUrl + '_RESPONSE', result);
                     } else {
-                        helper.file.putMediaToCloud(filepath, (percent) => {socket.emit('ADD_FRAME_BY_URL_PROGRESS', { guid: message.guid, percent: percent }); }, (_err, metadata) => {
+                        message.filename = _result.filename;
+                        helper.file.putMediaToCloud(_result.filepath, (percent) => {socket.emit('ADD_FRAME_BY_URL_PROGRESS', { guid: message.guid, percent: percent }); }, (_err, metadata) => {
                             if (_err) {
                                 const result = {};
                                 result.success = false;

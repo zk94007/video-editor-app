@@ -231,19 +231,40 @@ module.exports = {
     },
 
     download_youtube_video_from_url(youtube_url, callback) {
-        if (!this.matchYoutubeUrl(youtube_url)) {
-            responseHelper.onError('error: invalid youtube url', callback);
+        try {
+            if (!this.matchYoutubeUrl(youtube_url)) {
+                responseHelper.onError('error: invalid youtube url', callback);
+            }
+            
+            var filepath = '';
+            var filename = '';
+            var video = youtubedl(youtube_url, [], {cwd: __dirname});
+            video.on('error', (err) => {
+                responseHelper.onError('error: download_youtube_video_from_url ' + err, callback);
+            });
+            video.on('end', () => {
+                responseHelper.onSuccess(callback, {filepath: filepath, filename: filename});
+            });
+            video.on('info', function(info) {
+                var mins = 0;
+                if (info.duration.split(':').length == 2) {
+                    mins = parseInt(info.duration.split(':')[0]);
+                } else if (info.duration.split(':').length == 3) {
+                    mins = parseInt(info.duration.split(':')[0]) * 60 + parseInt(info.duration.split(':')[1]);
+                };
+                if (mins > 5) {
+                    responseHelper.onErrorPlus(callback, 'error: download_youtube_video_from_url', {type: -100});
+                } else {
+                    filename = info._filename;
+                    // var format_id = info.format_id;
+                    // var _v = youtubedl(youtube_url, ['--format='+format_id], {cwd: __dirname});
+                    filepath = config.server.downloadPath + uuidGen.v1() + '.mp4';
+                    video.pipe(fs.createWriteStream(filepath));
+                }
+            });
+        } catch(e) {
+            responseHelper.onError('error: download_youtube_video_from_url ' + e, callback);
         }
-        
-        var video = youtubedl(youtube_url, ['--format=22'], {cwd: __dirname});
-        let filepath = config.server.downloadPath + uuidGen.v1() + '.mp4';
-        video.pipe(fs.createWriteStream(filepath));
-        video.on('end', () => {
-            responseHelper.onSuccess(callback, filepath);
-        });
-        video.on('error', (err) => {
-            responseHelper.onError('error: download_youtube_video_from_url ' + err, callback);
-        });
     },
 
     isImgurURL(url) {
@@ -265,16 +286,20 @@ module.exports = {
             return match[1].split(',');  
         }
 
+        var filepath = '';
+        var filename = '';
+
         var idArr = parseImageIds(imgur_url);
         if (idArr.length == 1) {
             imgur.getInfo(idArr[0])
                 .then(function(json) {
-                    let filename = uuidGen.v1() + path.extname(json.data.link);
+                    filename = uuidGen.v1() + path.extname(json.data.link);
+                    filepath = config.server.downloadPath + filename;
                     download_file(json.data.link, {directory: config.server.downloadPath, filename: filename}, function(err) {
                         if (err) {
                             responseHelper.onError('error: invalid imgur url', callback);
                         } else {
-                            responseHelper.onSuccess(callback, config.server.downloadPath + filename);
+                            responseHelper.onSuccess(callback, {filepath: filepath, filename: filename});
                         }
                     });
                 })

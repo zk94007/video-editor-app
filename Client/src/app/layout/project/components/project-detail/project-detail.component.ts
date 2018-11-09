@@ -188,7 +188,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                     this.props.showProjects = true;
                 }
             } else {
-                alert("The url you inputed is invalid, please input real youtube or imgur url.");
+                if (message.type != undefined && message.type == '-100') {
+                    alert("The video you selected is over 5 mins, please upload video under 5 mins.");
+                } else {
+                    alert("The url you inputed is invalid, please input real youtube or imgur url.");
+                }
                 
                 this.props.isUploading = false;
                 if (this.props.media.length === 0) {
@@ -412,7 +416,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.props.displayImportUrlModal = 'none';
     }
     okImportUrl() {
-        if (this.props.newFrame.filename && (this.props.newFrame.filename).trim() !== '' && this.props.newFrame.url && (this.props.newFrame.url).trim() !== '') {
+        // if (this.props.newFrame.filename && (this.props.newFrame.filename).trim() !== '' && this.props.newFrame.url && (this.props.newFrame.url).trim() !== '') {
+        if (this.props.newFrame.url && (this.props.newFrame.url).trim() !== '') {
             this.props.displayImportUrlModal = 'none';
 
             const preview = this.fakePreview(this.props.newFrame.filename);
