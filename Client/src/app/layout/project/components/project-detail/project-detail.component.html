@@ -365,7 +365,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <span class="btn-close" (click)="cancelImportUrl()"></span>
-                <h3 class="modal-title" id="modal-title">Import From Url</h3>
+                <h3 class="modal-title" id="modal-title">Import from Url</h3>
                 <input type="text" class="form-control" name="filename" #filename="ngModel" [(ngModel)]="props.newFrame.filename" required placeholder="Filename" style="margin-bottom: 20px; display: none;"/>
                 <input type="text" class="form-control" name="url" #url="ngModel" [(ngModel)]="props.newFrame.url" required placeholder="Youtube or Imgur Url"/>
                 <div  style="margin-top: 10px" *ngIf="props.newFrame.perror != null">
