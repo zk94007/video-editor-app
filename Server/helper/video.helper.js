@@ -102,6 +102,14 @@ module.exports = {
             return;
         }
 
+        console.log(color);
+
+        if (color == undefined || color == '') {
+            color = 'white';
+        }
+
+        console.log(color);
+
         duration = Number.parseInt(duration);
         duration = duration > 0 ? duration : 10;
 
@@ -117,7 +125,7 @@ module.exports = {
             + ",pad=" + destWidth + ":" + destHeight + ":" + (cropX + offsetX) + ":" + (cropY + offsetY) + ":color="+color+",setsar=1:1";
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
 
-        shell.exec('ffmpeg -loglevel quiet -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 ' + forGif + ' -i ' + filepath + ' -t ' + duration + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame -ab 320k -pix_fmt yuv420p ' + newFilePath, (code) => {
+        shell.exec('ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 ' + forGif + ' -i ' + filepath + ' -t ' + duration + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame -ab 320k -pix_fmt yuv420p ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: image2reposition', callback);
                 return;
