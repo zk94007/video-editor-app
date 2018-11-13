@@ -231,7 +231,7 @@ module.exports = {
 
         shell.exec('ffmpeg -loglevel quiet -i ' + filepath + ' -ss ' + seekTime + ' -to ' + endTime + ' ' + filterString + ' -codec:v libx264 -codec:a libmp3lame ' + newFilePath, (code) => {
             if (code != 0) {
-                responseHelper.onError('error: video2reposition', callback);
+                responseHelper.onError('error: video2reposition' + code, callback);
                 return;
             }
 
