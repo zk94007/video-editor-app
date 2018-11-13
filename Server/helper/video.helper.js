@@ -199,6 +199,10 @@ module.exports = {
             return;
         }
 
+        if (color == undefined) {
+            color = 'white';
+        }
+
         seekTime = seekTime != undefined ? seekTime : 0;
         duration = duration > 0 ? duration : 10;
         endTime = endTime != undefined ? endTime : duration;
