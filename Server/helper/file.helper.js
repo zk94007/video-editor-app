@@ -258,7 +258,7 @@ module.exports = {
                     filename = info._filename;
                     // var format_id = info.format_id;
                     // var _v = youtubedl(youtube_url, ['--format='+format_id], {cwd: __dirname});
-                    filepath = config.server.downloadPath + uuidGen.v1() + '.mp4';
+                    filepath = config.server.uploadPath + uuidGen.v1() + '.mp4';
                     video.pipe(fs.createWriteStream(filepath));
                 }
             });
@@ -294,8 +294,8 @@ module.exports = {
             imgur.getInfo(idArr[0])
                 .then(function(json) {
                     filename = uuidGen.v1() + path.extname(json.data.link);
-                    filepath = config.server.downloadPath + filename;
-                    download_file(json.data.link, {directory: config.server.downloadPath, filename: filename}, function(err) {
+                    filepath = config.server.uploadPath + filename;
+                    download_file(json.data.link, {directory: config.server.uploadPath, filename: filename}, function(err) {
                         if (err) {
                             responseHelper.onError('error: invalid imgur url', callback);
                         } else {
