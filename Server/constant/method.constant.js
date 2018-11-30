@@ -21,6 +21,7 @@ module.exports = {
     updateUserById:             'UPDATE_USER_BY_ID',
     inviteAdmin:                'INVITE_ADMIN',
     getUserInformation:         'GET_USER_INFORMATION',
+    getStaticOverlays:          'GET_STATIC_OVERLAYS',
 
     getProjectList:             'GET_PROJECT_LIST',
     createProject:              'CREATE_PROJECT',

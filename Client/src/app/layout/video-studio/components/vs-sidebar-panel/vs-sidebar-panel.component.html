@@ -98,28 +98,36 @@
       </div>
     </perfect-scrollbar>
   </section>
-<!-- 
+
   <section id="resultsElements" class="results infinite">
     <div class="layer scrollPane scrollElement">
       <div class="inner">
-        <div class="textControls">
-          <p>Click or drag to add text:</p>
-          <ul>
-            <li style="color: auto; text-align: center;">
-              <a class="add" data-style="title" style="color: auto; font-family: 'Abril Fatface'; font-size: 402.5%; font-style: normal; font-weight: normal;">Add heading</a>
-            </li>
-            <li style="color: auto; text-align: center;">
-              <a class="add" data-style="subtitle" style="color: auto; font-family: 'Trocchi'; font-size: 230%; font-style: normal; font-weight: normal;">Add subheading</a>
-            </li>
-            <li style="color: auto; text-align: center;">
-              <a class="add" data-style="body" style="font-family: Arimo; font-size: 153.333%; font-style: normal; font-weight: normal;">Add a little bit of body text</a>
-            </li>
-          </ul>
+        <div class="element-menu">
+          <div class="element-menu-item">
+            <img src="assets/video-studio/panel/shape.svg" class="element-menu-item-img">
+            <span style="font-size: 13px; text-align: center;">Shapes</span>
+          </div>
+          <div class="element-menu-item">
+            <img src="assets/video-studio/panel/sticker.svg" class="element-menu-item-img">
+            <span style="font-size: 13px; text-align: center;">Stickers</span>
+          </div>
+          <div class="element-menu-item">
+            <img src="assets/video-studio/panel/emojis.svg" class="element-menu-item-img">
+            <span style="font-size: 13px; text-align: center;">Emojis</span>
+          </div>
+        </div>
+        <div>
+          <!-- divider -->
+        </div>
+        <div id="emojis-panel" style="padding-left:5px;">
+          <div class="emojis-item" *ngFor="let file of props_emojis.emojisFiles">
+              <img src="{{file.src}}" style="width: 100%; height: auto; visibility: hidden;" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)"/>
+          </div>
         </div>
       </div>
     </div>
   </section>
-
+<!-- 
   <section id="resultsMusic" class="results infinite">
 
   </section> -->
@@ -139,9 +147,7 @@
               <p class="uploadsFolderContentEmptyMessage" style="padding-bottom: 10px">Drag and drop to the editor</p>
               <div>
                 <ng-masonry-grid (onNgMasonryInit)="onMasonryInit($event)" [masonryOptions]="{ transitionDuration: '0.4s', gutter: 10, percentPosition: true, horizontalOrder: true }" [useAnimation]="true" [useImagesLoaded]="true" [scrollAnimationOptions]="{ animationEffect: 'effect-1', minDuration : 0.4, maxDuration : 0.7 }">
-                  <!-- Masonry Grid Item -->
                   <ng-masonry-grid-item *ngFor="let file of props_upload.uploadedFiles" style="width: 29%" class="uploadsFolderItem"> 
-                    <!-- Grid Content  -->
                     <div>
                       <img src="{{file.src}}" style="width: 100%; height: auto; visibility: hidden;" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)"/>
                     </div>

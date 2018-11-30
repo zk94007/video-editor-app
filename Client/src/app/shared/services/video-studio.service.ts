@@ -78,6 +78,7 @@ export class VideoStudioService {
 
   @Output() onChangeCanvasScale = new EventEmitter();
   @Output() onChangeBackground = new EventEmitter();
+  @Output() onGetStaticOverlays = new EventEmitter();
 
   public binds = [
     {
@@ -111,6 +112,10 @@ export class VideoStudioService {
     {
       name: 'DELETE_UPLOAD_IMAGE_RESPONSE',
       function: this._deleteUplpoadImageResponse,
+    },
+    {
+      name: 'GET_STATIC_OVERLAYS_RESPONSE',
+      function: this._getStaticOverlaysResponse,
     }
   ];
 
@@ -340,6 +345,7 @@ export class VideoStudioService {
 
   _load(prj_id) {
     this.socket.sendMessageWithToken('GET_FRAMES_WITH_OVERLAY', { prj_id: prj_id });
+    this.socket.sendMessageWithToken('GET_STATIC_OVERLAYS', {  });
   }
 
   _loadResponse(response) {
@@ -466,6 +472,12 @@ export class VideoStudioService {
 
   _deleteUplpoadImageResponse(response) {
 
+  }
+
+  _getStaticOverlaysResponse(response) {
+    if (response.success) {
+      $this.onGetStaticOverlays.emit(response.overlays);
+    }
   }
 
   /**

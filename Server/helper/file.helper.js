@@ -212,7 +212,7 @@ module.exports = {
      * @param {*} callback 
      */
     getFileFromCloud(filepath, callback) {
-        download(filepath, config.server.downloadPath)
+        download(filepath, config.server.uploadPath)
             .on('close', () => {
                 let filename = path.basename(filepath);
                 responseHelper.onSuccess(callback, filename);

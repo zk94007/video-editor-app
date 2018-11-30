@@ -191,6 +191,16 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.getStaticOverlays, function (message) {
+        helper.log.system('received get static overlays message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.getStaticOverlays, message, function (err, userInfo) {
+            service.static_overlay.getStaticOverlays(userInfo, message, function (err, result) {
+                socket.emit(constant.method.getStaticOverlays + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.getUsers, function (message) {
         helper.log.system('received get users message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.getUsers, message, function (err, userInfo) {

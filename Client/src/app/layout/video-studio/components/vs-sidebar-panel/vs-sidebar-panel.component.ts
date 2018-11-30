@@ -69,7 +69,11 @@ export class VsSidebarPanelComponent implements OnInit {
     uploadedFiles: [],
     _masonry: Masonry
   };
-
+  public props_emojis: any = {
+    selectedFiles: null,
+    emojisFiles: [],
+    _masonry: Masonry
+  };
 
   constructor(private cpServie: ColorPickerService,
     private service: FontPickerService,
@@ -153,6 +157,22 @@ export class VsSidebarPanelComponent implements OnInit {
           resolution: element.uim_resolution,
           gif_delays: element.uim_gif_delays
         });
+      });
+    }));
+
+    this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
+      overlays.forEach(element => {
+        if (element.sov_type == 1) {
+          this.props_emojis.emojisFiles.push({
+            sov_id: element.sov_id,
+            fakeId: '',
+            src: element.sov_path,
+            percent: 0,
+            isLoaded: true,
+            resolution: element.sov_resolution,
+            gif_delays: element.sov_gif_delays
+          });
+        }
       });
     }));
 
@@ -305,6 +325,11 @@ export class VsSidebarPanelComponent implements OnInit {
   onMasonryInit($event) {
     this.props_upload._masonry = $event;
   }
+
+  onEmojisMasonryInit($event) {
+    this.props_emojis._masonry = $event;
+  }
+
   addImageOverlay(file) {
     if (this.props_upload._masonry) {
       this.props_upload._masonry.setAddStatus('add');

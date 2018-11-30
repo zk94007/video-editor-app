@@ -1,7 +1,7 @@
 /**
- * Frame Model
+ * Upload Image Model
  * konstantyn
- * 2018-03-10
+ * 2018-11-25
  */
 
 var async = require('async');

@@ -10,4 +10,5 @@ module.exports = {
     frame:          require('./frame.service'),
     overlay:        require('./overlay.service'),
     upload_image:   require('./upload_image.service'),
+    static_overlay: require('./static_overlay'),
 }
