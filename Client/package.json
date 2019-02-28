@@ -59,7 +59,7 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "~1.7.3",
+    "@angular/cli": "^1.7.3",
     "@angular/compiler-cli": "^5.2.10",
     "@angular/language-service": "^5.2.10",
     "@swimlane/ngx-datatable": "^13.1.0",
