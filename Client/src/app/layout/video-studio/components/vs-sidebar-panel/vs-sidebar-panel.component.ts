@@ -33,7 +33,7 @@ export class VsSidebarPanelComponent implements OnInit {
 
   public colorPicker: MyColorpicker;
   public colorPickerColor: string = '#ffffff';
-
+  public showedTab = 'emojis' || 'shapes' || 'images';
   public selectedDomObject;
   public isDraggingText: boolean = false;
 
@@ -72,6 +72,12 @@ export class VsSidebarPanelComponent implements OnInit {
   public props_emojis: any = {
     selectedFiles: null,
     emojisFiles: [],
+    _masonry: Masonry
+  };
+
+  public props_images: any = {
+    selectedFiles: null,
+    imagesFiles: [],
     _masonry: Masonry
   };
 
@@ -162,7 +168,7 @@ export class VsSidebarPanelComponent implements OnInit {
 
     this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
       overlays.forEach(element => {
-        if (element.sov_type == 1) {
+        if (element.sov_type === 1) {
           this.props_emojis.emojisFiles.push({
             sov_id: element.sov_id,
             fakeId: '',
@@ -193,6 +199,10 @@ export class VsSidebarPanelComponent implements OnInit {
     this.$uns.forEach(element => {
       element.unsubscribe();
     });
+  }
+
+  showTab(tab) {
+    this.showedTab = tab;
   }
 
   onColorHexChange(color: string) {

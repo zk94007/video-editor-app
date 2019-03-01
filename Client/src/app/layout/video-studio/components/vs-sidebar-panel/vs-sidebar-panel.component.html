@@ -103,33 +103,32 @@
     <div class="layer scrollPane scrollElement">
       <div class="inner">
         <div class="element-menu">
-          <div class="element-menu-item">
+          <div class="element-menu-item" [class.active]="showedTab === 'shapes'" (click)="showTab('shapes')">
             <img src="assets/video-studio/panel/shape.svg" class="element-menu-item-img">
-            <span style="font-size: 13px; text-align: center;">Shapes</span>
+            <span style="font-size: 13px; text-align: center; margin-top: 2px;">Shapes</span>
           </div>
-          <div class="element-menu-item">
+          <div class="element-menu-item" [class.active]="showedTab === 'stickers'" (click)="showTab('stickers')">
             <img src="assets/video-studio/panel/sticker.svg" class="element-menu-item-img">
-            <span style="font-size: 13px; text-align: center;">Stickers</span>
+            <span style="font-size: 13px; text-align: center; margin-top: 2px;">Stickers</span>
           </div>
-          <div class="element-menu-item">
+          <div class="element-menu-item" [class.active]="showedTab === 'emojis'" (click)="showTab('emojis')">
             <img src="assets/video-studio/panel/emojis.svg" class="element-menu-item-img">
-            <span style="font-size: 13px; text-align: center;">Emojis</span>
+            <span style="font-size: 13px; text-align: center; margin-top: 2px;">Emojis</span>
           </div>
         </div>
-        <div>
-          <!-- divider -->
-        </div>
-        <div id="emojis-panel" style="padding-left:5px;">
-          <div class="emojis-item" *ngFor="let file of props_emojis.emojisFiles">
-              <img src="{{file.src}}" style="width: 100%; height: auto; visibility: hidden;" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)"/>
+        <perfect-scrollbar #elementPanelScrollbar [config]="config" [attr.fxFlex]="'auto'">
+          <div id="emojis-panel" *ngIf="showedTab === 'emojis'">
+            <div class="emojis-item" *ngFor="let file of props_emojis.emojisFiles">
+                <img src="{{file.src}}" style="width: 100%; height: auto; visibility: hidden;" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)"/>
+            </div>
           </div>
-        </div>
-        <div id="shapes-panel" style="padding-left:5px;">
-
-        </div>
-        <div id="stickers-panel" style="padding-left:5px;">
-
-        </div>
+          <div id="shapes-panel" *ngIf="showedTab === 'shapes'">
+            Shapes
+          </div>
+          <div id="stickers-panel" *ngIf="showedTab === 'stickers'">
+            Stickers
+          </div>
+        </perfect-scrollbar>
       </div>
     </div>
   </section>
