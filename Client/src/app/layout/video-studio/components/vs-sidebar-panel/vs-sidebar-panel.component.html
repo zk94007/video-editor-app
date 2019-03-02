@@ -32,15 +32,15 @@
               </li>
             </ul>
           </div>
-          <!-- <div class="searchGroup">
+          <div class="searchGroup">
             <ul class="gallery infoPanelGallery photoGallery laidOut" style="text-align: center; list-style-type:none;">
-              <li class="elementGroupSearchResult" *ngFor="let font of (props_font.currentFonts | StatefulSlice:0:props_font.loadedFonts)" style="color: #aaaaaa; padding: 20px 0 20px 0">
-                <a style="font-size: 20px">
-                  <span [ngStyle]="{'font-family': font.family}" (mousedown)="mouseDownText($event, font.family, 20, 'normal', 'A red flare silhouetted the jagged edge of a wing')" (mouseup)="mouseUpText($event)">A red flare silhouetted the jagged edge of a wing.</span>
+              <li class="elementGroupSearchResult" *ngFor="let font of (props_font.currentFonts | StatefulSlice:0:props_font.loadedFonts)">
+                <a href="javascript:;">
+                  <span [ngStyle]="{'font-family': font.family}" (mousedown)="mouseDownText($event, font.family, 20, 'normal', font.family)" (mouseup)="mouseUpText($event)">{{ font.family }}</span>
                 </a>
               </li>
             </ul>
-          </div> -->
+          </div>
         </div>
       </div>
     </perfect-scrollbar>
