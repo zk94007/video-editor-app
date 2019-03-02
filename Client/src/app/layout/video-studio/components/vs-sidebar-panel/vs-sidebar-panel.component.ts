@@ -171,6 +171,7 @@ export class VsSidebarPanelComponent implements OnInit {
         if (element.sov_type === 1) {
           this.props_emojis.emojisFiles.push({
             sov_id: element.sov_id,
+            sov_name: element.sov_name || 'None',
             fakeId: '',
             src: element.sov_path,
             percent: 0,
