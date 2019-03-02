@@ -1,8 +1,10 @@
 #draggableText.selected {
   transition: all 0.3s;
+  white-space: nowrap;
 }
 #draggableText.moving {
   transition: none;
+  white-space: nowrap;
 }
 #draggableImage.selected {
   transition: all 0.3s;

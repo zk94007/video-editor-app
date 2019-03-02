@@ -217,7 +217,7 @@ export class VsSidebarPanelComponent implements OnInit {
 
   mouseDownText($event, font_family, font_size, font_style, text) {
     $event.target.style.opacity = 0;
-    
+
     this.isDraggingText = true;
 
     const object = {
@@ -231,7 +231,7 @@ export class VsSidebarPanelComponent implements OnInit {
     };
 
     this.selectedDomObject = $event.target;
-    
+
     this.vsService.dragStart(object);
   }
   mouseUpText($event) {
@@ -315,6 +315,9 @@ export class VsSidebarPanelComponent implements OnInit {
       };
       this.selectedDomObject = $event.target;
       $event.target.style.opacity = 0;
+
+      // object.rect.width = object.rect.width * 2;
+      // object.rect.height = object.rect.height * 2;
 
       this.vsService.dragStart(object);
     }
