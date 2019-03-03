@@ -26,6 +26,7 @@ module.exports = {
                 _.each(result.rows, (row) => {
                     var static_overlay = {
                         sov_id: row.sov_id,
+                        sov_name: row.sov_name,
                         sov_path: row.sov_path,
                         sov_resolution: row.sov_resolution != '' ? JSON.parse(row.sov_resolution) : '',
                         sov_gif_delays : row.sov_gif_delays != '' ? JSON.parse(row.sov_gif_delays) : '',
