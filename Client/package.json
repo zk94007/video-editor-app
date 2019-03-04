@@ -41,6 +41,7 @@
     "immutable": "^3.8.2",
     "jquery": "^3.3.1",
     "masonry-layout": "^4.2.1",
+    "ng-lazyload-image": "^5.0.0",
     "ng-masonry-grid": "^1.2.5",
     "ngx-perfect-scrollbar": "^5.3.5",
     "ngx-youtube-player": "^6.0.0",
