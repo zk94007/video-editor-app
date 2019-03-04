@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import {
   PerfectScrollbarConfigInterface,
   PerfectScrollbarComponent, PerfectScrollbarDirective
@@ -80,6 +80,8 @@ export class VsSidebarPanelComponent implements OnInit {
     imagesFiles: [],
     _masonry: Masonry
   };
+
+  public onScroll$ = new Subject();
 
   constructor(private cpServie: ColorPickerService,
     private service: FontPickerService,
@@ -183,7 +185,6 @@ export class VsSidebarPanelComponent implements OnInit {
       });
     }));
 
-
     this.$uns.push(this.vsService.onDragEnd.subscribe(() => {
       if ($this.selectedDomObject != null) {
         $this.selectedDomObject.style.opacity = 1;
@@ -195,11 +196,19 @@ export class VsSidebarPanelComponent implements OnInit {
     }));
 
     this.ng5FilesService.addConfig(this.fileUploadConfig);
+
+    setTimeout(() => {
+      this.listenToScrollEvent();
+    }, 1000);
   }
   ngOnDestory() {
     this.$uns.forEach(element => {
       element.unsubscribe();
     });
+  }
+
+  listenToScrollEvent() {
+    this.onScroll$.next();
   }
 
   showTab(tab) {

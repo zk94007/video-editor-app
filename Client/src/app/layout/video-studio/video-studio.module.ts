@@ -20,6 +20,7 @@ import { VgBufferingModule } from 'videogular2/buffering';
 import { SliderModule } from 'primeng/slider';
 import { TooltipModule } from 'primeng/tooltip';
 import { AngularDraggableModule } from 'angular2-draggable';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import {
     PerfectScrollbarModule, PerfectScrollbarConfigInterface,
@@ -74,7 +75,8 @@ import { BlColorpickerDirective } from './directives/bl-colorpicker.directive';
         VgBufferingModule,
         SliderModule,
         TooltipModule,
-        AngularDraggableModule
+        AngularDraggableModule,
+        LazyLoadImageModule
     ],
     declarations: [
         VsSidebarComponent,

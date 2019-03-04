@@ -116,10 +116,10 @@
             <span style="font-size: 13px; text-align: center; margin-top: 2px;">Emojis</span>
           </div>
         </div>
-        <perfect-scrollbar #elementPanelScrollbar [config]="config" [attr.fxFlex]="'auto'">
+        <perfect-scrollbar #elementPanelScrollbar [config]="config" [attr.fxFlex]="'auto'" (psScrollY)="listenToScrollEvent()">
           <div id="emojis-panel" *ngIf="showedTab === 'emojis'">
             <div class="emojis-item" *ngFor="let file of props_emojis.emojisFiles">
-                <img src="{{file.src}}" style="width: 100%; height: auto; visibility: hidden;" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" />
+                <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" class="img-fluid" />
             </div>
           </div>
           <div id="shapes-panel" *ngIf="showedTab === 'shapes'">
