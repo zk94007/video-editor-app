@@ -9,6 +9,33 @@ var _ = require('underscore');
 var helper = require('../helper/helper');
 
 module.exports = {
+    getOverlays(callback) {
+        try {
+            helper.query.runQuery('SELECT * FROM public.overlay;', [], (err, result) => {
+                if (err) {
+                    helper.response.onError('error: getOverlays', callback);console
+                }
+
+                var overlays = [];
+                _.each(result.rows, (row) => {
+                    overlays.push({
+                        ovl_id: row.ovl_id,
+                        ovl_type: row.ovl_type,
+                        ovl_content: row.ovl_content,
+                        frm_id: row.frm_id,
+                        ovl_order: row.ovl_order,
+                        ovl_json: row.ovl_json,
+                        ovl_reposition: JSON.parse(row.ovl_reposition)
+                    });
+                });
+
+                helper.response.onSuccess(callback, overlays);
+            });
+        } catch (err) {
+            helper.response.onError('error: getOverlays', callback);
+        }
+    },
+
     /**
      * 
      * @param {*} frm_id 
@@ -30,7 +57,7 @@ module.exports = {
                         ovl_content: row.ovl_content,
                         frm_id: row.frm_id,
                         ovl_order: row.ovl_order,
-                        ovl_json: row.ovl_json,
+                        ovl_json: helper.query.base64(row.ovl_json, 0),
                         ovl_reposition: JSON.parse(row.ovl_reposition)
                     });
                 });

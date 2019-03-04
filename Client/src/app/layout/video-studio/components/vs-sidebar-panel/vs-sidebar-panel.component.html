@@ -34,9 +34,9 @@
           </div>
           <div class="searchGroup">
             <ul class="gallery infoPanelGallery photoGallery laidOut" style="text-align: center; list-style-type:none;">
-              <li class="elementGroupSearchResult" *ngFor="let font of (props_font.currentFonts | StatefulSlice:0:props_font.loadedFonts)" style="color: #aaaaaa; padding: 20px 0 20px 0">
-                <a style="font-size: 20px">
-                  <span [ngStyle]="{'font-family': font.family}" (mousedown)="mouseDownText($event, font.family, 20, 'normal', 'A red flare silhouetted the jagged edge of a wing')" (mouseup)="mouseUpText($event)">A red flare silhouetted the jagged edge of a wing.</span>
+              <li class="elementGroupSearchResult" *ngFor="let font of (props_font.currentFonts | StatefulSlice:0:props_font.loadedFonts)">
+                <a>
+                  <span [ngStyle]="{'font-family': font.family}" (mousedown)="mouseDownText($event, font.family, 64, 'normal', font.family)" (mouseup)="mouseUpText($event)">{{ font.family }}</span>
                 </a>
               </li>
             </ul>
@@ -98,28 +98,41 @@
       </div>
     </perfect-scrollbar>
   </section>
-<!-- 
+
   <section id="resultsElements" class="results infinite">
     <div class="layer scrollPane scrollElement">
       <div class="inner">
-        <div class="textControls">
-          <p>Click or drag to add text:</p>
-          <ul>
-            <li style="color: auto; text-align: center;">
-              <a class="add" data-style="title" style="color: auto; font-family: 'Abril Fatface'; font-size: 402.5%; font-style: normal; font-weight: normal;">Add heading</a>
-            </li>
-            <li style="color: auto; text-align: center;">
-              <a class="add" data-style="subtitle" style="color: auto; font-family: 'Trocchi'; font-size: 230%; font-style: normal; font-weight: normal;">Add subheading</a>
-            </li>
-            <li style="color: auto; text-align: center;">
-              <a class="add" data-style="body" style="font-family: Arimo; font-size: 153.333%; font-style: normal; font-weight: normal;">Add a little bit of body text</a>
-            </li>
-          </ul>
+        <div class="element-menu">
+          <div class="element-menu-item" [class.active]="showedTab === 'shapes'" (click)="showTab('shapes')">
+            <img src="assets/video-studio/panel/shape.svg" class="element-menu-item-img">
+            <span style="font-size: 13px; text-align: center; margin-top: 2px;">Shapes</span>
+          </div>
+          <div class="element-menu-item" [class.active]="showedTab === 'stickers'" (click)="showTab('stickers')">
+            <img src="assets/video-studio/panel/sticker.svg" class="element-menu-item-img">
+            <span style="font-size: 13px; text-align: center; margin-top: 2px;">Stickers</span>
+          </div>
+          <div class="element-menu-item" [class.active]="showedTab === 'emojis'" (click)="showTab('emojis')">
+            <img src="assets/video-studio/panel/emojis.svg" class="element-menu-item-img">
+            <span style="font-size: 13px; text-align: center; margin-top: 2px;">Emojis</span>
+          </div>
         </div>
+        <perfect-scrollbar #elementPanelScrollbar [config]="config" [attr.fxFlex]="'auto'">
+          <div id="emojis-panel" *ngIf="showedTab === 'emojis'">
+            <div class="emojis-item" *ngFor="let file of props_emojis.emojisFiles">
+                <img src="{{file.src}}" style="width: 100%; height: auto; visibility: hidden;" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" />
+            </div>
+          </div>
+          <div id="shapes-panel" *ngIf="showedTab === 'shapes'">
+            Shapes
+          </div>
+          <div id="stickers-panel" *ngIf="showedTab === 'stickers'">
+            Stickers
+          </div>
+        </perfect-scrollbar>
       </div>
     </div>
   </section>
-
+<!-- 
   <section id="resultsMusic" class="results infinite">
 
   </section> -->
@@ -139,9 +152,7 @@
               <p class="uploadsFolderContentEmptyMessage" style="padding-bottom: 10px">Drag and drop to the editor</p>
               <div>
                 <ng-masonry-grid (onNgMasonryInit)="onMasonryInit($event)" [masonryOptions]="{ transitionDuration: '0.4s', gutter: 10, percentPosition: true, horizontalOrder: true }" [useAnimation]="true" [useImagesLoaded]="true" [scrollAnimationOptions]="{ animationEffect: 'effect-1', minDuration : 0.4, maxDuration : 0.7 }">
-                  <!-- Masonry Grid Item -->
                   <ng-masonry-grid-item *ngFor="let file of props_upload.uploadedFiles" style="width: 29%" class="uploadsFolderItem"> 
-                    <!-- Grid Content  -->
                     <div>
                       <img src="{{file.src}}" style="width: 100%; height: auto; visibility: hidden;" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)"/>
                     </div>

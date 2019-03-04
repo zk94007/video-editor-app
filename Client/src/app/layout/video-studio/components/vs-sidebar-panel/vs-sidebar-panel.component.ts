@@ -33,7 +33,7 @@ export class VsSidebarPanelComponent implements OnInit {
 
   public colorPicker: MyColorpicker;
   public colorPickerColor: string = '#ffffff';
-
+  public showedTab = 'emojis' || 'shapes' || 'images';
   public selectedDomObject;
   public isDraggingText: boolean = false;
 
@@ -69,7 +69,17 @@ export class VsSidebarPanelComponent implements OnInit {
     uploadedFiles: [],
     _masonry: Masonry
   };
+  public props_emojis: any = {
+    selectedFiles: null,
+    emojisFiles: [],
+    _masonry: Masonry
+  };
 
+  public props_images: any = {
+    selectedFiles: null,
+    imagesFiles: [],
+    _masonry: Masonry
+  };
 
   constructor(private cpServie: ColorPickerService,
     private service: FontPickerService,
@@ -156,6 +166,23 @@ export class VsSidebarPanelComponent implements OnInit {
       });
     }));
 
+    this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
+      overlays.forEach(element => {
+        if (element.sov_type === 1) {
+          this.props_emojis.emojisFiles.push({
+            sov_id: element.sov_id,
+            sov_name: element.sov_name || 'None',
+            fakeId: '',
+            src: element.sov_path,
+            percent: 0,
+            isLoaded: true,
+            resolution: element.sov_resolution,
+            gif_delays: element.sov_gif_delays
+          });
+        }
+      });
+    }));
+
 
     this.$uns.push(this.vsService.onDragEnd.subscribe(() => {
       if ($this.selectedDomObject != null) {
@@ -175,6 +202,10 @@ export class VsSidebarPanelComponent implements OnInit {
     });
   }
 
+  showTab(tab) {
+    this.showedTab = tab;
+  }
+
   onColorHexChange(color: string) {
     this.colorPickerColor = color;
     this.colorPicker.setColor(this.colorPickerColor);
@@ -187,7 +218,7 @@ export class VsSidebarPanelComponent implements OnInit {
 
   mouseDownText($event, font_family, font_size, font_style, text) {
     $event.target.style.opacity = 0;
-    
+
     this.isDraggingText = true;
 
     const object = {
@@ -201,7 +232,7 @@ export class VsSidebarPanelComponent implements OnInit {
     };
 
     this.selectedDomObject = $event.target;
-    
+
     this.vsService.dragStart(object);
   }
   mouseUpText($event) {
@@ -286,6 +317,9 @@ export class VsSidebarPanelComponent implements OnInit {
       this.selectedDomObject = $event.target;
       $event.target.style.opacity = 0;
 
+      // object.rect.width = object.rect.width * 2;
+      // object.rect.height = object.rect.height * 2;
+
       this.vsService.dragStart(object);
     }
   }
@@ -305,6 +339,11 @@ export class VsSidebarPanelComponent implements OnInit {
   onMasonryInit($event) {
     this.props_upload._masonry = $event;
   }
+
+  onEmojisMasonryInit($event) {
+    this.props_emojis._masonry = $event;
+  }
+
   addImageOverlay(file) {
     if (this.props_upload._masonry) {
       this.props_upload._masonry.setAddStatus('add');
