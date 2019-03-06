@@ -124,7 +124,7 @@
         <div class="d-flex flex-column flex-grow-1" id="emojis-panel" *ngIf="showedTab === 'emojis'">
           <perfect-scrollbar [config]="config" [attr.fxFlex]="'auto'" (psScrollY)="listenToScrollEvent()">
             <div class="emojis-item" *ngFor="let file of props_emojis.emojisFiles">
-              <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" class="img-fluid" />
+              <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" class="img-fluid" />
             </div>
           </perfect-scrollbar>
         </div>
@@ -140,7 +140,7 @@
             <div class="stickers-items">
               <div class="card-columns px-3 py-3">
                 <div class="card bg-transparent border-0 rounded-0" *ngFor="let file of props_stickers.stickersFiles">
-                  <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" class="img-fluid" />
+                  <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" class="img-fluid" />
                 </div>
               </div>
             </div>
@@ -158,7 +158,7 @@
             <div class="gifs-items">
               <div class="card-columns px-3 py-3">
                 <div class="card bg-transparent border-0 rounded-0" *ngFor="let file of props_gifs.gifsFiles">
-                  <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" class="img-fluid" />
+                  <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" class="img-fluid" />
                 </div>
               </div>
             </div>
