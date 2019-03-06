@@ -130,7 +130,7 @@
                 <input type="search" class="form-control" placeholder="Search stickers...">
             </div> -->
             <div class="stickers-items">
-              <div class="card-columns">
+              <div class="card-columns px-3">
                 <div class="card bg-transparent border-0 rounded-0" *ngFor="let file of props_stickers.stickersFiles">
                   <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" class="img-fluid" />
                 </div>
