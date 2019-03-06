@@ -189,14 +189,9 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
         y: draggableImageRect.top - workareaRect.top,
         gif_delays: this.props.draggableObject.gif_delays
       };
-      console.log(data.resolution);
-      console.log(this.props.canvasScale);
-      
+
       data.resolution.width = Math.floor(this.props.draggableObject.width / this.props.canvasScale);
       data.resolution.height = Math.floor(this.props.draggableObject.height / this.props.canvasScale);
-      
-      console.log(this.props.draggableObject);
-      console.log(data.resolution);
       this.vsService.addImageOverlay(data);
     }
     this.props.isDraggableImage = false;
