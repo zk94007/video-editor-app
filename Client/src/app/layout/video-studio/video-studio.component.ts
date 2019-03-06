@@ -125,7 +125,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
   onDragTextBegin($event) {
     const element = document.getElementById('draggableText');
     element.classList.add('selected');
-    element.style.transform += 'scale(' + this.props.canvasScale + ',' + this.props.canvasScale + ')';
+    // element.style.transform += 'scale(' + this.props.canvasScale + ',' + this.props.canvasScale + ')';
   }
   onDragTextEnd($event) {
     document.getElementById('draggableText').classList.remove('moving');
@@ -137,7 +137,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
     if (this.isRectInRect(draggableTextRect, workareaRect)) {
       const data = {
         fontFamily: this.props.draggableObject.fontFamily,
-        fontSize: this.props.draggableObject.fontSize,
+        fontSize: Math.floor(this.props.draggableObject.fontSize / this.props.canvasScale),
         fontStyle: this.props.draggableObject.fontStyle,
         text: this.props.draggableObject.text,
         x: draggableTextRect.left - workareaRect.left,
@@ -154,7 +154,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
   onTextMoving($event) {
     const element = document.getElementById('draggableText');
     element.classList.add('moving');
-    element.style.transform += 'scale(' + this.props.canvasScale + ',' + this.props.canvasScale + ')';
+    // element.style.transform += 'scale(' + this.props.canvasScale + ',' + this.props.canvasScale + ')';
   }
   onTextMoveEnd($event) {
   }

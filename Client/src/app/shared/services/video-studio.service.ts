@@ -25,6 +25,8 @@ export class VideoStudioService {
     }
   };
 
+  public screenScale = 1;
+
   public project: Project;
 
   public selected_frm_id;

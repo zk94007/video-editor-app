@@ -310,7 +310,11 @@ export class VsSidebarPanelComponent implements OnInit {
     this.vsService._changeBackground(color);
   }
 
-  mouseDownText($event, font_family, font_size, font_style, text) {
+  mouseDownText($event, font_family, font_style, text) {
+    var computedFontSize = window.getComputedStyle($event.target).fontSize;
+
+    console.log(computedFontSize);
+
     $event.target.style.opacity = 0;
 
     this.isDraggingText = true;
@@ -319,7 +323,7 @@ export class VsSidebarPanelComponent implements OnInit {
       event: $event,
       type: 'text',
       fontFamily: font_family,
-      fontSize: font_size,
+      fontSize: parseInt(computedFontSize),
       fontStyle: font_style,
       text: text,
       rect: $event.target.getBoundingClientRect()
