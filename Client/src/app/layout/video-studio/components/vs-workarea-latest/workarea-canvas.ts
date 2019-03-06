@@ -235,8 +235,8 @@ export class WorkareaCanvas {
                 left: (image.x - this.props.canvas.border.left) / this.props.canvas.scale,
                 top: (image.y - this.props.canvas.border.top + 8) / this.props.canvas.scale,
                 angle: 0,
-                scaleX: resolution.width / 120,
-                scaleY: resolution.height / 120,
+                scaleX: this.isGif(image.src) ? resolution.width / 120 : 1,
+                scaleY: this.isGif(image.src) ? resolution.height / 120 : 1,
                 hasRotatingPoint: true,
                 type: this.isGif(image.src) ? 'sprite' : 'image',
                 delays: image.gif_delays.delays
