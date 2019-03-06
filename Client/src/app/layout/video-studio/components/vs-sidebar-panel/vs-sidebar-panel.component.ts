@@ -313,8 +313,6 @@ export class VsSidebarPanelComponent implements OnInit {
   mouseDownText($event, font_family, font_style, text) {
     var computedFontSize = window.getComputedStyle($event.target).fontSize;
 
-    console.log(computedFontSize);
-
     $event.target.style.opacity = 0;
 
     this.isDraggingText = true;
@@ -404,11 +402,15 @@ export class VsSidebarPanelComponent implements OnInit {
 
   mouseDownImage($event, file) {
     if (file.isLoaded === true) {
+      var computedWidth = parseInt(window.getComputedStyle($event.target).width);
+      var computedHeight = parseInt(window.getComputedStyle($event.target).height);
       const object = {
         event: $event,
         type: 'image',
         src: file.src,
         resolution: file.resolution,
+        width: computedWidth,
+        height: computedHeight,
         gif_delays: file.gif_delays,
         rect: $event.target.getBoundingClientRect()
       };

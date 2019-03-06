@@ -172,7 +172,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
     const element = document.getElementById('draggableImage');
     const scale = this.props.canvasScale * (this.props.idealWidth / this.props.draggableObject.rect.width);
     element.classList.add('selected');
-    element.style.transform += 'scale(' + scale + ',' + scale + ')';
+    // element.style.transform += 'scale(' + scale + ',' + scale + ')';
   }
   onDragImageEnd($event) {
     document.getElementById('draggableImage').classList.remove('moving');
@@ -189,6 +189,14 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
         y: draggableImageRect.top - workareaRect.top,
         gif_delays: this.props.draggableObject.gif_delays
       };
+      console.log(data.resolution);
+      console.log(this.props.canvasScale);
+      
+      data.resolution.width = Math.floor(this.props.draggableObject.width / this.props.canvasScale);
+      data.resolution.height = Math.floor(this.props.draggableObject.height / this.props.canvasScale);
+      
+      console.log(this.props.draggableObject);
+      console.log(data.resolution);
       this.vsService.addImageOverlay(data);
     }
     this.props.isDraggableImage = false;
@@ -198,7 +206,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
     const element = document.getElementById('draggableImage');
     const scale = this.props.canvasScale * (this.props.idealWidth / this.props.draggableObject.rect.width);
     element.classList.add('moving');
-    element.style.transform += 'scale(' + scale + ',' + scale + ')';
+    // element.style.transform += 'scale(' + scale + ',' + scale + ')';
   }
   onImageMoveEnd($event) {
   }
