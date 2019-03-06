@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { VideoStudioRoutingModule } from './video-studio-routing.module';
 import { VideoStudioComponent } from './video-studio.component';
@@ -65,6 +65,7 @@ import { BlColorpickerDirective } from './directives/bl-colorpicker.directive';
         SortablejsModule,
         NgbDropdownModule.forRoot(),
         FormsModule,
+        ReactiveFormsModule,
         ColorPickerModule,
         Ng5FilesModule,
         NgMasonryGridModule,

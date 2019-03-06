@@ -7,14 +7,15 @@ import { ColorPickerService } from '../../../../shared/module/color-picker';
 import { FontPickerService } from '../../../../shared/services/font-picker.service';
 import { Font, GoogleFontInterface, GoogleFontsInterface } from '../../../../shared/interfaces/font-picker.interfaces';
 
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject, combineLatest } from 'rxjs';
+import { debounceTime, distinctUntilChanged, withLatestFrom, startWith, map, filter, pluck } from 'rxjs/operators';
 import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } from '../../../../shared/module/ng5-files';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 import { Masonry, MasonryGridItem } from 'ng-masonry-grid';
 import * as path from 'path';
 import '@jaames/iro';
 import { MyColorpicker } from '../vs-toolbar/colorpicker';
+import { FormControl } from '@angular/forms';
 
 declare const $: any;
 
@@ -55,6 +56,10 @@ export class VsSidebarPanelComponent implements OnInit {
   };
 
   public renderMore: Subject<any> = new Subject();
+  public onScroll$ = new Subject();
+
+  // Search input
+  public searchInput = new FormControl(null);
 
   // UploadPanel Variables
   private fileUploadConfig: Ng5FilesConfig = {
@@ -85,13 +90,13 @@ export class VsSidebarPanelComponent implements OnInit {
     _masonry: Masonry
   };
 
-  public onScroll$ = new Subject();
-
-  constructor(private cpServie: ColorPickerService,
+  constructor(
+    private cpServie: ColorPickerService,
     private service: FontPickerService,
     private cdRef: ChangeDetectorRef,
     private ng5FilesService: Ng5FilesService,
-    private vsService: VideoStudioService) {
+    private vsService: VideoStudioService
+  ) {
     // Perfect Scrollbar config
     this.config = {
       wheelSpeed: 0.5,
@@ -172,7 +177,7 @@ export class VsSidebarPanelComponent implements OnInit {
       });
     }));
 
-    this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
+    /* this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
       overlays.forEach(element => {
         if (element.sov_type === 1) {
           this.props_emojis.emojisFiles.push({
@@ -199,7 +204,7 @@ export class VsSidebarPanelComponent implements OnInit {
           });
         }
       });
-    }));
+    })); */
 
     this.$uns.push(this.vsService.onDragEnd.subscribe(() => {
       if ($this.selectedDomObject != null) {
@@ -214,6 +219,49 @@ export class VsSidebarPanelComponent implements OnInit {
     this.ng5FilesService.addConfig(this.fileUploadConfig);
 
     this.listenToScrollEvent();
+
+    this.$uns.push(
+      combineLatest(
+        this.searchInput.valueChanges.pipe(
+          startWith(''),
+          debounceTime(500)
+        ),
+        this.vsService.onGetStaticOverlays
+      ).pipe(
+        map(([searchValue, overlaysValue]: [string, any[]]) => {
+          const stickers = overlaysValue.filter(value => value.sov_type === 2);
+          const emojis = overlaysValue.filter(value => value.sov_type === 1);
+
+          this.props_emojis.emojisFiles = emojis.map(emoji => {
+            return {
+              sov_id: emoji.sov_id,
+              sov_name: emoji.sov_name || 'None',
+              fakeId: '',
+              src: emoji.sov_path,
+              percent: 0,
+              isLoaded: true,
+              resolution: emoji.sov_resolution,
+              gif_delays: emoji.sov_gif_delays
+            };
+          });
+
+          this.props_stickers.stickersFiles = stickers.filter(sticker => sticker.sov_name.indexOf(searchValue) !== -1).map(sticker => {
+            return {
+              sov_id: sticker.sov_id,
+              sov_name: sticker.sov_name || 'None',
+              fakeId: '',
+              src: sticker.sov_path,
+              percent: 0,
+              isLoaded: true,
+              resolution: sticker.sov_resolution,
+              gif_delays: sticker.sov_gif_delays
+            };
+          });
+
+          this.listenToScrollEvent();
+        }),
+      ).subscribe()
+    );
   }
 
   ngOnDestory() {
