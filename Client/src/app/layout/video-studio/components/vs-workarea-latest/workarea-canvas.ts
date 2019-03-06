@@ -227,16 +227,20 @@ export class WorkareaCanvas {
 
         this.$uns.push(this.vsService.onAddImageOverlay.subscribe((image) => {
             const resolution = JSON.parse(JSON.stringify(image.resolution));
+            if (this.isGif(image.src)) {
+                resolution.width = 120;
+                resolution.height = 120;
+            } 
             const object: any = {
                 id: this.vsService.fakeId(),
                 src: image.src,
-                width: this.isGif(image.src) ? 120 : resolution.width,
-                height: this.isGif(image.src) ? 120 : resolution.height,
+                width: resolution.width,
+                height: resolution.height,
                 left: (image.x - this.props.canvas.border.left) / this.props.canvas.scale,
                 top: (image.y - this.props.canvas.border.top + 8) / this.props.canvas.scale,
                 angle: 0,
-                scaleX: this.isGif(image.src) ? resolution.width / 120 : 1,
-                scaleY: this.isGif(image.src) ? resolution.height / 120 : 1,
+                scaleX: image.width / resolution.width,
+                scaleY: image.height / resolution.height,
                 hasRotatingPoint: true,
                 type: this.isGif(image.src) ? 'sprite' : 'image',
                 delays: image.gif_delays.delays

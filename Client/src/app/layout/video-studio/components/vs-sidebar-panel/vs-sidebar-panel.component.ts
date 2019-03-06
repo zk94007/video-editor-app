@@ -417,9 +417,6 @@ export class VsSidebarPanelComponent implements OnInit {
       this.selectedDomObject = $event.target;
       $event.target.style.opacity = 0;
 
-      // object.rect.width = object.rect.width * 2;
-      // object.rect.height = object.rect.height * 2;
-
       this.vsService.dragStart(object);
     }
   }

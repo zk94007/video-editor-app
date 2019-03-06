@@ -164,13 +164,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
   }
   // Drag Event Image
   onDragImageBegin($event) {
-    if (this.isGif(this.props.draggableObject.src)) {
-      this.props.idealWidth = 120;
-    } else {
-      this.props.idealWidth = 300;
-    }
     const element = document.getElementById('draggableImage');
-    const scale = this.props.canvasScale * (this.props.idealWidth / this.props.draggableObject.rect.width);
     element.classList.add('selected');
     // element.style.transform += 'scale(' + scale + ',' + scale + ')';
   }
@@ -187,11 +181,13 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
         resolution: this.props.draggableObject.resolution,
         x: draggableImageRect.left - workareaRect.left,
         y: draggableImageRect.top - workareaRect.top,
-        gif_delays: this.props.draggableObject.gif_delays
+        gif_delays: this.props.draggableObject.gif_delays,
+        width: this.props.draggableObject.width,
+        height: this.props.draggableObject.height
       };
 
-      data.resolution.width = Math.floor(this.props.draggableObject.width / this.props.canvasScale);
-      data.resolution.height = Math.floor(this.props.draggableObject.height / this.props.canvasScale);
+      data.width = Math.floor(this.props.draggableObject.width / this.props.canvasScale);
+      data.height = Math.floor(this.props.draggableObject.height / this.props.canvasScale);
       this.vsService.addImageOverlay(data);
     }
     this.props.isDraggableImage = false;
