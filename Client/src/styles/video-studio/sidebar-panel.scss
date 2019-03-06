@@ -579,6 +579,10 @@ perfect-scrollbar>.ps.ps--scrolling-y>.ps__rail-y {
 	overflow: hidden;
 }
 
+.element-menu-item:nth-child(n+4) {
+	margin-top: 10px;
+}
+
 .element-menu-item-img:hover {
 	opacity: .5;
 }

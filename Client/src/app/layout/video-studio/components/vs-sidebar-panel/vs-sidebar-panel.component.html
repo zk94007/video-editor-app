@@ -115,6 +115,10 @@
             <img src="assets/video-studio/panel/emojis.svg" class="element-menu-item-img">
             <span style="font-size: 13px; text-align: center; margin-top: 2px;">Emojis</span>
           </div>
+          <div class="element-menu-item" [class.active]="showedTab === 'gifs'" (click)="showTab('gifs')">
+            <img src="assets/video-studio/panel/gifs.svg" class="element-menu-item-img">
+            <span style="font-size: 13px; text-align: center; margin-top: 2px;">Gifs</span>
+          </div>
         </div>
 
         <div class="d-flex flex-column flex-grow-1" id="emojis-panel" *ngIf="showedTab === 'emojis'">
@@ -136,6 +140,24 @@
             <div class="stickers-items">
               <div class="card-columns px-3 py-3">
                 <div class="card bg-transparent border-0 rounded-0" *ngFor="let file of props_stickers.stickersFiles">
+                  <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" class="img-fluid" />
+                </div>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+
+        <div class="d-flex flex-column flex-grow-1" id="gifs-panel" *ngIf="showedTab === 'gifs'">
+          <div class="form-control-wrapper form-control-wrapper-left mx-3 mb-3">
+            <svg class="form-control-action" viewBox="0 0 24 24">
+              <path fill="#636e72" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+            </svg>
+            <input type="search" class="form-control border-0" placeholder="Search gifs..." [style.border-radius]="'38px'" [formControl]="searchInput">
+          </div>
+          <perfect-scrollbar [config]="config" [attr.fxFlex]="'auto'" (psScrollY)="listenToScrollEvent()">
+            <div class="gifs-items">
+              <div class="card-columns px-3 py-3">
+                <div class="card bg-transparent border-0 rounded-0" *ngFor="let file of props_gifs.gifsFiles">
                   <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" title="{{file.sov_name}}" class="img-fluid" />
                 </div>
               </div>

@@ -34,7 +34,7 @@ export class VsSidebarPanelComponent implements OnInit {
 
   public colorPicker: MyColorpicker;
   public colorPickerColor: string = '#ffffff';
-  public showedTab = 'emojis' || 'shapes' || 'images';
+  public showedTab = 'shapes' || 'stickers' || 'emojis' || 'gifs';
   public selectedDomObject;
   public isDraggingText: boolean = false;
 
@@ -82,6 +82,11 @@ export class VsSidebarPanelComponent implements OnInit {
   public props_stickers: any = {
     selectedFiles: null,
     stickersFiles: [],
+    _masonry: Masonry
+  };
+  public props_gifs: any = {
+    selectedFiles: null,
+    gifsFiles: [],
     _masonry: Masonry
   };
   public props_images: any = {
@@ -229,6 +234,7 @@ export class VsSidebarPanelComponent implements OnInit {
         this.vsService.onGetStaticOverlays
       ).pipe(
         map(([searchValue, overlaysValue]: [string, any[]]) => {
+          const gifs = overlaysValue.filter(value => value.sov_type === 2);
           const stickers = overlaysValue.filter(value => value.sov_type === 2);
           const emojis = overlaysValue.filter(value => value.sov_type === 1);
 
@@ -255,6 +261,19 @@ export class VsSidebarPanelComponent implements OnInit {
               isLoaded: true,
               resolution: sticker.sov_resolution,
               gif_delays: sticker.sov_gif_delays
+            };
+          });
+
+          this.props_gifs.gifsFiles = gifs.filter(gif => gif.sov_name.indexOf(searchValue) !== -1).map(gif => {
+            return {
+              sov_id: gif.sov_id,
+              sov_name: gif.sov_name || 'None',
+              fakeId: '',
+              src: gif.sov_path,
+              percent: 0,
+              isLoaded: true,
+              resolution: gif.sov_resolution,
+              gif_delays: gif.sov_gif_delays
             };
           });
 
