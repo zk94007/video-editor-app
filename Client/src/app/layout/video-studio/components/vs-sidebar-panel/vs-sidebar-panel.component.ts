@@ -74,7 +74,11 @@ export class VsSidebarPanelComponent implements OnInit {
     emojisFiles: [],
     _masonry: Masonry
   };
-
+  public props_stickers: any = {
+    selectedFiles: null,
+    stickersFiles: [],
+    _masonry: Masonry
+  };
   public props_images: any = {
     selectedFiles: null,
     imagesFiles: [],
@@ -182,6 +186,18 @@ export class VsSidebarPanelComponent implements OnInit {
             gif_delays: element.sov_gif_delays
           });
         }
+        if (element.sov_type === 2) {
+          this.props_stickers.stickersFiles.push({
+            sov_id: element.sov_id,
+            sov_name: element.sov_name || 'None',
+            fakeId: '',
+            src: element.sov_path,
+            percent: 0,
+            isLoaded: true,
+            resolution: element.sov_resolution,
+            gif_delays: element.sov_gif_delays
+          });
+        }
       });
     }));
 
@@ -197,10 +213,9 @@ export class VsSidebarPanelComponent implements OnInit {
 
     this.ng5FilesService.addConfig(this.fileUploadConfig);
 
-    setTimeout(() => {
-      this.listenToScrollEvent();
-    }, 1000);
+    this.listenToScrollEvent();
   }
+
   ngOnDestory() {
     this.$uns.forEach(element => {
       element.unsubscribe();
@@ -208,11 +223,14 @@ export class VsSidebarPanelComponent implements OnInit {
   }
 
   listenToScrollEvent() {
-    this.onScroll$.next();
+    setTimeout(() => {
+      this.onScroll$.next();
+    }, 1000);
   }
 
   showTab(tab) {
     this.showedTab = tab;
+    this.listenToScrollEvent();
   }
 
   onColorHexChange(color: string) {
