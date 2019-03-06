@@ -234,7 +234,7 @@ export class VsSidebarPanelComponent implements OnInit {
         this.vsService.onGetStaticOverlays
       ).pipe(
         map(([searchValue, overlaysValue]: [string, any[]]) => {
-          const gifs = overlaysValue.filter(value => value.sov_type === 2);
+          const gifs = overlaysValue.filter(value => value.sov_type === 3);
           const stickers = overlaysValue.filter(value => value.sov_type === 2);
           const emojis = overlaysValue.filter(value => value.sov_type === 1);
 
