@@ -156,7 +156,7 @@
           </div>
           <perfect-scrollbar [config]="config" [attr.fxFlex]="'auto'" (psScrollY)="listenToScrollEvent()">
             <div class="gifs-items">
-              <div class="card-columns px-3 py-3">
+              <div class="card-columns card-columns-2 px-3 py-3">
                 <div class="card bg-transparent border-0 rounded-0" *ngFor="let file of props_gifs.gifsFiles">
                   <img [defaultImage]="'assets/video-studio/loading.gif'" [lazyLoad]="file.src" [offset]="100" [scrollObservable]="onScroll$" (load)="onloadedImage($event)" (mousedown)="mouseDownImage($event, file)" (mouseup)="mouseUpImage($event, file)" class="img-fluid" />
                 </div>
