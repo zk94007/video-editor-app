@@ -34,7 +34,7 @@ export class VsSidebarPanelComponent implements OnInit {
 
   public colorPicker: MyColorpicker;
   public colorPickerColor: string = '#ffffff';
-  public showedTab = 'shapes' || 'stickers' || 'emojis' || 'gifs';
+  public showedTab = 'emojis' || 'stickers' || 'gifs' || 'shapes';
   public selectedDomObject;
   public isDraggingText: boolean = false;
 
