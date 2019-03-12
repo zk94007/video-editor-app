@@ -182,11 +182,11 @@
               <div class="inlineContentContent">
                 <div class="uploadsFolderContent uploadsFolderContentEmpty">
                   <ng5-files-click (filesSelect)="filesSelect($event)">
-                    <span role="button" class="button buttonBlock uploadsFolderContentUploadButton">Upload your own images</span>
+                    <span role="button" class="button buttonBlock uploadsFolderContentUploadButton">Upload Images & GIFs</span>
                   </ng5-files-click>
                 </div>
               </div>
-              <p class="uploadsFolderContentEmptyMessage" style="padding-bottom: 10px">Drag and drop to the editor</p>
+              <p class="uploadsFolderContentEmptyMessage" style="padding-bottom: 10px">Upload Multiple JPGs, PNGs, and GIFs.</p>
               <div>
                 <ng-masonry-grid (onNgMasonryInit)="onMasonryInit($event)" [masonryOptions]="{ transitionDuration: '0.4s', gutter: 10, percentPosition: true, horizontalOrder: true }" [useAnimation]="true" [useImagesLoaded]="true" [scrollAnimationOptions]="{ animationEffect: 'effect-1', minDuration : 0.4, maxDuration : 0.7 }">
                   <ng-masonry-grid-item *ngFor="let file of props_upload.uploadedFiles" style="width: 29%" class="uploadsFolderItem"> 
