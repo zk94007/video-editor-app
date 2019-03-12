@@ -419,11 +419,15 @@ export class VsSidebarPanelComponent implements OnInit {
 
       this.vsService.dragStart(object);
     }
+
+    $event.preventDefault();
   }
   mouseUpImage($event, file) {
     if (this.selectedDomObject) {
       this.selectedDomObject.style.opacity = 1;
     }
+
+    $event.preventDefault();
   }
 
   onloadedImage($event) {
