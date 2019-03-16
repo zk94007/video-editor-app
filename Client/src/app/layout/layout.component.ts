@@ -31,7 +31,6 @@ export class LayoutComponent implements OnInit {
     this.$uns.push(this.userService.onGetUserInformation.subscribe((response) => {
       const success = response.success;
       this.props.isInProject = _router.url.split('/')[1] === 'project' ? true : false;
-      console.log(this.props.isInProject);
       if (success) {
         if (response.user.usr_is_get_started == false && this.props.isInProject) {
           this.props.showGetStartedDialog = true;

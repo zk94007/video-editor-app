@@ -7,8 +7,17 @@
 var pg = require('pg');
 var dbConfig = require('../config/db.config');
 var responseHelper = require('./response.helper');
+var Base64 = require('js-base64').Base64;
 
 module.exports = {
+    base64(string, direction = 1) {
+        if (direction) {
+            return Base64.encode(string);
+        } else {
+            return Base64.decode(string);
+        }
+    },
+
     /**
      * 
      * @param {*} query 

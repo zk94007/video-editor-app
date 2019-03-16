@@ -43,16 +43,16 @@ export class RepositionCanvas {
         },
         dimension: {
             '916': {
-                width: 400,
-                height: 712,
+                width: 1080,
+                height: 1920,
             },
             '11': {
-                width: 400,
-                height: 400,
+                width: 1080,
+                height: 1080,
             },
             '169': {
-                width: 712,
-                height: 400,
+                width: 1920,
+                height: 1080,
             }
         },
         size: {

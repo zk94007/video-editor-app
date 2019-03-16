@@ -55,8 +55,8 @@ module.exports = {
 
                 if (frm_type == 1) {
                     getVideoDuration(filepath).then(duration => {
-                        const reposition = helper.video.fit_video_2_frame(metadata.resolution.width, metadata.resolution.height, config.video.scene[project.prj_scene_ratio].width, config.video.scene[project.prj_scene_ratio].height);
-                        let data = [prj_id, cloudPath, resolution, filename, '{"seekTime":0,"duration":' + duration + ',"endTime":' + duration + '}', JSON.stringify(reposition), frm_type, gif_delays];
+                        const reposition = helper.video.fit_video_2_frame(metadata.resolution.width, metadata.resolution.height, config.video.scene1080[project.prj_scene_ratio].width, config.video.scene1080[project.prj_scene_ratio].height);
+                        let data = [prj_id, cloudPath, resolution, filename, '{"seekTime":0,"duration":' + duration + ',"endTime":' + duration + '}', JSON.stringify(reposition), frm_type, gif_delays, '{}'];
 
                         frameModel.addFrame(data, (err, row) => {
                             if (err) {
@@ -75,8 +75,8 @@ module.exports = {
                         });
                     });
                 } else {
-                    const reposition = helper.video.fit_video_2_frame(metadata.resolution.width, metadata.resolution.height, config.video.scene[project.prj_scene_ratio].width, config.video.scene[project.prj_scene_ratio].height);
-                    let data = [prj_id, cloudPath, resolution, filename, '10', JSON.stringify(reposition), frm_type, gif_delays];
+                    const reposition = helper.video.fit_video_2_frame(metadata.resolution.width, metadata.resolution.height, config.video.scene1080[project.prj_scene_ratio].width, config.video.scene1080[project.prj_scene_ratio].height);
+                    let data = [prj_id, cloudPath, resolution, filename, '10', JSON.stringify(reposition), frm_type, gif_delays, '{}'];
 
                     frameModel.addFrame(data, (err, row) => {
                         if (err) {
@@ -186,7 +186,8 @@ module.exports = {
                         frame.frm_duration,
                         frame.frm_reposition,
                         frame.frm_type,
-                        frame.frm_gif_delays];
+                        frame.frm_gif_delays,
+                        frame.frm_background];
 
                     frameModel.addFrame(data, (_err, row) => {
                         new_frm_id = row.frm_id;

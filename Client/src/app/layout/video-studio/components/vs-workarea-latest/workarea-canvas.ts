@@ -141,16 +141,16 @@ export class WorkareaCanvas {
         borders: [],
         dimension: {
             '916': {
-                width: 400,
-                height: 712,
+                width: 1080,
+                height: 1920,
             },
             '11': {
-                width: 400,
-                height: 400,
+                width: 1080,
+                height: 1080,
             },
             '169': {
-                width: 712,
-                height: 400,
+                width: 1920,
+                height: 1080,
             }
         },
         size: {
@@ -227,14 +227,10 @@ export class WorkareaCanvas {
 
         this.$uns.push(this.vsService.onAddImageOverlay.subscribe((image) => {
             const resolution = JSON.parse(JSON.stringify(image.resolution));
-            let ideal_width = 300;
-
             if (this.isGif(image.src)) {
-                resolution.width = resolution.height = 120;
-                ideal_width = 120;
-            }
-            const ideal_height = (ideal_width / image.resolution.width) * image.resolution.height;
-
+                resolution.width = 120;
+                resolution.height = 120;
+            } 
             const object: any = {
                 id: this.vsService.fakeId(),
                 src: image.src,
@@ -243,8 +239,8 @@ export class WorkareaCanvas {
                 left: (image.x - this.props.canvas.border.left) / this.props.canvas.scale,
                 top: (image.y - this.props.canvas.border.top + 8) / this.props.canvas.scale,
                 angle: 0,
-                scaleX: ideal_width / resolution.width,
-                scaleY: ideal_height / resolution.height,
+                scaleX: image.width / resolution.width,
+                scaleY: image.height / resolution.height,
                 hasRotatingPoint: true,
                 type: this.isGif(image.src) ? 'sprite' : 'image',
                 delays: image.gif_delays.delays
@@ -918,15 +914,15 @@ export class WorkareaCanvas {
             }
         ];
 
-        const polygonInside = new fabric.Polygon(pointsInside, {
-            left: pointsInside[0].x,
-            top: pointsInside[0].y,
-            fill: '#f00',
-            selectable: false,
-            evented: false,
-            objectCaching: false,
-            strokeWidth: 0
-        });
+        // const polygonInside = new fabric.Polygon(pointsInside, {
+        //     left: pointsInside[0].x,
+        //     top: pointsInside[0].y,
+        //     fill: '#f00',
+        //     selectable: false,
+        //     evented: false,
+        //     objectCaching: false,
+        //     strokeWidth: 0
+        // });
         const polygonOutside = new fabric.Polygon(pointsOutside, {
             left: pointsOutside[0].x,
             top: pointsOutside[0].y,

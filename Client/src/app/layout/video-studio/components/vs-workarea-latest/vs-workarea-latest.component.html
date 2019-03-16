@@ -6,6 +6,9 @@
     <div id="workarea-container">
       <div id="workarea-background"></div>
       <div id="frame">
+        <div id="frame-background" style="position: absolute; object-fit: fill;">
+          
+        </div>
         <vg-player [hidden]="props.frame ? props.frame.frm_type !== 1 : true" style="position: absolute; object-fit: fill; background:transparent">
           <vg-buffering></vg-buffering>
  

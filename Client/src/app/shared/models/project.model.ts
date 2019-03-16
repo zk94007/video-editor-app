@@ -13,6 +13,9 @@ export class Project /*extends ProjectRecord*/ {
     prj_scene_ratio: string;
     prj_frames: Frame[];
     prj_video_path: string;
+    prj_video_path_sd: string;
+    prj_video_path_hd: string;
+    prj_video_path_full_hd: string;
     upload_images: UploadImage[];
     modified: boolean;
 
@@ -74,16 +77,16 @@ export class Project /*extends ProjectRecord*/ {
 
             const dimension: any = {
                 '916': {
-                    width: 400,
-                    height: 712,
+                    width: 1080,
+                    height: 1920,
                 },
                 '11': {
-                    width: 400,
-                    height: 400,
+                    width: 1080,
+                    height: 1080,
                 },
                 '169': {
-                    width: 712,
-                    height: 400,
+                    width: 1920,
+                    height: 1080,
                 }
             };
 

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --environment=local",
     "startqa": "ng serve --environment=qa --host 0.0.0.0 -disable-host-check --extract-css=false",
     "startdev": "ng serve --environment=dev --host 0.0.0.0 --port 4201 -disable-host-check --extract-css=false",
     "startstaging": "ng serve --environment=staging --host 0.0.0.0 -disable-host-check --extract-css=false",
@@ -27,7 +27,7 @@
     "@angular/platform-browser": "^5.2.10",
     "@angular/platform-browser-dynamic": "^5.2.10",
     "@angular/router": "^5.2.10",
-    "@jaames/iro": "^3.4.1",
+    "@jaames/iro": "3.4.1",
     "@ng-bootstrap/ng-bootstrap": "^1.0.4",
     "@ngx-progressbar/core": "^4.3.0",
     "@ngx-translate/core": "^9.1.1",
@@ -41,6 +41,7 @@
     "immutable": "^3.8.2",
     "jquery": "^3.3.1",
     "masonry-layout": "^4.2.1",
+    "ng-lazyload-image": "^5.0.0",
     "ng-masonry-grid": "^1.2.5",
     "ngx-perfect-scrollbar": "^5.3.5",
     "ngx-youtube-player": "^6.0.0",
@@ -59,7 +60,7 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "~1.7.3",
+    "@angular/cli": "^1.7.3",
     "@angular/compiler-cli": "^5.2.10",
     "@angular/language-service": "^5.2.10",
     "@swimlane/ngx-datatable": "^13.1.0",

@@ -331,3 +331,41 @@ select.form-control-lg {
     }
   }
 }
+
+.form-control-wrapper {
+  position: relative;
+
+  > .form-control-action {
+    position: absolute;
+    top: 50%;
+    width: ($font-size-base * $input-btn-line-height);
+    height: ($font-size-base * $input-btn-line-height);
+    transform: translateY(-50%);
+
+    &.btn {
+      padding: 0;
+      background-color: transparent;
+      @include box-shadow(none);
+    }
+  }
+
+  &.form-control-wrapper-left {
+    > .form-control {
+      padding-left: (($font-size-base * $input-btn-line-height) + ($input-btn-padding-x * 2));
+    }
+
+    > .form-control-action {
+      left: $input-btn-padding-x;
+    }
+  }
+
+  &.form-control-wrapper-right {
+    > .form-control {
+      padding-right: (($font-size-base * $input-btn-line-height) + ($input-btn-padding-x * 2));
+    }
+
+    > .form-control-action {
+      right: $input-btn-padding-x;
+    }
+  }
+}

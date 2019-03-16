@@ -1,0 +1,49 @@
+
+.projects-menu, .vs-complete-top__bar{
+    .dropdown-menu {
+        box-shadow: 1px 1px 8px grey;
+        .download-option {
+            width: 240px;
+            .dropdown-item {
+                display: flex;
+                padding: 0.75em;
+                border-bottom: 1px solid lightgray;
+            }
+            .dropdown-item:active {
+                opacity: 0.8;
+                background-color: lightgrey;
+            }
+            .dropdown-item:last-child {
+                border-bottom: none;
+            }
+            .download-option-icon {
+                width: 2rem;
+                margin: auto;
+                margin-right: 0.75rem;
+            }
+            .download-option-text {
+                flex: 1;
+                .download-option-title {
+                    font-size: normal;
+                    color: $color-gray-dark-l;
+                }
+                .download-option-detail {
+                    font-size: x-small;
+                    color: $color-gray-dark-l;
+                }
+            }
+            .mp4_sd {
+                fill: #faa83a;
+                color: #faa83a;
+            }
+            .mp4_hd {
+                fill: #4dc8b3;
+                color: #4dc8b3;
+            }
+            .mp4_fhd {
+                fill: #ff2b22;
+                color: #ff2b22;
+            }
+        }
+    }
+}

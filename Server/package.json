@@ -11,12 +11,15 @@
   "dependencies": {
     "async": "^2.6.0",
     "azure-storage": "^2.8.1",
+    "download-file": "^0.1.5",
     "file-type": "^7.6.0",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
     "get-video-dimensions": "^1.0.0",
     "get-video-duration": "^0.2.0",
     "gm": "^1.23.1",
+    "imgur": "^0.3.1",
+    "js-base64": "^2.5.1",
     "jsonwebtoken": "^8.2.0",
     "mime-types": "^2.1.18",
     "node-uuid": "^1.4.8",
@@ -26,6 +29,7 @@
     "pg": "^7.4.1",
     "read-chunk": "^2.1.0",
     "remove": "^0.1.5",
+    "request": "^2.88.0",
     "shelljs": "^0.8.1",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
@@ -33,6 +37,7 @@
     "underscore": "^1.8.3",
     "url-download": "0.0.8",
     "uuid": "^3.2.1",
-    "xoauth2": "^1.2.0"
+    "xoauth2": "^1.2.0",
+    "youtube-dl": "1.11.1"
   }
 }

@@ -3,6 +3,7 @@ import { NgProgressComponent } from '@ngx-progressbar/core';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 import { VgAPI } from 'videogular2/core';
 import { Location } from '@angular/common';
+import { ProjectService } from '../../../../shared/services/project.service';
 
 declare var $: any;
 
@@ -24,11 +25,16 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
     percent: null,
     loading: '',
     finalvideo: '',
-
+    finalvideosd: '',
+    finalvideohd: '',
+    finalvideofhd: '',
+    downloadOption: -1,
+    projectName: '',
+    projectNameAbbr: '',
     previousURL: ''
   };
 
-  constructor(private vsService: VideoStudioService, private location: Location) {
+  constructor(private vsService: VideoStudioService, private location: Location, private service: ProjectService) {
     let response : string;
     response = localStorage.getItem('complete_preview');
     if (response === 'true') {
@@ -39,6 +45,11 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
     } else if (response === 'false') {
       this.props.isConcatenating = false;
       this.props.finalvideo = this.vsService.getProjectVideoPath();
+      this.props.finalvideosd = this.vsService.getProjectVideoPathSD();
+      this.props.finalvideohd = this.vsService.getProjectVideoPathHD();
+      this.props.finalvideofhd = this.vsService.getProjectVideoPathFullHD();
+      this.props.projectName = this.vsService.getProjectName();
+      this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
       if (this.api) {
         this.api.getDefaultMedia().currentTime = 0;
         this.api.play();
@@ -56,7 +67,11 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
       if (response.success) {
         this.props.isConcatenating = false;
         this.props.finalvideo = response.finalvideo;
-
+        this.props.finalvideosd = response.finalvideoSD;
+        this.props.finalvideohd = response.finalvideoHD;
+        this.props.finalvideofhd = response.finalvideoFullHD;
+        this.props.projectName = this.vsService.getProjectName();
+        this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
         if (this.api) {
           this.api.getDefaultMedia().currentTime = 0;
           this.api.play();
@@ -67,7 +82,28 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.$uns.push(this.service.onGenerateSas.subscribe((message) => {
+      if (this.props.downloadOption == 1) {
+          this.download(this.props.projectName, this.props.finalvideosd + '?' + message.token);
+      } else if (this.props.downloadOption == 2) {
+          this.download(this.props.projectName, this.props.finalvideohd + '?' + message.token);
+      } else if (this.props.downloadOption == 3) {
+          this.download(this.props.projectName, this.props.finalvideofhd + '?' + message.token);
+      }
+    }));
+  }
 
+  download(filename, src) {
+    const element = document.createElement('a');
+    element.setAttribute('href', src);
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
   }
 
   onPlayerReady(api: VgAPI) {
@@ -78,6 +114,11 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
     this.api.getDefaultMedia().subscriptions.seeked.subscribe(() => {
     });
   }
+
+  _downloadProjectVideo(option) {
+    this.props.downloadOption = option;
+    this.service._generateSas();
+}
 
   onPlayerLoadStart() {
     $('#singleVideo').addClass('loading');
@@ -95,18 +136,5 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
     this.$uns.forEach($uns => {
       $uns.unsubscribe();
     });
-  }
-
-  download() {
-      const element = document.createElement('a');
-      element.setAttribute('href', this.props.finalvideo);
-      element.setAttribute('download', '');
-
-      element.style.display = 'none';
-      document.body.appendChild(element);
-
-      element.click();
-
-      document.body.removeChild(element);
   }
 }

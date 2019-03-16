@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { VideoStudioRoutingModule } from './video-studio-routing.module';
 import { VideoStudioComponent } from './video-studio.component';
@@ -20,6 +20,7 @@ import { VgBufferingModule } from 'videogular2/buffering';
 import { SliderModule } from 'primeng/slider';
 import { TooltipModule } from 'primeng/tooltip';
 import { AngularDraggableModule } from 'angular2-draggable';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import {
     PerfectScrollbarModule, PerfectScrollbarConfigInterface,
@@ -54,6 +55,7 @@ import { VideoStudioService } from '../../shared/services/video-studio.service';
 import { VsRepositionComponent } from './components/vs-reposition/vs-reposition.component';
 import { VsCompleteComponent } from './components/vs-complete/vs-complete.component';
 import { DivModalDirective } from './directives/div-modal.directive';
+import { BlColorpickerDirective } from './directives/bl-colorpicker.directive';
 
 @NgModule({
     imports: [
@@ -63,6 +65,7 @@ import { DivModalDirective } from './directives/div-modal.directive';
         SortablejsModule,
         NgbDropdownModule.forRoot(),
         FormsModule,
+        ReactiveFormsModule,
         ColorPickerModule,
         Ng5FilesModule,
         NgMasonryGridModule,
@@ -73,7 +76,8 @@ import { DivModalDirective } from './directives/div-modal.directive';
         VgBufferingModule,
         SliderModule,
         TooltipModule,
-        AngularDraggableModule
+        AngularDraggableModule,
+        LazyLoadImageModule
     ],
     declarations: [
         VsSidebarComponent,
@@ -97,7 +101,8 @@ import { DivModalDirective } from './directives/div-modal.directive';
         VsRepositionComponent,
         VsCompleteComponent,
         DivModalDirective,
-        VsWorkareaLatestComponent
+        VsWorkareaLatestComponent,
+        BlColorpickerDirective
     ],
     providers: [
         {

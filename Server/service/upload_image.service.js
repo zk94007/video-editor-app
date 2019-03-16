@@ -1,7 +1,7 @@
 /**
- * Frame Service
+ * Upload Image Service
  * konstantyn
- * 2018-03-10
+ * 2018-11-25
  */
 
 var download = require('url-download');
@@ -116,16 +116,16 @@ module.exports = {
                 return;
             }
 
-            frameModel.getFramesByPrjId(prj_id, (err, frames) => {
+            uploadImageModel.getUploadImagesByPrjId(prj_id, (err, images) => {
                 if (err) {
                     helper.response.onError(err, callback);
                     return;
                 }
 
-                helper.response.onSuccessPlus(callback, {frames: frames});
+                helper.response.onSuccessPlus(callback, {images: images});
             });
         } catch (err) {
-            helper.response.onError('error: getFrameList', callback);
+            helper.response.onError('error: getUploadImages', callback);
         }
     },
 }

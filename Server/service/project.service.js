@@ -227,6 +227,9 @@ module.exports = {
                 let overlays = [];
                 let workfiles = [];
                 let pvFilePath = '';
+                let pvFilePathSD = '';
+                let pvFilePathHD = '';
+                let pvFilePathFullHD = '';
 
                 let seriesTasks = [];
                 
@@ -333,8 +336,9 @@ module.exports = {
                                     this.parseInt(frame.frm_reposition.height),
                                     this.parseInt(frame.frm_reposition.offsetX),
                                     this.parseInt(frame.frm_reposition.offsetY),
-                                    config.video.scene[prj_scene_ratio].width,
-                                    config.video.scene[prj_scene_ratio].height,
+                                    config.video.scene1080[prj_scene_ratio].width,
+                                    config.video.scene1080[prj_scene_ratio].height,
+                                    frame.frm_background.color,
                                     (err, newPath) => {
                                         if (!err) {
                                             workfiles.push(newPath);
@@ -359,8 +363,9 @@ module.exports = {
                                     this.parseInt(frame.frm_reposition.height),
                                     this.parseInt(frame.frm_reposition.offsetX),
                                     this.parseInt(frame.frm_reposition.offsetY),
-                                    config.video.scene[prj_scene_ratio].width,
-                                    config.video.scene[prj_scene_ratio].height,
+                                    config.video.scene1080[prj_scene_ratio].width,
+                                    config.video.scene1080[prj_scene_ratio].height,
+                                    frame.frm_background.color,
                                     (err, newPath) => {
                                         if (!err) {
                                             workfiles.push(newPath);
@@ -447,6 +452,7 @@ module.exports = {
                     async.parallel(parallelTasks, series_callback)
                 });
                 
+                //full hd
                 seriesTasks.push((series_callback) => {
                     setProgress(90, 'Merging all Frames');
                     frameTs = _.sortBy(frameTs, 'frm_order');
@@ -457,8 +463,59 @@ module.exports = {
                             return;
                         }
 
-                        pvFilePath = filepath;
+                        pvFilePathFullHD = filepath;
                         series_callback('');
+                    });
+                });
+
+                //preview
+                seriesTasks.push((series_callback) => {
+                    helper.video.resizevideo(pvFilePathFullHD, config.video.scene[prj_scene_ratio].width, config.video.scene[prj_scene_ratio].height, (err, filepath) => {
+                        pvFilePath = filepath;
+                        series_callback(err);
+                    });
+                });
+
+                //hd
+                seriesTasks.push((series_callback) => {
+                    helper.video.resizevideo(pvFilePathFullHD, config.video.scene720[prj_scene_ratio].width, config.video.scene720[prj_scene_ratio].height, (err, filepath) => {
+                        pvFilePathHD = filepath;
+                        series_callback(err);
+                    });
+                });
+
+                //sd
+                seriesTasks.push((series_callback) => {
+                    helper.video.resizevideo(pvFilePathHD, config.video.scene360[prj_scene_ratio].width, config.video.scene360[prj_scene_ratio].height, (err, filepath) => {
+                        pvFilePathSD = filepath;
+                        series_callback(err);
+                    });
+                });
+
+                seriesTasks.push((series_callback) => {
+                    const cloudName = uuidGen.v1() + '.mp4';
+                    helper.file.putFileToCloud(cloudName, prj_name, pvFilePathFullHD, (err, filepath) => {
+                        workfiles.push(pvFilePathFullHD);
+                        pvFilePathFullHD = filepath;
+                        projectModel.updateProject(prj_id, [{name: 'prj_video_path_full_hd', value: filepath}], series_callback);
+                    });
+                });
+
+                seriesTasks.push((series_callback) => {
+                    const cloudName = uuidGen.v1() + '.mp4';
+                    helper.file.putFileToCloud(cloudName, prj_name, pvFilePathHD, (err, filepath) => {
+                        workfiles.push(pvFilePathHD);
+                        pvFilePathHD = filepath;
+                        projectModel.updateProject(prj_id, [{name: 'prj_video_path_hd', value: filepath}], series_callback);
+                    });
+                });
+
+                seriesTasks.push((series_callback) => {
+                    const cloudName = uuidGen.v1() + '.mp4';
+                    helper.file.putFileToCloud(cloudName, prj_name, pvFilePathSD, (err, filepath) => {
+                        workfiles.push(pvFilePathSD);
+                        pvFilePathSD = filepath;
+                        projectModel.updateProject(prj_id, [{name: 'prj_video_path_sd', value: filepath}], series_callback);
                     });
                 });
 
@@ -478,7 +535,10 @@ module.exports = {
                 async.series(seriesTasks, (err, res) => {
                     if (!err) {
                         helper.response.onSuccessPlus(callback, {
-                            'finalvideo': pvFilePath
+                            'finalvideo': pvFilePath,
+                            'finalvideoSD': pvFilePathSD,
+                            'finalvideoHD': pvFilePathHD,
+                            'finalvideoFullHD': pvFilePathFullHD
                         });
                     } else {
                         helper.response.onError(err, callback);

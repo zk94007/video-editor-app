@@ -32,13 +32,31 @@ perfect-scrollbar>.ps.ps--scrolling-y>.ps__rail-y {
 }
 
 .results {
+	display: flex;
+	flex-direction: column;
   position: absolute;
   left: 0;
   top: 0px;
   bottom: 0;
   z-index: -1;
   width: 100%;
-  transition: all .3s ease-out
+	transition: all .3s ease-out;
+	
+	> .layer,
+	> .layer > .inner {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+	}
+
+	> .layer {
+		padding: 0;
+	}
+
+	> .layer > .inner > .element-menu {
+		padding: 20px;
+		flex-grow: 0;
+	}
 }
 
 .slow .results {
@@ -138,10 +156,28 @@ perfect-scrollbar>.ps.ps--scrolling-y>.ps__rail-y {
   right: 0;
   border: 1px solid rgba(0, 0, 0, .25)
 }
+#resultsText .elementGroupSearchResult {
+	display: block;
+	padding: 8px 0;
+	font-size: 30px;
+	color: inherit;
+	
+
+	&:first-child {
+		margin-top: 15px;
+	}
+	&:last-child {
+		margin-bottom: 15px;
+	}
+
+	> a {
+		color: inherit;
+	}
+}
 
 .textControls:not(.clone) {
   border-bottom: 1px solid rgba(255, 255, 255, .2);
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   text-align: center
 }
 
@@ -487,4 +523,80 @@ perfect-scrollbar>.ps.ps--scrolling-y>.ps__rail-y {
 	.uploadsControls {
 		height: 1.8em;
 	}
+}
+
+.bg-colorpicker svg {
+  margin: 12px auto;
+}
+
+.bg-colorpicker-colorcode {
+	position: absolute;
+	z-index: 3000;
+	bottom: 8px;
+	// height: 0;
+	font-size: 12px;
+	transition: all .3s ease-out;
+	// opacity: 0;
+	font-weight: 300;
+	text-align: center;
+  width: 100%;
+  
+	opacity: 1;
+	height: 30px
+}
+
+.bg-colorpicker-hexcode {
+	width: 75px;
+	height: 30px;
+	border-radius: 4px;
+	border: none;
+	margin: 0 0 0 10px;
+	font-weight: 300;
+	box-shadow: inset 10px 10px 20px rgba(0, 0, 0, .15);
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 1;
+	text-indent: 8px
+}
+
+.bg-colorpicker-hexcode {
+	box-shadow: inset 0 0 3px rgba(0, 0, 0, .15)
+}
+
+.bg-colorpicker-hexcode:focus {
+	border: 2px solid #00c4cc;
+	outline: none;
+	margin: -2px 0 0 8px
+}
+
+.element-menu-item {
+	width: 33%;
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: center;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.element-menu-item:nth-child(n+4) {
+	margin-top: 10px;
+}
+
+.element-menu-item-img:hover {
+	opacity: .5;
+}
+
+.element-menu-item-img {
+	width: 100%;
+	border-radius: 10%;
+	opacity: 1;
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+
+.emojis-item {
+	width: 32%;
+	float: left;
+	padding: 5px;
 }

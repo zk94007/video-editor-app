@@ -125,7 +125,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
   onDragTextBegin($event) {
     const element = document.getElementById('draggableText');
     element.classList.add('selected');
-    element.style.transform += 'scale(' + this.props.canvasScale + ',' + this.props.canvasScale + ')';
+    // element.style.transform += 'scale(' + this.props.canvasScale + ',' + this.props.canvasScale + ')';
   }
   onDragTextEnd($event) {
     document.getElementById('draggableText').classList.remove('moving');
@@ -137,7 +137,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
     if (this.isRectInRect(draggableTextRect, workareaRect)) {
       const data = {
         fontFamily: this.props.draggableObject.fontFamily,
-        fontSize: this.props.draggableObject.fontSize,
+        fontSize: Math.floor(this.props.draggableObject.fontSize / this.props.canvasScale),
         fontStyle: this.props.draggableObject.fontStyle,
         text: this.props.draggableObject.text,
         x: draggableTextRect.left - workareaRect.left,
@@ -154,7 +154,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
   onTextMoving($event) {
     const element = document.getElementById('draggableText');
     element.classList.add('moving');
-    element.style.transform += 'scale(' + this.props.canvasScale + ',' + this.props.canvasScale + ')';
+    // element.style.transform += 'scale(' + this.props.canvasScale + ',' + this.props.canvasScale + ')';
   }
   onTextMoveEnd($event) {
   }
@@ -164,15 +164,9 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
   }
   // Drag Event Image
   onDragImageBegin($event) {
-    if (this.isGif(this.props.draggableObject.src)) {
-      this.props.idealWidth = 120;
-    } else {
-      this.props.idealWidth = 300;
-    }
     const element = document.getElementById('draggableImage');
-    const scale = this.props.canvasScale * (this.props.idealWidth / this.props.draggableObject.rect.width);
     element.classList.add('selected');
-    element.style.transform += 'scale(' + scale + ',' + scale + ')';
+    // element.style.transform += 'scale(' + scale + ',' + scale + ')';
   }
   onDragImageEnd($event) {
     document.getElementById('draggableImage').classList.remove('moving');
@@ -187,8 +181,13 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
         resolution: this.props.draggableObject.resolution,
         x: draggableImageRect.left - workareaRect.left,
         y: draggableImageRect.top - workareaRect.top,
-        gif_delays: this.props.draggableObject.gif_delays
+        gif_delays: this.props.draggableObject.gif_delays,
+        width: this.props.draggableObject.width,
+        height: this.props.draggableObject.height
       };
+
+      data.width = Math.floor(this.props.draggableObject.width / this.props.canvasScale);
+      data.height = Math.floor(this.props.draggableObject.height / this.props.canvasScale);
       this.vsService.addImageOverlay(data);
     }
     this.props.isDraggableImage = false;
@@ -198,7 +197,7 @@ export class VideoStudioComponent implements OnInit, OnDestroy {
     const element = document.getElementById('draggableImage');
     const scale = this.props.canvasScale * (this.props.idealWidth / this.props.draggableObject.rect.width);
     element.classList.add('moving');
-    element.style.transform += 'scale(' + scale + ',' + scale + ')';
+    // element.style.transform += 'scale(' + scale + ',' + scale + ')';
   }
   onImageMoveEnd($event) {
   }

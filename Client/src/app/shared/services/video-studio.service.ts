@@ -12,18 +12,20 @@ let $this: VideoStudioService;
 export class VideoStudioService {
   private sceneSize: any = {
     '916': {
-      width: 400,
-      height: 712,
+      width: 1080,
+      height: 1920,
     },
     '11': {
-      width: 400,
-      height: 400,
+      width: 1080,
+      height: 1080,
     },
     '169': {
-      width: 712,
-      height: 400,
+      width: 1920,
+      height: 1080,
     }
   };
+
+  public screenScale = 1;
 
   public project: Project;
 
@@ -77,6 +79,8 @@ export class VideoStudioService {
   @Output() onModified = new EventEmitter();
 
   @Output() onChangeCanvasScale = new EventEmitter();
+  @Output() onChangeBackground = new EventEmitter();
+  @Output() onGetStaticOverlays = new EventEmitter();
 
   public binds = [
     {
@@ -110,6 +114,10 @@ export class VideoStudioService {
     {
       name: 'DELETE_UPLOAD_IMAGE_RESPONSE',
       function: this._deleteUplpoadImageResponse,
+    },
+    {
+      name: 'GET_STATIC_OVERLAYS_RESPONSE',
+      function: this._getStaticOverlaysResponse,
     }
   ];
 
@@ -136,6 +144,22 @@ export class VideoStudioService {
 
   getProjectVideoPath() {
     return this.project.prj_video_path;
+  }
+
+  getProjectVideoPathHD() {
+    return this.project.prj_video_path_hd;
+  }
+
+  getProjectVideoPathSD() {
+    return this.project.prj_video_path_sd;
+  }
+
+  getProjectVideoPathFullHD() {
+    return this.project.prj_video_path_full_hd;
+  }
+
+  getProjectName() {
+    return this.project.prj_name;
   }
 
   getSceneRatio() {
@@ -274,6 +298,22 @@ export class VideoStudioService {
     }
   }
 
+  _changeBackground(color) {
+    const frame = this.project.getFrame(this.selected_frm_id);
+    if (frame) {
+      if (!this.isModified()) {
+        this.onModified.emit();
+      }
+
+      this.project.modified = true;
+      frame.frm_background = {
+        color: color
+      };
+      this.socket.sendMessageWithToken('UPDATE_FRAME', { frm_id: this.selected_frm_id, data: [{ name: 'frm_background', value: JSON.stringify(frame.frm_background) }] });
+      this.onChangeBackground.emit(frame.frm_background);
+    }
+  }
+
   _changeSceneRatio(sceneRatio) {
     if (this.project && this.project.getSceneRatio !== sceneRatio) {
       if (!this.isModified()) {
@@ -307,6 +347,7 @@ export class VideoStudioService {
 
   _load(prj_id) {
     this.socket.sendMessageWithToken('GET_FRAMES_WITH_OVERLAY', { prj_id: prj_id });
+    this.socket.sendMessageWithToken('GET_STATIC_OVERLAYS', {  });
   }
 
   _loadResponse(response) {
@@ -433,6 +474,12 @@ export class VideoStudioService {
 
   _deleteUplpoadImageResponse(response) {
 
+  }
+
+  _getStaticOverlaysResponse(response) {
+    if (response.success) {
+      $this.onGetStaticOverlays.emit(response.overlays);
+    }
   }
 
   /**

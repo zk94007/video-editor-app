@@ -17,10 +17,15 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     public props = {
         projectId: null,
         projectName: '',
+        projectNameAbbr: '',
         media: [],
         showProjects: null,
         disableDownloadButton: true,
         videoPath: null,
+        videoPathSD: null,
+        videoPathHD: null,
+        videoPathFullHD: null,
+        downloadOption: -1,
 
         upload: {
             selectedFiles: null,
@@ -34,6 +39,12 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         isDeleting: -1,
 
         displayDeleteFileModal: null,
+        displayImportUrlModal: null,
+        newFrame: {
+            perror: null,
+            filename: null,
+            url: null
+        },
 
         wait: 'assets/layout/images/wait.gif'
     };
@@ -52,7 +63,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         private service: ProjectService,
     ) {
         this.fileUploadConfig = {
-            acceptExtensions: ['png', 'jpeg', 'jpg', 'avi', 'mp4', 'gif'],
+            acceptExtensions: ['png', 'jpeg', 'jpg', 'avi', 'mp4', 'gif', 'mov', 'mo'],
             maxFilesCount: 5,
             maxFileSize: 5120000,
             totalFilesSize: 10120000
@@ -72,6 +83,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         }));
 
         this.props.displayDeleteFileModal = 'none';
+        this.props.displayImportUrlModal = 'none';
     }
 
     ngOnInit() {
@@ -91,11 +103,15 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
                 if (message.project.prj_video_path !== null) {
                     this.props.videoPath = message.project.prj_video_path;
+                    this.props.videoPathSD = message.project.prj_video_path_sd;
+                    this.props.videoPathHD = message.project.prj_video_path_hd;
+                    this.props.videoPathFullHD = message.project.prj_video_path_full_hd;
                     this.props.disableDownloadButton = false;
                 } else {
                     this.props.disableDownloadButton = true;
                 }
                 this.props.projectName = message.project.prj_name;
+                this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
 
                 this.props.media = message['frames'];
                 if (this.props.media.length === 0) {
@@ -139,6 +155,53 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                     this.props.media[index] = temp;
                     this.props.showProjects = true;
                 }
+            } else {
+                alert("The video you uploaded is invalid, please upload video or image.");
+                
+                this.props.isUploading = false;
+                if (this.props.media.length === 0) {
+                    this.props.showProjects = false;
+                } else {
+                    this.props.showProjects = true;
+                }
+                const index = this.props.media.findIndex(m => m.guid === message.guid);
+                this.props.media.splice(index, 1);
+            }
+        }));
+
+        this.$uns.push(this.service.onAddFrameByUrl.subscribe((message) => {
+            const success = message.success;
+            this.props.upload.uploadPercent = 0;
+            if (success) {
+                if (this.props.media !== null) {
+                    this.props.isUploading = false;
+                    const index = this.props.media.findIndex(m => m.guid === message.guid);
+                    const temp = {
+                        frm_id: message.frm_id,
+                        frm_name: message.frm_name,
+                        frm_order: message.frm_order,
+                        frm_path: message.frm_path,
+                        frm_resolution: message.frm_resolution,
+                        isUploading: false
+                    };
+                    this.props.media[index] = temp;
+                    this.props.showProjects = true;
+                }
+            } else {
+                if (message.type != undefined && message.type == '-100') {
+                    alert("The video you selected is over 5 mins, please upload video under 5 mins.");
+                } else {
+                    alert("The url you inputed is invalid, please input real youtube or imgur url.");
+                }
+                
+                this.props.isUploading = false;
+                if (this.props.media.length === 0) {
+                    this.props.showProjects = false;
+                } else {
+                    this.props.showProjects = true;
+                }
+                const index = this.props.media.findIndex(m => m.guid === message.guid);
+                this.props.media.splice(index, 1);
             }
         }));
 
@@ -149,8 +212,21 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             }
         }));
 
+        this.$uns.push(this.service.onAddFrameByUrlProgress.subscribe((message) => {
+            if (this.props.media !== null) {
+                const index = this.props.media.findIndex(m => m.guid === message.guid);
+                this.props.media[index].uploadPercent = Math.round(message.percent) + '%';
+            }
+        }));
+
         this.$uns.push(this.service.onGenerateSas.subscribe((message) => {
-            this.download(this.props.projectName, this.props.videoPath + '?' + message.token);
+            if (this.props.downloadOption == 1) {
+                this.download(this.props.projectName, this.props.videoPathSD + '?' + message.token);
+            } else if (this.props.downloadOption == 2) {
+                this.download(this.props.projectName, this.props.videoPathHD + '?' + message.token);
+            } else if (this.props.downloadOption == 3) {
+                this.download(this.props.projectName, this.props.videoPathFullHD + '?' + message.token);
+            }
         }));
     }
 
@@ -178,7 +254,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         for (let i = 0; i < this.props.upload.selectedFiles.length; i ++) {
             const file = this.props.upload.selectedFiles[i];
             const ext = path.extname(file.name).toLowerCase();
-            if (ext === '.jpg' || ext === '.png' || ext === '.jpeg' || ext === '.mp4' || ext === '.gif') {
+            if (ext === '.jpg' || ext === '.png' || ext === '.jpeg' || ext === '.mp4' || ext === '.gif' || ext === '.mov' || ext === '.mo') {
                 if (!file.$error) {
                     const preview = this.fakePreview(file.name);
                     this.props.showProjects = true;
@@ -201,6 +277,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
 
     downloadProjectVideo() {
+        this.service._generateSas();
+    }
+    _downloadProjectVideo(option) {
+        this.props.downloadOption = option;
         this.service._generateSas();
     }
     download(filename, src) {
@@ -324,5 +404,30 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.$uns.forEach($uns => {
             $uns.unsubscribe();
         });
+    }
+
+    openImportUrl() {
+        this.props.displayImportUrlModal = 'block';
+        this.props.newFrame.perror = null;
+        this.props.newFrame.filename = '';
+        this.props.newFrame.url = '';
+    }
+    cancelImportUrl() {
+        this.props.displayImportUrlModal = 'none';
+    }
+    okImportUrl() {
+        // if (this.props.newFrame.filename && (this.props.newFrame.filename).trim() !== '' && this.props.newFrame.url && (this.props.newFrame.url).trim() !== '') {
+        if (this.props.newFrame.url && (this.props.newFrame.url).trim() !== '') {
+            this.props.displayImportUrlModal = 'none';
+
+            const preview = this.fakePreview(this.props.newFrame.filename);
+            this.props.showProjects = true;
+            this.props.isUploading = true;
+            this.props.media.push(preview);
+            this.service._addFrameByUrl(this.props.newFrame.filename, this.props.newFrame.url, this.props.projectId, preview.guid);
+            
+        } else {
+            this.props.newFrame.perror = 'Please input Filename and Url.';
+        }
     }
 }

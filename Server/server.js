@@ -191,6 +191,16 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.getStaticOverlays, function (message) {
+        helper.log.system('received get static overlays message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.getStaticOverlays, message, function (err, userInfo) {
+            service.static_overlay.getStaticOverlays(userInfo, message, function (err, result) {
+                socket.emit(constant.method.getStaticOverlays + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.getUsers, function (message) {
         helper.log.system('received get users message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.getUsers, message, function (err, userInfo) {
@@ -328,6 +338,39 @@ io.on('connection', function(socket) {
                 socket.emit(constant.method.deleteUploadImage + '_RESPONSE', result);
                 helper.log.system(JSON.stringify(result));
             });
+        });
+    });
+
+    socket.on(constant.method.addFrameByUrl, function (message) {
+        helper.log.system('received add frame by url message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.addFrameByUrl, message, function (err, userInfo) {
+            if (message.url) {
+                helper.file.getFileFromUrl(message.url, function(err, _result) {
+                    if (err) {
+                        const result = {};
+                        result.success = false;
+                        result.msg = err;
+                        result.guid = message.guid;
+                        result.type = _result.type != undefined ? _result.type : 0;
+                        socket.emit(constant.method.addFrameByUrl + '_RESPONSE', result);
+                    } else {
+                        message.filename = _result.filename;
+                        helper.file.putMediaToCloud(_result.filepath, (percent) => {socket.emit('ADD_FRAME_BY_URL_PROGRESS', { guid: message.guid, percent: percent }); }, (_err, metadata) => {
+                            if (_err) {
+                                const result = {};
+                                result.success = false;
+                                result.msg = err;
+                                result.guid = message.guid;
+                            } else {
+                                service.frame.addFrame(message, metadata, function(__err, result) {
+                                    result.guid = message.guid;
+                                    socket.emit(constant.method.addFrameByUrl + '_RESPONSE', result);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
     });
 

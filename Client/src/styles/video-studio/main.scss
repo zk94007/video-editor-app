@@ -1,8 +1,10 @@
 #draggableText.selected {
   transition: all 0.3s;
+  white-space: nowrap;
 }
 #draggableText.moving {
   transition: none;
+  white-space: nowrap;
 }
 #draggableImage.selected {
   transition: all 0.3s;
@@ -234,9 +236,10 @@ body.modalContentVisible {
 }
 
 #app-vs-sidebar {
-  width: 33.333%;
-  min-width: 300px;
-  max-width: 430px;
+  width: 340px;
+  // width: 33.333%;
+  // min-width: 300px;
+  // max-width: 430px;
 }
 
 .mask2Background {

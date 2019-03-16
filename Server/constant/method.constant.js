@@ -21,6 +21,7 @@ module.exports = {
     updateUserById:             'UPDATE_USER_BY_ID',
     inviteAdmin:                'INVITE_ADMIN',
     getUserInformation:         'GET_USER_INFORMATION',
+    getStaticOverlays:          'GET_STATIC_OVERLAYS',
 
     getProjectList:             'GET_PROJECT_LIST',
     createProject:              'CREATE_PROJECT',
@@ -30,6 +31,7 @@ module.exports = {
     generateSasToken:           'GENERATE_SAS',
 
     addFrame:                   'ADD_FRAME',
+    addFrameByUrl:              'ADD_FRAME_BY_URL',
     addUploadImage:             'ADD_UPLOAD_IMAGE',
     deleteUploadImage:          'DELETE_UPLOAD_IMAGE',
     uploadImageProgress:        'UPLOAD_IMAGE_PROGRESS',

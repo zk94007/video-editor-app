@@ -11,6 +11,7 @@ export class Frame /*extends FrameRecord*/ {
     frm_reposition: any;
     frm_resolution: any;
     frm_gif_delays: any;
+    frm_background: any;
     frm_overlays: Overlay[];
 
     constructor( jsonData: any ) {
@@ -39,7 +40,8 @@ export class Frame /*extends FrameRecord*/ {
             frm_type: this.frm_type,
             frm_reposition: this.frm_reposition,
             frm_resolution: this.frm_resolution,
-            frm_gif_delays: this.frm_gif_delays
+            frm_gif_delays: this.frm_gif_delays,
+            frm_background: this.frm_background
         };
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import {
   PerfectScrollbarConfigInterface,
   PerfectScrollbarComponent, PerfectScrollbarDirective
@@ -7,12 +7,15 @@ import { ColorPickerService } from '../../../../shared/module/color-picker';
 import { FontPickerService } from '../../../../shared/services/font-picker.service';
 import { Font, GoogleFontInterface, GoogleFontsInterface } from '../../../../shared/interfaces/font-picker.interfaces';
 
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject, combineLatest } from 'rxjs';
+import { debounceTime, distinctUntilChanged, withLatestFrom, startWith, map, filter, pluck } from 'rxjs/operators';
 import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } from '../../../../shared/module/ng5-files';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 import { Masonry, MasonryGridItem } from 'ng-masonry-grid';
 import * as path from 'path';
+import '@jaames/iro';
+import { MyColorpicker } from '../vs-toolbar/colorpicker';
+import { FormControl } from '@angular/forms';
 
 declare const $: any;
 
@@ -29,7 +32,11 @@ export class VsSidebarPanelComponent implements OnInit {
   public config: PerfectScrollbarConfigInterface = {};
   public $uns: any = [];
 
+  public colorPicker: MyColorpicker;
+  public colorPickerColor: string = '#ffffff';
+  public showedTab = 'emojis' || 'stickers' || 'gifs' || 'shapes';
   public selectedDomObject;
+  public isDraggingText: boolean = false;
 
   // BackgroundPanel Variables
   public props_background: any = {
@@ -49,6 +56,10 @@ export class VsSidebarPanelComponent implements OnInit {
   };
 
   public renderMore: Subject<any> = new Subject();
+  public onScroll$ = new Subject();
+
+  // Search input
+  public searchInput = new FormControl(null);
 
   // UploadPanel Variables
   private fileUploadConfig: Ng5FilesConfig = {
@@ -63,19 +74,42 @@ export class VsSidebarPanelComponent implements OnInit {
     uploadedFiles: [],
     _masonry: Masonry
   };
+  public props_emojis: any = {
+    selectedFiles: null,
+    emojisFiles: [],
+    _masonry: Masonry
+  };
+  public props_stickers: any = {
+    selectedFiles: null,
+    stickersFiles: [],
+    _masonry: Masonry
+  };
+  public props_gifs: any = {
+    selectedFiles: null,
+    gifsFiles: [],
+    _masonry: Masonry
+  };
+  public props_images: any = {
+    selectedFiles: null,
+    imagesFiles: [],
+    _masonry: Masonry
+  };
 
-
-  constructor(private cpServie: ColorPickerService,
+  constructor(
+    private cpServie: ColorPickerService,
     private service: FontPickerService,
     private cdRef: ChangeDetectorRef,
     private ng5FilesService: Ng5FilesService,
-    private vsService: VideoStudioService) {
+    private vsService: VideoStudioService
+  ) {
     // Perfect Scrollbar config
     this.config = {
       wheelSpeed: 0.5,
       wheelPropagation: false,
       suppressScrollX: true
     };
+
+    this.colorPicker = new MyColorpicker('.bg-colorpicker');
 
     // Background Panel config
     this.props_background.addRecentColor = '#ff0000';
@@ -115,6 +149,11 @@ export class VsSidebarPanelComponent implements OnInit {
       this.setDisplayedFontSource();
     }, (error: any) => {}));
 
+    this.$uns.push(this.colorPicker.onInputEnd.subscribe((color) => {
+      this.colorPickerColor = color;
+      this.vsService._changeBackground(color);
+    }));
+
     this.$uns.push(this.vsService.onAddUploadImage.subscribe((response) => {
       this.props_upload.uploadedFiles.forEach(file => {
         if (file.fakeId === response.guid) {
@@ -143,38 +182,157 @@ export class VsSidebarPanelComponent implements OnInit {
       });
     }));
 
+    /* this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
+      overlays.forEach(element => {
+        if (element.sov_type === 1) {
+          this.props_emojis.emojisFiles.push({
+            sov_id: element.sov_id,
+            sov_name: element.sov_name || 'None',
+            fakeId: '',
+            src: element.sov_path,
+            percent: 0,
+            isLoaded: true,
+            resolution: element.sov_resolution,
+            gif_delays: element.sov_gif_delays
+          });
+        }
+        if (element.sov_type === 2) {
+          this.props_stickers.stickersFiles.push({
+            sov_id: element.sov_id,
+            sov_name: element.sov_name || 'None',
+            fakeId: '',
+            src: element.sov_path,
+            percent: 0,
+            isLoaded: true,
+            resolution: element.sov_resolution,
+            gif_delays: element.sov_gif_delays
+          });
+        }
+      });
+    })); */
 
     this.$uns.push(this.vsService.onDragEnd.subscribe(() => {
       if ($this.selectedDomObject != null) {
         $this.selectedDomObject.style.opacity = 1;
+
+        if (this.isDraggingText) {
+          this.isDraggingText = false;
+        }
       }
     }));
 
     this.ng5FilesService.addConfig(this.fileUploadConfig);
+
+    this.listenToScrollEvent();
+
+    this.$uns.push(
+      combineLatest(
+        this.searchInput.valueChanges.pipe(
+          startWith(''),
+          debounceTime(500)
+        ),
+        this.vsService.onGetStaticOverlays
+      ).pipe(
+        map(([searchValue, overlaysValue]: [string, any[]]) => {
+          const gifs = overlaysValue.filter(value => value.sov_type === 3);
+          const stickers = overlaysValue.filter(value => value.sov_type === 2);
+          const emojis = overlaysValue.filter(value => value.sov_type === 1);
+
+          this.props_emojis.emojisFiles = emojis.map(emoji => {
+            return {
+              sov_id: emoji.sov_id,
+              sov_name: emoji.sov_name || 'None',
+              fakeId: '',
+              src: emoji.sov_path,
+              percent: 0,
+              isLoaded: true,
+              resolution: emoji.sov_resolution,
+              gif_delays: emoji.sov_gif_delays
+            };
+          });
+
+          this.props_stickers.stickersFiles = stickers.filter(sticker => sticker.sov_name.indexOf(searchValue) !== -1).map(sticker => {
+            return {
+              sov_id: sticker.sov_id,
+              sov_name: sticker.sov_name || 'None',
+              fakeId: '',
+              src: sticker.sov_path,
+              percent: 0,
+              isLoaded: true,
+              resolution: sticker.sov_resolution,
+              gif_delays: sticker.sov_gif_delays
+            };
+          });
+
+          this.props_gifs.gifsFiles = gifs.filter(gif => gif.sov_name.indexOf(searchValue) !== -1).map(gif => {
+            return {
+              sov_id: gif.sov_id,
+              sov_name: gif.sov_name || 'None',
+              fakeId: '',
+              src: gif.sov_path,
+              percent: 0,
+              isLoaded: true,
+              resolution: gif.sov_resolution,
+              gif_delays: gif.sov_gif_delays
+            };
+          });
+
+          this.listenToScrollEvent();
+        }),
+      ).subscribe()
+    );
   }
+
   ngOnDestory() {
     this.$uns.forEach(element => {
       element.unsubscribe();
     });
   }
 
-  mouseDownText($event, font_family, font_size, font_style, text) {
+  listenToScrollEvent() {
+    setTimeout(() => {
+      this.onScroll$.next();
+    }, 1000);
+  }
+
+  showTab(tab) {
+    this.showedTab = tab;
+    this.listenToScrollEvent();
+  }
+
+  onColorHexChange(color: string) {
+    this.colorPickerColor = color;
+    this.colorPicker.setColor(this.colorPickerColor);
+    this.vsService._changeBackground(color);
+  }
+
+  onChangeBackground(color) {
+    this.vsService._changeBackground(color);
+  }
+
+  mouseDownText($event, font_family, font_style, text) {
+    var computedFontSize = window.getComputedStyle($event.target).fontSize;
+
+    $event.target.style.opacity = 0;
+
+    this.isDraggingText = true;
+
     const object = {
       event: $event,
       type: 'text',
       fontFamily: font_family,
-      fontSize: font_size,
+      fontSize: parseInt(computedFontSize),
       fontStyle: font_style,
       text: text,
       rect: $event.target.getBoundingClientRect()
     };
 
     this.selectedDomObject = $event.target;
-    $event.target.style.opacity = 0;
 
     this.vsService.dragStart(object);
   }
   mouseUpText($event) {
+    this.isDraggingText = false;
     this.selectedDomObject.style.opacity = 1;
   }
 
@@ -244,11 +402,15 @@ export class VsSidebarPanelComponent implements OnInit {
 
   mouseDownImage($event, file) {
     if (file.isLoaded === true) {
+      var computedWidth = parseInt(window.getComputedStyle($event.target).width);
+      var computedHeight = parseInt(window.getComputedStyle($event.target).height);
       const object = {
         event: $event,
         type: 'image',
         src: file.src,
         resolution: file.resolution,
+        width: computedWidth,
+        height: computedHeight,
         gif_delays: file.gif_delays,
         rect: $event.target.getBoundingClientRect()
       };
@@ -257,11 +419,15 @@ export class VsSidebarPanelComponent implements OnInit {
 
       this.vsService.dragStart(object);
     }
+
+    $event.preventDefault();
   }
   mouseUpImage($event, file) {
     if (this.selectedDomObject) {
       this.selectedDomObject.style.opacity = 1;
     }
+
+    $event.preventDefault();
   }
 
   onloadedImage($event) {
@@ -274,6 +440,11 @@ export class VsSidebarPanelComponent implements OnInit {
   onMasonryInit($event) {
     this.props_upload._masonry = $event;
   }
+
+  onEmojisMasonryInit($event) {
+    this.props_emojis._masonry = $event;
+  }
+
   addImageOverlay(file) {
     if (this.props_upload._masonry) {
       this.props_upload._masonry.setAddStatus('add');

@@ -69,7 +69,7 @@ export class VsToolbarComponent implements OnInit, OnDestroy {
 
   constructor(private service: FontPickerService, private cdRef: ChangeDetectorRef, private vsService: VideoStudioService) {
     // Perfect Scrollbar config
-    this.colorPicker = new MyColorpicker();
+    this.colorPicker = new MyColorpicker('.my-colorpicker');
 
     this.scrollbarConfig = {
       wheelSpeed: 0.5,

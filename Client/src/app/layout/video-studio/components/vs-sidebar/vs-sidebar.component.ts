@@ -26,12 +26,14 @@ export class VsSidebarComponent implements OnInit {
   // public SIDEBAR_STAGE_SEARCH = 1;
   // public SIDEBAR_STAGE_TEXT = 2;
   // public SIDEBAR_STAGE_BACKGROUND = 3;
-  // public SIDEBAR_STAGE_ELEMENTS = 4;
+  
   // public SIDEBAR_STAGE_MUSIC = 5;
   // public SIDEBAR_STAGE_UPLOAD = 6;
 
   public SIDEBAR_STAGE_TEXT = 1;
-  public SIDEBAR_STAGE_UPLOAD = 2;
+  public SIDEBAR_STAGE_BACKGROUND = 2;
+  public SIDEBAR_STAGE_ELEMENTS = 3;
+  public SIDEBAR_STAGE_UPLOAD = 4;  
 
   constructor() { }
 
@@ -42,7 +44,7 @@ export class VsSidebarComponent implements OnInit {
       minScrollbarLength: 20
     };
 
-    this.props.stage = this.SIDEBAR_STAGE_UPLOAD;
+    this.props.stage = this.SIDEBAR_STAGE_ELEMENTS;
   }
 
   changeStage(stage) {

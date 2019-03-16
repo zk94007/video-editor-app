@@ -4,13 +4,14 @@ import { EventEmitter } from '@angular/core';
 export class MyColorpicker {
     public picker: any;
     public onColorChange = new EventEmitter();
+    public onInputEnd = new EventEmitter();
 
-    constructor() {
-        this.init();
+    constructor(className: String) {
+        this.init(className);
     }
 
-    init(): any {
-        this.picker = new iro.ColorPicker('.my-colorpicker', {
+    init(className: String): any {
+        this.picker = new iro.ColorPicker(className, {
             width: 200,
             height: 240,
             color: {r: 255, g: 255, b: 255},
@@ -22,6 +23,10 @@ export class MyColorpicker {
         this.picker.on('color:change', (color) => {
             const hex = color.hexString;
             this.onColorChange.emit(hex);
+        });
+        this.picker.on('input:end', (color) => {
+            const hex = color.hexString;
+            this.onInputEnd.emit(hex);
         });
     }
 

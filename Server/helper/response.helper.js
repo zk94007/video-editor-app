@@ -32,6 +32,22 @@ module.exports = {
 
     /**
      * 
+     * @param {*} err 
+     */
+    _makeErrorResult(result = '') {
+        var response = {
+            success: false
+        };
+
+        if (result) {
+            response = this.mergeJson(response, result);
+        }
+
+        return response;
+    }, 
+
+    /**
+     * 
      * @param {*} result 
      */
     makeSuccessResult(result = '') {
@@ -65,6 +81,17 @@ module.exports = {
     onSuccessPlus(callback, result = '') {
         if (callback != null) {
             callback(null, this.makeSuccessResult(result));
+        }
+    }, 
+
+    /**
+     * 
+     * @param {*} callback 
+     * @param {*} result 
+     */
+    onErrorPlus(callback, err, result = '') {
+        if (callback != null) {
+            callback(err, this._makeErrorResult(result));
         }
     }, 
 

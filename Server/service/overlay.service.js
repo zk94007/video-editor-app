@@ -41,6 +41,8 @@ module.exports = {
             ovl_order == undefined ? notFilledFields.push('ovl_order') : '';
             // opacity == undefined ? notFilledFields.push('opacity') : '';
 
+
+
             if (notFilledFields.length > 0) {
                 helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
                 return;
@@ -55,7 +57,7 @@ module.exports = {
                 opacity: 1,
             };
 
-            let overlay = [frm_id, JSON.stringify(ovl_reposition), ovl_order, ovl_type, ovl_content, ovl_json];
+            let overlay = [frm_id, JSON.stringify(ovl_reposition), ovl_order, ovl_type, ovl_content, helper.query.base64(ovl_json)];
             overlayModel.addOverlay(overlay, (err, row) => {
                 if (err) {
                     helper.response.onError(err, callback);
@@ -236,7 +238,7 @@ module.exports = {
                 },
                 {
                     name: 'ovl_json',
-                    value: ovl_json
+                    value: helper.query.base64(ovl_json)
                 }
             ];
 

@@ -18,6 +18,9 @@ var uuidGen = require('node-uuid');
 var getResolution = require('get-video-dimensions');
 var download = require('url-download');
 var _ = require('underscore');
+var youtubedl = require('youtube-dl');
+var imgur = require('imgur');
+var download_file = require('download-file');
 
 var config = require('../config/config');
 var logHelper = require('./log.helper');
@@ -209,7 +212,7 @@ module.exports = {
      * @param {*} callback 
      */
     getFileFromCloud(filepath, callback) {
-        download(filepath, config.server.downloadPath)
+        download(filepath, config.server.uploadPath)
             .on('close', () => {
                 let filename = path.basename(filepath);
                 responseHelper.onSuccess(callback, filename);
@@ -217,6 +220,109 @@ module.exports = {
             .on('error', (err) => {
                 responseHelper.onError('error: getFileFromCloud', callback);
             });
+    },
+
+    matchYoutubeUrl(url) {
+        var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        if(url.match(p)){
+            return url.match(p)[1];
+        }
+        return false;
+    },
+
+    download_youtube_video_from_url(youtube_url, callback) {
+        try {
+            if (!this.matchYoutubeUrl(youtube_url)) {
+                responseHelper.onError('error: invalid youtube url', callback);
+            }
+            
+            var filepath = '';
+            var filename = '';
+            var video = youtubedl(youtube_url, [], {cwd: __dirname});
+            video.on('error', (err) => {
+                responseHelper.onError('error: download_youtube_video_from_url ' + err, callback);
+            });
+            video.on('end', () => {
+                responseHelper.onSuccess(callback, {filepath: filepath, filename: filename});
+            });
+            video.on('info', function(info) {
+                var mins = 0;
+                if (info.duration.split(':').length == 2) {
+                    mins = parseInt(info.duration.split(':')[0]);
+                } else if (info.duration.split(':').length == 3) {
+                    mins = parseInt(info.duration.split(':')[0]) * 60 + parseInt(info.duration.split(':')[1]);
+                };
+                if (mins > 5) {
+                    responseHelper.onErrorPlus(callback, 'error: download_youtube_video_from_url', {type: -100});
+                } else {
+                    filename = info._filename;
+                    // var format_id = info.format_id;
+                    // var _v = youtubedl(youtube_url, ['--format='+format_id], {cwd: __dirname});
+                    filepath = config.server.uploadPath + uuidGen.v1() + '.mp4';
+                    video.pipe(fs.createWriteStream(filepath));
+                }
+            });
+        } catch(e) {
+            responseHelper.onError('error: download_youtube_video_from_url ' + e, callback);
+        }
+    },
+
+    isImgurURL(url) {
+        var _imgurDomain = /.*\/\/((i|m)\.)?imgur.com\/.*$/;
+        return _imgurDomain.test(url);
+    },
+
+    download_imgur_image_from_url(imgur_url, callback) {
+        if (!this.isImgurURL(imgur_url)) {
+            responseHelper.onError('error: invalid imgur url', callback);
+        }
+
+        function parseImageIds(url) {
+            var _imgurIdParse = /^.*\/([a-zA-Z0-9,]+)[\?#\.]?.*$/;
+            var match = _imgurIdParse.exec(url);
+            if(!match || !match[1]) {
+                return [];
+            }
+            return match[1].split(',');  
+        }
+
+        var filepath = '';
+        var filename = '';
+
+        var idArr = parseImageIds(imgur_url);
+        if (idArr.length == 1) {
+            imgur.getInfo(idArr[0])
+                .then(function(json) {
+                    filename = uuidGen.v1() + path.extname(json.data.link);
+                    filepath = config.server.uploadPath + filename;
+                    download_file(json.data.link, {directory: config.server.uploadPath, filename: filename}, function(err) {
+                        if (err) {
+                            responseHelper.onError('error: invalid imgur url', callback);
+                        } else {
+                            responseHelper.onSuccess(callback, {filepath: filepath, filename: filename});
+                        }
+                    });
+                })
+                .catch(function(err) {
+                    responseHelper.onError('error: invalid imgur url', callback);
+                });
+        }
+        
+    },
+
+    /**
+     * 
+     * @param {*} url 
+     * @param {*} callback 
+     */
+    getFileFromUrl(url, callback) {
+        if (this.matchYoutubeUrl(url)) {
+            this.download_youtube_video_from_url(url, callback);
+        } else if (this.isImgurURL(url)) {
+            this.download_imgur_image_from_url(url, callback);
+        } else {
+            responseHelper.onError('Invalid Url', callback);
+        }
     },
 
     /**
@@ -256,9 +362,14 @@ module.exports = {
                                 getResolution(filepath)
                                     .then((size) => {
                                         resolution = size;
-                                        series_callback('');
+                                        videoHelper.getRotateMetadata(filepath, (err, rotate) => {
+                                            if (rotate == 90 || rotate == 270) {
+                                                resolution.width = size.height;
+                                                resolution.height = size.width;
+                                            }
+                                            series_callback(err);
+                                        });
                                     });
-                                series_callback(err);
                             });
                         } else {
                             series_callback(err);
@@ -268,7 +379,16 @@ module.exports = {
                     getResolution(filepath)
                         .then((size) => {
                             resolution = size;
-                            series_callback('');
+                            videoHelper.getRotateMetadata(filepath, (err, rotate) => {
+                                if (rotate == 90 || rotate == 270) {
+                                    resolution = {
+                                        width: size.height,
+                                        height: size.width
+                                    };
+                                }
+                                console.log(resolution);
+                                series_callback(err);
+                            });
                         });
                 }
             } else {
