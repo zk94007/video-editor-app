@@ -196,7 +196,7 @@ io.on('connection', function(socket) {
         helper.socket.authenticateMessage(socket, constant.method.getStaticOverlays, message, function (err, userInfo) {
             service.static_overlay.getStaticOverlays(userInfo, message, function (err, result) {
                 socket.emit(constant.method.getStaticOverlays + '_RESPONSE', result);
-                helper.log.system(JSON.stringify(result));
+                // helper.log.system(JSON.stringify(result));
             });
         });
     });
@@ -410,6 +410,16 @@ io.on('connection', function(socket) {
         helper.socket.authenticateMessage(socket, constant.method.updateFrame, message, function (err, userInfo) {
             service.frame.updateFrame(userInfo, message, function (err, result) {
                 socket.emit(constant.method.updateFrame + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
+    socket.on(constant.method.uploadSubtitles, function (message) {
+        helper.log.system('received upload subtitles message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.uploadSubtitles, message, function (err, userInfo) {
+            service.project.uploadSubtitles(userInfo, message, function (err, result) {
+                socket.emit(constant.method.uploadSubtitles + '_RESPONSE', result);
                 helper.log.system(JSON.stringify(result));
             });
         });

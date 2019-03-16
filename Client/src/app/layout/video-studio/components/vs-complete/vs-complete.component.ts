@@ -137,4 +137,8 @@ export class VsCompleteComponent implements OnInit, OnDestroy {
       $uns.unsubscribe();
     });
   }
+
+  onUploadSubtitles() {
+    this.vsService._uploadSubtitles([{t:'t'}]);
+  }
 }
