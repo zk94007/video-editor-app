@@ -13,6 +13,7 @@ export class LayoutComponent implements OnInit {
   public props = {
     isInVideoStudio: null,
     isInProject: null,
+    isInCaptionStudio: null,
     showGetStartedDialog: null,
     baseUrl: 'https://www.youtube.com/embed/',
     videoId: 'gwuKBkMcUuo',
@@ -25,6 +26,7 @@ export class LayoutComponent implements OnInit {
   constructor(private _router: Router, public userService: UserService, private sanitizer: DomSanitizer) {
     this.props.isInVideoStudio = _router.url.split('/')[1] === 'video-studio' ? true : false;
     this.props.isInProject = _router.url.split('/')[1] === 'project' ? true : false;
+    this.props.isInCaptionStudio = _router.url.split('/')[1] === 'caption-studio' ? true : false;
 
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.props.baseUrl + this.props.videoId);
 

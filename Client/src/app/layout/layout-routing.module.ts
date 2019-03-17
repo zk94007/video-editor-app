@@ -12,6 +12,7 @@ const routes: Routes = [
             { path: '', redirectTo: 'project'},
             { path: 'project', loadChildren: './project/project.module#ProjectModule' },
             { path: 'video-studio/:prj_id', loadChildren: './video-studio/video-studio.module#VideoStudioModule'},
+            { path: 'caption-studio/:prj_id', loadChildren: './caption-studio/caption-studio.module#CaptionStudioModule'},
             { path: 'settings', component: SettingsComponent},
             { path: 'user-management', component: UserManagementComponent}
         ]

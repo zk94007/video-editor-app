@@ -1,0 +1,42 @@
+<app-cs-sidebar>
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="embed-responsive-item">
+            <!-- <video #videoPlayer preload="none" controls poster="assets/images/big_buck_bunny.jpg">
+                <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" type="video/mp4">
+            </video> -->
+            <vg-player>
+                <vg-buffering></vg-buffering>
+                <video #myMedia
+                    [vgMedia]="myMedia"
+                    src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+                    type="video/mp4">
+                </video>
+            </vg-player>
+        </div>
+    </div>
+</app-cs-sidebar>
+<app-cs-content>
+    <div class="p-3">
+        <h5>Add Subtitles To Video</h5>
+        <div class="video-control">
+            <div class="video-control-button">
+                <button class="btn btn-pink px-4">
+                    <svg class="icon fill-pink-100" viewBox="0 0 24 24">
+                        <path d="M8,5.14V19.14L19,12.14L8,5.14Z" stroke="none" />
+                    </svg>
+                </button>
+                <button class="btn bg-gray-300">
+                    <svg class="icon fill-pink-100" viewBox="0 0 24 24">
+                        <path d="M12,5V1L7,6L12,11V7A6,6 0 0,1 18,13A6,6 0 0,1 12,19A6,6 0 0,1 6,13H4A8,8 0 0,0 12,21A8,8 0 0,0 20,13A8,8 0 0,0 12,5Z" stroke="none" />
+                    </svg>
+                </button>
+                <button class="btn bg-gray-300">-5s</button>
+                <button class="btn bg-gray-300">+5s</button>
+                <button class="btn bg-transparent">06:00 / 25:37</button>
+            </div>
+            <div class="video-control-slider">
+                <app-range-slider></app-range-slider>
+            </div>
+        </div>
+    </div>
+</app-cs-content>

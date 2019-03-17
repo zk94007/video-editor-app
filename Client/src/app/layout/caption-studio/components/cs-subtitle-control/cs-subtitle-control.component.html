@@ -1,0 +1,55 @@
+<div [formGroup]="group" *ngIf="group">
+    <div class="form-group">
+        <div class="d-flex align-items-center">
+            <input type="text" class="form-control" formControlName="text" placeholder="Click here to add subtitle">
+            <a href="javascript:;" class="btn btn-lg bg-transparent" (click)="remove(group.value)">
+                <svg class="icon icon-lg" viewBox="0 0 24 24">
+                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" stroke="none" />
+                </svg>
+            </a>
+        </div>
+    </div>
+    <div class="form-group">
+        <app-range-slider [start]="[0, 10000]" [rangeMax]="25370" (update)="updateTime($event)"></app-range-slider>
+    </div>
+    <div class="form-group mb-0">
+        <div class="row">
+            <div class="col-1">
+                <input type="text" class="form-control" formControlName="startTime">
+                <div class="form-text text-muted text-center">Start time</div>
+            </div>
+            <div class="col-1">
+                <input type="text" class="form-control" formControlName="endTime">
+                <div class="form-text text-muted text-center">End time</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!group">
+    <div class="form-group">
+        <div class="d-flex align-items-center">
+            <input type="text" class="form-control" placeholder="Click here to add subtitle">
+            <a href="javascript:;" class="btn btn-lg bg-transparent">
+                <svg class="icon icon-lg" viewBox="0 0 24 24">
+                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" stroke="none" />
+                </svg>
+            </a>
+        </div>
+    </div>
+    <div class="form-group">
+        <app-range-slider [start]="[0, 0]" [rangeMax]="100"></app-range-slider>
+    </div>
+    <div class="form-group mb-0">
+        <div class="row">
+            <div class="col-1">
+                <input type="text" class="form-control" value="00:00">
+                <div class="form-text text-muted text-center">Start time</div>
+            </div>
+            <div class="col-1">
+                <input type="text" class="form-control" value="00:00">
+                <div class="form-text text-muted text-center">End time</div>
+            </div>
+        </div>
+    </div>
+</div>

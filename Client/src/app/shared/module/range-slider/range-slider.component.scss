@@ -1,0 +1,234 @@
+// stylelint-disable
+@import "~nouislider/distribute/nouislider.css";
+
+$border-width:              1px;
+$border-color:              #eee;
+$slider-horizontal-height:  12px !default;
+$slider-vertical-width:     $slider-horizontal-height !default;
+
+app-range-slider {
+  display: block;
+}
+
+.noUi-target,
+.noUi-target * {
+  box-sizing: border-box;
+  touch-action: none;
+  user-select: none;
+}
+.noUi-target {
+  position: relative;
+  direction: ltr;
+}
+.noUi-base,
+.noUi-connects {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.noUi-connects {
+  z-index: 0;
+  overflow: hidden;
+}
+.noUi-connect,
+.noUi-origin {
+  will-change: transform;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+html:not([dir="rtl"]) .noUi-horizontal .noUi-origin {
+  right: 0;
+  left: auto;
+}
+
+.noUi-vertical .noUi-origin {
+  width: 0;
+}
+.noUi-horizontal .noUi-origin {
+  height: 0;
+}
+.noUi-handle {
+  position: absolute;
+}
+.noUi-state-tap .noUi-connect,
+.noUi-state-tap .noUi-origin {
+  transition: transform .3s;
+}
+.noUi-state-drag * {
+  cursor: inherit !important;
+}
+
+.noUi-horizontal {
+  height: $slider-horizontal-height;
+}
+.noUi-horizontal .noUi-handle {
+  top: ($slider-horizontal-height / -2) - $border-width;
+  left: -17px;
+  width: ($slider-horizontal-height * 2);
+  height: ($slider-horizontal-height * 2);
+}
+.noUi-vertical {
+  width: $slider-vertical-width;
+}
+.noUi-vertical .noUi-handle {
+  top: -17px;
+  left: -6px;
+  width: 28px;
+  height: 34px;
+}
+html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
+  right: -($slider-vertical-width - $border-width);
+  left: auto;
+}
+
+.noUi-target {
+  background-color: theme-color-level("gray", -12);
+  border: 1px solid $border-color;
+  border-radius: ($slider-horizontal-height / 2);
+}
+.noUi-connects {
+  border-radius: 3px;
+}
+.noUi-connect {
+  background: '#e84393';
+}
+
+.noUi-draggable {
+  cursor: ew-resize;
+}
+.noUi-vertical .noUi-draggable {
+  cursor: ns-resize;
+}
+.noUi-handle {
+  cursor: default;
+  background-color: '#b2bec3';
+  border: 1px solid transparent;
+  border-radius: $slider-horizontal-height;
+  box-shadow: none;
+}
+.noUi-active {
+  box-shadow: none;
+}
+
+.noUi-handle::before,
+.noUi-handle::after {
+  display: none;
+}
+
+[disabled] .noUi-connect {
+  background: #b8b8b8;
+}
+[disabled].noUi-target,
+[disabled].noUi-handle,
+[disabled] .noUi-handle {
+  cursor: not-allowed;
+}
+
+.noUi-pips,
+.noUi-pips * {
+  box-sizing: border-box;
+}
+.noUi-pips {
+  position: absolute;
+  color: #999;
+}
+
+.noUi-value {
+  position: absolute;
+  text-align: center;
+  white-space: nowrap;
+}
+.noUi-value-sub {
+  font-size: 10px;
+  color: #ccc;
+}
+
+.noUi-marker {
+  position: absolute;
+  background: #ccc;
+}
+.noUi-marker-sub {
+  background: #aaa;
+}
+.noUi-marker-large {
+  background: #aaa;
+}
+
+.noUi-pips-horizontal {
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  padding: 10px 0;
+}
+.noUi-value-horizontal {
+  transform: translate(-50%, 50%);
+}
+.noUi-rtl .noUi-value-horizontal {
+  transform: translate(50%, 50%);
+}
+.noUi-marker-horizontal.noUi-marker {
+  width: 2px;
+  height: 5px;
+  margin-left: -1px;
+}
+.noUi-marker-horizontal.noUi-marker-sub {
+  height: 10px;
+}
+.noUi-marker-horizontal.noUi-marker-large {
+  height: 15px;
+}
+
+.noUi-pips-vertical {
+  top: 0;
+  left: 100%;
+  height: 100%;
+  padding: 0 10px;
+}
+.noUi-value-vertical {
+  padding-left: 25px;
+  transform: translate(0, -50%, 0);
+}
+.noUi-rtl .noUi-value-vertical {
+  transform: translate(0, 50%);
+}
+.noUi-marker-vertical.noUi-marker {
+  width: 5px;
+  height: 2px;
+  margin-top: -1px;
+}
+.noUi-marker-vertical.noUi-marker-sub {
+  width: 10px;
+}
+.noUi-marker-vertical.noUi-marker-large {
+  width: 15px;
+}
+.noUi-tooltip {
+  position: absolute;
+  display: block;
+  padding: 5px;
+  color: #000;
+  text-align: center;
+  white-space: nowrap;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+}
+.noUi-horizontal .noUi-tooltip {
+  bottom: 120%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.noUi-vertical .noUi-tooltip {
+  top: 50%;
+  right: 120%;
+  transform: translate(0, -50%);
+}

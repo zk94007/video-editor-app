@@ -1,4 +1,4 @@
-<div *ngIf="!props.isInVideoStudio">
+<div *ngIf="!props.isInVideoStudio && !props.isInCaptionStudio">
   <div id="wrapper" ngClass="{'open': toggle, 'toggled-2': !toggle, 'bared': isBared}" ngCloak>
     <app-sidebar></app-sidebar>
     <div id="content-wrapper">
@@ -9,23 +9,26 @@
     </div>
   </div>
 </div>
-<router-outlet *ngIf = "props.isInVideoStudio"></router-outlet>
+<router-outlet *ngIf="props.isInVideoStudio || props.isInCaptionStudio"></router-outlet>
 <div class="backdrop" [hidden]="!props.showGetStartedDialog"></div>
-  <div class="modal" tabindex="-1" role="dialog" [hidden]="!props.showGetStartedDialog" style="display: block">
-    <div class="modal-dialog" style="max-width: 716px" [ngStyle]="{'width': (props.videoWidth + 16) + 'px'}">
-        <div class="modal-content">
-            <div class="modal-body">
-                <span class="btn-close" (click)="closeVideoModal()" role="button" tabindex="0"></span>
-                <h3 class="modal-title">How to get started!</h3>
-                <h6>Quick guide to creating amazing videos on Blurbiz</h6>
-            </div>
-            <iframe *ngIf="props.showGetStartedDialog" class="yt-video" [width]="props.videoWidth" height="315" [src]="url" frameborder="0" allowfullscreen style="padding-left: 16px"></iframe>
-            <div class="modal-footer" style="justify-content: space-between">
-              <label style="text-align: center">
-                <input type="checkbox" [ngModel]="props.dontShowAgain" (ngModelChange)="onDontShowAgain($event)"/>&nbsp;&nbsp;Do not show this video again
-              </label>
-              <button class="btn btn-custom btn-green btn-md" (click)="okayIgotIt()" style="float: right">Okay, I got it!</button>
-            </div>
-        </div>
+<div class="modal" tabindex="-1" role="dialog" [hidden]="!props.showGetStartedDialog" style="display: block">
+  <div class="modal-dialog" style="max-width: 716px" [ngStyle]="{'width': (props.videoWidth + 16) + 'px'}">
+    <div class="modal-content">
+      <div class="modal-body">
+        <span class="btn-close" (click)="closeVideoModal()" role="button" tabindex="0"></span>
+        <h3 class="modal-title">How to get started!</h3>
+        <h6>Quick guide to creating amazing videos on Blurbiz</h6>
+      </div>
+      <iframe *ngIf="props.showGetStartedDialog" class="yt-video" [width]="props.videoWidth" height="315" [src]="url"
+        frameborder="0" allowfullscreen style="padding-left: 16px"></iframe>
+      <div class="modal-footer" style="justify-content: space-between">
+        <label style="text-align: center">
+          <input type="checkbox" [ngModel]="props.dontShowAgain"
+            (ngModelChange)="onDontShowAgain($event)" />&nbsp;&nbsp;Do not show this video again
+        </label>
+        <button class="btn btn-custom btn-green btn-md" (click)="okayIgotIt()" style="float: right">Okay, I got
+          it!</button>
+      </div>
     </div>
+  </div>
 </div>
