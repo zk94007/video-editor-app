@@ -1,5 +1,10 @@
+@import "../../../../../styles/bootstrap/functions";
+@import "../../../../../styles/bootstrap/variables";
+@import "../../../../../styles/bootstrap/mixins";
+
 :host {
     display: flex;
     flex-direction: column;
     flex: 1;
+    // background-color: #fff;
 }

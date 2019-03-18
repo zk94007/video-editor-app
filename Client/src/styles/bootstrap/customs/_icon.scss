@@ -1,0 +1,33 @@
+//
+// Base style
+
+.icon {
+  display: inline-block;
+  width: ($font-size-base * $input-btn-line-height);
+  height: ($font-size-base * $input-btn-line-height);
+  font-style: normal;
+  vertical-align: top;
+  pointer-events: none;
+  fill: currentColor;
+  stroke: inherit;
+
+  > svg {
+    width: inherit;
+    height: inherit;
+    vertical-align: top;
+  }
+}
+
+
+//
+// Icon size
+
+.icon-sm {
+  width: ($font-size-sm * $input-btn-line-height-sm);
+  height: ($font-size-sm * $input-btn-line-height-sm);
+}
+
+.icon-lg {
+  width: ($font-size-lg * $input-btn-line-height-lg);
+  height: ($font-size-lg * $input-btn-line-height-lg);
+}

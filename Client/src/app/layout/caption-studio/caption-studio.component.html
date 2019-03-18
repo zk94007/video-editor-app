@@ -1,41 +1,100 @@
 <app-cs-sidebar>
-    <div class="embed-responsive embed-responsive-16by9">
-        <div class="embed-responsive-item">
-            <!-- <video #videoPlayer preload="none" controls poster="assets/images/big_buck_bunny.jpg">
-                <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" type="video/mp4">
-            </video> -->
-            <vg-player>
-                <vg-buffering></vg-buffering>
-                <video #myMedia
-                    [vgMedia]="myMedia"
-                    src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
-                    type="video/mp4">
-                </video>
-            </vg-player>
+    <div class="p-3">
+        <div class="overlay active mb-0">
+            <div class="embed-responsive embed-responsive-16by9">
+                <div class="embed-responsive-item">
+                    <app-cs-video-player [sources]="props.video.sources" #videoPlayer></app-cs-video-player>
+                </div>
+            </div>
+            <div class="overlay-modal align-items-end bg-transparent py-4">
+                <div class="video-subtitle">
+                    <ng-container *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
+                        <h6 class="mb-0 text-white" *ngIf="videoPlayer?.api?.currentTime >= subtitle.value.duration[0] && videoPlayer?.api?.currentTime <= subtitle.value.duration[1]">{{ subtitle.value.text }}</h6>
+                    </ng-container>
+                </div>
+            </div>
         </div>
     </div>
+    <app-cs-subtitle-toolbar></app-cs-subtitle-toolbar>
 </app-cs-sidebar>
 <app-cs-content>
-    <div class="p-3">
-        <h5>Add Subtitles To Video</h5>
-        <div class="video-control">
-            <div class="video-control-button">
-                <button class="btn btn-pink px-4">
-                    <svg class="icon fill-pink-100" viewBox="0 0 24 24">
-                        <path d="M8,5.14V19.14L19,12.14L8,5.14Z" stroke="none" />
-                    </svg>
-                </button>
-                <button class="btn bg-gray-300">
-                    <svg class="icon fill-pink-100" viewBox="0 0 24 24">
-                        <path d="M12,5V1L7,6L12,11V7A6,6 0 0,1 18,13A6,6 0 0,1 12,19A6,6 0 0,1 6,13H4A8,8 0 0,0 12,21A8,8 0 0,0 20,13A8,8 0 0,0 12,5Z" stroke="none" />
-                    </svg>
-                </button>
-                <button class="btn bg-gray-300">-5s</button>
-                <button class="btn bg-gray-300">+5s</button>
-                <button class="btn bg-transparent">06:00 / 25:37</button>
+    <div class="flex-grow-0 p-4 border-bottom bg-white">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <h5 class="mb-2">Add Subtitles To Video</h5>
+                <p class="text-muted">Type and time your subtitles. Click each timestamp to use the ↑ ↓ or ← → arrow keys to make finer adjustments.</p>
             </div>
-            <div class="video-control-slider">
-                <app-range-slider></app-range-slider>
+            <div>
+                <button class="btn btn-orange mr-3">
+                    <span class="d-flex align-items-center">
+                        <svg class="icon mr-2" viewBox="0 0 24 24">
+                            <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                        </svg>
+                        <span>Edit Video</span>
+                    </span>
+                </button>
+                <button class="btn btn-success">
+                    <span class="d-flex align-items-center">
+                        <svg class="icon mr-2" viewBox="0 0 24 24">
+                            <path d="M0.41,13.41L6,19L7.41,17.58L1.83,12M22.24,5.58L11.66,16.17L7.5,12L6.07,13.41L11.66,19L23.66,7M18,7L16.59,5.58L10.24,11.93L11.66,13.34L18,7Z" />
+                        </svg>
+                        <span>Complete</span>
+                    </span>
+                </button>
+                <button class="btn btn-link text-muted">
+                    <svg class="icon mr-2" viewBox="0 0 24 24">
+                        <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-pink px-4" *ngIf="videoPlayer?.api?.state !== 'playing'" (click)="videoPlayer.play()">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M8,5.14V19.14L19,12.14L8,5.14Z" stroke="none" />
+                </svg>
+            </button>
+            <button class="btn btn-pink px-4" *ngIf="videoPlayer?.api?.state === 'playing'" (click)="videoPlayer.pause()">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M14,19H18V5H14M6,19H10V5H6V19Z" stroke="none" />
+                </svg>
+            </button>
+            <button class="btn btn-secondary" (click)="restartPlay()">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12,5V1L7,6L12,11V7A6,6 0 0,1 18,13A6,6 0 0,1 12,19A6,6 0 0,1 6,13H4A8,8 0 0,0 12,21A8,8 0 0,0 20,13A8,8 0 0,0 12,5Z" stroke="none" />
+                </svg>
+            </button>
+            <button class="btn btn-secondary">-5s</button>
+            <button class="btn btn-secondary">+5s</button>
+            <button class="btn bg-transparent">{{ videoPlayer?.api?.currentTime }} / {{ videoPlayer?.api?.duration }}</button>
+        </div>
+
+        <ng-container *ngIf="videoPlayer?.api?.duration">
+            <app-range-slider [(ngModel)]="props.video.initialTime" [min]="0" [max]="videoPlayer?.api?.duration" [step]="0.1" [keyboard]="true" #videoSlider (ngModelChange)="seekTime($event)"></app-range-slider>
+        </ng-container>
+    </div>
+    <div class="scrollable scrollable-y">
+        <div class="scrollable-main">
+            <div class="scrollable-content p-4">
+                <form novalidate [formGroup]="formSubtitle">
+                    <div formArrayName="subtitles">
+                        <div class="mb-4" *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
+                            <app-cs-subtitle-control [group]="formSubtitle['controls'].subtitles['controls'][index]"></app-cs-subtitle-control>
+                        </div>
+                    </div>
+
+                    <div class="overlay active mb-0">
+                        <div class="py-4">
+                            <ng-container *ngIf="videoPlayer?.api?.duration">
+                                <app-cs-subtitle-control></app-cs-subtitle-control>
+                            </ng-container>
+                        </div>
+                        <div class="overlay-modal flex-column align-items-center justify-content-center bgcolor-fade-2x">
+                            <a href="javascript:;" class="btn btn-success" (click)="addSubtitle(0, videoPlayer?.api?.duration)">Add Another Subtitle</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,0 +1,34 @@
+.scrollable {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.scrollable-main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  .scrollable-y & {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .scrollable-x & {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .scrollable-xy & {
+    overflow: auto;
+  }
+}
+
+.scrollable-content {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}

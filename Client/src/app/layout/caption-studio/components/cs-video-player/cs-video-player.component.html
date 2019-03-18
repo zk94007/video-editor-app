@@ -1,0 +1,6 @@
+<vg-player (onPlayerReady)="videoReady($event)">
+    <vg-buffering></vg-buffering>
+    <video id="video-caption" #videoMedia [vgMedia]="videoMedia" preload="auto">
+        <source *ngFor="let source of sources" [src]="source.url" [type]="source.type">
+    </video>
+</vg-player>

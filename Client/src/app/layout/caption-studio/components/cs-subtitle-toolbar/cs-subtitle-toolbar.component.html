@@ -1,0 +1,150 @@
+<form [formGroup]="formToolbar">
+    <div class="d-flex justify-content-between align-content-center bg-white text-body p-2">
+        <div class="flex-fill text-center">
+            <div ngbDropdown class="d-inline-block mr-3">
+                <button class="btn btn-link text-body px-0" ngbDropdownToggle>{{ props.font.family }}</button>
+                <div ngbDropdownMenu class="mt-2 dropdown-scrollable">
+                    <a class="dropdown-item" href="#" ngbDropdownItem *ngFor="let fontFamily of fontFamilies">{{ fontFamily }}</a>
+                </div>
+            </div>
+            <div ngbDropdown class="d-inline-block mr-3">
+                <button class="btn btn-link text-body px-0" ngbDropdownToggle>{{ props.font.size }}</button>
+                <div ngbDropdownMenu class="mt-2 dropdown-scrollable">
+                    <a class="dropdown-item" href="#" ngbDropdownItem *ngFor="let fontSize of fontSizes">{{ fontSize }}</a>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-icon p-0" [style.width]="'24px'" [style.height]="'24px'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        </div>
+
+        <div class="flex-fill text-center border-right">
+            <button class="btn btn-link text-body btn-icon mr-2">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M13.5,15.5H10V12.5H13.5A1.5,1.5 0 0,1 15,14A1.5,1.5 0 0,1 13.5,15.5M10,6.5H13A1.5,1.5 0 0,1 14.5,8A1.5,1.5 0 0,1 13,9.5H10M15.6,10.79C16.57,10.11 17.25,9 17.25,8C17.25,5.74 15.5,4 13.25,4H7V18H14.04C16.14,18 17.75,16.3 17.75,14.21C17.75,12.69 16.89,11.39 15.6,10.79Z" />
+                </svg>
+            </button>
+            <button class="btn btn-link text-body btn-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M10,4V7H12.21L8.79,15H6V18H14V15H11.79L15.21,7H18V4H10ZZ" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex-fill text-center">
+            <button class="btn btn-link text-body btn-icon mr-2">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" />
+                </svg>
+            </button>
+            <button class="btn btn-link text-body btn-icon mr-2">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M3,3H21V5H3V3M7,7H17V9H7V7M3,11H21V13H3V11M7,15H17V17H7V15M3,19H21V21H3V19Z" />
+                </svg>
+            </button>
+            <button class="btn btn-link text-body btn-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="p-3">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="mb-2">Caption Options</p>
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-column align-items-center justify-content-center mr-2">
+                        <button class="btn btn-secondary btn-icon mb-1" title="None">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z" />
+                            </svg>
+                        </button>
+                        <small>None</small>
+                    </div>
+                    <div class="d-flex flex-column align-items-center justify-content-center mr-2">
+                        <button class="btn btn-secondary btn-icon mb-1" title="Outline">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M20.06,18C20,17.83 19.91,17.54 19.86,17.11C19.19,17.81 18.38,18.16 17.45,18.16C16.62,18.16 15.93,17.92 15.4,17.45C14.87,17 14.6,16.39 14.6,15.66C14.6,14.78 14.93,14.1 15.6,13.61C16.27,13.12 17.21,12.88 18.43,12.88H19.83V12.24C19.83,11.75 19.68,11.36 19.38,11.07C19.08,10.78 18.63,10.64 18.05,10.64C17.53,10.64 17.1,10.76 16.75,11C16.4,11.25 16.23,11.54 16.23,11.89H14.77C14.77,11.46 14.92,11.05 15.22,10.65C15.5,10.25 15.93,9.94 16.44,9.71C16.95,9.5 17.5,9.36 18.13,9.36C19.11,9.36 19.87,9.6 20.42,10.09C20.97,10.58 21.26,11.25 21.28,12.11V16C21.28,16.8 21.38,17.42 21.58,17.88V18H20.06M17.66,16.88C18.11,16.88 18.54,16.77 18.95,16.56C19.35,16.35 19.65,16.07 19.83,15.73V14.16H18.7C16.93,14.16 16.04,14.63 16.04,15.57C16.04,16 16.19,16.3 16.5,16.53C16.8,16.76 17.18,16.88 17.66,16.88M5.46,13.71H9.53L7.5,8.29L5.46,13.71M6.64,6H8.36L13.07,18H11.14L10.17,15.43H4.82L3.86,18H1.93L6.64,6M2,20H13V22H2V20Z" />
+                            </svg>
+                        </button>
+                        <small>Outline</small>
+                    </div>
+                    <div class="d-flex flex-column align-items-center justify-content-center mr-2">
+                        <button class="btn btn-secondary btn-icon mb-1" title="H.light">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M5,21H19V19H5V21M12,17A6,6 0 0,0 18,11V3H15.5V11A3.5,3.5 0 0,1 12,14.5A3.5,3.5 0 0,1 8.5,11V3H6V11A6,6 0 0,0 12,17Z" />
+                            </svg>
+                        </button>
+                        <small>H.light</small>
+                    </div>
+                    <div class="d-flex flex-column align-items-center justify-content-center mr-2">
+                        <button class="btn btn-secondary btn-icon mb-1" title="Full">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M18,4V3A1,1 0 0,0 17,2H5A1,1 0 0,0 4,3V7A1,1 0 0,0 5,8H17A1,1 0 0,0 18,7V6H19V10H9V21A1,1 0 0,0 10,22H12A1,1 0 0,0 13,21V12H21V4H18Z" />
+                            </svg>
+                        </button>
+                        <small>Full</small>
+                    </div>
+                    <div class="d-flex flex-column align-items-center justify-content-center mr-2">
+                        <button class="btn bg-white btn-icon mb-1" title="Color">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        <small>Color</small>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p class="mb-2">Align All</p>
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-column align-items-center justify-content-center mr-2">
+                        <button class="btn btn-secondary btn-icon mb-1" title="Bottom">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M13,9L15.5,6.5L16.92,7.92L12,12.84L7.08,7.92L8.5,6.5L11,9V3H13V9M3,15H21V17H3V15M3,19H13V21H3V19Z" />
+                            </svg>
+                        </button>
+                        <small>Bottom</small>
+                    </div>
+                    <div class="d-flex flex-column align-items-center justify-content-center mr-2">
+                        <button class="btn btn-secondary btn-icon mb-1" title="Middle">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M13,6L15,4L16.42,5.42L12,9.84L7.58,5.42L9,4L11,6V2H13V6M3,11H21V13H3V11M13,18V22H11V18L9,20L7.58,18.58L12,14.16L16.42,18.58L15,20L13,18Z" />
+                            </svg>
+                        </button>
+                        <small>Middle</small>
+                    </div>
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                        <button class="btn btn-secondary btn-icon mb-1" title="Top">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M13,15L15.5,17.5L16.92,16.08L12,11.16L7.08,16.08L8.5,17.5L11,15V21H13V15M3,3H21V5H3V3M3,7H13V9H3V7Z" />
+                            </svg>
+                        </button>
+                        <small>Top</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-3">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="mb-2">Video Size</p>
+                <div>
+                    <button class="btn btn-outline-secondary mr-2">9:16</button>
+                    <button class="btn btn-outline-secondary mr-2">1:1</button>
+                    <button class="btn btn-outline-success">16:9</button>
+                </div>
+            </div>
+            <div>
+                <p class="mb-2">Background</p>
+                <div>
+                    <button class="btn btn-outline-secondary btn-icon btn-circle mr-2">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </svg>
+                    </button>
+                    <button class="btn btn-primary btn-icon btn-circle mr-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button class="btn btn-success btn-icon btn-circle mr-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button class="btn btn-warning btn-icon btn-circle mr-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button class="btn btn-danger btn-icon btn-circle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,7 +1,1 @@
-@mixin clearfix() {
-  &::after {
-    display: block;
-    clear: both;
-    content: "";
-  }
-}
+@import "~bootstrap-scss/mixins/clearfix";

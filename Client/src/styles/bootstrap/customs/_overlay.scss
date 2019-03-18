@@ -1,0 +1,59 @@
+//
+// Overlay
+//
+
+
+//
+// Base class
+
+.overlay {
+  position: relative;
+  display: block;
+  margin-bottom: $spacer;
+
+  // Panel inside overlay
+  .card,
+  .card & {
+    margin-bottom: 0;
+  }
+
+  &.active,
+  &:hover {
+    .overlay-modal {
+      opacity: 1;
+      transition: ease 300ms opacity;
+    }
+  }
+}
+
+
+//
+// Overlay body
+
+.overlay-body {
+  padding: $spacer;
+}
+
+
+//
+// Overlay modal
+
+.overlay-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  display: flex;
+  // display: none;
+  width: 100%;
+  height: 100%;
+  padding: $spacer;
+  // color: text-color-base(#fff);
+  background-color: rgba(theme-color("primary"), .85);
+  border-radius: inherit;
+  opacity: 0;
+
+  &.bgcolor-fade-2x {
+    background-color: rgba(#fff, .65);
+  }
+}

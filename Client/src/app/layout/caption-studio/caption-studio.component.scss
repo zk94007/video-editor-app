@@ -1,5 +1,17 @@
+@import "../../../styles/bootstrap/functions";
+@import "../../../styles/bootstrap/variables";
+@import "../../../styles/bootstrap/mixins";
+
 :host {
     display: flex;
     flex: 1;
-    height: 100vh;
+    min-height: 100vh;
+
+    .scrollable {
+        .overlay {
+            overflow: hidden;
+            border-radius: $border-radius;
+            border: $border-width dashed $border-color;
+        }
+    }
 }

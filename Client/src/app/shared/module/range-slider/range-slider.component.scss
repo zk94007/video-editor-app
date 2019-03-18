@@ -1,13 +1,17 @@
 // stylelint-disable
 @import "~nouislider/distribute/nouislider.css";
 
-$border-width:              1px;
-$border-color:              #eee;
+@import "../../../../styles/bootstrap/functions";
+@import "../../../../styles/bootstrap/variables";
+@import "../../../../styles/bootstrap/mixins";
+
 $slider-horizontal-height:  12px !default;
 $slider-vertical-width:     $slider-horizontal-height !default;
 
+
 app-range-slider {
   display: block;
+  // margin: 0 12px;
 }
 
 .noUi-target,
@@ -90,15 +94,16 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .noUi-target {
-  background-color: theme-color-level("gray", -12);
+  // background-color: theme-color-level("gray", -12);
   border: 1px solid $border-color;
   border-radius: ($slider-horizontal-height / 2);
+  box-shadow: none;
 }
 .noUi-connects {
   border-radius: 3px;
 }
 .noUi-connect {
-  background: '#e84393';
+  background: theme-color("pink");
 }
 
 .noUi-draggable {
@@ -109,7 +114,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 .noUi-handle {
   cursor: default;
-  background-color: '#b2bec3';
+  background-color: theme-color-level("dark", -8);
   border: 1px solid transparent;
   border-radius: $slider-horizontal-height;
   box-shadow: none;
