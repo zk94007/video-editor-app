@@ -63,6 +63,9 @@ export class VideoStudioService {
   @Output() onConcatenateProgress = new EventEmitter();
   @Output() onConcatenate = new EventEmitter();
 
+  @Output() onUploadSubtitlesProgress = new EventEmitter();
+  @Output() onUploadSubtitlesResponse = new EventEmitter();
+
   @Output() onUpdateCanvas = new EventEmitter();
 
   //@Kostya
@@ -118,6 +121,14 @@ export class VideoStudioService {
     {
       name: 'GET_STATIC_OVERLAYS_RESPONSE',
       function: this._getStaticOverlaysResponse,
+    },
+    {
+      name: 'UPLOAD_SUBTITLES_PROGRESS',
+      function: this._uploadSubtitlesProgress
+    },
+    {
+      name: 'UPLOAD_SUBTITLES_RESPONSE',
+      function: this._uploadSubtitlesResponse
     }
   ];
 
@@ -285,6 +296,8 @@ export class VideoStudioService {
       this.onStartFrameReposition.emit(frame.toJSON());
     }
   }
+  
+  
 
   _updateFrameReposition(reposition) {
     const frame = this.project.getFrame(this.selected_frm_id);
@@ -595,6 +608,20 @@ export class VideoStudioService {
       result.overlay = overlay.toJSON();
       $this.onCopyOverlay.emit(result);
     }
+  }
+
+  _uploadSubtitles(subtitles) {
+    if (this.project) {
+      this.socket.sendMessageWithToken('UPLOAD_SUBTITLES', {prj_id: this.project.prj_id, subtitles: subtitles});
+    }
+  }
+
+  _uploadSubtitlesProgress(response) {
+    $this.onUploadSubtitlesProgress.emit(response);
+  }
+
+  _uploadSubtitlesResponse(response) {
+    $this.onUploadSubtitlesResponse.emit(response);
   }
 
   _startConcatenate(complete) {

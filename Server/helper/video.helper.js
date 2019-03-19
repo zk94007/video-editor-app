@@ -49,6 +49,39 @@ module.exports = {
 
     /**
      * 
+     * @param {*} stlPath 
+     * @param {*} stlX 
+     * @param {*} stlY 
+     * @param {*} stlWidth 
+     * @param {*} stlHeight 
+     * @param {*} stlAngle 
+     * @param {*} videoPath 
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} callback 
+     */
+    uploadSubtitle2Video(stlPath, stlX, stlY, stlWidth, stlHeight, stlAngle, videoPath, startTime, endTime, callback){
+        if (stlPath == undefined || videoPath == undefined) {
+            responseHelper.onError('error: uploadSubtitle2Video', callback);
+            return;
+        }
+
+        let filterString = "[1:v] scale=-2:" + stlHeight +"[logo]; [logo]format=rgba,colorchannelmixer=aa=1[fg]; [fg]rotate="+stlAngle+"*PI/180:c=none:ow=rotw("+stlAngle+"*PI/180):oh=roth("+-stlAngle+"*PI/180)[rot]; [0:v][rot] overlay="+stlX+":"+stlY+":enable='between(t," + startTime + "," + endTime + ")'[out]";
+
+        let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
+
+        shell.exec('ffmpeg -loglevel quiet -i ' + videoPath + ' ' + forGif1 + ' -i ' + ovlPath + ' -filter_complex "' + filterString + '" -map "[out]" -map 0:a? -c:v libx264 -c:a? copy ' + newFilePath, (code) => {
+            if (code != 0) {
+                responseHelper.onError('error: mergeOverlay2Video' + code, callback);
+                return;
+            }
+            
+            responseHelper.onSuccess(callback, newFilePath);
+        });
+    },
+
+    /**
+     * 
      * @param {*} ovlPath 
      * @param {*} ovlX 
      * @param {*} ovlY 
