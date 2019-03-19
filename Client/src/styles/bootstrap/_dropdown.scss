@@ -6,5 +6,8 @@
 }
 
 .dropdown-toggle::after {
-    transform: translateY(2px);
+    transform: translateY(1px);
+}
+.dropdown-toggle-hidden::after {
+    display: none;
 }

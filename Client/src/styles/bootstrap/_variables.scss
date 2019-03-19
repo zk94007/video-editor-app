@@ -234,7 +234,7 @@ $line-height-lg:              1.5;
 $line-height-sm:              1.5;
 
 $border-width:                1px;
-$border-color:                $gray-300;
+$border-color:                rgba(0, 0, 0, 0.15);
 
 $border-radius:               .25rem;
 $border-radius-lg:            .3rem;
@@ -263,6 +263,7 @@ $embed-responsive-aspect-ratios: join(
   (
     (21 9),
     (16 9),
+    (9 16),
     (4 3),
     (1 1),
   ),

@@ -6,9 +6,10 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 
-import '@jaames/iro';
-import { MyColorpicker } from './colorpicker';
+import iro from '@jaames/iro';
+import * as iroTransparencyPlugin from 'iro-transparency-plugin';
 import * as $ from 'jquery';
+import { MyColorpicker } from './colorpicker';
 
 @Component({
   selector: 'app-vs-toolbar',
@@ -51,7 +52,7 @@ export class VsToolbarComponent implements OnInit, OnDestroy {
 
   public fakelineHeight: number;
 
-  public colorPicker: MyColorpicker;
+  public colorPicker: iro;
   public colorPickerColor: string;
   public isChangeColorInput: boolean;
 
@@ -69,7 +70,7 @@ export class VsToolbarComponent implements OnInit, OnDestroy {
 
   constructor(private service: FontPickerService, private cdRef: ChangeDetectorRef, private vsService: VideoStudioService) {
     // Perfect Scrollbar config
-    this.colorPicker = new MyColorpicker('.my-colorpicker');
+    iro.use(iroTransparencyPlugin);
 
     this.scrollbarConfig = {
       wheelSpeed: 0.5,
@@ -79,6 +80,7 @@ export class VsToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.colorPicker = new MyColorpicker('.my-colorpicker');
 
     this.$uns.push(this.vsService.onSelectOverlay.subscribe((selectedObject) => {
 

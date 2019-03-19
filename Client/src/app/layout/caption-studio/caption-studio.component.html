@@ -1,21 +1,23 @@
 <app-cs-sidebar>
     <div class="p-3">
         <div class="overlay active mb-0">
-            <div class="embed-responsive embed-responsive-16by9">
+            <div class="embed-responsive" #videoWrapper>
                 <div class="embed-responsive-item">
                     <app-cs-video-player [sources]="props.video.sources" #videoPlayer></app-cs-video-player>
                 </div>
             </div>
-            <div class="overlay-modal align-items-end bg-transparent py-4">
-                <div class="video-subtitle">
-                    <ng-container *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
-                        <h6 class="mb-0 text-white" *ngIf="videoPlayer?.api?.currentTime >= subtitle.value.duration[0] && videoPlayer?.api?.currentTime <= subtitle.value.duration[1]">{{ subtitle.value.text }}</h6>
-                    </ng-container>
+            <div class="overlay-modal bg-transparent p-0">
+                <div class="w-100" #subtitle>
+                    <div class="d-inline-block px-1">
+                        <ng-container *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
+                            <span *ngIf="videoPlayer?.api?.currentTime >= subtitle.value.duration[0] && videoPlayer?.api?.currentTime <= subtitle.value.duration[1]">{{ subtitle.value.text }}</span>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <app-cs-subtitle-toolbar></app-cs-subtitle-toolbar>
+    <app-cs-subtitle-toolbar (change)="updateStyle($event, subtitle, videoWrapper)"></app-cs-subtitle-toolbar>
 </app-cs-sidebar>
 <app-cs-content>
     <div class="flex-grow-0 p-4 border-bottom bg-white">
@@ -67,7 +69,7 @@
             </button>
             <button class="btn btn-secondary">-5s</button>
             <button class="btn btn-secondary">+5s</button>
-            <button class="btn bg-transparent">{{ videoPlayer?.api?.currentTime }} / {{ videoPlayer?.api?.duration }}</button>
+            <button class="btn bg-transparent">{{ toDuration(videoPlayer?.api?.currentTime) }} / {{ toDuration(videoPlayer?.api?.duration) }}</button>
         </div>
 
         <ng-container *ngIf="videoPlayer?.api?.duration">

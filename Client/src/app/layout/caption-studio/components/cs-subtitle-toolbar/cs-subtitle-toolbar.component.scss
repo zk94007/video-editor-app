@@ -1,0 +1,58 @@
+@import "../../../../../styles/bootstrap/functions";
+@import "../../../../../styles/bootstrap/variables";
+@import "../../../../../styles/bootstrap/mixins";
+
+:host {
+    .btn-secondary {
+        @include button-variant(#1b2126, #1b2126);
+
+        &.active {
+            @include button-variant($pink, $pink);
+        }
+    }
+
+    .btn-ratio {
+        @include button-outline-variant(#f3f5f7, #f3f5f7);
+        border-style: dashed;
+        font-size: 80%;
+        min-height: 38px;
+
+        &.btn-ratio-9by16 {
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        &.btn-ratio-1by1 {
+            padding-left: 10.5px;
+            padding-right: 10.5px;
+        }
+
+        &.btn-ratio-16by9 {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        &.active,
+        &.active:hover {
+            @include button-outline-variant($pink, $pink);
+            color: color-yiq($pink) !important;
+            background-color: $pink !important;
+        }
+
+        &:hover {
+            @include button-outline-variant($pink, $pink);
+            background-color: transparent !important;
+        }
+    }
+
+    .scenebar-menu {
+        list-style: none;
+        transition: margin 0.5s ease;
+        text-align: center;
+        margin: 1px;
+
+        li {
+            float: left;
+        }
+    }
+}

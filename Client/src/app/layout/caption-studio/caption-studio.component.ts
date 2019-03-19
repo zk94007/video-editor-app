@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
 import * as moment from 'moment';
@@ -18,14 +18,15 @@ export class CaptionStudioComponent implements OnInit {
     public props = {
         video: {
             sources: [{
-                url: 'https://assets.mixkit.co/videos/309/309-720.mp4',
+                url: 'https://assets.mixkit.co/videos/99541/99541-720.mp4',
                 type: 'video/mp4'
             }],
             duration: null,
             state: null,
             currentTime: null,
             initialTime: 0
-        }
+        },
+        subtitle: {}
     };
 
     @ViewChild('videoPlayer') public videoPlayer: CsVideoPlayerComponent;
@@ -62,7 +63,7 @@ export class CaptionStudioComponent implements OnInit {
     public addSubtitle(start = 0, end = 60) {
         const control = <FormArray>this.formSubtitle.controls['subtitles'];
         const addrCtrl = this.formBuilder.group({
-            text: null,
+            text: 'test caption',
             duration: [[start, end]]
         });
 
@@ -76,5 +77,48 @@ export class CaptionStudioComponent implements OnInit {
     public seekTime(time) {
         console.log(time);
         // this.videoPlayer.api.seekTime(time);
+    }
+
+    public updateStyle(event, subtitle: HTMLElement, videoWrapper: HTMLElement) {
+        const subtitleChild: any = subtitle.children[0];
+
+        subtitle.style.fontFamily = event.font.family;
+        subtitle.style.fontSize = `${event.font.size}px`;
+        subtitle.style.fontWeight = event.font.weight;
+        subtitle.style.fontStyle = event.font.style;
+        subtitle.style.color = event.font.color;
+        subtitle.style.textAlign = event.font.align;
+        subtitle.style.alignSelf = event.caption.align;
+        subtitle.style.padding = '10px';
+
+        if (subtitle && subtitleChild) {
+            subtitle.style.backgroundColor = null;
+            subtitle.style.textShadow = null;
+            subtitleChild.style.backgroundColor = null;
+        }
+
+        if (videoWrapper) {
+            videoWrapper.classList.remove(`embed-responsive-1by1`);
+            videoWrapper.classList.remove(`embed-responsive-16by9`);
+            videoWrapper.classList.remove(`embed-responsive-9by16`);
+            videoWrapper.classList.add(`embed-responsive-${event.video.ratio}`);
+            videoWrapper.style.backgroundColor = event.video.color.hex;
+        }
+
+        switch (event.caption.type) {
+            case 'none':
+                break;
+            case 'outline':
+                subtitle.style.textShadow = `-1px -1px 0px ${event.caption.color.hex}, 1px -1px 0px ${event.caption.color.hex}, -1px 1px 0px ${event.caption.color.hex}, 1px 1px 0px ${event.caption.color.hex}`;
+                break;
+            case 'highlight':
+                subtitleChild.style.backgroundColor = event.caption.color.rgba;
+                break;
+            case 'full':
+                subtitle.style.backgroundColor = event.caption.color.rgba;
+                break;
+            default:
+                break;
+        }
     }
 }

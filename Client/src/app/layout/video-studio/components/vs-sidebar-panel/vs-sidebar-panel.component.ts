@@ -13,9 +13,12 @@ import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } fro
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 import { Masonry, MasonryGridItem } from 'ng-masonry-grid';
 import * as path from 'path';
-import '@jaames/iro';
 import { MyColorpicker } from '../vs-toolbar/colorpicker';
 import { FormControl } from '@angular/forms';
+
+import iro from '@jaames/iro';
+import * as iroTransparencyPlugin from 'iro-transparency-plugin';
+
 
 declare const $: any;
 
@@ -102,14 +105,14 @@ export class VsSidebarPanelComponent implements OnInit {
     private ng5FilesService: Ng5FilesService,
     private vsService: VideoStudioService
   ) {
+    iro.use(iroTransparencyPlugin);
+
     // Perfect Scrollbar config
     this.config = {
       wheelSpeed: 0.5,
       wheelPropagation: false,
       suppressScrollX: true
     };
-
-    this.colorPicker = new MyColorpicker('.bg-colorpicker');
 
     // Background Panel config
     this.props_background.addRecentColor = '#ff0000';
@@ -125,6 +128,8 @@ export class VsSidebarPanelComponent implements OnInit {
   }
 
   ngOnInit() {
+        this.colorPicker = new MyColorpicker('.bg-colorpicker');
+
     const $this = this;
 
     this.$uns.push(this.renderMore.pipe(

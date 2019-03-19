@@ -3,12 +3,17 @@
 .btn-icon {
     padding-left: $input-btn-padding-y;
     padding-right: $input-btn-padding-y;
+    min-width: $input-height;
 }
 .btn-sm.btn-icon {
     padding-left: $input-btn-padding-y-sm;
     padding-right: $input-btn-padding-y-sm;
+    min-width: $input-height-sm;
 }
 
 .btn-circle {
-    border-radius: 38px;
+    border-radius: $input-height;
+}
+.btn-sm.btn-circle {
+    border-radius: $input-height-sm;
 }

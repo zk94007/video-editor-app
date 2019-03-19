@@ -21,6 +21,8 @@ import {
 import { CaptionStudioComponent } from './caption-studio.component';
 import { CaptionStudioRouting } from './caption-studio.routing';
 
+import { FontPickerService } from '../../shared/services/font-picker.service';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -45,5 +47,8 @@ import { CaptionStudioRouting } from './caption-studio.routing';
         CsVideoPlayerComponent,
         CsSubtitleToolabarComponent
     ],
+    providers: [
+        FontPickerService
+    ]
 })
 export class CaptionStudioModule { }
