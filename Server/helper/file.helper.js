@@ -183,6 +183,22 @@ module.exports = {
 
     /**
      * 
+     * @param {*} srcpath 
+     * @param {*} destpath 
+     * @param {*} callback 
+     */
+    copyFile(srcpath, destpath, callback) {
+        fs.copyFile(srcpath, destpath, (err) => {
+            if (err) {
+                responseHelper.onError('error: copyFile', callback);
+                return;
+            }
+            responseHelper.onSuccess(callback);
+        });
+    },
+
+    /**
+     * 
      * @param {*} filepaths 
      * @param {*} callback 
      */

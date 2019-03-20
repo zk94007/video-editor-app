@@ -185,6 +185,30 @@ module.exports = {
         }
     },
 
+    uploadSubtitles(userInfo, message, setProgress, callback) {
+        try {
+            let prj_id = message.prj_id;
+            let subtitles = message.subtitles;
+            
+            let notFilledFields = [];
+            !prj_id ? notFilledFields.push('prj_id') : '';
+            !subtitles ? notFilledFields.push('subtitles') : '';
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            setProgress(10, 'Processing Subtitles');
+
+            projectModel.getProjectByPrjId(prj_id, (err, project) => {
+                let prj_video_path_full_hd = project.prj_video_path_full_hd.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+                
+            });
+        } catch (err) {
+            helper.response.onError('error: uploadSubtitles', callback);
+        }
+    },
+
     /**
      * 
      * @param {*} number 
@@ -496,6 +520,10 @@ module.exports = {
                     const cloudName = uuidGen.v1() + '.mp4';
                     helper.file.putFileToCloud(cloudName, prj_name, pvFilePathFullHD, (err, filepath) => {
                         workfiles.push(pvFilePathFullHD);
+
+                        let destpath = filepath.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+                        helper.file.copyFile(pvFilePathFullHD, destpath);
+
                         pvFilePathFullHD = filepath;
                         projectModel.updateProject(prj_id, [{name: 'prj_video_path_full_hd', value: filepath}], series_callback);
                     });
