@@ -1,5 +1,14 @@
 :host {
+    display: block;
+    // height: 340px;
+    height: 100%;
+    margin: 0 auto;
+
     ::ng-deep vg-player {
         background-color: inherit;
+
+        > video {
+            // object-fit: cover;
+        }
     }
 }

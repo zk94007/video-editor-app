@@ -38,12 +38,12 @@ $grays: map-merge(
 
 $blue:    #007bff;
 $indigo:  #6610f2;
-$purple:  #6f42c1;
-$pink:    #e83e8c;
+$purple:  #9012fe;
+$pink:    #f51569;
 $red:     #dc3545;
 $orange:  #f89e00;
 $yellow:  #ffc107;
-$green:   #3ab698;
+$green:   #43d060;
 $teal:    #20c997;
 $cyan:    #17a2b8;
 
@@ -90,7 +90,8 @@ $theme-colors: map-merge(
     "light":      $light,
     "dark":       $dark,
     "pink":       $pink,
-    "orange":     $orange
+    "orange":     $orange,
+    "purple":     $purple
   ),
   $theme-colors
 );
@@ -759,7 +760,7 @@ $dropdown-spacer:                   .125rem;
 $dropdown-font-size:                $font-size-base;
 $dropdown-color:                    $body-color;
 $dropdown-bg:                       $white;
-$dropdown-border-color:             rgba($black, .15);
+$dropdown-border-color:             $border-color;
 $dropdown-border-radius:            $border-radius;
 $dropdown-border-width:             $border-width;
 $dropdown-inner-border-radius:      calc(#{$dropdown-border-radius} - #{$dropdown-border-width});

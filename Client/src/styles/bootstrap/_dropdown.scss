@@ -8,6 +8,7 @@
 .dropdown-toggle::after {
     transform: translateY(1px);
 }
+.dropup .dropdown-toggle-hidden::after,
 .dropdown-toggle-hidden::after {
     display: none;
 }

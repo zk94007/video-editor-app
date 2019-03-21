@@ -1,8 +1,17 @@
 :host {
     display: flex;
     flex-direction: column;
-    width: 480px;
+    width: 460px;
     flex-shrink: 0;
     background-color: #1f2c3c;
     color: #fff;
+    border-right: 1px solid #1f2c3c;
+
+    ::ng-deep .overlay {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+    }
 }
