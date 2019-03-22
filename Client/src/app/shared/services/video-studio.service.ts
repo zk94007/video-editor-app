@@ -296,8 +296,8 @@ export class VideoStudioService {
       this.onStartFrameReposition.emit(frame.toJSON());
     }
   }
-  
-  
+
+
 
   _updateFrameReposition(reposition) {
     const frame = this.project.getFrame(this.selected_frm_id);

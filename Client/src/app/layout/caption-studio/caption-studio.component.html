@@ -5,23 +5,32 @@
                 <div class="position-relative mx-auto" #videoWrapper>
                     <app-cs-video-player [sources]="props.video.sources" #videoPlayer></app-cs-video-player>
                     <div class="overlay-modal bg-transparent p-0">
-                        <div class="w-100" #subtitle>
-                            <div class="d-inline-block px-1">
-                                <ng-container *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
-                                    <span *ngIf="videoPlayer?.api?.currentTime >= subtitle.value.startTime && videoPlayer?.api?.currentTime <= subtitle.value.endTime">{{ subtitle.value.text }}</span>
-                                </ng-container>
-                            </div>
-                        </div>
+                        <!-- <app-cs-subtitle-text
+                            [subtitles]="formSubtitle['controls'].subtitles['controls']"
+                            [currentPlayheadTime]="videoPlayer?.api?.currentTime"
+                            [styleProp]="props.style"
+                        ></app-cs-subtitle-text> -->
+                        <form novalidate [formGroup]="formSubtitle">
+                            <ng-container formArrayName="subtitles">
+                                <div *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
+                                    <app-cs-subtitle-text-item
+                                        [currentTime]="videoPlayer?.api?.currentTime"
+                                        [group]="formSubtitle['controls'].subtitles['controls'][index]"
+                                        [styleProp]="props.style"
+                                    ></app-cs-subtitle-text-item>
+                                </div>
+                            </ng-container>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="flex-fill">
-        <app-cs-subtitle-toolbar (propChange)="updateStyle($event, subtitle, videoWrapper)"></app-cs-subtitle-toolbar>
+        <app-cs-subtitle-toolbar (propChange)="updateStyle($event, videoWrapper)"></app-cs-subtitle-toolbar>
     </div>
     <div class="p-3 text-right">
-        <button class="btn btn-success">
+        <button class="btn btn-success" (click)="complete()">
             <span class="d-flex align-items-center">
                 <svg class="icon mr-2" viewBox="0 0 24 24">
                     <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" />
@@ -47,7 +56,7 @@
                         <span>Edit Video</span>
                     </span>
                 </button>
-                <button class="btn btn-success">
+                <button class="btn btn-success" (click)="complete()">
                     <span class="d-flex align-items-center">
                         <svg class="icon mr-2" viewBox="0 0 24 24">
                             <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" />

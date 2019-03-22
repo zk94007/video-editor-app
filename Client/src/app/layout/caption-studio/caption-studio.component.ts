@@ -1,10 +1,15 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2, QueryList, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
 import * as moment from 'moment';
+import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { CsVideoPlayerComponent } from './components/cs-video-player/cs-video-player.component';
 import { RangeSliderComponent } from '../../shared/module/range-slider/range-slider.component';
+import { CsSubtitleTextItemComponent } from './components/cs-subtitle-text-item/cs-subtitle-text-item.component';
+
+import { VideoStudioService } from '../../shared/services/video-studio.service';
 
 @Component({
     selector: 'app-caption-studio',
@@ -18,7 +23,7 @@ export class CaptionStudioComponent implements OnInit {
     public props = {
         video: {
             sources: [{
-                url: 'https://blurbizstagdiag910.blob.core.windows.net/stage/dec369e0-45b0-11e9-ae1d-9f9091396a20.mp4', // 'https://blurbizstagdiag910.blob.core.windows.net/stage/dec369e0-45b0-11e9-ae1d-9f9091396a20.mp4', // 'https://assets.mixkit.co/videos/99541/99541-720.mp4',
+                url: 'https://blurbizstagdiag910.blob.core.windows.net/stage/dec369e0-45b0-11e9-ae1d-9f9091396a20.mp4',
                 type: 'video/mp4'
             }],
             duration: null,
@@ -26,17 +31,22 @@ export class CaptionStudioComponent implements OnInit {
             currentTime: null,
             initialTime: 0
         },
-        subtitle: {}
+        style: {}
     };
 
     @ViewChild('videoPlayer') public videoPlayer: CsVideoPlayerComponent;
 
     @ViewChild('videoSlider') public videoSlider: RangeSliderComponent;
 
+    @ViewChild('videoWrapper') public videoWrapper: ElementRef;
+
+    @ViewChildren(CsSubtitleTextItemComponent) public subtitleTextItem: QueryList<CsSubtitleTextItemComponent>;
+
     constructor(
         private changeDetectorRef: ChangeDetectorRef,
         private formBuilder: FormBuilder,
-        private renderer: Renderer2
+        private renderer: Renderer2,
+        private vsService: VideoStudioService
     ) { }
 
     ngOnInit() {
@@ -77,7 +87,7 @@ export class CaptionStudioComponent implements OnInit {
         }
 
         const addrCtrl = this.formBuilder.group({
-            text: null,
+            text: 'lorem ipsum dolor',
             startTime: startTime,
             endTime: endTime,
             totalTime: totalTime,
@@ -104,23 +114,9 @@ export class CaptionStudioComponent implements OnInit {
         this.videoPlayer.api.currentTime = time;
     }
 
-    public updateStyle(event, subtitle: HTMLElement, videoWrapper) {
-        const subtitleChild: any = subtitle.children[0];
-
-        subtitle.style.fontFamily = event.font.family;
-        subtitle.style.fontSize = `${event.font.size}px`;
-        subtitle.style.fontWeight = event.font.weight;
-        subtitle.style.fontStyle = event.font.style;
-        subtitle.style.color = event.font.color.hex;
-        subtitle.style.textAlign = event.font.align;
-        subtitle.style.alignSelf = event.caption.align;
-        subtitle.style.padding = '10px';
-
-        if (subtitle && subtitleChild) {
-            subtitle.style.backgroundColor = null;
-            subtitle.style.textShadow = null;
-            subtitleChild.style.backgroundColor = null;
-        }
+    public updateStyle(event) {
+        const videoWrapper = this.videoWrapper.nativeElement;
+        this.props.style = {...event};
 
         if (videoWrapper) {
             const ratio = this._aspectRatio(event.video.ratio);
@@ -137,25 +133,6 @@ export class CaptionStudioComponent implements OnInit {
                 this.renderer.setStyle(videoWrapper, 'height', `${ratio.elementHeight}px`);
                 this.renderer.setStyle(videoWrapper, 'width', `${ratio.ratioWidth}px`);
             }
-        }
-
-        switch (event.caption.type) {
-            case 'none':
-                break;
-            case 'outline':
-                subtitle.style.textShadow = `-1px -1px 0px ${event.caption.color.hex},
-                                            1px -1px 0px ${event.caption.color.hex},
-                                            -1px 1px 0px ${event.caption.color.hex},
-                                            1px 1px 0px ${event.caption.color.hex}`;
-                break;
-            case 'highlight':
-                subtitleChild.style.backgroundColor = event.caption.color.rgba;
-                break;
-            case 'full':
-                subtitle.style.backgroundColor = event.caption.color.rgba;
-                break;
-            default:
-                break;
         }
     }
 
@@ -188,5 +165,24 @@ export class CaptionStudioComponent implements OnInit {
             elementWidth: width,
             elementHeight: height
         };
+    }
+
+    public complete() {
+        forkJoin(this.subtitleTextItem.map(subtitle => subtitle.process()))
+        .pipe(
+            tap(() => {
+                const subtitles = this.formSubtitle.get('subtitles').value.map(subtitle => {
+                    return {
+                        startTime: subtitle.startTime,
+                        endTime: subtitle.endTime,
+                        dataurl: subtitle.dataurl,
+                        resposition: subtitle.resposition
+                    };
+                });
+
+                this.vsService._uploadSubtitles(subtitles);
+            })
+        )
+        .subscribe();
     }
 }
