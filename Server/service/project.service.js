@@ -326,8 +326,6 @@ module.exports = {
 
                     const cloudName = uuidGen.v1() + '.mp4';
                     helper.file.putFileToCloud(cloudName, project.prj_name, pvFilePathFullHD, (err, filepath) => {
-                        workfiles.push(pvFilePathFullHD);
-
                         let destpath = filepath.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
                         helper.file.copyFile(pvFilePathFullHD, destpath);
 

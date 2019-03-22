@@ -208,6 +208,7 @@ module.exports = {
         _.each(filepaths, (filepath) => {
             parallelTasks.push((parallel_callback) => {
                 fs.unlink(filepath, (err) => {
+                    console.log(filepath);
                     parallel_callback(err);
                 });
             })
