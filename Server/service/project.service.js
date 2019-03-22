@@ -200,9 +200,56 @@ module.exports = {
 
             setProgress(10, 'Processing Subtitles');
 
-            projectModel.getProjectByPrjId(prj_id, (err, project) => {
-                let prj_video_path_full_hd = project.prj_video_path_full_hd.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+            projectModel.getProjectByPrjId(prj_id, (e, project) => {
+                let video_path = '';
                 
+                let seriesTasks = [];
+                seriesTasks.push((series_callback) => {
+                    if (project.prj_video_path_full_hd) {
+                        video_path = project.prj_video_path_full_hd.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+                        series_callback();
+                    } else {
+                        video_path = frameModel.getFramesByPrjId(prj_id, (e, frames) => {
+                            video_path = frames[0].frm_path;
+                            series_callback();
+                        });
+                    }
+                });
+
+                seriesTasks.push((series_callback) => {
+                    let parallelTasks = [];
+
+                    _.each(subtitles, (subtitle) => {
+                        var index = 0;                        
+                        parallelTasks.push((parallel_callback) => {
+                            let content = subtitle.dataurl;
+                            content = content.replace(/^data:image\/png;base64,/, '');
+                            let content_name = uuidGen.v1() + '.png';
+                            helper.file.writeFile(config.server.downloadPath + content_name, content, 'base64', (err) => {
+                                if (!err) {
+                                    gm(config.server.downloadPath + content_name)
+                                        .resize(subtitle.reposition.width, subtitle.reposition.height, "!")
+                                        .noProfile()
+                                        .write(config.server.downloadPath + content_name, (err) => {
+                                            if (!err) {
+                                                workfiles.push(config.server.downloadPath + content_name);
+                                                subtitle.path = config.server.downloadPath + content_name;
+                                                // subtitles[index].ovl_path = config.server.downloadPath + ovl_name;
+                                            }
+                                            parallel_callback(err);
+                                        });
+                                } else {
+                                    parallel_callback(err);
+                                }
+                            });
+                        });
+                    });
+
+                    async.parallel(parallelTasks, series_callback);                
+                });
+                async.series(seriesTasks, (e) => {
+                    console.log(subtitles);
+                });
             });
         } catch (err) {
             helper.response.onError('error: uploadSubtitles', callback);

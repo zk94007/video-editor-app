@@ -43,7 +43,7 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
                 this.group.get('dataurl').setValue(dataUrl);
                 this.group.patchValue({
                     dataurl: dataUrl,
-                    resposition: {
+                    reposition: {
                         left: position.left,
                         top: position.top,
                         width: position.width,

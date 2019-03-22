@@ -101,7 +101,7 @@ export class CaptionStudioComponent implements OnInit {
             endTime: endTime,
             totalTime: totalTime,
             rangeTime: [[startTime, endTime]],
-            resposition: {
+            reposition: {
                 left: null,
                 top: null,
                 width: null,
@@ -195,7 +195,7 @@ export class CaptionStudioComponent implements OnInit {
                     endTime: (srt.end / 1000),
                     totalTime: this.videoPlayer.api.duration,
                     rangeTime: [[(srt.start / 1000), (srt.end / 1000)]],
-                    resposition: {
+                    reposition: {
                         left: null,
                         top: null,
                         width: null,
@@ -220,7 +220,7 @@ export class CaptionStudioComponent implements OnInit {
                         startTime: subtitle.startTime,
                         endTime: subtitle.endTime,
                         dataurl: subtitle.dataurl,
-                        resposition: subtitle.resposition
+                        reposition: subtitle.reposition
                     };
                 });
 
