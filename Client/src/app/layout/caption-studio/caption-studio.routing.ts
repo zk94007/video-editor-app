@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CaptionStudioComponent } from './caption-studio.component';
+import { CsCompleteComponent } from './components/cs-complete/cs-complete.component';
 
 const routes: Routes = [{
     path: '',

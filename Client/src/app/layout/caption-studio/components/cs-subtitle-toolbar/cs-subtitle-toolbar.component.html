@@ -22,11 +22,11 @@
         </div>
 
         <div class="border-right">
-            <div ngbDropdown  autoClose="outside" class="d-inline-block mx-2">
+            <div ngbDropdown placement="top-left" autoClose="outside" class="d-inline-block mx-2">
                 <button class="btn bg-transparent btn-icon dropdown-toggle-hidden" ngbDropdownToggle>
                     <div class="rounded border" [style.width]="'24px'" [style.height]="'24px'" [style.background-color]="props.font.color.hex"></div>
                 </button>
-                <div ngbDropdownMenu class="mt-2 dropdown-color-picker">
+                <div ngbDropdownMenu class="mb-2 dropdown-with-arrow">
                     <div class="px-2 py-1">
                         <div class="font-color-picker" style="margin-bottom: 12px;"></div>
                         <div class="d-flex align-items-center">
@@ -129,7 +129,7 @@
                             <button class="btn bg-transparent btn-icon dropdown-toggle-hidden" ngbDropdownToggle>
                                 <div class="rounded border" [style.width]="'24px'" [style.height]="'24px'" [style.background-color]="props.caption.color.hex"></div>
                             </button>
-                            <div ngbDropdownMenu class="mb-2 dropdown-color-picker">
+                            <div ngbDropdownMenu class="mb-2 dropdown-with-arrow">
                                 <div class="px-2 py-1">
                                     <div class="caption-color-picker" style="margin-bottom: 12px;"></div>
                                     <div class="d-flex align-items-center">
@@ -287,7 +287,7 @@
                                 <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
                             </svg>
                         </button>
-                        <div ngbDropdownMenu class="mb-2 dropdown-color-picker">
+                        <div ngbDropdownMenu class="mb-2 dropdown-with-arrow dropdown-menu-center">
                             <div class="px-2 py-1">
                                 <div class="video-color-picker" style="margin-bottom: 12px;"></div>
                                 <div class="d-flex align-items-center">

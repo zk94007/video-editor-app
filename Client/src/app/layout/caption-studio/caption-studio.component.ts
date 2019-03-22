@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import * as moment from 'moment';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { parse } from 'subtitle';
 
 import { CsVideoPlayerComponent } from './components/cs-video-player/cs-video-player.component';
 import { RangeSliderComponent } from '../../shared/module/range-slider/range-slider.component';
@@ -34,6 +35,7 @@ export class CaptionStudioComponent implements OnInit {
         },
         style: {},
         prj_id: null,
+        complete: false
     };
 
     @ViewChild('videoPlayer') public videoPlayer: CsVideoPlayerComponent;
@@ -94,7 +96,7 @@ export class CaptionStudioComponent implements OnInit {
         }
 
         const addrCtrl = this.formBuilder.group({
-            text: 'lorem ipsum dolor',
+            text: null,
             startTime: startTime,
             endTime: endTime,
             totalTime: totalTime,
@@ -174,7 +176,42 @@ export class CaptionStudioComponent implements OnInit {
         };
     }
 
+    public srtFileSelected(event) {
+        const fileReader = new FileReader();
+        const file = event.files[0];
+        const control = <FormArray>this.formSubtitle.controls['subtitles'];
+
+        fileReader.onload = (fileLoadedEvent: any) => {
+            const fileContent = fileLoadedEvent.target.result;
+
+            while (control.length !== 0) {
+                control.removeAt(0);
+            }
+
+            parse(fileContent).forEach(srt => {
+                control.push(this.formBuilder.group({
+                    text: srt.text,
+                    startTime: (srt.start / 1000),
+                    endTime: (srt.end / 1000),
+                    totalTime: this.videoPlayer.api.duration,
+                    rangeTime: [[(srt.start / 1000), (srt.end / 1000)]],
+                    resposition: {
+                        left: null,
+                        top: null,
+                        width: null,
+                        height: null
+                    },
+                    dataurl: null
+                }));
+            });
+        };
+
+        fileReader.readAsText(file, 'UTF-8');
+    }
+
     public complete() {
+        this.props.complete = true;
+
         forkJoin(this.subtitleTextItem.map(subtitle => subtitle.process()))
         .pipe(
             tap(() => {

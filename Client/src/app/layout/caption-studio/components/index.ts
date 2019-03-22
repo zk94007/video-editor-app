@@ -5,3 +5,4 @@ export * from './cs-video-player/cs-video-player.component';
 export * from './cs-subtitle-toolbar/cs-subtitle-toolbar.component';
 export * from './cs-subtitle-text/cs-subtitle-text.component';
 export * from './cs-subtitle-text-item/cs-subtitle-text-item.component';
+export * from './cs-complete/cs-complete.component';

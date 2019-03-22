@@ -30,8 +30,8 @@ export class CsSubtitleToolabarComponent implements OnInit {
             family: 'Arial',
             size: 18,
             color: {
-                hex: '#b8e985',
-                rgba: 'rgba(184,233,133,1)'
+                hex: '#c9ff92',
+                rgba: 'rgba(201,255,146,1)'
             },
             weight: 'normal',
             style: 'normal',
@@ -49,8 +49,8 @@ export class CsSubtitleToolabarComponent implements OnInit {
         video: {
             ratio: '16by9',
             color: {
-                hex: '#dc3545',
-                rgba: 'rgb(220,53,69,1)'
+                hex: '#ff3d50',
+                rgba: 'rgb(230,56,75)'
             }
         }
     };
