@@ -1,9 +1,9 @@
 <div>
-    <div class="d-flex align-content-center align-items-center bg-white text-body py-2 px-3">
+    <div class="d-flex align-content-center align-items-center bg-white text-body py-1 px-3">
         <div class="border-right">
             <div ngbDropdown class="d-inline-block mr-3">
                 <button class="btn btn-link text-body px-0" ngbDropdownToggle>
-                    <div class="d-inline-block text-left text-truncate align-top" [style.width]="'100px'">{{ props.font.family }}</div>
+                    <div class="d-inline-block text-left text-truncate align-top" [style.width]="'90px'">{{ props.font.family }}</div>
                 </button>
                 <div ngbDropdownMenu class="mt-2 dropdown-scrollable">
                     <a class="dropdown-item" href="javascript:;" ngbDropdownItem *ngFor="let font of props.font.lists | async" (click)="selectFontFamily(font.family)">
@@ -22,30 +22,36 @@
         </div>
 
         <div class="border-right">
-            <div ngbDropdown class="d-inline-block mx-2">
+            <div ngbDropdown  autoClose="outside" class="d-inline-block mx-2">
                 <button class="btn bg-transparent btn-icon dropdown-toggle-hidden" ngbDropdownToggle>
-                    <div class="rounded border" [style.width]="'24px'" [style.height]="'24px'" [style.background-color]="props.font.color"></div>
+                    <div class="rounded border" [style.width]="'24px'" [style.height]="'24px'" [style.background-color]="props.font.color.hex"></div>
                 </button>
-                <div ngbDropdownMenu class="mt-2">
-                    <div class="font-color-picker"></div>
+                <div ngbDropdownMenu class="mt-2 dropdown-color-picker">
+                    <div class="px-2 py-1">
+                        <div class="font-color-picker" style="margin-bottom: 12px;"></div>
+                        <div class="d-flex align-items-center">
+                            <label class="small flex-shrink-0 mb-0 mr-2 text-muted">Color code</label>
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="props.font.color.hex" (ngModelChange)="fontColorChange($event)">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="border-right">
-            <button class="btn text-muted btn-icon ml-2" [class.active]="this.props.font.weight === 'bold'" (click)="toggleFontWeight()">
+            <button class="btn btn-icon ml-2" [class.text-body]="this.props.font.weight === 'bold'" [class.text-muted]="this.props.font.weight !== 'bold'" (click)="toggleFontWeight()">
                 <svg class="icon" viewBox="0 0 24 24">
                     <path d="M13.5,15.5H10V12.5H13.5A1.5,1.5 0 0,1 15,14A1.5,1.5 0 0,1 13.5,15.5M10,6.5H13A1.5,1.5 0 0,1 14.5,8A1.5,1.5 0 0,1 13,9.5H10M15.6,10.79C16.57,10.11 17.25,9 17.25,8C17.25,5.74 15.5,4 13.25,4H7V18H14.04C16.14,18 17.75,16.3 17.75,14.21C17.75,12.69 16.89,11.39 15.6,10.79Z" />
                 </svg>
             </button>
-            <button class="btn text-muted btn-icon mr-2" [class.active]="this.props.font.style === 'italic'" (click)="toggleFontStyle()">
+            <button class="btn btn-icon mr-2" [class.text-body]="this.props.font.style === 'italic'" [class.text-muted]="this.props.font.style !== 'italic'" (click)="toggleFontStyle()">
                 <svg class="icon" viewBox="0 0 24 24">
                     <path d="M10,4V7H12.21L8.79,15H6V18H14V15H11.79L15.21,7H18V4H10ZZ" />
                 </svg>
             </button>
         </div>
 
-        <div class="border-right">
+        <div class="">
             <div ngbDropdown placement="bottom-right" class="d-inline-block ml-2 mr-2">
                 <button class="btn text-muted btn-icon" ngbDropdownToggle>
                     <svg class="icon" viewBox="0 0 24 24">
@@ -119,12 +125,18 @@
                         <small>Full</small>
                     </div>
                     <div class="d-flex flex-column align-items-center justify-content-center mr-3">
-                        <div ngbDropdown class="d-inline-block mb-1">
+                        <div ngbDropdown autoClose="outside" class="d-inline-block mb-1">
                             <button class="btn bg-transparent btn-icon dropdown-toggle-hidden" ngbDropdownToggle>
                                 <div class="rounded border" [style.width]="'24px'" [style.height]="'24px'" [style.background-color]="props.caption.color.hex"></div>
                             </button>
-                            <div ngbDropdownMenu class="mt-2">
-                                <div class="caption-color-picker"></div>
+                            <div ngbDropdownMenu class="mt-2 dropdown-color-picker">
+                                <div class="px-2 py-1">
+                                    <div class="caption-color-picker" style="margin-bottom: 12px;"></div>
+                                    <div class="d-flex align-items-center">
+                                        <label class="small flex-shrink-0 mb-0 mr-2 text-muted">Color code</label>
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="props.caption.color.rgba" (ngModelChange)="captionColorChange($event)">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <small>Color</small>
@@ -269,14 +281,20 @@
             <div>
                 <p class="mb-2">Background</p>
                 <div>
-                    <div ngbDropdown class="d-inline-block mr-2">
+                    <div ngbDropdown placement="top-left" autoClose="outside" class="d-inline-block mr-2">
                         <button class="btn btn-sm btn-outline-secondary btn-icon btn-circle dropdown-toggle-hidden" ngbDropdownToggle>
                             <svg class="icon" viewBox="0 0 24 24">
                                 <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
                             </svg>
                         </button>
-                        <div ngbDropdownMenu class="mt-2">
-                            <div class="video-color-picker"></div>
+                        <div ngbDropdownMenu class="mb-2 dropdown-color-picker">
+                            <div class="px-2 py-1">
+                                <div class="video-color-picker" style="margin-bottom: 12px;"></div>
+                                <div class="d-flex align-items-center">
+                                    <label class="small flex-shrink-0 mb-0 mr-2 text-muted">Color code</label>
+                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="props.video.color.hex" (ngModelChange)="videoColorChange($event)">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-sm btn-icon btn-circle mr-2" [style.background-color]="'#d0001c'" (click)="selectVideoColor({ rgbaString: null, hexString: '#d0001c' })">&nbsp;</button>

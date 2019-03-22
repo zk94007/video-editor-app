@@ -23,13 +23,16 @@ export class CsSubtitleToolabarComponent implements OnInit {
 
     public videoColorPicker: iro;
 
-    @Output() public change = new EventEmitter();
+    @Output() public propChange = new EventEmitter();
 
     public props = {
         font: {
             family: 'Arial',
             size: 18,
-            color: '#fff',
+            color: {
+                hex: '#fff',
+                rgba: 'rgba(255,255,255,1)'
+            },
             weight: 'normal',
             style: 'normal',
             align: 'left',
@@ -38,8 +41,8 @@ export class CsSubtitleToolabarComponent implements OnInit {
         caption: {
             type: 'none',
             color: {
-                hex: null,
-                rgba: null
+                hex: '#000',
+                rgba: 'rgba(0,0,0,1)'
             },
             align: 'flex-end'
         },
@@ -77,28 +80,26 @@ export class CsSubtitleToolabarComponent implements OnInit {
             .subscribe();
 
         this.fontColorPicker = new iro.ColorPicker('.font-color-picker', {
-            width: 160,
-            height: 160,
-            color: { r: 255, g: 255, b: 255, a: 0.6 },
-            transparency: true
+            width: 200,
+            height: 200,
+            color: this.props.video.color.hex
         });
 
         this.captionColorPicker = new iro.ColorPicker('.caption-color-picker', {
-            width: 160,
-            height: 160,
-            color: { r: 0, g: 0, b: 0, a: 0.6 },
+            width: 200,
+            height: 200,
+            color: this.props.video.color.rgba,
             transparency: true
         });
 
         this.videoColorPicker = new iro.ColorPicker('.video-color-picker', {
-            width: 160,
-            height: 160,
-            color: { r: 0, g: 0, b: 0, a: 1 },
-            transparency: true
+            width: 200,
+            height: 200,
+            color: this.props.video.color.hex
         });
 
         this.fontColorPicker.on('color:change', (color) => {
-            this.selectFontColor(color.hexString);
+            this.selectFontColor(color);
         });
 
         this.captionColorPicker.on('color:change', (color) => {
@@ -109,17 +110,17 @@ export class CsSubtitleToolabarComponent implements OnInit {
             this.selectVideoColor(color);
         });
 
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public selectFontFamily(fontFamily) {
         this.props.font.family = fontFamily;
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public selectFontSize(fontSize) {
         this.props.font.size = fontSize;
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public toggleFontWeight() {
@@ -129,7 +130,7 @@ export class CsSubtitleToolabarComponent implements OnInit {
             this.props.font.weight = 'normal';
         }
 
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public toggleFontStyle() {
@@ -139,44 +140,74 @@ export class CsSubtitleToolabarComponent implements OnInit {
             this.props.font.style = 'normal';
         }
 
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public selectFontColor(fontColor) {
-        this.props.font.color = fontColor;
-        this.change.emit(this.props);
+        this.props.font.color.rgba = fontColor.rgbaString;
+        this.props.font.color.hex = fontColor.hexString;
+        this.propChange.emit(this.props);
     }
 
     public selectFontAlign(align) {
         this.props.font.align = align;
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public selectCaptionColor(captionColor) {
         this.props.caption.color.rgba = captionColor.rgbaString;
         this.props.caption.color.hex = captionColor.hexString;
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public selectCaptionAlignment(captionAlign) {
         this.props.caption.align = captionAlign;
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public selectCaptionType(captionType) {
         this.props.caption.type = captionType;
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public selectVideoRatio(videoRatio) {
         this.props.video.ratio = videoRatio;
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
     }
 
     public selectVideoColor(videoColor) {
-        console.log(videoColor)
         this.props.video.color.rgba = videoColor.rgbaString;
         this.props.video.color.hex = videoColor.hexString;
-        this.change.emit(this.props);
+        this.propChange.emit(this.props);
+    }
+
+    public videoColorChange(color: string) {
+        setTimeout(_ => {
+            try {
+                this.videoColorPicker.color.set(color);
+            } catch (e) {
+                console.log((<Error>e).message);
+            }
+        }, 600);
+    }
+
+    public fontColorChange(color: string) {
+        setTimeout(_ => {
+            try {
+                this.fontColorPicker.color.set(color);
+            } catch (e) {
+                console.log((<Error>e).message);
+            }
+        }, 600);
+    }
+
+    public captionColorChange(color: string) {
+        setTimeout(_ => {
+            try {
+                this.captionColorPicker.color.set(color);
+            } catch (e) {
+                console.log((<Error>e).message);
+            }
+        }, 600);
     }
 }
