@@ -1,22 +1,20 @@
 <app-cs-sidebar>
-    <div class="p-3">
-        <div class="position-relative" style="min-height: 320px;">
-            <div class="overlay active mb-0">
-                <div class="position-relative mx-auto" #videoWrapper>
-                    <app-cs-video-player [sources]="props.video.sources" #videoPlayer></app-cs-video-player>
-                    <div class="overlay-modal bg-transparent p-0">
-                        <form novalidate [formGroup]="formSubtitle">
-                            <ng-container formArrayName="subtitles">
-                                <div *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
-                                    <app-cs-subtitle-text-item
-                                        [currentTime]="videoPlayer?.api?.currentTime"
-                                        [group]="formSubtitle['controls'].subtitles['controls'][index]"
-                                        [styleProp]="props.style"
-                                    ></app-cs-subtitle-text-item>
-                                </div>
-                            </ng-container>
-                        </form>
-                    </div>
+    <div class="position-relative" style="min-height: 320px;">
+        <div class="overlay active mb-0">
+            <div class="position-relative mx-auto" #videoWrapper>
+                <app-cs-video-player [sources]="props.video.sources" #videoPlayer></app-cs-video-player>
+                <div class="overlay-modal bg-transparent p-0">
+                    <form novalidate [formGroup]="formSubtitle">
+                        <ng-container formArrayName="subtitles">
+                            <div *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
+                                <app-cs-subtitle-text-item
+                                    [currentTime]="videoPlayer?.api?.currentTime"
+                                    [group]="formSubtitle['controls'].subtitles['controls'][index]"
+                                    [styleProp]="props.style"
+                                ></app-cs-subtitle-text-item>
+                            </div>
+                        </ng-container>
+                    </form>
                 </div>
             </div>
         </div>
@@ -59,11 +57,11 @@
                         <span>Complete</span>
                     </span>
                 </button>
-                <button class="btn btn-link btn-icon text-muted">
+                <a class="btn btn-link btn-icon text-muted" href="/project/detail/{{ props.prj_id }}">
                     <svg class="icon" viewBox="0 0 24 24">
                         <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
 
