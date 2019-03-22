@@ -16,7 +16,9 @@ import {
     CsSubtitleControlComponent,
     CsContentComponent,
     CsVideoPlayerComponent,
-    CsSubtitleToolabarComponent
+    CsSubtitleToolabarComponent,
+    CsSubtitleTextComponent,
+    CsSubtitleTextItemComponent
 } from './components';
 import { CaptionStudioComponent } from './caption-studio.component';
 import { CaptionStudioRouting } from './caption-studio.routing';
@@ -45,7 +47,9 @@ import { FontPickerService } from '../../shared/services/font-picker.service';
         CsContentComponent,
         CsSubtitleControlComponent,
         CsVideoPlayerComponent,
-        CsSubtitleToolabarComponent
+        CsSubtitleToolabarComponent,
+        CsSubtitleTextComponent,
+        CsSubtitleTextItemComponent
     ],
     providers: [
         FontPickerService

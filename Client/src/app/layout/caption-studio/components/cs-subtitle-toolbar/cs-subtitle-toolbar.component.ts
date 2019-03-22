@@ -30,8 +30,8 @@ export class CsSubtitleToolabarComponent implements OnInit {
             family: 'Arial',
             size: 18,
             color: {
-                hex: '#fff',
-                rgba: 'rgba(255,255,255,1)'
+                hex: '#b8e985',
+                rgba: 'rgba(184,233,133,1)'
             },
             weight: 'normal',
             style: 'normal',
@@ -41,16 +41,16 @@ export class CsSubtitleToolabarComponent implements OnInit {
         caption: {
             type: 'none',
             color: {
-                hex: '#000',
-                rgba: 'rgba(0,0,0,1)'
+                hex: '#ffffff',
+                rgba: 'rgba(255,255,255,1)'
             },
-            align: 'flex-end'
+            align: 'bottom'
         },
         video: {
             ratio: '16by9',
             color: {
-                hex: '#000',
-                rgba: 'rgba(0,0,0,1)'
+                hex: '#dc3545',
+                rgba: 'rgb(220,53,69,1)'
             }
         }
     };
@@ -58,13 +58,12 @@ export class CsSubtitleToolabarComponent implements OnInit {
     public fontSizes = [8, 10, 12, 14, 16, 18, 20, 22, 24, 28];
 
     constructor(
-        private formBuilder: FormBuilder,
         private fontPickerService: FontPickerService
-    ) {}
+    ) {
+        iro.use(iroTransparencyPlugin);
+    }
 
     ngOnInit() {
-        iro.use(iroTransparencyPlugin);
-
         this.fontPickerService.getAllFonts('popularity')
             .pipe(
                 map(({ items }) => items.slice(0, 100)),
@@ -82,13 +81,13 @@ export class CsSubtitleToolabarComponent implements OnInit {
         this.fontColorPicker = new iro.ColorPicker('.font-color-picker', {
             width: 200,
             height: 200,
-            color: this.props.video.color.hex
+            color: this.props.font.color.hex
         });
 
         this.captionColorPicker = new iro.ColorPicker('.caption-color-picker', {
             width: 200,
             height: 200,
-            color: this.props.video.color.rgba,
+            color: this.props.caption.color.rgba,
             transparency: true
         });
 

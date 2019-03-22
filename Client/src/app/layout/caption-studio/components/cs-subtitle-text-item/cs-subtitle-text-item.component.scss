@@ -1,0 +1,12 @@
+:host {
+    position: absolute;
+    display: block;
+    width: 100%;
+    line-height: 3;
+
+    > span {
+        display: inline-block;
+        padding: 0 5px;
+        line-height: 1.5;
+    }
+}
