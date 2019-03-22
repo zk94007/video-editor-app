@@ -201,26 +201,33 @@ module.exports = {
             setProgress(10, 'Processing Subtitles');
 
             projectModel.getProjectByPrjId(prj_id, (e, project) => {
+                let workfiles = [];
+                let option = 0;
                 let video_path = '';
+                let pvFilePath = '';
+                let pvFilePathSD = '';
+                let pvFilePathHD = '';
+                let pvFilePathFullHD = '';
                 
                 let seriesTasks = [];
                 seriesTasks.push((series_callback) => {
                     if (project.prj_video_path_full_hd) {
                         video_path = project.prj_video_path_full_hd.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+                        option = 1;
                         series_callback();
                     } else {
                         video_path = frameModel.getFramesByPrjId(prj_id, (e, frames) => {
                             video_path = frames[0].frm_path;
-                            series_callback();
+                            series_callback(e);
                         });
                     }
                 });
-
+                
                 seriesTasks.push((series_callback) => {
+                    setProgress(20, 'Processing Subtitles');
                     let parallelTasks = [];
 
-                    _.each(subtitles, (subtitle) => {
-                        var index = 0;                        
+                    _.each(subtitles, (subtitle) => {                
                         parallelTasks.push((parallel_callback) => {
                             let content = subtitle.dataurl;
                             content = content.replace(/^data:image\/png;base64,/, '');
@@ -234,7 +241,6 @@ module.exports = {
                                             if (!err) {
                                                 workfiles.push(config.server.downloadPath + content_name);
                                                 subtitle.path = config.server.downloadPath + content_name;
-                                                // subtitles[index].ovl_path = config.server.downloadPath + ovl_name;
                                             }
                                             parallel_callback(err);
                                         });
@@ -247,8 +253,143 @@ module.exports = {
 
                     async.parallel(parallelTasks, series_callback);                
                 });
+
+                _.each(subtitles, (subtitle) => {
+                    seriesTasks.push((series_callback) => {
+                        helper.video.uploadSubtitle2Video(
+                            subtitle.path, 
+                            subtitle.reposition.left, 
+                            subtitle.reposition.top, 
+                            subtitle.reposition.width,
+                            subtitle.reposition.height,
+                            0,
+                            video_path,
+                            subtitle.startTime,
+                            subtitle.endTime,
+                            (e, newPath) => {
+                                video_path = newPath;
+                                workfiles.push(newPath);
+                                series_callback(e);
+                            });
+                    });
+                });
+
+                seriesTasks.push((series_callback) => {
+                    setProgress(60, 'Processing Subtitles');
+                    if (!option) {
+                        const cloudName = uuidGen.v1() + '.mp4';
+                        helper.file.putFileToCloud(cloudName, project.prj_name, video_path, (err, filepath) => {
+                            let destpath = filepath.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+                            helper.file.copyFile(video_path, destpath);
+                            video_path = filepath;
+                            series_callback();
+                        });                        
+                        return;
+                    }
+
+                    pvFilePathFullHD = video_path;
+                    series_callback();
+                });
+
+                //preview
+                seriesTasks.push((series_callback) => {
+                    if (!option) {series_callback(); return;}
+
+                    helper.video.resizevideo(pvFilePathFullHD, config.video.scene[project.prj_scene_ratio].width, config.video.scene[project.prj_scene_ratio].height, (err, filepath) => {
+                        pvFilePath = filepath;
+                        series_callback(err);
+                    });
+                });
+
+                //hd
+                seriesTasks.push((series_callback) => {
+                    if (!option) {series_callback(); return;}
+
+                    helper.video.resizevideo(pvFilePathFullHD, config.video.scene720[project.prj_scene_ratio].width, config.video.scene720[project.prj_scene_ratio].height, (err, filepath) => {
+                        pvFilePathHD = filepath;
+                        series_callback(err);
+                    });
+                });
+
+                //sd
+                seriesTasks.push((series_callback) => {
+                    if (!option) {series_callback(); return;}
+
+                    helper.video.resizevideo(pvFilePathHD, config.video.scene360[project.prj_scene_ratio].width, config.video.scene360[project.prj_scene_ratio].height, (err, filepath) => {
+                        pvFilePathSD = filepath;
+                        series_callback(err);
+                    });
+                });
+
+                seriesTasks.push((series_callback) => {
+                    if (!option) {series_callback(); return;}
+
+                    const cloudName = uuidGen.v1() + '.mp4';
+                    helper.file.putFileToCloud(cloudName, project.prj_name, pvFilePathFullHD, (err, filepath) => {
+                        workfiles.push(pvFilePathFullHD);
+
+                        let destpath = filepath.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+                        helper.file.copyFile(pvFilePathFullHD, destpath);
+
+                        pvFilePathFullHD = filepath;
+                        projectModel.updateProject(prj_id, [{name: 'prj_video_path_full_hd', value: filepath}], series_callback);
+                    });                  
+                });
+
+                seriesTasks.push((series_callback) => {
+                    if (!option) {series_callback(); return;}
+
+                    const cloudName = uuidGen.v1() + '.mp4';
+                    helper.file.putFileToCloud(cloudName, project.prj_name, pvFilePathHD, (err, filepath) => {
+                        workfiles.push(pvFilePathHD);
+                        pvFilePathHD = filepath;
+                        projectModel.updateProject(prj_id, [{name: 'prj_video_path_hd', value: filepath}], series_callback);
+                    });
+                });
+    
+                seriesTasks.push((series_callback) => {
+                    if (!option) {series_callback(); return;}
+
+                    const cloudName = uuidGen.v1() + '.mp4';
+                    helper.file.putFileToCloud(cloudName, project.prj_name, pvFilePathSD, (err, filepath) => {
+                        workfiles.push(pvFilePathSD);
+                        pvFilePathSD = filepath;
+                        projectModel.updateProject(prj_id, [{name: 'prj_video_path_sd', value: filepath}], series_callback);
+                    });
+                });
+    
+                seriesTasks.push((series_callback) => {
+                    if (!option) {series_callback(); return;}
+
+                    const cloudName = uuidGen.v1() + '.mp4';
+                    helper.file.putFileToCloud(cloudName, project.prj_name, pvFilePath, (err, filepath) => {
+                        workfiles.push(pvFilePath);
+                        pvFilePath = filepath;
+                        projectModel.updateProject(prj_id, [{name: 'prj_video_path', value: filepath}], series_callback);
+                    });
+                });
+
+                seriesTasks.push((series_callback) => {
+                    helper.file.deleteFiles(workfiles, series_callback);
+                });
+
                 async.series(seriesTasks, (e) => {
-                    console.log(subtitles);
+                    if (!e) {
+                        if (option) {
+                            helper.response.onSuccessPlus(callback, {
+                                'finalvideo': pvFilePath,
+                                'finalvideoSD': pvFilePathSD,
+                                'finalvideoHD': pvFilePathHD,
+                                'finalvideoFullHD': pvFilePathFullHD
+                            });
+                        } else {
+                            helper.response.onSuccessPlus(callback, {
+                                'finalvideo': video_path
+                            });
+                        }
+                    } else {
+                        helper.response.onError(e, callback);
+                    }
                 });
             });
         } catch (err) {
