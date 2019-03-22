@@ -10,6 +10,7 @@ import { RangeSliderComponent } from '../../shared/module/range-slider/range-sli
 import { CsSubtitleTextItemComponent } from './components/cs-subtitle-text-item/cs-subtitle-text-item.component';
 
 import { VideoStudioService } from '../../shared/services/video-studio.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-caption-studio',
@@ -31,7 +32,8 @@ export class CaptionStudioComponent implements OnInit {
             currentTime: null,
             initialTime: 0
         },
-        style: {}
+        style: {},
+        prj_id: null,
     };
 
     @ViewChild('videoPlayer') public videoPlayer: CsVideoPlayerComponent;
@@ -46,8 +48,13 @@ export class CaptionStudioComponent implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private formBuilder: FormBuilder,
         private renderer: Renderer2,
-        private vsService: VideoStudioService
-    ) { }
+        private vsService: VideoStudioService,
+        private route: ActivatedRoute
+    ) {
+        this.route.params.subscribe((res) => {
+            this.props.prj_id = res.prj_id;
+        });
+    }
 
     ngOnInit() {
         this.formSubtitle = this.formBuilder.group({
@@ -180,7 +187,7 @@ export class CaptionStudioComponent implements OnInit {
                     };
                 });
 
-                this.vsService._uploadSubtitles(subtitles);
+                this.vsService._uploadSubtitles(this.props.prj_id, subtitles);
             })
         )
         .subscribe();
