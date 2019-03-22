@@ -610,10 +610,8 @@ export class VideoStudioService {
     }
   }
 
-  _uploadSubtitles(subtitles) {
-    if (this.project) {
-      this.socket.sendMessageWithToken('UPLOAD_SUBTITLES', {prj_id: this.project.prj_id, subtitles: subtitles});
-    }
+  _uploadSubtitles(prj_id, subtitles) {
+    this.socket.sendMessageWithToken('UPLOAD_SUBTITLES', {prj_id: prj_id, subtitles: subtitles});
   }
 
   _uploadSubtitlesProgress(response) {
