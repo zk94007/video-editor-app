@@ -2,12 +2,14 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2,
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
 import * as moment from 'moment';
+import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { CsVideoPlayerComponent } from './components/cs-video-player/cs-video-player.component';
 import { RangeSliderComponent } from '../../shared/module/range-slider/range-slider.component';
 import { CsSubtitleTextItemComponent } from './components/cs-subtitle-text-item/cs-subtitle-text-item.component';
-import { forkJoin } from 'rxjs';
-import { tap } from 'rxjs/operators';
+
+import { VideoStudioService } from '../../shared/services/video-studio.service';
 
 @Component({
     selector: 'app-caption-studio',
@@ -43,7 +45,8 @@ export class CaptionStudioComponent implements OnInit {
     constructor(
         private changeDetectorRef: ChangeDetectorRef,
         private formBuilder: FormBuilder,
-        private renderer: Renderer2
+        private renderer: Renderer2,
+        private vsService: VideoStudioService
     ) { }
 
     ngOnInit() {
@@ -168,7 +171,16 @@ export class CaptionStudioComponent implements OnInit {
         forkJoin(this.subtitleTextItem.map(subtitle => subtitle.process()))
         .pipe(
             tap(() => {
-                console.log(this.formSubtitle.value);
+                const subtitles = this.formSubtitle.get('subtitles').value.map(subtitle => {
+                    return {
+                        startTime: subtitle.startTime,
+                        endTime: subtitle.endTime,
+                        dataurl: subtitle.dataurl,
+                        resposition: subtitle.resposition
+                    };
+                });
+
+                this.vsService._uploadSubtitles(subtitles);
             })
         )
         .subscribe();

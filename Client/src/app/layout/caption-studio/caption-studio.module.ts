@@ -24,6 +24,7 @@ import { CaptionStudioComponent } from './caption-studio.component';
 import { CaptionStudioRouting } from './caption-studio.routing';
 
 import { FontPickerService } from '../../shared/services/font-picker.service';
+import { VideoStudioService } from '../../shared/services/video-studio.service';
 
 @NgModule({
     imports: [
@@ -52,7 +53,8 @@ import { FontPickerService } from '../../shared/services/font-picker.service';
         CsSubtitleTextItemComponent
     ],
     providers: [
-        FontPickerService
+        FontPickerService,
+        VideoStudioService
     ]
 })
 export class CaptionStudioModule { }

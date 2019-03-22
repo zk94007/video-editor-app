@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, Renderer2, ElementRef, NgZone } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Renderer2, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import * as domtoimage from 'dom-to-image';
@@ -22,8 +22,7 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
 
     constructor(
         private renderer: Renderer2,
-        public element: ElementRef,
-        private zone: NgZone
+        public element: ElementRef
     ) {}
 
     ngOnChanges() {
