@@ -199,7 +199,6 @@ module.exports = {
 
             projectModel.getProjectByPrjId(prj_id, (e, project) => {
                 if (project.prj_video_path_full_hd) {
-                    video_path = project.prj_video_path_full_hd.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
                     helper.response.onSuccessPlus(callback, {
                         video_path: video_path,
                         resolution: { width: config.video.scene1080[project.prj_scene_ratio].width, height: config.video.scene1080[project.prj_scene_ratio].height }
