@@ -206,7 +206,7 @@ module.exports = {
                     });
                 } else {
                     video_path = frameModel.getFramesByPrjId(prj_id, (e, frames) => {
-                        if (frames[0].frm_type == 1) {
+                        if (frames[0].frm_type == 1 && frames.length == 1) {
                             helper.response.onSuccessPlus(callback, {
                                 video_path: frames[0].frm_path,
                                 resolution: frames[0].frm_resolution
