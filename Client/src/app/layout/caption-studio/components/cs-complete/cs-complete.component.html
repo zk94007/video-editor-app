@@ -1,18 +1,195 @@
 <div class="vs-complete">
-    <div class="video_loading-container">
+    <div class="video_loading-container" *ngIf="response === null">
         <div class="pre-loader">
             <img src="../../../assets/video-studio/merge-project/pre-loader.png" alt="">
         </div>
-        <h5 class="text-publishing">Publishing
+        <h5 class="text-publishing">Processing
             <span class="loader__dot">.</span>
             <span class="loader__dot">.</span>
             <span class="loader__dot">.</span>
         </h5>
         <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" [style.width.%]="80">
-                88%
+            <div class="progress-bar" [style.width.%]="progress?.percent">{{ progress?.percent }}%</div>
+        </div>
+        <h6 class="text-loading">{{ progress?.loading }}</h6>
+    </div>
+
+    <div style="width: 100%; height: 100%" *ngIf="response !== null && response?.success === false">
+        <div class="vs-complete-top__bar">
+            <button class="buttonLink dialogMaskCloseButton" style="top: -15px" (click)="closeCompletePage()">Close</button>
+        </div>
+        <div class="video_loading-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455.111 455.111" width="100" height="100" style="margin-top: 100px; margin-bottom: 10px;">
+                <circle cx="227.556" cy="227.556" r="227.556" fill="#e24c4b"/>
+                <path d="M455.111 227.556c0 125.156-102.4 227.556-227.556 227.556-72.533 0-136.533-32.711-177.778-85.333 38.4 31.289 88.178 49.778 142.222 49.778 125.156 0 227.556-102.4 227.556-227.556 0-54.044-18.489-103.822-49.778-142.222 52.623 41.243 85.334 105.243 85.334 177.777z" fill="#d1403f"/>
+                <path d="M331.378 331.378c-8.533 8.533-22.756 8.533-31.289 0l-72.533-72.533-72.533 72.533c-8.533 8.533-22.756 8.533-31.289 0-8.533-8.533-8.533-22.756 0-31.289l72.533-72.533-72.533-72.533c-8.533-8.533-8.533-22.756 0-31.289 8.533-8.533 22.756-8.533 31.289 0l72.533 72.533 72.533-72.533c8.533-8.533 22.756-8.533 31.289 0 8.533 8.533 8.533 22.756 0 31.289l-72.533 72.533 72.533 72.533c8.533 8.533 8.533 22.755 0 31.289z" fill="#fff"/>
+            </svg>
+            <h5 class="text-publishing">Processing
+                <span class="loader__dot">.</span>
+                <span class="loader__dot">.</span>
+                <span class="loader__dot">.</span>
+            </h5>
+            <div class="progress">
+                <div class="progress-bar bg-danger" [style.width.%]="progress?.percent">{{ progress?.percent }}%</div>
+            </div>
+            <h6 class="text-loading text-danger">Adding subtitle failed!</h6>
+        </div>
+    </div>
+
+    <div style="width: 100%; height: 100%" *ngIf="response !== null && response?.success === true">
+        <div class="vs-complete-top__bar">
+            <button class="buttonLink dialogMaskCloseButton" style="top: -15px" (click)="closeCompletePage()">Close</button>
+
+            <div ngbDropdown class="" placement="bottom-right">
+                <div style="margin-bottom: 15px;" ngbDropdownToggle>
+                    <div class="vs-complete-download__icon">
+                        <a id="dropdownBasic1" style="width: 50px; text-align: center;">
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position: relative; top: 50%; transform:translateY(-50%); width: 18px; height: 18px; fill: #4182de" viewBox="0 0 433.5 433.5" xml:space="preserve">
+                                <g>
+                                    <g id="file-download">
+                                        <path d="M395.25,153h-102V0h-153v153h-102l178.5,178.5L395.25,153z M38.25,382.5v51h357v-51H38.25z" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="vs-complete-download__text">
+                        Download
+                    </div>
+                </div>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="position: relative; top:50px;">
+                    <div class="download-option">
+                        <div class="dropdown-item">
+                            <div class="download-option-icon">
+                                <svg version="1.1" class="mp4_sd" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 58 58" style="enable-background:new 0 0 58 58;" xml:space="preserve">
+                                    <g>
+                                        <path d="M50.95,12.187l-0.77-0.77l0,0L40.084,1.321c0,0-0.001-0.001-0.002-0.001l-0.768-0.768C38.965,0.201,38.48,0,37.985,0H8.963
+                                       C7.777,0,6.5,0.916,6.5,2.926V39v16.537V56c0,0.838,0.843,1.654,1.839,1.91c0.05,0.013,0.097,0.032,0.148,0.042
+                                       C8.644,57.983,8.803,58,8.963,58h40.074c0.16,0,0.319-0.017,0.475-0.048c0.051-0.01,0.098-0.029,0.148-0.042
+                                       C50.657,57.654,51.5,56.838,51.5,56v-0.463V39V13.978C51.5,13.213,51.408,12.646,50.95,12.187z M42.5,21c0,7.168-5.832,13-13,13
+                                       s-13-5.832-13-13s5.832-13,13-13c2.898,0,5.721,0.977,8,2.76V13v1h1h1.948C41.792,16.093,42.5,18.502,42.5,21z M40.981,12H39.5
+                                       v-1.717V3.565L47.935,12H40.981z M8.963,56c-0.071,0-0.135-0.025-0.198-0.049C8.609,55.876,8.5,55.72,8.5,55.537V41h41v14.537
+                                       c0,0.183-0.109,0.339-0.265,0.414C49.172,55.975,49.108,56,49.037,56H8.963z M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595
+                                       C37.525,2.126,37.5,2.256,37.5,2.392v5.942C35.115,6.826,32.342,6,29.5,6c-8.271,0-15,6.729-15,15s6.729,15,15,15s15-6.729,15-15
+                                       c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z" />
+                                        <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674
+                                       23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924 	" />
+                                        <path d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
+                                       c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
+                                       c0-0.483-0.103-0.918-0.308-1.306S33.201,45.018,32.868,44.744z M32.246,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
+                                       s-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
+                                       c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
+                                       C32.396,47.451,32.346,47.795,32.246,48.073z" />
+                                        <path d="M41.146,43.924h-1.668l-4.361,6.426v1.299h4.361V54h1.668v-2.352h1.053V50.35h-1.053V43.924z M39.479,50.35H36.58
+                                       l2.898-4.512V50.35z" />
+                                        <path d="M37.037,20.156l-11-7c-0.308-0.195-0.698-0.208-1.019-0.033C24.699,13.299,24.5,13.635,24.5,14v14
+                                       c0,0.365,0.199,0.701,0.519,0.877C25.169,28.959,25.334,29,25.5,29c0.187,0,0.374-0.053,0.537-0.156l11-7
+                                       C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.821L34.637,21L26.5,26.179z" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="download-option-text">
+                                <div class="download-option-title">{{ props?.projectNameAbbr }}</div>
+                                <div class="download-option-detail">360p <span class="mp4_sd">SD</span></div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="download-option-icon">
+                                <svg version="1.1" class="mp4_hd" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 58 58" style="enable-background:new 0 0 58 58;" xml:space="preserve">
+                                    <g>
+                                        <path d="M50.95,12.187l-0.77-0.77l0,0L40.084,1.321c0,0-0.001-0.001-0.002-0.001l-0.768-0.768C38.965,0.201,38.48,0,37.985,0H8.963
+                                            C7.777,0,6.5,0.916,6.5,2.926V39v16.537V56c0,0.838,0.843,1.654,1.839,1.91c0.05,0.013,0.097,0.032,0.148,0.042
+                                            C8.644,57.983,8.803,58,8.963,58h40.074c0.16,0,0.319-0.017,0.475-0.048c0.051-0.01,0.098-0.029,0.148-0.042
+                                            C50.657,57.654,51.5,56.838,51.5,56v-0.463V39V13.978C51.5,13.213,51.408,12.646,50.95,12.187z M42.5,21c0,7.168-5.832,13-13,13
+                                            s-13-5.832-13-13s5.832-13,13-13c2.898,0,5.721,0.977,8,2.76V13v1h1h1.948C41.792,16.093,42.5,18.502,42.5,21z M40.981,12H39.5
+                                            v-1.717V3.565L47.935,12H40.981z M8.963,56c-0.071,0-0.135-0.025-0.198-0.049C8.609,55.876,8.5,55.72,8.5,55.537V41h41v14.537
+                                            c0,0.183-0.109,0.339-0.265,0.414C49.172,55.975,49.108,56,49.037,56H8.963z M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595
+                                            C37.525,2.126,37.5,2.256,37.5,2.392v5.942C35.115,6.826,32.342,6,29.5,6c-8.271,0-15,6.729-15,15s6.729,15,15,15s15-6.729,15-15
+                                            c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z" />
+                                        <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674
+                                            23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924" />
+                                        <path d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
+                                            c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
+                                            c0-0.483-0.103-0.918-0.308-1.306S33.201,45.018,32.868,44.744z M32.246,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
+                                            s-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
+                                            c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
+                                            C32.396,47.451,32.346,47.795,32.246,48.073z" />
+                                        <path d="M41.146,43.924h-1.668l-4.361,6.426v1.299h4.361V54h1.668v-2.352h1.053V50.35h-1.053V43.924z M39.479,50.35H36.58
+                                            l2.898-4.512V50.35z" />
+                                        <path d="M37.037,20.156l-11-7c-0.308-0.195-0.698-0.208-1.019-0.033C24.699,13.299,24.5,13.635,24.5,14v14
+                                            c0,0.365,0.199,0.701,0.519,0.877C25.169,28.959,25.334,29,25.5,29c0.187,0,0.374-0.053,0.537-0.156l11-7
+                                            C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.821L34.637,21L26.5,26.179z" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="download-option-text">
+                                <div class="download-option-title">{{ props?.projectNameAbbr }}</div>
+                                <div class="download-option-detail">720p <span class="mp4_hd">HD</span></div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="download-option-icon">
+                                <svg version="1.1" class="mp4_fhd" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 58 58" style="enable-background:new 0 0 58 58;" xml:space="preserve">
+                                    <g>
+                                        <path d="M50.95,12.187l-0.77-0.77l0,0L40.084,1.321c0,0-0.001-0.001-0.002-0.001l-0.768-0.768C38.965,0.201,38.48,0,37.985,0H8.963
+                                        C7.777,0,6.5,0.916,6.5,2.926V39v16.537V56c0,0.838,0.843,1.654,1.839,1.91c0.05,0.013,0.097,0.032,0.148,0.042
+                                        C8.644,57.983,8.803,58,8.963,58h40.074c0.16,0,0.319-0.017,0.475-0.048c0.051-0.01,0.098-0.029,0.148-0.042
+                                        C50.657,57.654,51.5,56.838,51.5,56v-0.463V39V13.978C51.5,13.213,51.408,12.646,50.95,12.187z M42.5,21c0,7.168-5.832,13-13,13
+                                        s-13-5.832-13-13s5.832-13,13-13c2.898,0,5.721,0.977,8,2.76V13v1h1h1.948C41.792,16.093,42.5,18.502,42.5,21z M40.981,12H39.5
+                                        v-1.717V3.565L47.935,12H40.981z M8.963,56c-0.071,0-0.135-0.025-0.198-0.049C8.609,55.876,8.5,55.72,8.5,55.537V41h41v14.537
+                                        c0,0.183-0.109,0.339-0.265,0.414C49.172,55.975,49.108,56,49.037,56H8.963z M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595
+                                        C37.525,2.126,37.5,2.256,37.5,2.392v5.942C35.115,6.826,32.342,6,29.5,6c-8.271,0-15,6.729-15,15s6.729,15,15,15s15-6.729,15-15
+                                        c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z" />
+                                        <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674
+                                        23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924 	" />
+                                        <path d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
+                                        c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
+                                        c0-0.483-0.103-0.918-0.308-1.306S33.201,45.018,32.868,44.744z M32.246,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
+                                        s-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
+                                        c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
+                                        C32.396,47.451,32.346,47.795,32.246,48.073z" />
+                                        <path d="M41.146,43.924h-1.668l-4.361,6.426v1.299h4.361V54h1.668v-2.352h1.053V50.35h-1.053V43.924z M39.479,50.35H36.58
+                                        l2.898-4.512V50.35z" />
+                                        <path d="M37.037,20.156l-11-7c-0.308-0.195-0.698-0.208-1.019-0.033C24.699,13.299,24.5,13.635,24.5,14v14
+                                        c0,0.365,0.199,0.701,0.519,0.877C25.169,28.959,25.334,29,25.5,29c0.187,0,0.374-0.053,0.537-0.156l11-7
+                                        C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.821L34.637,21L26.5,26.179z" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="download-option-text">
+                                <div class="download-option-title">{{ props?.projectNameAbbr }}</div>
+                                <div class="download-option-detail">1080p <span class="mp4_fhd">FULL HD</span> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <h6 class="text-loading">ssss</h6>
+
+        <vg-player id="finalVideo">
+            <vg-overlay-play class="align-items-center"></vg-overlay-play>
+            <vg-buffering></vg-buffering>
+
+            <vg-controls>
+                <vg-play-pause></vg-play-pause>
+
+                <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+                <vg-scrub-bar [vgSlider]="true">
+                    <vg-scrub-bar-current-time [vgSlider]="true"></vg-scrub-bar-current-time>
+                    <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                </vg-scrub-bar>
+
+                <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+                <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+                <vg-mute class="align-items-center"></vg-mute>
+                <vg-volume></vg-volume>
+                <div style="width: 20px"></div>
+            </vg-controls>
+            <video [vgMedia]="media" #media preload="auto" name="media">
+                <source [src]="'https://blurbizstagdiag910.blob.core.windows.net/stage/f944f740-4126-11e9-891c-f55362f02646.mp4'" type="video/mp4">
+            </video>
+        </vg-player>
     </div>
 </div>

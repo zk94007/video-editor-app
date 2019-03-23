@@ -4,6 +4,7 @@ import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } fro
 import { ProjectService } from '../../../../shared/services/project.service';
 import * as path from 'path';
 import { VgAPI } from 'videogular2/core';
+import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 
 const loadingURL = 'assets/video-studio/wait.gif';
 
@@ -37,6 +38,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         isPlaying: null,
         isPlayingProjectVideo: false,
         isDeleting: -1,
+        isCaption: false,
 
         displayDeleteFileModal: null,
         displayImportUrlModal: null,
@@ -61,6 +63,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         private router: Router,
         private ng5FilesService: Ng5FilesService,
         private service: ProjectService,
+        private videoStudioService: VideoStudioService
     ) {
         this.fileUploadConfig = {
             acceptExtensions: ['png', 'jpeg', 'jpg', 'avi', 'mp4', 'gif', 'mov', 'mo'],
@@ -84,12 +87,18 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
         this.props.displayDeleteFileModal = 'none';
         this.props.displayImportUrlModal = 'none';
+
+        this.videoStudioService._getVideoForCaption(this.props.projectId);
     }
 
     ngOnInit() {
         this.props.isPlaying = false;
         this.props.isPlayingProjectVideo = false;
         this.props.media = [];
+
+        this.$uns.push(this.videoStudioService.onGetVideoForCaption.subscribe((response) => {
+            this.props.isCaption = response.success;
+        }));
 
         this.ng5FilesService.addConfig(this.fileUploadConfig);
 
@@ -157,7 +166,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 }
             } else {
                 alert("The video you uploaded is invalid, please upload video or image.");
-                
+
                 this.props.isUploading = false;
                 if (this.props.media.length === 0) {
                     this.props.showProjects = false;
@@ -193,7 +202,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 } else {
                     alert("The url you inputed is invalid, please input real youtube or imgur url.");
                 }
-                
+
                 this.props.isUploading = false;
                 if (this.props.media.length === 0) {
                     this.props.showProjects = false;
@@ -425,7 +434,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             this.props.isUploading = true;
             this.props.media.push(preview);
             this.service._addFrameByUrl(this.props.newFrame.filename, this.props.newFrame.url, this.props.projectId, preview.guid);
-            
+
         } else {
             this.props.newFrame.perror = 'Please input Filename and Url.';
         }

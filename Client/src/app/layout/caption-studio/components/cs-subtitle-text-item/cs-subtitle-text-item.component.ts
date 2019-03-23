@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnChanges, Renderer2, ElementRef } from '@ang
 import { FormGroup } from '@angular/forms';
 
 import * as domtoimage from 'dom-to-image';
+import { gcd } from 'calculate-aspect-ratio';
 
 @Component({
     selector: 'app-cs-subtitle-text-item',
@@ -33,23 +34,68 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
 
     ngOnInit() { }
 
-    public process() {
+    public process(video) {
         const element: HTMLElement = this.element.nativeElement;
-        const position = element.getBoundingClientRect();
+        const parentElement: any = element.parentNode;
+        const childElement: any = element.querySelector('span');
+
+        const gap = 20;
+        let parentWidth = parentElement.getBoundingClientRect().width;
+        let parentHeight = parentElement.getBoundingClientRect().height;
+        const childWidth = childElement.getBoundingClientRect().width;
+        const childHeight = childElement.getBoundingClientRect().height;
+        const reposition = {
+            left: 0,
+            top: 0,
+            width: childWidth,
+            height: childHeight
+        };
+
+        if (this.styleProp.video.ratio === '16by9') {
+            parentWidth = ((16 / 9) * video.resolution.height);
+            parentHeight = video.resolution.height;
+        }
+        if (this.styleProp.video.ratio === '1by1') {
+            parentWidth = ((1 / 1) * video.resolution.height);
+            parentHeight = video.resolution.height;
+        }
+        if (this.styleProp.video.ratio === '9by16') {
+            parentWidth = ((9 / 16) * video.resolution.height);
+            parentHeight = video.resolution.height;
+        }
+
+
+        if (this.styleProp.font.align === 'left') {
+            reposition.left = gap;
+        }
+        if (this.styleProp.font.align === 'right') {
+            reposition.left = ((parentWidth - childWidth) - gap);
+        }
+        if (this.styleProp.font.align === 'center') {
+            reposition.left = (parentWidth - childWidth) / 2;
+        }
+        if (this.styleProp.caption.align === 'bottom') {
+            reposition.top = ((parentHeight - childHeight) - gap);
+        }
+        if (this.styleProp.caption.align === 'top') {
+            reposition.top = gap;
+        }
+        if (this.styleProp.caption.align === 'middle') {
+            reposition.top = ((parentHeight - childHeight) / 2);
+        }
+
+        this.renderer.addClass(childElement, 'invisible-disable');
 
         return domtoimage
-            .toPng(element.querySelector('span'))
+            .toPng(childElement)
             .then(dataUrl => {
                 this.group.get('dataurl').setValue(dataUrl);
                 this.group.patchValue({
                     dataurl: dataUrl,
-                    reposition: {
-                        left: position.left,
-                        top: position.top,
-                        width: position.width,
-                        height: position.height
-                    }
+                    reposition: reposition
                 });
+
+                this.renderer.removeClass(childElement, 'invisible-disable');
 
                 return dataUrl;
             });

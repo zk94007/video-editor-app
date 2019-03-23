@@ -630,17 +630,17 @@ export class VideoStudioService {
   }
 
   _getVideoForCaptionResponse(response) {
-    console.log(response);
+    // console.log(response);
     $this.onGetVideoForCaption.emit(response);
   }
 
   _uploadSubtitlesProgress(response) {
-    console.log(response);
+    // console.log(response);
     $this.onUploadSubtitlesProgress.emit(response);
   }
 
   _uploadSubtitlesResponse(response) {
-    console.log(response);
+    // console.log(response);
     $this.onUploadSubtitlesResponse.emit(response);
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2, QueryList, ViewChildren } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 
 import * as moment from 'moment';
 import { forkJoin } from 'rxjs';
@@ -25,8 +25,9 @@ export class CaptionStudioComponent implements OnInit {
     public props = {
         video: {
             sources: [{
-                url: 'https://blurbizstagdiag910.blob.core.windows.net/stage/dec369e0-45b0-11e9-ae1d-9f9091396a20.mp4',
-                type: 'video/mp4'
+                url: '',
+                type: 'video/mp4',
+                resolution: {}
             }],
             duration: null,
             state: null,
@@ -35,7 +36,9 @@ export class CaptionStudioComponent implements OnInit {
         },
         style: {},
         prj_id: null,
-        complete: false
+        complete: false,
+        progress: null,
+        response: null
     };
 
     @ViewChild('videoPlayer') public videoPlayer: CsVideoPlayerComponent;
@@ -64,6 +67,24 @@ export class CaptionStudioComponent implements OnInit {
             subtitles: this.formBuilder.array([])
         });
 
+        this.vsService.onGetVideoForCaption
+            .pipe(
+                tap((response: any) => {
+                    if (response.success) {
+                        this.updateVideoSource(response);
+                    }
+                })
+            )
+            .subscribe();
+
+        this.vsService.onUploadSubtitlesResponse.subscribe((response) => {
+            this.props.response = response;
+        });
+
+        this.vsService.onUploadSubtitlesProgress.subscribe((response) => {
+            this.props.progress = response;
+        });
+
         this.changeDetectorRef.detectChanges();
 
         this.videoPlayer.api.getDefaultMedia().subscriptions.loadedData
@@ -73,8 +94,25 @@ export class CaptionStudioComponent implements OnInit {
 
         this.videoPlayer.api.getDefaultMedia().subscriptions.timeUpdate
             .subscribe(_ => {
-                this.videoSlider.slider.set(this.videoPlayer.api.currentTime);
+                if (this.videoSlider) {
+                    this.videoSlider.slider.set(this.videoPlayer.api.currentTime);
+                }
             });
+    }
+
+    public closeCompletePage() {
+        this.props.complete = false;
+        this.props.response = null;
+        this.props.progress = null;
+    }
+
+    public updateVideoSource(video) {
+        this.props.video.sources.splice(0, 1);
+        this.props.video.sources.push({
+            url: video.video_path,
+            resolution: video.resolution,
+            type: 'video/mp4'
+        });
     }
 
     public toMillisecond(seconds = 0) {
@@ -97,7 +135,7 @@ export class CaptionStudioComponent implements OnInit {
         }
 
         const addrCtrl = this.formBuilder.group({
-            text: null,
+            text: [null, Validators.required],
             startTime: startTime,
             endTime: endTime,
             totalTime: totalTime,
@@ -213,7 +251,7 @@ export class CaptionStudioComponent implements OnInit {
     public complete() {
         this.props.complete = true;
 
-        forkJoin(this.subtitleTextItem.map(subtitle => subtitle.process()))
+        forkJoin(this.subtitleTextItem.map(subtitle => subtitle.process(this.props.video.sources[0])))
         .pipe(
             tap(() => {
                 const subtitles = this.formSubtitle.get('subtitles').value.map(subtitle => {
