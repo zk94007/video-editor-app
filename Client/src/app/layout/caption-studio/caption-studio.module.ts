@@ -8,6 +8,7 @@ import { VgOverlayPlayModule } from 'videogular2/overlay-play';
 import { VgBufferingModule } from 'videogular2/buffering';
 import { NgxMaskModule } from 'ngx-mask';
 
+import { Ng5FilesModule } from '../../shared/module/ng5-files';
 import { RangeSliderModule } from '../../shared/module/range-slider/range-slider.module';
 import { NgbButtonsModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,12 +17,17 @@ import {
     CsSubtitleControlComponent,
     CsContentComponent,
     CsVideoPlayerComponent,
-    CsSubtitleToolabarComponent
+    CsSubtitleToolabarComponent,
+    CsSubtitleTextComponent,
+    CsSubtitleTextItemComponent,
+    CsCompleteComponent
 } from './components';
 import { CaptionStudioComponent } from './caption-studio.component';
 import { CaptionStudioRouting } from './caption-studio.routing';
 
 import { FontPickerService } from '../../shared/services/font-picker.service';
+import { VideoStudioService } from '../../shared/services/video-studio.service';
+import { ProjectService } from '../../shared/services/project.service';
 
 @NgModule({
     imports: [
@@ -37,6 +43,7 @@ import { FontPickerService } from '../../shared/services/font-picker.service';
         NgbButtonsModule,
         NgbDropdownModule,
         NgbTooltipModule,
+        Ng5FilesModule,
         CaptionStudioRouting
     ],
     declarations: [
@@ -45,10 +52,15 @@ import { FontPickerService } from '../../shared/services/font-picker.service';
         CsContentComponent,
         CsSubtitleControlComponent,
         CsVideoPlayerComponent,
-        CsSubtitleToolabarComponent
+        CsSubtitleToolabarComponent,
+        CsSubtitleTextComponent,
+        CsSubtitleTextItemComponent,
+        CsCompleteComponent
     ],
     providers: [
-        FontPickerService
+        FontPickerService,
+        VideoStudioService,
+        ProjectService
     ]
 })
 export class CaptionStudioModule { }

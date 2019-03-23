@@ -5,7 +5,7 @@
                 <svg class="svgIcon" width="30" height="30" viewBox="-3 -3 30 30" enable-background="new -3 -3 30 30"><path d="M17 10h-3v-3c0-1.1-.9-2-2-2s-2 .9-2 2v3h-3c-1.1 0-2 .9-2 2s.9 2 2 2h3v3c0 1.1.9 2 2 2s2-.9 2-2v-3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"></path></svg>
                 <span>Add Media Files</span>
             </a>
-            
+
             <ul ngbDropdownMenu class="dropdown-menu media-menu" aria-labelledby="add-media-file-dropdown" style="min-width: 100px;">
                 <li>
                     <ul style="width: 200px; list-style-type: none;">
@@ -35,6 +35,16 @@
                 <span>Edit</span>
             </a>
         </div>
+        <div class="d-inline-block pull-left" style="margin-left: 10px">
+            <a class="btn btn-add btn-custom btn-white btn-caption-editor" href="/caption-studio/{{props.projectId}}">
+                <span class="d-flex align-items-center">
+                    <svg class="svgIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 459 459">
+                        <path d="M408 25.5H51c-28.05 0-51 22.95-51 51v306c0 28.05 22.95 51 51 51h357c28.05 0 51-22.95 51-51v-306c0-28.05-22.95-51-51-51zM204 204h-38.25v-12.75h-51v76.5h51V255H204v25.5c0 15.3-10.2 25.5-25.5 25.5H102c-15.3 0-25.5-10.2-25.5-25.5v-102c0-15.3 10.2-25.5 25.5-25.5h76.5c15.3 0 25.5 10.2 25.5 25.5V204zm178.5 0h-38.25v-12.75h-51v76.5h51V255h38.25v25.5c0 15.3-10.2 25.5-25.5 25.5h-76.5c-15.3 0-25.5-10.2-25.5-25.5v-102c0-15.3 10.2-25.5 25.5-25.5H357c15.3 0 25.5 10.2 25.5 25.5V204z" />
+                    </svg>
+                    <span>Add Captions</span>
+                </span>
+            </a>
+        </div>
         <div class="float-right menu-right">
             <div ngbDropdown class="d-inline-block" placement="bottom-right">
                 <!-- <button class="btn btn-outline-primary" ngbDropdownToggle>Toggle dropdown</button> -->
@@ -60,7 +70,7 @@
                                        c0,0.183-0.109,0.339-0.265,0.414C49.172,55.975,49.108,56,49.037,56H8.963z M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595
                                        C37.525,2.126,37.5,2.256,37.5,2.392v5.942C35.115,6.826,32.342,6,29.5,6c-8.271,0-15,6.729-15,15s6.729,15,15,15s15-6.729,15-15
                                        c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z"/>
-                                   <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674 
+                                   <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674
                                        23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924 	"/>
                                    <path d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
                                        c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
@@ -95,7 +105,7 @@
                                             c0,0.183-0.109,0.339-0.265,0.414C49.172,55.975,49.108,56,49.037,56H8.963z M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595
                                             C37.525,2.126,37.5,2.256,37.5,2.392v5.942C35.115,6.826,32.342,6,29.5,6c-8.271,0-15,6.729-15,15s6.729,15,15,15s15-6.729,15-15
                                             c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z"/>
-                                        <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674 
+                                        <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674
                                             23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924 	"/>
                                         <path d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
                                             c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
@@ -130,7 +140,7 @@
                                         c0,0.183-0.109,0.339-0.265,0.414C49.172,55.975,49.108,56,49.037,56H8.963z M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595
                                         C37.525,2.126,37.5,2.256,37.5,2.392v5.942C35.115,6.826,32.342,6,29.5,6c-8.271,0-15,6.729-15,15s6.729,15,15,15s15-6.729,15-15
                                         c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z"/>
-                                    <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674 
+                                    <polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674
                                         23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924 	"/>
                                     <path d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
                                         c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
@@ -174,29 +184,29 @@
                     <span>Share</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right menu-social" ngbDropdownMenu>
-                    <li ng-show="$parent.user.snapchat">                   
+                    <li ng-show="$parent.user.snapchat">
                         <div ng-click="openShareModal('snapchat')" class="dropdown-sharelink" >
                             <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/snapchat-btn.png">
                             <span> Send to Snapchat</span>
                         </div>
                     </li>
-                    <li ng-show="$parent.user.facebook">      
+                    <li ng-show="$parent.user.facebook">
                          <div ng-click="openShareModal('facebook')" class="dropdown-sharelink">
                             <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/facebook-btn.png">
                             <span> Share to Facebook</span>
-                        </div>      
+                        </div>
                      </li>
-                    <li ng-show="$parent.user.twitter">   
+                    <li ng-show="$parent.user.twitter">
                          <div ng-click="openShareModal('twitter')"  class="dropdown-sharelink">
-                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/twitter-btn.png">                    
+                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/twitter-btn.png">
                             <span> Send to Twitter</span>
                         </div>
                      </li>
-                    <li ng-show="$parent.user.instagram">   
+                    <li ng-show="$parent.user.instagram">
                          <div ng-click="openShareModal('instagram')"  class="dropdown-sharelink">
-                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/instagram-btn.png">                    
+                            <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/instagram-btn.png">
                             <span> Send to Instagram</span>
-                        </div>                     
+                        </div>
                     </li>
                     <li ng-show="$parent.user.pinterest">
                         <div ng-click="openShareModal('pinterest')" class="dropdown-sharelink" >
@@ -204,18 +214,18 @@
                             <span> Pin to Pinterest</span>
                         </div>
                     </li>
-                    <li class="divider"></li>                       
+                    <li class="divider"></li>
                     <li>
                         <div ng-click="openShareModal('twitter')"  class="dropdown-sharelink">
                             <img class="dropdown-sharelink-img" src="../../../../../assets/layout/icons/schedule-btn.png">
                             <span> Schedule Post</span>
-                        </div>           
-                    </li>                            
+                        </div>
+                    </li>
                 </ul>
             </span> -->
         </div>
     </div>
-    
+
     <div>
         <ng5-files-drop (filesSelect)="filesSelect($event)" (dragenter)="onDragEnter($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
             <div class="pointerEvents-none position-relative" style="z-index: 901;">
@@ -278,7 +288,7 @@
                                     <a class="menu-delete" (click)="deleteFile(m.frm_id)">
                                         <span class="fa fa-trash"></span>
                                     </a>
-                                    
+
                                     <div class="menu-play-video" *ngIf="isVideo(m.frm_path)">
                                         <a (click)="playVideo(m.frm_id)">
                                             <img src="../../../../../assets/layout/icons/play-button-white.png" style="width: 30px; height: 30px"/>
@@ -333,9 +343,9 @@
 
                         <vg-controls>
                             <vg-play-pause></vg-play-pause>
-                    
+
                             <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
-                    
+
                             <vg-scrub-bar [vgSlider]="true">
                                 <vg-scrub-bar-current-time [vgSlider]="true"></vg-scrub-bar-current-time>
                                 <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
@@ -403,13 +413,13 @@
     progress:after { content: '%'; }
     .fail { background: #c00; padding: 2px; color: #fff; }
     .hidden { display: none !important;}
-    
+
     .loader{
         top: 20%;
         left: 40%;
         position: absolute;
     }
-    
+
 </style>
 
 

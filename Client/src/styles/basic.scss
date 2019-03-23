@@ -43,7 +43,7 @@ body {
   background-color: $color-white-m;
   color: #3f4652;
   line-height: 1.4;
-  font-family: Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+  // font-family: Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 14px;
   text-align: left;
   -webkit-overflow-scrolling: none;
@@ -165,7 +165,7 @@ input[type=text]::-ms-clear {
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
   }
-  
+
   20%, 80% {
     transform: translate3d(2px, 0, 0);
   }
@@ -390,7 +390,7 @@ input[type=text]::-ms-clear {
 }
 
 .hovereffect a.info:hover {
-  background-color:#13ce66;  
+  background-color:#13ce66;
 }
 
 .hovereffect a.info:hover {

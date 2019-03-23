@@ -166,7 +166,7 @@
               <div class="my-colorpicker" style="width: 200px; height: 290px"></div>
               <div class="my-colorpicker-colorcode">
                 <span>Color code #</span>
-                <input class="my-colorpicker-hexcode" [(ngModel)]="props.colorModified == true ? 'ffffff' : colorPickerColor" id="my-colorpicker-hexcode"(input)="onColorHexChange($event.target.value)" maxlength="6">
+                <input class="my-colorpicker-hexcode" [(ngModel)]="props.colorModified == true ? 'ffffff' : colorPickerColor" id="my-colorpicker-hexcode" (input)="onColorHexChange($event.target.value)" maxlength="6">
               </div>
             </ul>
           </menu>

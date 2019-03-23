@@ -1,0 +1,8 @@
+<ng-container *ngFor="let subtitle of subtitles; let index = index">
+    <app-cs-subtitle-text-item
+        [currentTime]="currentPlayheadTime"
+        [startTime]="subtitle.value.startTime"
+        [endTime]="subtitle.value.endTime"
+        [styleProp]="styleProp"
+    >{{ subtitle.value.text }}</app-cs-subtitle-text-item>
+</ng-container>

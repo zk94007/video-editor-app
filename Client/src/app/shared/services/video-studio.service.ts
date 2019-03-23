@@ -296,8 +296,8 @@ export class VideoStudioService {
       this.onStartFrameReposition.emit(frame.toJSON());
     }
   }
-  
-  
+
+
 
   _updateFrameReposition(reposition) {
     const frame = this.project.getFrame(this.selected_frm_id);
@@ -610,17 +610,20 @@ export class VideoStudioService {
     }
   }
 
-  _uploadSubtitles(subtitles) {
-    if (this.project) {
-      this.socket.sendMessageWithToken('UPLOAD_SUBTITLES', {prj_id: this.project.prj_id, subtitles: subtitles});
+  _uploadSubtitles(prj_id, subtitles) {
+    if (prj_id) {
+      console.log({prj_id: prj_id, subtitles: subtitles});
+      this.socket.sendMessageWithToken('UPLOAD_SUBTITLES', {prj_id: prj_id, subtitles: subtitles});
     }
   }
 
   _uploadSubtitlesProgress(response) {
+    console.log(response);
     $this.onUploadSubtitlesProgress.emit(response);
   }
 
   _uploadSubtitlesResponse(response) {
+    console.log(response);
     $this.onUploadSubtitlesResponse.emit(response);
   }
 

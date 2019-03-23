@@ -1,0 +1,4 @@
+<ng-container [formGroup]="group">
+    <span [class.invisible]="!(currentTime >= group.value.startTime && currentTime <= group.value.endTime)">{{ group.value.text }}</span>
+    <!-- <span>{{ group.value.text }}</span> -->
+</ng-container>

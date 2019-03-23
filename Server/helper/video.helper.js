@@ -70,7 +70,7 @@ module.exports = {
 
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
 
-        shell.exec('ffmpeg -loglevel quiet -i ' + videoPath + ' ' + forGif1 + ' -i ' + ovlPath + ' -filter_complex "' + filterString + '" -map "[out]" -map 0:a? -c:v libx264 -c:a? copy ' + newFilePath, (code) => {
+        shell.exec('ffmpeg -loglevel quiet -i ' + videoPath + ' -i ' + stlPath + ' -filter_complex "' + filterString + '" -map "[out]" -map 0:a? -c:v libx264 -c:a? copy ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: mergeOverlay2Video' + code, callback);
                 return;
@@ -97,7 +97,7 @@ module.exports = {
             return;
         }
 
-        let rot = imageHelper.rotateRectagle(ovlX, ovlY, ovlWidth, ovlHeight, ovlAngle);
+        // let rot = imageHelper.rotateRectagle(ovlX, ovlY, ovlWidth, ovlHeight, ovlAngle);
         
         let forGif1 = (path.extname(ovlPath) === '.gif' || path.extname(ovlPath) === '.GIF') ? '-ignore_loop 0' : '';
         let forGif2 = (path.extname(ovlPath) === '.gif' || path.extname(ovlPath) === '.GIF') ? ':shortest=1' : '';

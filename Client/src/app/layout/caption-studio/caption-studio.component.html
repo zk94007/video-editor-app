@@ -1,33 +1,47 @@
 <app-cs-sidebar>
-    <div class="p-3">
+    <div class="position-relative" style="min-height: 320px;">
         <div class="overlay active mb-0">
-            <div class="embed-responsive" #videoWrapper>
-                <div class="embed-responsive-item">
-                    <app-cs-video-player [sources]="props.video.sources" #videoPlayer></app-cs-video-player>
-                </div>
-            </div>
-            <div class="overlay-modal bg-transparent p-0">
-                <div class="w-100" #subtitle>
-                    <div class="d-inline-block px-1">
-                        <ng-container *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
-                            <span *ngIf="videoPlayer?.api?.currentTime >= subtitle.value.duration[0] && videoPlayer?.api?.currentTime <= subtitle.value.duration[1]">{{ subtitle.value.text }}</span>
+            <div class="position-relative mx-auto" #videoWrapper>
+                <app-cs-video-player [sources]="props.video.sources" #videoPlayer></app-cs-video-player>
+                <div class="overlay-modal bg-transparent p-0">
+                    <form novalidate [formGroup]="formSubtitle">
+                        <ng-container formArrayName="subtitles">
+                            <div *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
+                                <app-cs-subtitle-text-item
+                                    [currentTime]="videoPlayer?.api?.currentTime"
+                                    [group]="formSubtitle['controls'].subtitles['controls'][index]"
+                                    [styleProp]="props.style"
+                                ></app-cs-subtitle-text-item>
+                            </div>
                         </ng-container>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <app-cs-subtitle-toolbar (change)="updateStyle($event, subtitle, videoWrapper)"></app-cs-subtitle-toolbar>
+    <div class="flex-fill">
+        <app-cs-subtitle-toolbar (propChange)="updateStyle($event, videoWrapper)"></app-cs-subtitle-toolbar>
+    </div>
+    <div class="p-3 text-right">
+        <button class="btn btn-success" (click)="complete()">
+            <span class="d-flex align-items-center">
+                <svg class="icon mr-2" viewBox="0 0 24 24">
+                    <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" />
+                </svg>
+                <span>Complete</span>
+            </span>
+        </button>
+    </div>
 </app-cs-sidebar>
 <app-cs-content>
     <div class="flex-grow-0 p-4 border-bottom bg-white">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <div>
+            <div class="mr-3">
                 <h5 class="mb-2">Add Subtitles To Video</h5>
                 <p class="text-muted">Type and time your subtitles. Click each timestamp to use the ↑ ↓ or ← → arrow keys to make finer adjustments.</p>
             </div>
-            <div>
-                <button class="btn btn-orange mr-3">
+            <div class="text-nowrap">
+                <button class="btn btn-orange mr-2">
                     <span class="d-flex align-items-center">
                         <svg class="icon mr-2" viewBox="0 0 24 24">
                             <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
@@ -35,19 +49,19 @@
                         <span>Edit Video</span>
                     </span>
                 </button>
-                <button class="btn btn-success">
+                <button class="btn btn-success" (click)="complete()">
                     <span class="d-flex align-items-center">
                         <svg class="icon mr-2" viewBox="0 0 24 24">
-                            <path d="M0.41,13.41L6,19L7.41,17.58L1.83,12M22.24,5.58L11.66,16.17L7.5,12L6.07,13.41L11.66,19L23.66,7M18,7L16.59,5.58L10.24,11.93L11.66,13.34L18,7Z" />
+                            <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" />
                         </svg>
                         <span>Complete</span>
                     </span>
                 </button>
-                <button class="btn btn-link text-muted">
-                    <svg class="icon mr-2" viewBox="0 0 24 24">
+                <a class="btn btn-link btn-icon text-muted" href="/project/detail/{{ props.prj_id }}">
+                    <svg class="icon" viewBox="0 0 24 24">
                         <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
 
@@ -67,13 +81,13 @@
                     <path d="M12,5V1L7,6L12,11V7A6,6 0 0,1 18,13A6,6 0 0,1 12,19A6,6 0 0,1 6,13H4A8,8 0 0,0 12,21A8,8 0 0,0 20,13A8,8 0 0,0 12,5Z" stroke="none" />
                 </svg>
             </button>
-            <button class="btn btn-secondary">-5s</button>
-            <button class="btn btn-secondary">+5s</button>
-            <button class="btn bg-transparent">{{ toDuration(videoPlayer?.api?.currentTime) }} / {{ toDuration(videoPlayer?.api?.duration) }}</button>
+            <button class="btn btn-secondary" (click)="seekTime(videoPlayer?.api?.currentTime - 5)">-5s</button>
+            <button class="btn btn-secondary" (click)="seekTime(videoPlayer?.api?.currentTime + 5)">+5s</button>
+            <button class="btn bg-transparent">{{ toMillisecond(videoPlayer?.api?.currentTime).format('mm:ss:SS') }} / {{ toMillisecond(videoPlayer?.api?.duration).format('mm:ss:SS') }}</button>
         </div>
 
         <ng-container *ngIf="videoPlayer?.api?.duration">
-            <app-range-slider [(ngModel)]="props.video.initialTime" [min]="0" [max]="videoPlayer?.api?.duration" [step]="0.1" [keyboard]="true" #videoSlider (ngModelChange)="seekTime($event)"></app-range-slider>
+            <app-range-slider [(ngModel)]="props.video.initialTime" [min]="0" [max]="videoPlayer?.api?.duration" [step]="0.1" [keyboard]="true" #videoSlider (slide)="seekTime($event)"></app-range-slider>
         </ng-container>
     </div>
     <div class="scrollable scrollable-y">
@@ -82,7 +96,7 @@
                 <form novalidate [formGroup]="formSubtitle">
                     <div formArrayName="subtitles">
                         <div class="mb-4" *ngFor="let subtitle of formSubtitle['controls'].subtitles['controls']; let index = index">
-                            <app-cs-subtitle-control [group]="formSubtitle['controls'].subtitles['controls'][index]"></app-cs-subtitle-control>
+                            <app-cs-subtitle-control [group]="formSubtitle['controls'].subtitles['controls'][index]" [videoPlayer]="videoPlayer"></app-cs-subtitle-control>
                         </div>
                     </div>
 
@@ -92,8 +106,19 @@
                                 <app-cs-subtitle-control></app-cs-subtitle-control>
                             </ng-container>
                         </div>
-                        <div class="overlay-modal flex-column align-items-center justify-content-center bgcolor-fade-2x">
-                            <a href="javascript:;" class="btn btn-success" (click)="addSubtitle(0, videoPlayer?.api?.duration)">Add Another Subtitle</a>
+                        <div class="overlay-modal align-items-center justify-content-center bgcolor-fade-2x">
+                            <a href="javascript:;" class="btn btn-success mr-3" (click)="addSubtitle(videoPlayer?.api?.duration)">Add Another Subtitle</a>
+                            <ng5-files-click (filesSelect)="srtFileSelected($event)">
+                                <span class="btn btn-purple">
+                                    <span class="d-flex align-items-center">
+                                        <svg class="icon icon-sm mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550.801 550.801">
+                                            <path d="M488.426 197.014H475.2v-63.817c0-.401-.063-.799-.116-1.205-.021-2.534-.827-5.023-2.562-6.993L366.325 3.694c-.032-.034-.063-.045-.085-.076-.633-.707-1.371-1.298-2.151-1.804-.231-.158-.464-.287-.706-.422a11.325 11.325 0 0 0-2.131-.896c-.2-.053-.38-.135-.58-.19A10.939 10.939 0 0 0 358.193 0H97.2C85.282 0 75.6 9.693 75.6 21.601v175.413H62.377c-17.049 0-30.873 13.818-30.873 30.87v160.542c0 17.044 13.824 30.876 30.873 30.876h13.224V529.2c0 11.907 9.682 21.601 21.6 21.601h356.4c11.907 0 21.6-9.693 21.6-21.601V419.302h13.226c17.044 0 30.871-13.827 30.871-30.87v-160.54c-.001-17.06-13.828-30.878-30.872-30.878zM97.2 21.601h250.193v110.51c0 5.967 4.841 10.8 10.8 10.8H453.6v54.108H97.2V21.601zm226.905 320.161c4.968 17.982 9.94 38.791 13.016 44.939h-36.904c-2.6-4.492-6.386-17.497-11.121-37.125-4.256-19.886-11.114-25.317-25.774-25.555h-10.887v62.68H216.72V229.413c11.588-1.901 28.862-3.309 48.022-3.309 23.652 0 40.21 3.541 51.564 12.527 9.46 7.559 14.66 18.689 14.66 33.349 0 20.348-14.423 34.301-28.145 39.264v.712c11.117 4.503 17.272 15.146 21.284 29.806zM82.864 379.371l7.333-29.795c9.698 4.957 24.598 9.925 39.97 9.925 16.559 0 25.31-6.86 25.31-17.265 0-9.936-7.565-15.609-26.723-22.465-26.494-9.229-43.756-23.899-43.756-47.082 0-27.189 22.708-48.012 60.312-48.012 17.977 0 31.224 3.784 40.685 8.045l-8.042 29.091c-6.383-3.066-17.745-7.56-33.349-7.56-15.612 0-23.182 7.09-23.182 15.367 0 10.178 8.991 14.67 29.563 22.475 28.146 10.399 41.396 25.07 41.396 47.535 0 26.736-20.577 49.434-64.333 49.434-18.215 0-36.193-4.725-45.184-9.693zm370.737 143.976H97.2V419.302h356.4v104.045zm13.827-265.794H423.9v129.148h-36.187V257.553h-42.814v-30.268h122.518v30.268h.011z" />
+                                            <path d="M268.759 252.827c-8.751 0-13.717.707-16.319 1.184v43.991h14.196c17.972 0 28.624-8.985 28.624-22.952 0-14.648-9.935-21.99-26.501-22.223z" />
+                                        </svg>
+                                        <span>Upload .SRT</span>
+                                    </span>
+                                </span>
+                            </ng5-files-click>
                         </div>
                     </div>
                 </form>
@@ -101,3 +126,4 @@
         </div>
     </div>
 </app-cs-content>
+<app-cs-complete *ngIf="props.complete"></app-cs-complete>

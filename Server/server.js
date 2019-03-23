@@ -415,15 +415,7 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on(constant.method.uploadSubtitles, function (message) {
-        helper.log.system('received upload subtitles message: ' + JSON.stringify(message));
-        helper.socket.authenticateMessage(socket, constant.method.uploadSubtitles, message, function (err, userInfo) {
-            service.project.uploadSubtitles(userInfo, message, function (err, result) {
-                socket.emit(constant.method.uploadSubtitles + '_RESPONSE', result);
-                helper.log.system(JSON.stringify(result));
-            });
-        });
-    });
+    
 
     socket.on(constant.method.updateFrameOrder, function(message) {
         helper.log.system('received update frame order message: ' + JSON.stringify(message));
@@ -491,6 +483,16 @@ io.on('connection', function(socket) {
             service.frame.getFramesWithOverlay(userInfo, message, function (err, result) {
                 socket.emit(constant.method.getFramesWithOverlay + '_RESPONSE', result);
                 // helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
+    socket.on(constant.method.uploadSubtitles, function (message) {
+        helper.log.system('received upload subtitles message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.uploadSubtitles, message, function (err, userInfo) {
+            service.project.uploadSubtitles(userInfo, message, (percent, loading) => { socket.emit('UPLOAD_SUBTITLES_PROGRESS', { loading: loading, percent: percent }); }, function (err, result) {
+                socket.emit(constant.method.uploadSubtitles + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
             });
         });
     });
