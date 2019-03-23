@@ -200,7 +200,7 @@ module.exports = {
             projectModel.getProjectByPrjId(prj_id, (e, project) => {
                 if (project.prj_video_path_full_hd) {
                     helper.response.onSuccessPlus(callback, {
-                        video_path: video_path,
+                        video_path: project.prj_video_path_full_hd,
                         resolution: { width: config.video.scene1080[project.prj_scene_ratio].width, height: config.video.scene1080[project.prj_scene_ratio].height }
                     });
                 } else {
