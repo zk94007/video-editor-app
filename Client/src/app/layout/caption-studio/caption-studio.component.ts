@@ -55,6 +55,7 @@ export class CaptionStudioComponent implements OnInit {
     ) {
         this.route.params.subscribe((res) => {
             this.props.prj_id = res.prj_id;
+            this.vsService._getVideoForCaption(this.props.prj_id);
         });
     }
 

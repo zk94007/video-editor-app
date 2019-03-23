@@ -185,6 +185,43 @@ module.exports = {
         }
     },
 
+    getVideoForCaption(userInfo, message, callback) {
+        try {
+            let prj_id = message.prj_id;
+            
+            let notFilledFields = [];
+            !prj_id ? notFilledFields.push('prj_id') : '';
+
+            if (notFilledFields.length > 0) {
+                helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
+                return;
+            }
+
+            projectModel.getProjectByPrjId(prj_id, (e, project) => {
+                if (project.prj_video_path_full_hd) {
+                    video_path = project.prj_video_path_full_hd.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+                    helper.response.onSuccessPlus(callback, {
+                        video_path: video_path,
+                        resolution: { width: config.video.scene1080[project.prj_scene_ratio].width, height: config.video.scene1080[project.prj_scene_ratio].height }
+                    });
+                } else {
+                    video_path = frameModel.getFramesByPrjId(prj_id, (e, frames) => {
+                        if (frames[0].frm_type == 1) {
+                            helper.response.onSuccessPlus(callback, {
+                                video_path: frames[0].frm_path,
+                                resolution: frames[0].frm_resolution
+                            });
+                        } else {
+                            helper.response.onError('First frame is not video', callback);
+                        }
+                    });
+                }
+            });
+        } catch (err) {
+            helper.response.onError('error: getVideoForCaption', callback);
+        }
+    },
+
     uploadSubtitles(userInfo, message, setProgress, callback) {
         try {
             let prj_id = message.prj_id;

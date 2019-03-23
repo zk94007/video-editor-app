@@ -85,6 +85,8 @@ export class VideoStudioService {
   @Output() onChangeBackground = new EventEmitter();
   @Output() onGetStaticOverlays = new EventEmitter();
 
+  @Output() onGetVideoForCaption = new EventEmitter();
+
   public binds = [
     {
       name: 'GET_FRAMES_WITH_OVERLAY_RESPONSE',
@@ -125,6 +127,10 @@ export class VideoStudioService {
     {
       name: 'UPLOAD_SUBTITLES_PROGRESS',
       function: this._uploadSubtitlesProgress
+    },
+    {
+      name: 'GET_VIDEO_FOR_CAPTION_RESPONSE',
+      function: this._getVideoForCaptionResponse
     },
     {
       name: 'UPLOAD_SUBTITLES_RESPONSE',
@@ -615,6 +621,17 @@ export class VideoStudioService {
       console.log({prj_id: prj_id, subtitles: subtitles});
       this.socket.sendMessageWithToken('UPLOAD_SUBTITLES', {prj_id: prj_id, subtitles: subtitles});
     }
+  }
+
+  _getVideoForCaption(prj_id) {
+    if (prj_id) {
+      this.socket.sendMessageWithToken('GET_VIDEO_FOR_CAPTION', {prj_id});
+    }
+  }
+
+  _getVideoForCaptionResponse(response) {
+    console.log(response);
+    $this.onGetVideoForCaption.emit(response);
   }
 
   _uploadSubtitlesProgress(response) {

@@ -30,6 +30,7 @@ module.exports = {
 
     generateSasToken:           'GENERATE_SAS',
 
+    getVideoForCaption:         'GET_VIDEO_FOR_CAPTION',
     uploadSubtitles:            'UPLOAD_SUBTITLES',
 
     addFrame:                   'ADD_FRAME',

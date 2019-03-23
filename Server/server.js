@@ -487,6 +487,16 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.getVideoForCaption, function (message) {
+        helper.log.system('received '+constant.method.getVideoForCaption+' message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.getVideoForCaption, message, function (err, userInfo) {
+            service.project.getVideoForCaption(userInfo, message, function (err, result) {
+                socket.emit(constant.method.getVideoForCaption + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.uploadSubtitles, function (message) {
         helper.log.system('received upload subtitles message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.uploadSubtitles, message, function (err, userInfo) {
