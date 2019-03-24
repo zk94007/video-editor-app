@@ -224,11 +224,15 @@ module.exports = {
     uploadSubtitles(userInfo, message, setProgress, callback) {
         try {
             let prj_id = message.prj_id;
-            let subtitles = message.subtitles;
+            let data = message.data;
+
+            let subtitles = data.subtitles;
+            let scene_ratio = data.subtitles;
+            let background = data.background;
             
             let notFilledFields = [];
             !prj_id ? notFilledFields.push('prj_id') : '';
-            !subtitles ? notFilledFields.push('subtitles') : '';
+            !data ? notFilledFields.push('data') : '';
             if (notFilledFields.length > 0) {
                 helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
                 return;
