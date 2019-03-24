@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnChanges, Renderer2, ElementRef } from '@ang
 import { FormGroup } from '@angular/forms';
 
 import * as domtoimage from 'dom-to-image';
-import { gcd } from 'calculate-aspect-ratio';
 
 @Component({
     selector: 'app-cs-subtitle-text-item',
