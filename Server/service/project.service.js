@@ -323,7 +323,6 @@ module.exports = {
                                 config.video.scene1080[scene_ratio].height,
                                 background.color,
                                 (err, newPath) => {
-                                    workfiles.push(video_path);
                                     video_path = newPath;
                                     series_callback(err);
                                     setProgress(60, 'Uploading subtitles');
@@ -381,8 +380,6 @@ module.exports = {
                 seriesTasks.push((series_callback) => {
                     const cloudName = uuidGen.v1() + '.mp4';
                     helper.file.putFileToCloud(cloudName, project.prj_name, pvFilePathFullHD, (err, filepath) => {
-                        workfiles.push(pvFilePathFullHD);
-
                         let destpath = filepath.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
                         helper.file.copyFile(pvFilePathFullHD, destpath);
 
