@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, OnChanges, Renderer2, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Renderer2, ElementRef, NgZone } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import * as domtoimage from 'dom-to-image';
+import * as html2canvas from 'html2canvas';
 
 @Component({
     selector: 'app-cs-subtitle-text-item',
@@ -22,7 +22,8 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
 
     constructor(
         private renderer: Renderer2,
-        public element: ElementRef
+        public element: ElementRef,
+        private zone: NgZone
     ) {}
 
     ngOnChanges() {
@@ -38,55 +39,90 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
         const parentElement: any = element.parentNode;
         const childElement: any = element.querySelector('span');
 
-        const gap = 20;
-        let parentWidth = parentElement.getBoundingClientRect().width;
-        let parentHeight = parentElement.getBoundingClientRect().height;
-        const childWidth = childElement.getBoundingClientRect().width;
-        const childHeight = childElement.getBoundingClientRect().height;
+        let frameWidth = parentElement.getBoundingClientRect().width;
+        let frameHeight = parentElement.getBoundingClientRect().height;
+        const subsWidth = childElement.getBoundingClientRect().width;
+        const subsHeight = childElement.getBoundingClientRect().height;
         const reposition = {
             left: 0,
             top: 0,
-            width: childWidth,
-            height: childHeight
+            width: 0,
+            height: 0
         };
+        let frameScaleX;
+        let frameScaleY;
 
         if (this.styleProp.video.ratio === '16by9') {
-            parentWidth = ((16 / 9) * video.resolution.height);
-            parentHeight = video.resolution.height;
+            frameScaleX = (1920 / frameWidth);
+            frameScaleY = (1080 / frameHeight);
+            frameWidth = ((16 / 9) * video.resolution.height);
+            frameHeight = video.resolution.height;
         }
         if (this.styleProp.video.ratio === '1by1') {
-            parentWidth = ((1 / 1) * video.resolution.height);
-            parentHeight = video.resolution.height;
+            frameScaleX = (1080 / frameWidth);
+            frameScaleY = (1080 / frameHeight);
+            frameWidth = ((1 / 1) * video.resolution.height);
+            frameHeight = video.resolution.height;
         }
         if (this.styleProp.video.ratio === '9by16') {
-            parentWidth = ((9 / 16) * video.resolution.height);
-            parentHeight = video.resolution.height;
+            frameScaleX = (1080 / frameWidth);
+            frameScaleY = (1920 / frameHeight);
+            frameWidth = ((9 / 16) * video.resolution.height);
+            frameHeight = video.resolution.height;
         }
 
+        reposition.width = (subsWidth * frameScaleX);
+        reposition.height = (subsHeight * frameScaleX);
 
         if (this.styleProp.font.align === 'left') {
-            reposition.left = gap;
+            reposition.left = 0;
         }
         if (this.styleProp.font.align === 'right') {
-            reposition.left = ((parentWidth - childWidth) - gap);
+            reposition.left = (frameWidth - (subsWidth * frameScaleX));
         }
         if (this.styleProp.font.align === 'center') {
-            reposition.left = (parentWidth - childWidth) / 2;
+            reposition.left = (frameWidth - (subsWidth * frameScaleX)) / 2;
         }
         if (this.styleProp.caption.align === 'bottom') {
-            reposition.top = ((parentHeight - childHeight) - gap);
+            reposition.top = (frameHeight - (subsHeight * frameScaleX));
         }
         if (this.styleProp.caption.align === 'top') {
-            reposition.top = gap;
+            reposition.top = 0;
         }
         if (this.styleProp.caption.align === 'middle') {
-            reposition.top = ((parentHeight - childHeight) / 2);
+            reposition.top = ((frameHeight - (subsHeight * frameScaleX)) / 2);
         }
 
         this.renderer.addClass(childElement, 'invisible-disable');
 
-        return domtoimage
-            .toPng(childElement)
+        return html2canvas(childElement, {
+            width: subsWidth,
+            height: subsHeight,
+            scale: frameScaleX,
+            backgroundColor: null
+        }).then((canvas: HTMLCanvasElement) => {
+            this.zone.run(() => {
+                this.group.patchValue({
+                    dataurl: canvas.toDataURL('image/png'),
+                    reposition: reposition
+                });
+
+                this.renderer.removeClass(childElement, 'invisible-disable');
+
+                return canvas.toDataURL('image/png');
+            });
+        });
+
+        /* return domtoimage
+            .toPng(childElement, {
+                width: (subsWidth * frameScaleX),
+                height: (subsHeight * frameScaleY),
+                style: {
+                    'visibility': 'visible',
+                    'transform': `scale(${frameScaleX}, ${frameScaleY})`,
+                    'transform-origin': 'top left'
+                }
+            })
             .then(dataUrl => {
                 this.group.get('dataurl').setValue(dataUrl);
                 this.group.patchValue({
@@ -97,7 +133,7 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
                 this.renderer.removeClass(childElement, 'invisible-disable');
 
                 return dataUrl;
-            });
+            }); */
     }
 
     private _fontStyle(style) {

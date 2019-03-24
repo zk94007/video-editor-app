@@ -28,7 +28,7 @@ export class CsSubtitleToolabarComponent implements OnInit {
     public props = {
         font: {
             family: 'Arial',
-            size: 18,
+            size: 14,
             color: {
                 hex: '#c9ff92',
                 rgba: 'rgba(201,255,146,1)'

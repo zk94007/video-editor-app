@@ -11,7 +11,7 @@ import { RangeSliderComponent } from '../../shared/module/range-slider/range-sli
 import { CsSubtitleTextItemComponent } from './components/cs-subtitle-text-item/cs-subtitle-text-item.component';
 
 import { VideoStudioService } from '../../shared/services/video-studio.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-caption-studio',
@@ -56,7 +56,8 @@ export class CaptionStudioComponent implements OnInit {
         private formBuilder: FormBuilder,
         private renderer: Renderer2,
         private vsService: VideoStudioService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
         this.route.params.subscribe((res) => {
             this.props.prj_id = res.prj_id;
@@ -66,6 +67,11 @@ export class CaptionStudioComponent implements OnInit {
 
     ngOnInit() {
         this.formSubtitle = this.formBuilder.group({
+            prj_id: this.props.prj_id,
+            background: this.formBuilder.group({
+                color: null
+            }),
+            scene_ratio: null,
             subtitles: this.formBuilder.array([])
         });
 
@@ -172,9 +178,15 @@ export class CaptionStudioComponent implements OnInit {
 
     public updateStyle(event) {
         const videoWrapper = this.videoWrapper.nativeElement;
+        const newRatio = { '16by9': 169, '1by1': 11, '9by16': 916 };
         this.props.style = {...event};
 
-        console.log(this.props.style);
+        this.formSubtitle.patchValue({
+            background: {
+                color: event.video.color.hex
+            },
+            scene_ratio: newRatio[event.video.ratio],
+        });
 
         if (videoWrapper) {
             const ratio = this._aspectRatio(event.video.ratio);
@@ -196,7 +208,7 @@ export class CaptionStudioComponent implements OnInit {
 
     private _aspectRatio(ratio) {
         const height = 320;
-        const width = 428;
+        const width = 460;
         let newWidth;
         let newHeight;
 
@@ -258,6 +270,10 @@ export class CaptionStudioComponent implements OnInit {
         fileReader.readAsText(file, 'UTF-8');
     }
 
+    public gotoVideoStudio() {
+        this.router.navigate(['/video-studio', this.props.prj_id]);
+    }
+
     public complete() {
         this.props.complete = true;
 
@@ -265,6 +281,7 @@ export class CaptionStudioComponent implements OnInit {
             .pipe(
                 tap(() => {
                     const subtitles = this.formSubtitle.get('subtitles').value.map(subtitle => {
+                        console.log(subtitle.dataurl);
                         return {
                             startTime: subtitle.startTime,
                             endTime: subtitle.endTime,
