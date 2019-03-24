@@ -297,7 +297,6 @@ export class CaptionStudioComponent implements OnInit {
                     });
 
                     this.vsService._uploadSubtitles(this.props.prj_id, {
-                        prj_id: this.props.prj_id,
                         background: this.formSubtitle.value.background,
                         scene_ratio: this.formSubtitle.value.scene_ratio,
                         subtitles: subtitles

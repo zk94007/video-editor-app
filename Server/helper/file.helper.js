@@ -403,7 +403,6 @@ module.exports = {
                                         height: size.width
                                     };
                                 }
-                                console.log(resolution);
                                 series_callback(err);
                             });
                         });
