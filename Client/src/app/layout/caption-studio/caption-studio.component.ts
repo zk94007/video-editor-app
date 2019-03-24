@@ -281,7 +281,6 @@ export class CaptionStudioComponent implements OnInit {
             .pipe(
                 tap(() => {
                     const subtitles = this.formSubtitle.get('subtitles').value.map(subtitle => {
-                        console.log(subtitle.dataurl);
                         return {
                             startTime: subtitle.startTime,
                             endTime: subtitle.endTime,
@@ -290,7 +289,12 @@ export class CaptionStudioComponent implements OnInit {
                         };
                     });
 
-                    this.vsService._uploadSubtitles(this.props.prj_id, subtitles);
+                    this.vsService._uploadSubtitles(this.props.prj_id, {
+                        prj_id: this.props.prj_id,
+                        background: this.formSubtitle.value.background,
+                        scene_ratio: this.formSubtitle.value.scene_ratio,
+                        subtitles: subtitles
+                    });
                 })
             )
             .subscribe());
