@@ -289,6 +289,13 @@ export class CaptionStudioComponent implements OnInit {
                         };
                     });
 
+                    console.log({
+                        prj_id: this.props.prj_id,
+                        background: this.formSubtitle.value.background,
+                        scene_ratio: this.formSubtitle.value.scene_ratio,
+                        subtitles: subtitles
+                    });
+
                     this.vsService._uploadSubtitles(this.props.prj_id, {
                         prj_id: this.props.prj_id,
                         background: this.formSubtitle.value.background,

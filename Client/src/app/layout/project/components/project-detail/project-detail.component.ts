@@ -83,12 +83,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.$uns.push(this.route.params.subscribe( (params) => {
             this.props.projectId = params['prj_id'];
             this.service._getFrameList(this.props.projectId);
+            this.videoStudioService._getVideoForCaption(this.props.projectId);
         }));
 
         this.props.displayDeleteFileModal = 'none';
         this.props.displayImportUrlModal = 'none';
-
-        this.videoStudioService._getVideoForCaption(this.props.projectId);
     }
 
     ngOnInit() {
@@ -157,6 +156,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                         frm_id: message.frm_id,
                         frm_name: message.frm_name,
                         frm_order: message.frm_order,
+                        frm_type: message.frm_type,
                         frm_path: message.frm_path,
                         frm_resolution: message.frm_resolution,
                         isUploading: false
@@ -189,6 +189,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                         frm_id: message.frm_id,
                         frm_name: message.frm_name,
                         frm_order: message.frm_order,
+                        frm_type: message.frm_type,
                         frm_path: message.frm_path,
                         frm_resolution: message.frm_resolution,
                         isUploading: false
@@ -270,6 +271,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                     this.props.isUploading = true;
                     this.props.media.push(preview);
                     this.service._addFrame(file, {prj_id: this.props.projectId, guid: preview.guid});
+
+                    this.$uns.push(this.service.onAddFrame.subscribe(() => {
+                        this.service._getFrameList(this.props.projectId);
+                    }));
                 }
             }
         }
@@ -393,6 +398,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         if (this.props.isDeleting != -1) {
             this.props.media[this.props.isDeleting].frm_path = loadingURL;
             this.service._deleteFrame(this.props.media[this.props.isDeleting].frm_id);
+            this.$uns.push(this.service.onDeleteFrame.subscribe(() => {
+                this.service._getFrameList(this.props.projectId);
+            }));
         }
     }
 
@@ -434,6 +442,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             this.props.isUploading = true;
             this.props.media.push(preview);
             this.service._addFrameByUrl(this.props.newFrame.filename, this.props.newFrame.url, this.props.projectId, preview.guid);
+            this.$uns.push(this.service.onAddFrameByUrl.subscribe(() => {
+                this.service._getFrameList(this.props.projectId);
+            }));
 
         } else {
             this.props.newFrame.perror = 'Please input Filename and Url.';
