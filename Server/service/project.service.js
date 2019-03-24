@@ -199,7 +199,7 @@ module.exports = {
 
             projectModel.getProjectByPrjId(prj_id, (e, project) => {
                 if (project.prj_video_path_full_hd) {
-                    helper.response.onSuccessPlus(callback, {
+                    helper.response.onSuccessPlus(callback, {                        
                         video_path: project.prj_video_path_full_hd,
                         resolution: { width: config.video.scene1080[project.prj_scene_ratio].width, height: config.video.scene1080[project.prj_scene_ratio].height }
                     });
@@ -411,6 +411,7 @@ module.exports = {
                     if (!e) {
                         if (option) {
                             helper.response.onSuccessPlus(callback, {
+                                'project_name': project.prj_name,
                                 'finalvideo': pvFilePath,
                                 'finalvideoSD': pvFilePathSD,
                                 'finalvideoHD': pvFilePathHD,
@@ -418,6 +419,7 @@ module.exports = {
                             });
                         } else {
                             helper.response.onSuccessPlus(callback, {
+                                'project_name': project.prj_name,
                                 'finalvideo': video_path
                             });
                         }

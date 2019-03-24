@@ -41,6 +41,8 @@ export class CaptionStudioComponent implements OnInit {
         response: null
     };
 
+    public $uns: any = [];
+
     @ViewChild('videoPlayer') public videoPlayer: CsVideoPlayerComponent;
 
     @ViewChild('videoSlider') public videoSlider: RangeSliderComponent;
@@ -67,7 +69,7 @@ export class CaptionStudioComponent implements OnInit {
             subtitles: this.formBuilder.array([])
         });
 
-        this.vsService.onGetVideoForCaption
+        this.$uns.push(this.vsService.onGetVideoForCaption
             .pipe(
                 tap((response: any) => {
                     if (response.success) {
@@ -75,29 +77,35 @@ export class CaptionStudioComponent implements OnInit {
                     }
                 })
             )
-            .subscribe();
+            .subscribe());
 
-        this.vsService.onUploadSubtitlesResponse.subscribe((response) => {
+        this.$uns.push(this.vsService.onUploadSubtitlesResponse.subscribe((response) => {
             this.props.response = response;
-        });
+        }));
 
-        this.vsService.onUploadSubtitlesProgress.subscribe((response) => {
+        this.$uns.push(this.vsService.onUploadSubtitlesProgress.subscribe((response) => {
             this.props.progress = response;
-        });
+        }));
 
         this.changeDetectorRef.detectChanges();
 
-        this.videoPlayer.api.getDefaultMedia().subscriptions.loadedData
+        this.$uns.push(this.videoPlayer.api.getDefaultMedia().subscriptions.loadedData
             .subscribe(_ => {
                 this.addSubtitle(this.videoPlayer.api.duration);
-            });
+            }));
 
-        this.videoPlayer.api.getDefaultMedia().subscriptions.timeUpdate
+        this.$uns.push(this.videoPlayer.api.getDefaultMedia().subscriptions.timeUpdate
             .subscribe(_ => {
                 if (this.videoSlider) {
                     this.videoSlider.slider.set(this.videoPlayer.api.currentTime);
                 }
-            });
+            }));
+    }
+
+    ngOnDestroy() {
+        this.$uns.forEach($uns => {
+            $uns.unsubscribe();
+        });
     }
 
     public closeCompletePage() {
@@ -165,6 +173,8 @@ export class CaptionStudioComponent implements OnInit {
     public updateStyle(event) {
         const videoWrapper = this.videoWrapper.nativeElement;
         this.props.style = {...event};
+
+        console.log(this.props.style);
 
         if (videoWrapper) {
             const ratio = this._aspectRatio(event.video.ratio);
@@ -251,21 +261,21 @@ export class CaptionStudioComponent implements OnInit {
     public complete() {
         this.props.complete = true;
 
-        forkJoin(this.subtitleTextItem.map(subtitle => subtitle.process(this.props.video.sources[0])))
-        .pipe(
-            tap(() => {
-                const subtitles = this.formSubtitle.get('subtitles').value.map(subtitle => {
-                    return {
-                        startTime: subtitle.startTime,
-                        endTime: subtitle.endTime,
-                        dataurl: subtitle.dataurl,
-                        reposition: subtitle.reposition
-                    };
-                });
+        this.$uns.push(forkJoin(this.subtitleTextItem.map(subtitle => subtitle.process(this.props.video.sources[0])))
+            .pipe(
+                tap(() => {
+                    const subtitles = this.formSubtitle.get('subtitles').value.map(subtitle => {
+                        return {
+                            startTime: subtitle.startTime,
+                            endTime: subtitle.endTime,
+                            dataurl: subtitle.dataurl,
+                            reposition: subtitle.reposition
+                        };
+                    });
 
-                this.vsService._uploadSubtitles(this.props.prj_id, subtitles);
-            })
-        )
-        .subscribe();
+                    this.vsService._uploadSubtitles(this.props.prj_id, subtitles);
+                })
+            )
+            .subscribe());
     }
 }
