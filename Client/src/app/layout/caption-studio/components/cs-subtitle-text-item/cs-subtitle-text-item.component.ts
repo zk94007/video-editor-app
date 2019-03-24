@@ -39,8 +39,11 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
         const parentElement: any = element.parentNode;
         const childElement: any = element.querySelector('span');
 
-        let frameWidth = parentElement.getBoundingClientRect().width;
-        let frameHeight = parentElement.getBoundingClientRect().height;
+        const frameWidth = parentElement.getBoundingClientRect().width;
+        const frameHeight = parentElement.getBoundingClientRect().height;
+
+        let newFrameWidth = frameWidth;
+        let newFrameHeight = frameHeight;
         const subsWidth = childElement.getBoundingClientRect().width;
         const subsHeight = childElement.getBoundingClientRect().height;
         const reposition = {
@@ -49,48 +52,44 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
             width: 0,
             height: 0
         };
-        let frameScaleX;
-        let frameScaleY;
+        let frameScale;
 
         if (this.styleProp.video.ratio === '16by9') {
-            frameScaleX = (1920 / frameWidth);
-            frameScaleY = (1080 / frameHeight);
-            frameWidth = ((16 / 9) * video.resolution.height);
-            frameHeight = video.resolution.height;
+            frameScale = (1920 / frameWidth);
+            newFrameWidth = ((16 / 9) * video.resolution.height);
+            newFrameHeight = video.resolution.height;
         }
         if (this.styleProp.video.ratio === '1by1') {
-            frameScaleX = (1080 / frameWidth);
-            frameScaleY = (1080 / frameHeight);
-            frameWidth = ((1 / 1) * video.resolution.height);
-            frameHeight = video.resolution.height;
+            frameScale = (1080 / frameWidth);
+            newFrameWidth = ((1 / 1) * video.resolution.height);
+            newFrameHeight = video.resolution.height;
         }
         if (this.styleProp.video.ratio === '9by16') {
-            frameScaleX = (1080 / frameWidth);
-            frameScaleY = (1920 / frameHeight);
-            frameWidth = ((9 / 16) * video.resolution.height);
-            frameHeight = video.resolution.height;
+            frameScale = (1920 / 1080);
+            newFrameWidth = 1080;
+            newFrameHeight = 1920;
         }
 
-        reposition.width = (subsWidth * frameScaleX);
-        reposition.height = (subsHeight * frameScaleX);
+        reposition.width = (subsWidth * frameScale);
+        reposition.height = (subsHeight * frameScale);
 
         if (this.styleProp.font.align === 'left') {
             reposition.left = 0;
         }
         if (this.styleProp.font.align === 'right') {
-            reposition.left = (frameWidth - (subsWidth * frameScaleX));
+            reposition.left = (newFrameWidth - (subsWidth * frameScale));
         }
         if (this.styleProp.font.align === 'center') {
-            reposition.left = (frameWidth - (subsWidth * frameScaleX)) / 2;
+            reposition.left = (newFrameWidth - (subsWidth * frameScale)) / 2;
         }
         if (this.styleProp.caption.align === 'bottom') {
-            reposition.top = (frameHeight - (subsHeight * frameScaleX));
+            reposition.top = (newFrameHeight - (subsHeight * frameScale));
         }
         if (this.styleProp.caption.align === 'top') {
             reposition.top = 0;
         }
         if (this.styleProp.caption.align === 'middle') {
-            reposition.top = ((frameHeight - (subsHeight * frameScaleX)) / 2);
+            reposition.top = ((newFrameHeight - (subsHeight * frameScale)) / 2);
         }
 
         this.renderer.addClass(childElement, 'invisible-disable');
@@ -98,7 +97,7 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
         return html2canvas(childElement, {
             width: subsWidth,
             height: subsHeight,
-            scale: frameScaleX,
+            scale: frameScale,
             backgroundColor: null
         }).then((canvas: HTMLCanvasElement) => {
             this.zone.run(() => {
