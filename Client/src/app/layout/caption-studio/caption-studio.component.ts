@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2, QueryList, ViewChildren, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 
 import * as moment from 'moment';
@@ -19,7 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['caption-studio.component.scss']
 })
 
-export class CaptionStudioComponent implements OnInit {
+export class CaptionStudioComponent implements OnInit, OnDestroy {
     public formSubtitle: FormGroup;
 
     public props = {

@@ -41,7 +41,7 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
 
         const frameWidth = parentElement.getBoundingClientRect().width;
         const frameHeight = parentElement.getBoundingClientRect().height;
-
+        const gap = 20;
         let newFrameWidth = frameWidth;
         let newFrameHeight = frameHeight;
         const subsWidth = childElement.getBoundingClientRect().width;
@@ -55,18 +55,18 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
         let frameScale;
 
         if (this.styleProp.video.ratio === '16by9') {
-            frameScale = (1920 / frameWidth);
+            frameScale = (1920 / frameWidth); // 4.173913043478261
             newFrameWidth = ((16 / 9) * video.resolution.height);
-            newFrameHeight = video.resolution.height;
+            newFrameHeight = 1080;
         }
         if (this.styleProp.video.ratio === '1by1') {
-            frameScale = (1080 / frameWidth);
+            frameScale = (1080 / frameWidth); // 3.375
             newFrameWidth = ((1 / 1) * video.resolution.height);
-            newFrameHeight = video.resolution.height;
+            newFrameHeight = 1080;
         }
         if (this.styleProp.video.ratio === '9by16') {
-            frameScale = (1920 / 1080);
-            newFrameWidth = 1080;
+            frameScale = (1080 / frameWidth); // 6
+            newFrameWidth = ((9 / 16) * video.resolution.width);
             newFrameHeight = 1920;
         }
 
@@ -83,10 +83,10 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
             reposition.left = (newFrameWidth - (subsWidth * frameScale)) / 2;
         }
         if (this.styleProp.caption.align === 'bottom') {
-            reposition.top = (newFrameHeight - (subsHeight * frameScale));
+            reposition.top = (newFrameHeight - (subsHeight * frameScale) - (gap * frameScale));
         }
         if (this.styleProp.caption.align === 'top') {
-            reposition.top = 0;
+            reposition.top = (gap * frameScale);
         }
         if (this.styleProp.caption.align === 'middle') {
             reposition.top = ((newFrameHeight - (subsHeight * frameScale)) / 2);
