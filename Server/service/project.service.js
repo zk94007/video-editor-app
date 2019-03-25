@@ -346,7 +346,7 @@ module.exports = {
                             subtitle.startTime,
                             subtitle.endTime,
                             (e, newPath) => {
-                                pvFilePathFullHD = newPath;
+                                video_path = newPath;
                                 workfiles.push(video_path);
                                 series_callback(e);
                             });
@@ -355,6 +355,7 @@ module.exports = {
 
                 //preview
                 seriesTasks.push((series_callback) => {
+                    pvFilePathFullHD = video_path;
                     helper.video.resizevideo(pvFilePathFullHD, config.video.scene[scene_ratio].width, config.video.scene[scene_ratio].height, (err, filepath) => {
                         pvFilePath = filepath;
                         series_callback(err);
