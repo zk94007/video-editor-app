@@ -270,10 +270,6 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
         fileReader.readAsText(file, 'UTF-8');
     }
 
-    public gotoVideoStudio() {
-        this.router.navigate(['/video-studio', this.props.prj_id]);
-    }
-
     public complete() {
         this.props.complete = true;
 

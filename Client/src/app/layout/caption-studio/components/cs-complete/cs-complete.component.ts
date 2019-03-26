@@ -24,7 +24,7 @@ export class CsCompleteComponent implements OnInit, OnChanges {
     constructor() { }
 
     ngOnChanges() {
-        if (this.response) {            
+        if (this.response) {
             this.props.projectNameAbbr = this.response.project_name.length > 17 ? this.response.project_name.slice(0, 16) + '...' : this.response.project_name;
             this.props.finalvideo = this.response.finalvideo ? this.response.finalvideo : '';
             this.props.finalvideosd = this.response.finalvideoSD ? this.response.finalvideoSD : '';
@@ -33,7 +33,7 @@ export class CsCompleteComponent implements OnInit, OnChanges {
         }
     }
 
-    ngOnInit() { }
+    ngOnInit() {}
 
     public closeCompletePage() {
         this.onCloseComplete.emit(true);

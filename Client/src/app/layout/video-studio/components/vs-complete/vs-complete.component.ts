@@ -4,137 +4,154 @@ import { VideoStudioService } from '../../../../shared/services/video-studio.ser
 import { VgAPI } from 'videogular2/core';
 import { Location } from '@angular/common';
 import { ProjectService } from '../../../../shared/services/project.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
 @Component({
-  selector: 'app-vs-complete',
-  templateUrl: './vs-complete.component.html',
-  styleUrls: ['./vs-complete.component.scss']
+    selector: 'app-vs-complete',
+    templateUrl: './vs-complete.component.html',
+    styleUrls: ['./vs-complete.component.scss']
 })
 
 export class VsCompleteComponent implements OnInit, OnDestroy {
-  private $uns: any = [];
+    private $uns: any = [];
 
-  @ViewChild(NgProgressComponent) progressBar: NgProgressComponent;
+    @ViewChild(NgProgressComponent) progressBar: NgProgressComponent;
 
-  private api: any;
+    private api: any;
 
-  public props: any = {
-    isConcatenating: null,
-    percent: null,
-    loading: '',
-    finalvideo: '',
-    finalvideosd: '',
-    finalvideohd: '',
-    finalvideofhd: '',
-    downloadOption: -1,
-    projectName: '',
-    projectNameAbbr: '',
-    previousURL: ''
-  };
+    public props: any = {
+        isConcatenating: null,
+        percent: null,
+        loading: '',
+        finalvideo: '',
+        finalvideosd: '',
+        finalvideohd: '',
+        finalvideofhd: '',
+        downloadOption: -1,
+        projectId: '',
+        projectName: '',
+        projectNameAbbr: '',
+        previousURL: ''
+    };
 
-  constructor(private vsService: VideoStudioService, private location: Location, private service: ProjectService) {
-    let response : string;
-    response = localStorage.getItem('complete_preview');
-    if (response === 'true') {
-      this.props.isConcatenating = true;
-      this.props.percent = 10;
-      this.props.loading = '';
-      this.props.finalvideo = '';
-    } else if (response === 'false') {
-      this.props.isConcatenating = false;
-      this.props.finalvideo = this.vsService.getProjectVideoPath();
-      this.props.finalvideosd = this.vsService.getProjectVideoPathSD();
-      this.props.finalvideohd = this.vsService.getProjectVideoPathHD();
-      this.props.finalvideofhd = this.vsService.getProjectVideoPathFullHD();
-      this.props.projectName = this.vsService.getProjectName();
-      this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
-      if (this.api) {
-        this.api.getDefaultMedia().currentTime = 0;
-        this.api.play();
-      }
-    } else {
-      this.location.back();
-    }
-    
-    this.$uns.push(this.vsService.onConcatenateProgress.subscribe((response) => {
-      this.props.percent = response.percent;
-      this.props.loading = response.loading;
-    }));
-
-    this.$uns.push(this.vsService.onConcatenate.subscribe((response) => {
-      if (response.success) {
-        this.props.isConcatenating = false;
-        this.props.finalvideo = response.finalvideo;
-        this.props.finalvideosd = response.finalvideoSD;
-        this.props.finalvideohd = response.finalvideoHD;
-        this.props.finalvideofhd = response.finalvideoFullHD;
-        this.props.projectName = this.vsService.getProjectName();
-        this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
-        if (this.api) {
-          this.api.getDefaultMedia().currentTime = 0;
-          this.api.play();
+    constructor(
+        private vsService: VideoStudioService,
+        private location: Location,
+        private service: ProjectService,
+        private router: Router,
+        private route: ActivatedRoute,
+    ) {
+        let response: string;
+        response = localStorage.getItem('complete_preview');
+        if (response === 'true') {
+            this.props.isConcatenating = true;
+            this.props.percent = 10;
+            this.props.loading = '';
+            this.props.finalvideo = '';
+        } else if (response === 'false') {
+            this.props.isConcatenating = false;
+            this.props.finalvideo = this.vsService.getProjectVideoPath();
+            this.props.finalvideosd = this.vsService.getProjectVideoPathSD();
+            this.props.finalvideohd = this.vsService.getProjectVideoPathHD();
+            this.props.finalvideofhd = this.vsService.getProjectVideoPathFullHD();
+            this.props.projectName = this.vsService.getProjectName();
+            this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
+            if (this.api) {
+                this.api.getDefaultMedia().currentTime = 0;
+                this.api.play();
+            }
+        } else {
+            this.location.back();
         }
-      } else {
-      }
-    }));
-  }
 
-  ngOnInit() {
-    this.$uns.push(this.service.onGenerateSas.subscribe((message) => {
-      if (this.props.downloadOption == 1) {
-          this.download(this.props.projectName, this.props.finalvideosd + '?' + message.token);
-      } else if (this.props.downloadOption == 2) {
-          this.download(this.props.projectName, this.props.finalvideohd + '?' + message.token);
-      } else if (this.props.downloadOption == 3) {
-          this.download(this.props.projectName, this.props.finalvideofhd + '?' + message.token);
-      }
-    }));
-  }
+        this.$uns.push(this.vsService.onConcatenateProgress.subscribe((response) => {
+            this.props.percent = response.percent;
+            this.props.loading = response.loading;
+        }));
 
-  download(filename, src) {
-    const element = document.createElement('a');
-    element.setAttribute('href', src);
-    element.setAttribute('download', filename);
+        this.$uns.push(this.vsService.onConcatenate.subscribe((response) => {
+            if (response.success) {
+                this.props.isConcatenating = false;
+                this.props.finalvideo = response.finalvideo;
+                this.props.finalvideosd = response.finalvideoSD;
+                this.props.finalvideohd = response.finalvideoHD;
+                this.props.finalvideofhd = response.finalvideoFullHD;
+                this.props.projectId =  response.prj_id;
+                this.props.projectName = this.vsService.getProjectName();
+                this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
+                if (this.api) {
+                    this.api.getDefaultMedia().currentTime = 0;
+                    this.api.play();
+                }
+            } else {
+            }
+        }));
 
-    element.style.display = 'none';
-    document.body.appendChild(element);
+        this.$uns.push(this.route.parent.params.subscribe((res) => {
+            this.props.projectId = res.prj_id;
+        }));
+    }
 
-    element.click();
+    ngOnInit() {
+        this.$uns.push(this.service.onGenerateSas.subscribe((message) => {
+            if (this.props.downloadOption == 1) {
+                this.download(this.props.projectName, this.props.finalvideosd + '?' + message.token);
+            } else if (this.props.downloadOption == 2) {
+                this.download(this.props.projectName, this.props.finalvideohd + '?' + message.token);
+            } else if (this.props.downloadOption == 3) {
+                this.download(this.props.projectName, this.props.finalvideofhd + '?' + message.token);
+            }
+        }));
+    }
 
-    document.body.removeChild(element);
-  }
+    download(filename, src) {
+        const element = document.createElement('a');
+        element.setAttribute('href', src);
+        element.setAttribute('download', filename);
 
-  onPlayerReady(api: VgAPI) {
-    this.api = api;
+        element.style.display = 'none';
+        document.body.appendChild(element);
 
-    this.api.getDefaultMedia().subscriptions.ended.subscribe(() => {
-    });
-    this.api.getDefaultMedia().subscriptions.seeked.subscribe(() => {
-    });
-  }
+        element.click();
 
-  _downloadProjectVideo(option) {
-    this.props.downloadOption = option;
-    this.service._generateSas();
-}
+        document.body.removeChild(element);
+    }
 
-  onPlayerLoadStart() {
-    $('#singleVideo').addClass('loading');
-  }
+    onPlayerReady(api: VgAPI) {
+        this.api = api;
 
-  onPlayerCanPlay() {
-    $('#singleVideo').removeClass('loading');
-  }
+        this.api.getDefaultMedia().subscriptions.ended.subscribe(() => {
+        });
+        this.api.getDefaultMedia().subscriptions.seeked.subscribe(() => {
+        });
+    }
 
-  onCloseModal() {
-    this.location.back();
-  }
+    _downloadProjectVideo(option) {
+        this.props.downloadOption = option;
+        this.service._generateSas();
+    }
 
-  ngOnDestroy() {
-    this.$uns.forEach($uns => {
-      $uns.unsubscribe();
-    });
-  }
+    onPlayerLoadStart() {
+        $('#singleVideo').addClass('loading');
+    }
+
+    onPlayerCanPlay() {
+        $('#singleVideo').removeClass('loading');
+    }
+
+    onCloseModal() {
+        this.location.back();
+    }
+
+    gotoAddCaption() {
+        this.router.navigate(['/caption-studio', this.props.projectId]);
+    }
+
+    ngOnDestroy() {
+        this.$uns.forEach($uns => {
+            $uns.unsubscribe();
+        });
+    }
 }
