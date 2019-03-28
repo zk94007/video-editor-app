@@ -57,8 +57,8 @@ export class ProjectService {
      *
      * @param projectName
      */
-    _createProject(projectName) {
-        this.socket.sendMessageWithToken('CREATE_PROJECT', { prj_name: projectName });
+    _createProject(projectName, type = 1) {
+        this.socket.sendMessageWithToken('CREATE_PROJECT', { prj_name: projectName, prj_type: type})
     }
 
     /**

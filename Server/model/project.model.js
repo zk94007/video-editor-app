@@ -50,6 +50,7 @@ module.exports = {
                         prj_created_at: row.prj_created_at,
                         prj_video_path: row.prj_video_path,
                         prj_representative: row.frm_path,
+                        prj_type: row.prj_type != 2 ? 1 : 2
                     };
                     projects.push(project);
                 });
@@ -67,7 +68,7 @@ module.exports = {
      * @param {*} prj_name 
      * @param {*} callback 
      */
-    createProject(usr_id, prj_name, callback) {
+    createProject(usr_id, prj_name, prj_type, callback) {
         try {
             helper.model.insert('project', [
                 {
@@ -79,6 +80,9 @@ module.exports = {
                 }, {
                     name: 'prj_scene_ratio',
                     value: '169'
+                }, {
+                    name: 'prj_type',
+                    value: prj_type
                 }
             ], 'prj_id', (err, result) => {
                 if (err) {

@@ -69,9 +69,11 @@ module.exports = {
     createProject(userInfo, message, callback) {
         try {
             let prj_name = message.prj_name;
+            let prj_type = message.prj_type;
             
             let notFilledFields = [];
             !prj_name ? notFilledFields.push('prj_name') : '';
+            !prj_type ? notFilledFields.push('prj_type') : '';
 
             if (notFilledFields.length > 0) {
                 helper.response.onError('Required fileds are not filled: ' + notFilledFields.toString(), callback);
@@ -89,7 +91,7 @@ module.exports = {
                     return;
                 }
 
-                projectModel.createProject(userInfo.usr_id, prj_name, (_err, prj_id) => {
+                projectModel.createProject(userInfo.usr_id, prj_name, prj_type, (_err, prj_id) => {
                     if (_err) {
                         helper.response.onError(_err, callback);
                         return;
@@ -200,7 +202,7 @@ module.exports = {
 
             projectModel.getProjectByPrjId(prj_id, (e, project) => {
                 if (project.prj_video_path_full_hd) {
-                    helper.response.onSuccessPlus(callback, {                        
+                    helper.response.onSuccessPlus(callback, {
                         video_path: project.prj_video_path_full_hd,
                         resolution: { width: config.video.scene1080[project.prj_scene_ratio].width, height: config.video.scene1080[project.prj_scene_ratio].height }
                     });
