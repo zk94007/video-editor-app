@@ -32,10 +32,11 @@ module.exports = {
                         frm_duration: row.frm_type == 1 ? JSON.parse(row.frm_duration) : row.frm_duration,
                         frm_name: row.frm_name,
                         frm_path: row.frm_path,
-                        frm_resolution: row.frm_resolution != '' ? JSON.parse(row.frm_resolution) : '',
-                        frm_reposition: row.frm_reposition != '' ? JSON.parse(row.frm_reposition) : '',
-                        frm_gif_delays: row.frm_gif_delays != '' ? JSON.parse(row.frm_gif_delays) : '',
-                        frm_background: row.frm_background != '' ? JSON.parse(row.frm_background) : '',
+                        frm_resolution: row.frm_resolution ? JSON.parse(row.frm_resolution) : '',
+                        frm_reposition: row.frm_reposition ? JSON.parse(row.frm_reposition) : '',
+                        frm_gif_delays: row.frm_gif_delays ? JSON.parse(row.frm_gif_delays) : '',
+                        frm_background: row.frm_background ? JSON.parse(row.frm_background) : '',
+                        frm_subtitles: row.frm_subtitles ? JSON.parse(frm_subtitles) : '',
                     };
                     frames.push(frame);
                 });
@@ -69,10 +70,11 @@ module.exports = {
                     frm_duration: row.frm_type == 1 ? JSON.parse(row.frm_duration) : row.frm_duration,
                     frm_name: row.frm_name,
                     frm_path: row.frm_path,
-                    frm_resolution: row.frm_resolution != '' ? JSON.parse(row.frm_resolution) : '',
-                    frm_reposition: row.frm_reposition != '' ? JSON.parse(row.frm_reposition) : '',
-                    frm_gif_delays: row.frm_gif_delays != '' ? JSON.parse(row.frm_gif_delays) : '',
-                    frm_background: row.frm_background != '' ? JSON.parse(row.frm_background) : '',
+                    frm_resolution: row.frm_resolution ? JSON.parse(row.frm_resolution) : '',
+                    frm_reposition: row.frm_reposition ? JSON.parse(row.frm_reposition) : '',
+                    frm_gif_delays: row.frm_gif_delays ? JSON.parse(row.frm_gif_delays) : '',
+                    frm_background: row.frm_background ? JSON.parse(row.frm_background) : '',
+                    frm_subtitles: row.frm_subtitles ? JSON.parse(row.frm_subtitles) : '',
                 };
 
                 helper.response.onSuccess(callback, frame);
