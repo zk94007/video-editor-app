@@ -83,10 +83,18 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
             reposition.left = (newFrameWidth - (subsWidth * frameScale)) / 2;
         }
         if (this.styleProp.caption.align === 'bottom') {
-            reposition.top = (newFrameHeight - (subsHeight * frameScale) - (gap * frameScale));
+            if (this.styleProp.caption.type === 'full') {
+                reposition.top = (newFrameHeight - (subsHeight * frameScale) - frameScale);
+            } else {
+                reposition.top = (newFrameHeight - (subsHeight * frameScale) - (gap * frameScale));
+            }
         }
         if (this.styleProp.caption.align === 'top') {
-            reposition.top = (gap * frameScale);
+            if (this.styleProp.caption.type === 'full') {
+                reposition.top = 0;
+            } else {
+                reposition.top = (gap * frameScale);
+            }
         }
         if (this.styleProp.caption.align === 'middle') {
             reposition.top = ((newFrameHeight - (subsHeight * frameScale)) / 2);
@@ -146,8 +154,9 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
 
     private _captionStyle(type) {
         this.renderer.removeStyle(this.element.nativeElement, 'text-shadow');
-        this.renderer.removeStyle(this.element.nativeElement, 'background-color');
         this.renderer.removeStyle(this.element.nativeElement.querySelector('span'), 'background-color');
+        this.renderer.removeStyle(this.element.nativeElement.querySelector('span'), 'display');
+        this.renderer.removeStyle(this.element.nativeElement.querySelector('span'), 'line-height');
 
         switch (type) {
             case 'none':
@@ -170,13 +179,23 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
                     'background-color',
                     this.styleProp.caption.color.rgba
                 );
+                this.renderer.setStyle(
+                    this.element.nativeElement.querySelector('span'),
+                    'line-height',
+                    1.5
+                );
                 break;
 
             case 'full':
                 this.renderer.setStyle(
-                    this.element.nativeElement,
+                    this.element.nativeElement.querySelector('span'),
                     'background-color',
                     this.styleProp.caption.color.rgba
+                );
+                this.renderer.setStyle(
+                    this.element.nativeElement.querySelector('span'),
+                    'display',
+                    'block'
                 );
                 break;
 
@@ -188,6 +207,7 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
     private _captionAlign(alignment) {
         this.renderer.removeStyle(this.element.nativeElement, 'bottom');
         this.renderer.removeStyle(this.element.nativeElement, 'top');
+        this.renderer.removeStyle(this.element.nativeElement, 'margin-top');
 
         switch (alignment) {
             case 'bottom':

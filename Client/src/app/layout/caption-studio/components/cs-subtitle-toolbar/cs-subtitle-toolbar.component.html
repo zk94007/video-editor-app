@@ -6,7 +6,7 @@
                     <div class="d-inline-block text-left text-truncate align-top" [style.width]="'90px'">{{ props.font.family }}</div>
                 </button>
                 <div ngbDropdownMenu class="mt-2 dropdown-scrollable">
-                    <a class="dropdown-item" href="javascript:;" ngbDropdownItem *ngFor="let font of props.font.lists | async" (click)="selectFontFamily(font.family)">
+                    <a class="dropdown-item" href="javascript:;" ngbDropdownItem *ngFor="let font of fontLists$ | async" (click)="selectFontFamily(font.family)">
                         <span [style.font-family]="font.family">{{ font.family }}</span>
                     </a>
                 </div>

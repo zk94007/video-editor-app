@@ -37,8 +37,7 @@ export class CsSubtitleToolabarComponent implements OnInit, OnChanges {
             },
             weight: 'normal',
             style: 'normal',
-            align: 'left',
-            lists: new BehaviorSubject([])
+            align: 'left'
         },
         caption: {
             type: 'highlight',
@@ -58,6 +57,7 @@ export class CsSubtitleToolabarComponent implements OnInit, OnChanges {
     };
 
     public fontSizes = [8, 10, 12, 14, 16, 18, 20, 22, 24, 28];
+    public fontLists$ = new BehaviorSubject([]);
 
     constructor(
         private fontPickerService: FontPickerService
@@ -74,7 +74,7 @@ export class CsSubtitleToolabarComponent implements OnInit, OnChanges {
         this.fontPickerService.getAllFonts('popularity')
             .pipe(
                 map(({ items }) => items.slice(0, 100)),
-                tap((items) => this.props.font.lists.next(items)),
+                tap((items) => this.fontLists$.next(items)),
                 map((items) => {
                     items.forEach((item: any) => {
                         this.fontPickerService.loadFont({ family: item.family, style: '400,500,700', size: '14px' });
