@@ -18,8 +18,8 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6 col-sm-4 col-3-md col-lg-2" *ngFor="let project of projects; let index = index;">
-                    <div class="card card-project">
+                <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2" *ngFor="let project of projects; let index = index;">
+                    <div class="card card-project mb-4">
                         <div class="overlay card-img-top">
                             <div class="px-3 pt-3 border-bottom text-center">
                                 <div class="overflow-hidden" [style.height.px]="200">
@@ -55,7 +55,7 @@
                                     </svg>
                                 </a>
                             </div>
-                            <div class="text-center my-3 flex-grow-1">
+                            <div class="text-center my-2 flex-grow-1">
                                 <div class="d-flex align-items-center justify-content-around text-muted hover-show" [class.hover-show-active]="project.prj_editable">
                                     <span class="d-block" [style.width.px]="16" [style.height.px]="16">&nbsp;</span>
                                     <input type="text" class="form-control form-control-sm" [(ngModel)]="project.prj_name" [readonly]="project.prj_editable === false" (dblclick)="project.prj_editable = !project.prj_editable" (keydown.enter)="saveProjectName($event.target.value, project.prj_id)">
