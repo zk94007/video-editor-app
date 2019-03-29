@@ -36,7 +36,7 @@ module.exports = {
                         frm_reposition: row.frm_reposition ? JSON.parse(row.frm_reposition) : '',
                         frm_gif_delays: row.frm_gif_delays ? JSON.parse(row.frm_gif_delays) : '',
                         frm_background: row.frm_background ? JSON.parse(row.frm_background) : '',
-                        frm_subtitles: row.frm_subtitles ? JSON.parse(frm_subtitles) : '',
+                        frm_subtitles: row.frm_subtitles ? JSON.parse(row.frm_subtitles) : '',
                     };
                     frames.push(frame);
                 });
