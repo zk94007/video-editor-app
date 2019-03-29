@@ -19,6 +19,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         projectId: null,
         projectName: '',
         projectNameAbbr: '',
+        projectType: 1,
         media: [],
         showProjects: null,
         disableDownloadButton: true,
@@ -102,8 +103,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.ng5FilesService.addConfig(this.fileUploadConfig);
 
         this.$uns.push(this.service.onGetFrameList.subscribe((message) => {
-            const success = message['success'];
-            if (success) {
+            if (message['success']) {
                 this.service.changePageTitle({
                     pageTitle: message.project.prj_name,
                     isTitleEditable: true
@@ -118,13 +118,22 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 } else {
                     this.props.disableDownloadButton = true;
                 }
+
+                this.props.projectType = message.project.prj_type;
                 this.props.projectName = message.project.prj_name;
                 this.props.projectNameAbbr = this.props.projectName.length > 17 ? this.props.projectName.slice(0, 16) + '...' : this.props.projectName;
 
                 this.props.media = message['frames'];
+
                 if (this.props.media.length === 0) {
                     this.props.showProjects = false;
                 } else {
+                    if (this.props.projectType === 2) {
+                        // because the way of this app is designed, we need to do full page navigate
+                        // to hide the sidebar and header
+                        location.href = `/caption-studio/${this.props.projectId}`;
+                    }
+
                     this.props.showProjects = true;
                 }
             } else {
@@ -442,7 +451,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             this.props.isUploading = true;
             this.props.media.push(preview);
             this.service._addFrameByUrl(this.props.newFrame.filename, this.props.newFrame.url, this.props.projectId, preview.guid);
-            this.$uns.push(this.service.onAddFrameByUrl.subscribe(() => {
+            this.$uns.push(this.service.onAddFrameByUrl.subscribe((response) => {
                 this.service._getFrameList(this.props.projectId);
             }));
 

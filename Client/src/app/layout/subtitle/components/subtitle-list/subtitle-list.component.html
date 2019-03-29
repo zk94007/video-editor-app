@@ -1,0 +1,15 @@
+<div class="backdrop" [ngStyle]="{'display':props.displayCreateSubtitleModal}"></div>
+<div class="modal" [ngStyle]="{'display':props.displayCreateSubtitleModal}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="btn-close" (click)="cancelCreateSubtitle()"></span>
+                <h3 class="modal-title" id="modal-title">Create Project</h3>
+                <input type="text" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-custom btn-green btn-md" type="button">Create Project</button>
+            </div>
+        </div>
+    </div>
+</div>

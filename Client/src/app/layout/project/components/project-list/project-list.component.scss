@@ -1,0 +1,52 @@
+@import "../../../../../styles/bootstrap/functions";
+@import "../../../../../styles/bootstrap/variables";
+@import "../../../../../styles/bootstrap/mixins";
+
+:host {
+    .card-project {
+        .overlay-modal {
+            .btn-outline-success {
+                border-width: 2px;
+                border-color: #fff;
+                color: #fff;
+            }
+        }
+
+        .form-control {
+            padding: 2px 0;
+            height: auto;
+            width: 150px;
+            min-width: auto;
+            text-align: center;
+            border-color: transparent;
+            font-weight: 600;
+
+            &[readonly] {
+                background-color: #fff;
+            }
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        .hover-show {
+            .show {
+                opacity: 0;
+            }
+
+            &:hover,
+            &:active,
+            &.hover-show-active {
+                .show {
+                    opacity: 1 !important;
+                }
+            }
+        }
+
+        .hover-show-active .form-control {
+            border-color: $border-color;
+            @include form-control-focus();
+        }
+    }
+}

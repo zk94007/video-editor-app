@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="flex-fill">
-        <app-cs-subtitle-toolbar (propChange)="updateStyle($event, videoWrapper)"></app-cs-subtitle-toolbar>
+        <app-cs-subtitle-toolbar (propChange)="updateStyle($event)"></app-cs-subtitle-toolbar>
     </div>
     <div class="p-3 text-right">
         <button class="btn btn-success" (click)="complete()" [disabled]="!formSubtitle.valid">
@@ -39,14 +39,14 @@
                 <p class="text-muted">Type and time your subtitles. Click each timestamp to use the ↑ ↓ or ← → arrow keys to make finer adjustments.</p>
             </div>
             <div class="text-nowrap">
-                <a class="btn btn-orange text-white mr-2" href="/video-studio/{{ props.prj_id }}">
+                <!-- <a class="btn btn-orange text-white mr-2" href="/video-studio/{{ props.prj_id }}">
                     <span class="d-flex align-items-center">
                         <svg class="icon mr-2" viewBox="0 0 24 24">
                             <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
                         </svg>
                         <span>Edit Video</span>
                     </span>
-                </a>
+                </a> -->
                 <button class="btn btn-success" (click)="complete()" [disabled]="!formSubtitle.valid">
                     <span class="d-flex align-items-center">
                         <svg class="icon mr-2" viewBox="0 0 24 24">
@@ -55,7 +55,7 @@
                         <span>Complete</span>
                     </span>
                 </button>
-                <a class="btn btn-link btn-icon text-muted" href="/project/detail/{{ props.prj_id }}">
+                <a class="btn btn-link btn-icon text-muted" href="/project">
                     <svg class="icon" viewBox="0 0 24 24">
                         <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
                     </svg>

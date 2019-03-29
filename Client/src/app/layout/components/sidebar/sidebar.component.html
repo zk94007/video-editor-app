@@ -1,28 +1,33 @@
 <div id="sidebar-wrapper" ng-hide="isBared">
-  <ul class="sidebar">
-    <li class="sidebar-main">
-      <a (click)="toggleSidebar()">
-        <span class="logo-holder">
-          <img src="assets/layout/images/bb-logo.png">
-        </span>
-        <span class="menu-text">Blurbiz</span>
-      </a>
-    </li>
-    <li ui-sref-active="active" class="sidebar-list">
-      <a [routerLink]="['/project']">
-        <span class="icon-holder">
-          <img class="sidebar-icon" src="assets/layout/icons/sidebar-home-icon.png">
-        </span>
-        <span class="menu-text">Projects</span>
-      </a>
-    </li>
-    <!-- <li ui-sref-active="active" class="sidebar-list">
-      <a ui-sref="tables">
-        <span class="icon-holder">
-          <img class="sidebar-icon" src="assets/layout/icons/sidebar-clock-icon.png">
-        </span>
-        <span class="menu-text"> Schedule </span>
-      </a>
-    </li> -->
-  </ul>
+    <ul class="sidebar">
+        <li class="sidebar-main">
+            <a (click)="toggleSidebar()">
+                <span class="logo-holder">
+                    <img src="assets/layout/images/bb-logo.png">
+                </span>
+                <span class="menu-text">Blurbiz</span>
+            </a>
+        </li>
+        <li ui-sref-active="active" class="sidebar-list">
+            <a [routerLink]="['/project']" [queryParams]="{project_type: 1}">
+                <span class="icon-holder">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58.365 58.365" [style.width.px]="30" [style.height.px]="30" [style.fill]="'#fff'">
+                        <path d="M57.863 26.632L29.182 0 .502 26.632a1.001 1.001 0 0 0 1.361 1.466l3.319-3.082v33.349h48v-33.35l3.319 3.082a.995.995 0 0 0 .681.267 1 1 0 0 0 .681-1.732zm-6.681 29.733h-44V23.158l22-20.429 22 20.429v33.207z"/>
+                        <path d="M13.182 35.365h14v-14h-14v14zm2-12h10v10h-10v-10zM45.182 21.365h-14v14h14v-14zm-2 12h-10v-10h10v10zM13.182 53.365h14v-14h-14v14zm2-12h10v10h-10v-10zM45.182 39.365h-14v14h14v-14zm-2 12h-10v-10h10v10z"/>
+                    </svg>
+                </span>
+                <span class="menu-text">Projects</span>
+            </a>
+        </li>
+        <li ui-sref-active="active" class="sidebar-list">
+            <a [routerLink]="['/project']" [queryParams]="{project_type: 2, modal_create: true}">
+                <span class="icon-holder">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 459 459" [style.width.px]="26" [style.height.px]="26" [style.fill]="'#f5a622'">
+                        <path d="M408 25.5H51c-28.05 0-51 22.95-51 51v306c0 28.05 22.95 51 51 51h357c28.05 0 51-22.95 51-51v-306c0-28.05-22.95-51-51-51zM204 204h-38.25v-12.75h-51v76.5h51V255H204v25.5c0 15.3-10.2 25.5-25.5 25.5H102c-15.3 0-25.5-10.2-25.5-25.5v-102c0-15.3 10.2-25.5 25.5-25.5h76.5c15.3 0 25.5 10.2 25.5 25.5V204zm178.5 0h-38.25v-12.75h-51v76.5h51V255h38.25v25.5c0 15.3-10.2 25.5-25.5 25.5h-76.5c-15.3 0-25.5-10.2-25.5-25.5v-102c0-15.3 10.2-25.5 25.5-25.5H357c15.3 0 25.5 10.2 25.5 25.5V204z"/>
+                    </svg>
+                </span>
+                <span class="menu-text">Add Subtitles</span>
+            </a>
+        </li>
+    </ul>
 </div>

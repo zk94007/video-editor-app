@@ -145,7 +145,7 @@
                         line-height: 16px;
                         color: #656E7C;
 						text-decoration: none;
-						
+
 						.new_banner {
 							border: 1px solid $color-pink;
 							border-radius: 4px;
@@ -168,14 +168,14 @@
 
 	.page-button {
 		background-color: $color-white-m;
-		border-bottom: 0.5px solid $color-gray-l;
-		height: 50px;
-		padding: 6px 15px;
+		border-bottom: 1px solid $color-gray-l;
+		height: 55px;
+		padding: 8px 15px;
 	}
 
 	#switch-view-cont{
 		text-align: right;
-		
+
 		span {
 	  		font-size: 17pt;
 	  		cursor: pointer;
@@ -212,7 +212,8 @@
 
 	.sidebar {
 		list-style: none;
-		padding-left: 0;
+        padding-left: 0;
+        width: 215px;
 
 		.menu-text {
             font-weight: normal;
@@ -234,7 +235,14 @@
 			}
 
 			> a {
-				line-height: 1;
+                position: relative;
+                display: flex;
+                align-items: center;
+                // flex-direction: column;
+                // justify-content: center;
+                flex-wrap: nowrap;
+                height: inherit;
+				/* line-height: 1;
 				display: inline-block;
 				text-decoration: none;
 				background-color: transparent;
@@ -244,7 +252,7 @@
 
 				&:hover {
 					border: none;
-				}
+				} */
 			}
 		}
 
@@ -301,20 +309,25 @@
 			}
 
 			.menu-text {
-				line-height: 1p;
-				padding: 20px 0 17px;
+                display: flex;
+                flex-direction: column;
+                white-space: nowrap;
+                justify-content: center;
 			}
 
 			.icon-holder {
-				width: 30px;
-				height: 30px;
-				margin: 12.5px 14.5px 12.5px 17.5px;
-				padding: 1px;
-				display: inline-block;
-				vertical-align: top;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+				width: 65px;
+                // height: 30px;
+                // margin-left: calc((65px - 30px) / 2);
 
-				img {
-					width: 100%;
+                img,
+                svg {
+                    width: 30px;
+                    height: 30px;
 				}
 			}
 		}

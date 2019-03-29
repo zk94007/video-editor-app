@@ -12,6 +12,10 @@
             overflow: hidden;
             border-radius: $border-radius;
             border: $border-width dashed $border-color;
+
+            .overlay-modal {
+                background-color: rgba($color: #fff, $alpha: 0.5);
+            }
         }
     }
 

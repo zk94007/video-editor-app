@@ -21,7 +21,7 @@
   &:hover {
     .overlay-modal {
       opacity: 1;
-      transition: ease 300ms opacity;
+      transition: ease 420ms opacity;
     }
   }
 }
@@ -49,11 +49,8 @@
   height: 100%;
   padding: $spacer;
   // color: text-color-base(#fff);
-  background-color: rgba(theme-color("primary"), .85);
+  background-color: rgba(#000, .65);
   border-radius: inherit;
   opacity: 0;
-
-  &.bgcolor-fade-2x {
-    background-color: rgba(#fff, .65);
-  }
+  transition: ease 420ms opacity;
 }

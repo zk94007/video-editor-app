@@ -34,7 +34,7 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
             currentTime: null,
             initialTime: 0
         },
-        style: {},
+        style: null,
         prj_id: null,
         complete: false,
         progress: null,
@@ -204,6 +204,8 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
                 this.renderer.setStyle(videoWrapper, 'width', `${ratio.ratioWidth}px`);
             }
         }
+
+        console.log(event);
     }
 
     private _aspectRatio(ratio) {
@@ -276,7 +278,7 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
         this.$uns.push(forkJoin(this.subtitleTextItem.map(subtitle => subtitle.process(this.props.video.sources[0])))
             .pipe(
                 tap(() => {
-                    const subtitles = this.formSubtitle.get('subtitles').value.map(subtitle => {
+                    const subtitlesWithDataUrl = this.formSubtitle.get('subtitles').value.map(subtitle => {
                         return {
                             startTime: subtitle.startTime,
                             endTime: subtitle.endTime,
@@ -285,18 +287,54 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
                         };
                     });
 
-                    console.log({
+                    const subtitlesWithoutDataUrl = this.formSubtitle.get('subtitles').value.map(subtitle => {
+                        return {
+                            startTime: subtitle.startTime,
+                            endTime: subtitle.endTime,
+                            reposition: subtitle.reposition,
+                            font: {
+                                family: this.props.style.font.family,
+                                size: this.props.style.font.size,
+                                color: {
+                                    hex: this.props.style.font.color.hex,
+                                    rgba: this.props.style.font.color.rgba
+                                },
+                                weight: this.props.style.font.weight,
+                                style: this.props.style.font.style,
+                                align: this.props.style.font.align
+                            },
+                            caption: {
+                                type: this.props.style.caption.type,
+                                color: {
+                                    hex: this.props.style.caption.color.hex,
+                                    rgba: this.props.style.caption.color.rgba // 'rgba(0, 0, 0, 0.7)'
+                                },
+                                align: this.props.style.caption.align
+                            },
+                            video: {
+                                ratio: this.props.style.video.ratio,
+                                color: {
+                                    hex: this.props.style.video.color.hex,
+                                    rgba: this.props.style.video.color.rgba
+                                }
+                            }
+                        };
+                    });
+
+                    console.log(subtitlesWithDataUrl, subtitlesWithoutDataUrl);
+
+                    this.vsService._uploadSubtitles(this.props.prj_id, {
                         prj_id: this.props.prj_id,
                         background: this.formSubtitle.value.background,
                         scene_ratio: this.formSubtitle.value.scene_ratio,
-                        subtitles: subtitles
+                        subtitles: subtitlesWithDataUrl
                     });
 
                     this.vsService._uploadSubtitles(this.props.prj_id, {
                         prj_id: this.props.prj_id,
                         background: this.formSubtitle.value.background,
                         scene_ratio: this.formSubtitle.value.scene_ratio,
-                        subtitles: subtitles
+                        subtitles: subtitlesWithoutDataUrl
                     });
                 })
             )
