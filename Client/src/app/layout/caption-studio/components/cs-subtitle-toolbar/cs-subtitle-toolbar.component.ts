@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import iro from '@jaames/iro';
@@ -14,7 +14,7 @@ import { map, tap, mergeMap } from 'rxjs/operators';
     styleUrls: ['cs-subtitle-toolbar.component.scss']
 })
 
-export class CsSubtitleToolabarComponent implements OnInit {
+export class CsSubtitleToolabarComponent implements OnInit, OnChanges {
     public formToolbar: FormGroup;
 
     public fontColorPicker: iro;
@@ -22,6 +22,8 @@ export class CsSubtitleToolabarComponent implements OnInit {
     public captionColorPicker: iro;
 
     public videoColorPicker: iro;
+
+    @Input() public newProps;
 
     @Output() public propChange = new EventEmitter();
 
@@ -63,7 +65,12 @@ export class CsSubtitleToolabarComponent implements OnInit {
         iro.use(iroTransparencyPlugin);
     }
 
+    ngOnChanges() {
+        // console.log(this.newProps);
+    }
+
     ngOnInit() {
+        console.log(this.props);
         this.fontPickerService.getAllFonts('popularity')
             .pipe(
                 map(({ items }) => items.slice(0, 100)),

@@ -18,11 +18,11 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2" *ngFor="let project of projects; let index = index;">
-                    <div class="card card-project mb-4">
+                <div class="col-sm-6 col-md-4 col-xl-3 col-xxl-2" *ngFor="let project of projects; let index = index;">
+                    <div class="card card-project mb-4 bg-transparent overflow-hidden">
                         <div class="overlay card-img-top">
-                            <div class="px-3 pt-3 border-bottom text-center">
-                                <div class="overflow-hidden" [style.height.px]="200">
+                            <div class="px-4 pt-4 border-bottom text-center">
+                                <div class="overflow-hidden" [style.height.px]="160">
                                     <img *ngIf="isImage(project.prj_representative)" [style.height.%]="100" src="{{ project.prj_representative }}">
                                     <video *ngIf="isVideo(project.prj_representative)" class="video-js" preload="auto" [style.height.%]="100">
                                         <source src="{{ project.prj_representative }}">
@@ -41,13 +41,13 @@
                                     </div>
                                 </div>
                                 <div class="text-right align-self-center">
-                                    <a [href]="'/detail/' + project.prj_id" class="btn btn-outline-success" *ngIf="project.prj_type === 1">Edit</a>
-                                    <a [href]="'/caption-editor/' + project.prj_id" class="btn btn-outline-success" *ngIf="project.prj_type === 2">Edit Subtitle</a>
+                                    <a [href]="'/project/detail/' + project.prj_id" class="btn btn-outline-success" *ngIf="project.prj_type === 1">Edit</a>
+                                    <a [href]="'/caption-studio/' + project.prj_id" class="btn btn-outline-success" *ngIf="project.prj_type === 2">Edit Subtitle</a>
                                 </div>
                                 <div>&nbsp;</div>
                             </div>
                         </div>
-                        <div class="p-1 d-flex justify-content-between">
+                        <div class="p-1 d-flex justify-content-between bg-white">
                             <div class="text-left align-self-end">
                                 <a href="javascript:;" *ngIf="project.prj_type === '2' || project.prj_type === 2">
                                     <svg class="icon" viewBox="0 0 24 24">
@@ -67,7 +67,7 @@
                                 </div>
                                 <p class="mb-0 text-muted">{{ project.prj_frame_count }} screens</p>
                             </div>
-                            <div class="text-right">&nbsp;</div>
+                            <div class="text-right" [style.width.px]="24" [style.height.px]="24">&nbsp;</div>
                         </div>
                     </div>
                 </div>
