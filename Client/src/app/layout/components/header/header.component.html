@@ -1,15 +1,15 @@
 <div class="page-info clearfix">
   <div class="page-meta">
     <div *ngIf="!props.isTitleEditable">
-      <div class="page-title">
+      <div class="page-title d-flex align-items-center">
         <span>{{props.pageTitle}}</span>
       </div>
     </div>
     <div *ngIf="props.isTitleEditable">
       <input appFocus focus="true" *ngIf="props.isProjectTitleEditing" class="page-title-input" [(ngModel)]="props.pageTitle" (keyup.enter)="saveProjectTitle()">
-      <div class="page-title" *ngIf="!props.isProjectTitleEditing">
+      <div class="page-title d-flex align-items-center" *ngIf="!props.isProjectTitleEditing">
         <span (click)="editProjectTitle()" [ngStyle]="{'display': 'inline-block'}">{{props.pageTitle}}</span>
-        <img src="../../../../assets/layout/icons/icon-pencil.png" class="icon" [ngStyle]="{'display': 'inline-block'}" />
+        <img src="../../../../assets/layout/icons/icon-pencil.png" class="icon ml-1" [ngStyle]="{'display': 'inline-block'}" />
       </div>
     </div>
   </div>
