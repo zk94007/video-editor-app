@@ -35,7 +35,7 @@ module.exports = {
      */
     getProjectListByUsrId(usr_id, callback) {
         try {
-            helper.query.runQuery('SELECT DISTINCT ON(t.prj_id) t.*, f.frm_path, f.frm_resolution FROM (SELECT project.prj_id, project.prj_name, COUNT(frame.frm_id) as prj_frame_count, prj_created_at FROM public.project AS project LEFT JOIN public.frame as frame ON project.prj_id = frame.prj_id WHERE project.usr_id = $1 GROUP BY project.prj_id) AS t LEFT JOIN public.frame AS f ON f.prj_id = t.prj_id AND f.frm_order = (SELECT MIN(frm_order) FROM frame WHERE frame.prj_id = t.prj_id) ORDER BY t.prj_id, f.frm_id ASC;', [usr_id], (err, result) => {
+            helper.query.runQuery('SELECT DISTINCT ON(t.prj_id) t.*, f.frm_path, f.frm_resolution FROM (SELECT project.prj_id, project.prj_name, COUNT(frame.frm_id) as prj_frame_count, prj_created_at, prj_type FROM public.project AS project LEFT JOIN public.frame as frame ON project.prj_id = frame.prj_id WHERE project.usr_id = $1 GROUP BY project.prj_id) AS t LEFT JOIN public.frame AS f ON f.prj_id = t.prj_id AND f.frm_order = (SELECT MIN(frm_order) FROM frame WHERE frame.prj_id = t.prj_id) ORDER BY t.prj_id, f.frm_id ASC;', [usr_id], (err, result) => {
                 if (err) {
                     helper.response.onError('error: getProjectListByUsrId', callback);
                     return;
