@@ -251,14 +251,21 @@ module.exports = {
             if (!this.matchYoutubeUrl(youtube_url)) {
                 responseHelper.onError('error: invalid youtube url', callback);
             }
+
+            var count = 3;
+
+            console.log(`---------> ${youtube_url}`);
+            console.log(`${count *3} counts`);
             
             var filepath = '';
             var filename = '';
             var video = youtubedl(youtube_url, [], {cwd: __dirname});
             video.on('error', (err) => {
+                console.log(`error -> ${err}`);
                 responseHelper.onError('error: download_youtube_video_from_url ' + err, callback);
             });
             video.on('end', () => {
+                console.log(`${filename}`);
                 responseHelper.onSuccess(callback, {filepath: filepath, filename: filename});
             });
             video.on('info', function(info) {
@@ -275,6 +282,7 @@ module.exports = {
                     // var format_id = info.format_id;
                     // var _v = youtubedl(youtube_url, ['--format='+format_id], {cwd: __dirname});
                     filepath = config.server.uploadPath + uuidGen.v1() + '.mp4';
+                    console.log(`${filename}`);
                     video.pipe(fs.createWriteStream(filepath));
                 }
             });
