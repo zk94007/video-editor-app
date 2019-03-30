@@ -242,8 +242,6 @@ module.exports = {
                 return;
             }
 
-            setProgress(10, 'Processing Subtitles');
-
             projectModel.getProjectByPrjId(prj_id, (e, project) => {
                 let workfiles = [];
                 let resolution = {};
@@ -310,7 +308,6 @@ module.exports = {
                     setProgress(40, 'Repositioning Video');
                     try {
                         getVideoDuration(video_path).then(duration => {
-                            console.log(resolution);
                             const fit = helper.video.fit_video_2_frame(
                                 resolution.width,
                                 resolution.height,
@@ -361,6 +358,7 @@ module.exports = {
 
                 //preview
                 seriesTasks.push((series_callback) => {
+                    setProgress(80, 'Finalizing videos');
                     pvFilePathFullHD = video_path;
                     helper.video.resizevideo(pvFilePathFullHD, config.video.scene[scene_ratio].width, config.video.scene[scene_ratio].height, (err, filepath) => {
                         pvFilePath = filepath;
