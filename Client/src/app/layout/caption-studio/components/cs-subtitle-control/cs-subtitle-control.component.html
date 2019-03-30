@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="form-group">
-        <app-range-slider [behaviour]="'drag'" [connect]="true" [min]="0" [max]="group.get('totalTime').value" [step]="0.1" [formControl]="group.get('rangeTime')" (slide)="seekTime($event)"></app-range-slider>
+        <app-range-slider [behaviour]="'drag'" [connect]="true" [min]="0" [max]="group.get('totalTime').value" [step]="0.1" [formControl]="group.get('rangeTime')" (slide)="seekTime($event)" (start)="startDrag($event)" (end)="endDrag($event)"></app-range-slider>
     </div>
     <div class="form-group mb-0">
         <div class="d-flex">

@@ -64,7 +64,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-origin {
 }
 .noUi-state-tap .noUi-connect,
 .noUi-state-tap .noUi-origin {
-  transition: transform .3s;
+  transition: none;
 }
 .noUi-state-drag * {
   cursor: inherit !important;

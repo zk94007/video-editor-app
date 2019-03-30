@@ -81,11 +81,11 @@
             </button>
             <button class="btn btn-secondary" (click)="seekTime(videoPlayer?.api?.currentTime - 5)">-5s</button>
             <button class="btn btn-secondary" (click)="seekTime(videoPlayer?.api?.currentTime + 5)">+5s</button>
-            <button class="btn bg-transparent">{{ toMillisecond(videoPlayer?.api?.currentTime).format('mm:ss:SS') }} / {{ toMillisecond(videoPlayer?.api?.duration).format('mm:ss:SS') }}</button>
+            <button class="btn bg-transparent">{{ toMillisecond(props.video.currentTime).format('mm:ss:SS') }} / {{ toMillisecond(videoPlayer?.api?.duration).format('mm:ss:SS') }}</button>
         </div>
 
         <ng-container *ngIf="videoPlayer?.api?.duration">
-            <app-range-slider [(ngModel)]="props.video.initialTime" [min]="0" [max]="videoPlayer?.api?.duration" [step]="0.1" [keyboard]="true" #videoSlider (slide)="seekTime($event)"></app-range-slider>
+            <app-range-slider [(ngModel)]="props.video.currentTime" [min]="0" [max]="videoPlayer?.api?.duration" [step]="0.1" [keyboard]="true" #videoSlider (change)="seekTime($event)"></app-range-slider>
         </ng-container>
     </div>
     <div class="scrollable scrollable-y">

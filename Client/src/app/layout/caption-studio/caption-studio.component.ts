@@ -78,18 +78,6 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
             subtitles: this.formBuilder.array([])
         });
 
-        /* this.$uns.push(this.vsService.onGetVideoForCaption
-            .pipe(
-                tap((response: any) => {
-                    if (response.success) {
-                        this.updateVideoSource(response);
-                        console.log(response);
-                        this._loadSubtitle(response.subtitles);
-                    }
-                })
-            )
-            .subscribe()); */
-
         this.$uns.push(this.vsService.onUploadSubtitlesResponse.subscribe((response) => {
             this.props.response = response;
         }));
@@ -125,6 +113,12 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
         );
 
         this.$uns.push(this.videoPlayer.api.getDefaultMedia().subscriptions.timeUpdate
+            .subscribe(_ => {
+                this.props.video.currentTime = this.videoPlayer.api.currentTime;
+            })
+        );
+
+        this.$uns.push(this.videoPlayer.api.getDefaultMedia().subscriptions.seeking
             .subscribe(_ => {
                 if (this.videoSlider) {
                     this.videoSlider.slider.set(this.videoPlayer.api.currentTime);
@@ -280,8 +274,6 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
                 dataurl: null
             }));
         });
-
-        console.log(control);
     }
 
     public srtFileSelected(event) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 import * as moment from 'moment';
@@ -14,11 +14,15 @@ export class CsSubtitleControlComponent implements OnInit {
 
     @Input() public videoPlayer: CsVideoPlayerComponent;
 
+    private _start: number;
+
+    private _end: number;
+
     constructor() { }
 
     ngOnInit() {
         if (this.group) {
-            // console.log(this.group.value);
+            // this.group.valueChanges.subscribe(console.log);
         }
     }
 
@@ -46,10 +50,17 @@ export class CsSubtitleControlComponent implements OnInit {
         this.videoPlayer.api.currentTime = this.toSecond(value);
     }
 
-    public seekTime(time) {
-        this.group.controls['startTime'].setValue(time[0]);
-        this.group.controls['endTime'].setValue(time[1]);
-        this.videoPlayer.api.currentTime = time[1];
+    public seekTime(range) {
+        this.group.controls['startTime'].setValue(range[0]);
+        this.group.controls['endTime'].setValue(range[1]);
+
+        if (this._end === range[1]) {
+            this.videoPlayer.api.currentTime = range[0];
+        } else if (this._start === range[0]) {
+            this.videoPlayer.api.currentTime = range[1];
+        } else {
+            this.videoPlayer.api.currentTime = range[1];
+        }
     }
 
     public toMillisecond(seconds = 0) {
@@ -58,5 +69,14 @@ export class CsSubtitleControlComponent implements OnInit {
 
     public toSecond(value) {
         return moment(value, 'mm:ss:SS').diff(moment().startOf('day'), 'seconds');
+    }
+
+    public startDrag(range) {
+        this.videoPlayer.play();
+        this._start = range[0];
+    }
+
+    public endDrag(range) {
+        this._end = range[1];
     }
 }
