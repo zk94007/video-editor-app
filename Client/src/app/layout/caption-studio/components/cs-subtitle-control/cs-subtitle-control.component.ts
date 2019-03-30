@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 import * as moment from 'moment';
@@ -9,7 +9,7 @@ import { CsVideoPlayerComponent } from '../cs-video-player/cs-video-player.compo
     templateUrl: './cs-subtitle-control.component.html',
     styleUrls: ['./cs-subtitle-control.component.scss']
 })
-export class CsSubtitleControlComponent implements OnInit {
+export class CsSubtitleControlComponent implements OnInit, OnChanges {
     @Input() public group: FormGroup;
 
     @Input() public videoPlayer: CsVideoPlayerComponent;
@@ -20,11 +20,14 @@ export class CsSubtitleControlComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit() {
-        if (this.group) {
-            // this.group.valueChanges.subscribe(console.log);
+    ngOnChanges(change: SimpleChanges) {
+        if (change.group && change.group.currentValue) {
+            this._start = this.group.controls['startTime'].value;
+            this._end = this.group.controls['endTime'].value;
         }
     }
+
+    ngOnInit() { }
 
     public remove(i: number) {
         const parent = this.group.parent as FormArray;
@@ -71,12 +74,27 @@ export class CsSubtitleControlComponent implements OnInit {
         return moment(value, 'mm:ss:SS').diff(moment().startOf('day'), 'seconds');
     }
 
-    public startDrag(range) {
+    public onStart({ handle, value }) {
         this.videoPlayer.play();
-        this._start = range[0];
+
+        if (handle === 0) {
+            this._start = value[0];
+            this.videoPlayer.api.currentTime = value[0];
+        }
+
+        if (handle === 1) {
+            this._end = value[1];
+            this.videoPlayer.api.currentTime = value[1];
+        }
     }
 
-    public endDrag(range) {
-        this._end = range[1];
+    public onEnd({ handle, value }) {
+        if (handle === 0) {
+            this._start = value[0];
+        }
+
+        if (handle === 1) {
+            this._end = value[1];
+        }
     }
 }
