@@ -18,56 +18,58 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2" *ngFor="let project of projects; let index = index;">
-                    <div class="card card-project mb-4">
-                        <div class="overlay card-img-top">
-                            <div class="px-3 pt-3 border-bottom text-center">
-                                <div class="overflow-hidden" [style.height.px]="200">
-                                    <img *ngIf="isImage(project.prj_representative)" [style.height.%]="100" src="{{ project.prj_representative }}">
-                                    <video *ngIf="isVideo(project.prj_representative)" class="video-js" preload="auto" [style.height.%]="100">
-                                        <source src="{{ project.prj_representative }}">
-                                    </video>
-                                    <img *ngIf="!isImage(project.prj_representative) && !isVideo(project.prj_representative)" src="../../../../../assets/layout/images/empty.png" [style.height.%]="100">
-                                </div>
-                            </div>
-                            <div class="overlay-modal flex-column justify-content-between">
-                                <div class="text-right align-self-end">
-                                    <div class="btn-group menu-option" ngbDropdown is-open="status.isopen" placement="bottom-right">
-                                        <button type="button" class="btn btn-custom btn-grey btn-sm px-3" ngbDropdownToggle>Options</button>
-                                        <div class="dropdown-menu" ngbDropdownMenu>
-                                            <a class="dropdown-item" href="javascript:;" (click)="showProjectVideo(project.result_video, project.prj_representative, project.prj_name)">Play</a>
-                                            <a class="dropdown-item" href="javascript:;" (click)="deleteProject( project.prj_id )">Delete</a>
-                                        </div>
+                <div class="col-sm-6 col-md-4 col-xl-3 col-xxl-2" *ngFor="let project of projects; let index = index;">
+                    <div class="overlay">
+                        <div class="card card-project mb-4 bg-transparent overflow-hidden">
+                            <div class="position-relative card-img-top">
+                                <div class="px-4 pt-4 border-bottom text-center">
+                                    <div class="overflow-hidden" [style.height.px]="160">
+                                        <img *ngIf="isImage(project.prj_representative)" [style.height.%]="100" src="{{ project.prj_representative }}">
+                                        <video *ngIf="isVideo(project.prj_representative)" class="video-js" preload="auto" [style.height.%]="100">
+                                            <source src="{{ project.prj_representative }}">
+                                        </video>
+                                        <img *ngIf="!isImage(project.prj_representative) && !isVideo(project.prj_representative)" src="../../../../../assets/layout/images/empty.png" [style.height.%]="100">
                                     </div>
                                 </div>
-                                <div class="text-right align-self-center">
-                                    <a [href]="'/detail/' + project.prj_id" class="btn btn-outline-success" *ngIf="project.prj_type === 1">Edit</a>
-                                    <a [href]="'/caption-editor/' + project.prj_id" class="btn btn-outline-success" *ngIf="project.prj_type === 2">Edit Subtitle</a>
+                                <div class="overlay-modal flex-column justify-content-between">
+                                    <div class="text-right align-self-end">
+                                        <div class="btn-group menu-option" ngbDropdown is-open="status.isopen" placement="bottom-right">
+                                            <button type="button" class="btn btn-custom btn-grey btn-sm px-3" ngbDropdownToggle>Options</button>
+                                            <div class="dropdown-menu" ngbDropdownMenu>
+                                                <a class="dropdown-item" href="javascript:;" (click)="showProjectVideo(project.result_video, project.prj_representative, project.prj_name)">Play</a>
+                                                <a class="dropdown-item" href="javascript:;" (click)="deleteProject( project.prj_id )">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right align-self-center">
+                                        <a [href]="'/project/detail/' + project.prj_id" class="btn btn-outline-success" *ngIf="project.prj_type === 1">Edit</a>
+                                        <a [href]="'/caption-studio/' + project.prj_id" class="btn btn-outline-success" *ngIf="project.prj_type === 2">Edit Subtitles</a>
+                                    </div>
+                                    <div>&nbsp;</div>
                                 </div>
-                                <div>&nbsp;</div>
                             </div>
-                        </div>
-                        <div class="p-1 d-flex justify-content-between">
-                            <div class="text-left align-self-end">
-                                <a href="javascript:;" *ngIf="project.prj_type === '2' || project.prj_type === 2">
-                                    <svg class="icon" viewBox="0 0 24 24">
-                                        <path fill="#f5a622" d="M18,11H16.5V10.5H14.5V13.5H16.5V13H18V14A1,1 0 0,1 17,15H14A1,1 0 0,1 13,14V10A1,1 0 0,1 14,9H17A1,1 0 0,1 18,10M11,11H9.5V10.5H7.5V13.5H9.5V13H11V14A1,1 0 0,1 10,15H7A1,1 0 0,1 6,14V10A1,1 0 0,1 7,9H10A1,1 0 0,1 11,10M19,4H5C3.89,4 3,4.89 3,6V18A2,2 0 0,0 5,20H19A2,2 0 0,0 21,18V6C21,4.89 20.1,4 19,4Z" />
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="text-center my-2 flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-around text-muted hover-show" [class.hover-show-active]="project.prj_editable">
-                                    <span class="d-block" [style.width.px]="16" [style.height.px]="16">&nbsp;</span>
-                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="project.prj_name" [readonly]="project.prj_editable === false" (dblclick)="project.prj_editable = !project.prj_editable" (keydown.enter)="saveProjectName($event.target.value, project.prj_id)">
-                                    <a href="javascript:;" class="show" (click)="project.prj_editable = !project.prj_editable">
-                                        <svg class="icon" viewBox="0 0 24 24" [style.width.px]="16" [style.height.px]="16">
-                                            <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                            <div class="card-body p-1 d-flex justify-content-between bg-white">
+                                <div class="text-left align-self-end">
+                                    <a href="javascript:;" *ngIf="project.prj_type === '2' || project.prj_type === 2">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path fill="#f5a622" d="M18,11H16.5V10.5H14.5V13.5H16.5V13H18V14A1,1 0 0,1 17,15H14A1,1 0 0,1 13,14V10A1,1 0 0,1 14,9H17A1,1 0 0,1 18,10M11,11H9.5V10.5H7.5V13.5H9.5V13H11V14A1,1 0 0,1 10,15H7A1,1 0 0,1 6,14V10A1,1 0 0,1 7,9H10A1,1 0 0,1 11,10M19,4H5C3.89,4 3,4.89 3,6V18A2,2 0 0,0 5,20H19A2,2 0 0,0 21,18V6C21,4.89 20.1,4 19,4Z" />
                                         </svg>
                                     </a>
                                 </div>
-                                <p class="mb-0 text-muted">{{ project.prj_frame_count }} screens</p>
+                                <div class="text-center my-2 flex-grow-1">
+                                    <div class="d-flex align-items-center justify-content-around text-muted" [class.hover-show-active]="project.prj_editable">
+                                        <span class="d-block" [style.width.px]="16" [style.height.px]="16">&nbsp;</span>
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="project.prj_name" [readonly]="project.prj_editable === false" (dblclick)="project.prj_editable = !project.prj_editable" (keydown.enter)="saveProjectName($event.target.value, project.prj_id)">
+                                        <a href="javascript:;" (click)="project.prj_editable = !project.prj_editable">
+                                            <svg class="icon" viewBox="0 0 24 24" [style.width.px]="16" [style.height.px]="16">
+                                                <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <p class="mb-0 text-muted">{{ project.prj_frame_count }} screens</p>
+                                </div>
+                                <div class="text-right" [style.width.px]="24" [style.height.px]="24">&nbsp;</div>
                             </div>
-                            <div class="text-right">&nbsp;</div>
                         </div>
                     </div>
                 </div>

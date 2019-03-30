@@ -113,7 +113,7 @@ $yiq-text-light:            $white;
 
 $enable-caret:                                true;
 $enable-rounded:                              true;
-$enable-shadows:                              false;
+$enable-shadows:                              true;
 $enable-gradients:                            false;
 $enable-transitions:                          true;
 $enable-prefers-reduced-motion-media-query:   true;
@@ -198,7 +198,8 @@ $grid-breakpoints: (
   sm: 576px,
   md: 768px,
   lg: 992px,
-  xl: 1200px
+  xl: 1280px,
+  xxl: 1920px,
 );
 
 @include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
@@ -235,11 +236,11 @@ $line-height-lg:              1.5;
 $line-height-sm:              1.5;
 
 $border-width:                1px;
-$border-color:                rgba(0, 0, 0, 0.15);
+$border-color:                rgba(0, 0, 0, 0.09);
 
-$border-radius:               .25rem;
-$border-radius-lg:            .3rem;
-$border-radius-sm:            .2rem;
+$border-radius:               .2rem;
+$border-radius-lg:            .25rem;
+$border-radius-sm:            .15rem;
 
 $rounded-pill:                50rem;
 
@@ -394,7 +395,7 @@ $input-btn-line-height:       $line-height-base;
 
 $input-btn-focus-width:       .2rem;
 $input-btn-focus-color:       rgba($component-active-bg, .25);
-$input-btn-focus-box-shadow:  0 0 0 $input-btn-focus-width $input-btn-focus-color;
+$input-btn-focus-box-shadow:  none; // 0 0 0 $input-btn-focus-width $input-btn-focus-color;
 
 $input-btn-padding-y-sm:      .25rem;
 $input-btn-padding-x-sm:      .5rem;
@@ -475,9 +476,9 @@ $input-bg:                              $white;
 $input-disabled-bg:                     $gray-200;
 
 $input-color:                           $gray-700;
-$input-border-color:                    $gray-400;
+$input-border-color:                    $border-color; // $gray-400;
 $input-border-width:                    $input-btn-border-width;
-$input-box-shadow:                      inset 0 1px 1px rgba($black, .075);
+$input-box-shadow:                      none; // inset 0 1px 1px rgba($black, .075);
 
 $input-border-radius:                   $border-radius;
 $input-border-radius-lg:                $border-radius-lg;
@@ -827,7 +828,7 @@ $card-spacer-y:                     .75rem;
 $card-spacer-x:                     1.25rem;
 $card-border-width:                 $border-width;
 $card-border-radius:                $border-radius;
-$card-border-color:                 rgba($black, .125);
+$card-border-color:                 $border-color; // rgba($black, .125);
 $card-inner-border-radius:          calc(#{$card-border-radius} - #{$card-border-width});
 $card-cap-bg:                       rgba($black, .03);
 $card-cap-color:                    null;

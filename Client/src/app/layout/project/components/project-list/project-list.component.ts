@@ -46,10 +46,13 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     constructor(public service: ProjectService, public router: Router, private activatedRoute: ActivatedRoute) {
         // CHECK IF MODAL IS OPEN VIA QUERY PARAM
         this.$uns.push(this.activatedRoute.queryParams.subscribe(params => {
-            this.props.project_type = params.project_type;
+            if (Object.keys(params).length > 0) {
+                // console.log(Object.keys(params).length);
+                this.props.project_type = params.project_type;
 
-            if (params.modal_create === 'true' || params.modal_create === true) {
-                this.props.displayCreateProjectModal = 'block';
+                if (params.modal_create === 'true' || params.modal_create === true) {
+                    this.props.displayCreateProjectModal = 'block';
+                }
             }
         }));
 
@@ -143,6 +146,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
     // CreateProjectModal Dialog management
     openCreateProjectModal() {
+        // console.log(this.props.project_type);
         this.props.displayCreateProjectModal = 'block';
         this.props.newProject.perror = null;
         this.props.newProject.prj_name = '';

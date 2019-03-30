@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2,
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 
 import * as moment from 'moment';
-import { forkJoin } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { tap, withLatestFrom, map, mergeMap, switchMap, concatMap } from 'rxjs/operators';
 import { parse } from 'subtitle';
 
 import { CsVideoPlayerComponent } from './components/cs-video-player/cs-video-player.component';
@@ -12,6 +12,7 @@ import { CsSubtitleTextItemComponent } from './components/cs-subtitle-text-item/
 
 import { VideoStudioService } from '../../shared/services/video-studio.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CsSubtitleToolabarComponent } from './components';
 
 @Component({
     selector: 'app-caption-studio',
@@ -49,6 +50,8 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
 
     @ViewChild('videoWrapper') public videoWrapper: ElementRef;
 
+    @ViewChild(CsSubtitleToolabarComponent) public subtitleToolbar: CsSubtitleToolabarComponent;
+
     @ViewChildren(CsSubtitleTextItemComponent) public subtitleTextItem: QueryList<CsSubtitleTextItemComponent>;
 
     constructor(
@@ -75,15 +78,17 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
             subtitles: this.formBuilder.array([])
         });
 
-        this.$uns.push(this.vsService.onGetVideoForCaption
+        /* this.$uns.push(this.vsService.onGetVideoForCaption
             .pipe(
                 tap((response: any) => {
                     if (response.success) {
                         this.updateVideoSource(response);
+                        console.log(response);
+                        this._loadSubtitle(response.subtitles);
                     }
                 })
             )
-            .subscribe());
+            .subscribe()); */
 
         this.$uns.push(this.vsService.onUploadSubtitlesResponse.subscribe((response) => {
             this.props.response = response;
@@ -95,10 +100,29 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
 
         this.changeDetectorRef.detectChanges();
 
-        this.$uns.push(this.videoPlayer.api.getDefaultMedia().subscriptions.loadedData
-            .subscribe(_ => {
-                this.addSubtitle(this.videoPlayer.api.duration);
-            }));
+        this.$uns.push(this.vsService.onGetVideoForCaption
+            .pipe(
+                tap((videoCaption) => this.updateVideoSource(videoCaption)),
+                concatMap((videoCaption) => {
+                    return this.videoPlayer.api.getDefaultMedia().subscriptions.loadedData.pipe(
+                        map(() => videoCaption)
+                    );
+                }),
+                tap((videoCaption: any) => {
+                    if (videoCaption.subtitles && videoCaption.subtitles.length > 0) {
+                        const { caption, font, video } = videoCaption.subtitles[0];
+
+                        this.subtitleToolbar.props = { caption, font, video };
+                        this.updateStyle({ caption, font, video });
+                        this._loadSubtitle(videoCaption.subtitles, this.videoPlayer.api.duration);
+                    } else {
+                        this.addSubtitle(this.videoPlayer.api.duration);
+                    }
+                })
+
+            )
+            .subscribe()
+        );
 
         this.$uns.push(this.videoPlayer.api.getDefaultMedia().subscriptions.timeUpdate
             .subscribe(_ => {
@@ -204,8 +228,6 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
                 this.renderer.setStyle(videoWrapper, 'width', `${ratio.ratioWidth}px`);
             }
         }
-
-        console.log(event);
     }
 
     private _aspectRatio(ratio) {
@@ -237,6 +259,29 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
             elementWidth: width,
             elementHeight: height
         };
+    }
+
+    private _loadSubtitle(subtitles: Array<any>, totalTime?) {
+        const control = <FormArray>this.formSubtitle.controls['subtitles'];
+
+        subtitles.forEach(subtitle => {
+            control.push(this.formBuilder.group({
+                text: subtitle.text,
+                startTime: subtitle.startTime,
+                endTime: subtitle.endTime,
+                totalTime: totalTime || this.videoPlayer.api.duration,
+                rangeTime: [[subtitle.startTime, subtitle.endTime]],
+                reposition: {
+                    left: subtitle.reposition.left,
+                    top: subtitle.reposition.top,
+                    width: subtitle.reposition.width,
+                    height: subtitle.reposition.height
+                },
+                dataurl: null
+            }));
+        });
+
+        console.log(control);
     }
 
     public srtFileSelected(event) {
@@ -291,7 +336,9 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
                         return {
                             startTime: subtitle.startTime,
                             endTime: subtitle.endTime,
+                            dataurl: subtitle.dataurl,
                             reposition: subtitle.reposition,
+                            text: subtitle.text,
                             font: {
                                 family: this.props.style.font.family,
                                 size: this.props.style.font.size,
@@ -321,14 +368,14 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
                         };
                     });
 
-                    console.log(subtitlesWithDataUrl, subtitlesWithoutDataUrl);
+                    // console.log(subtitlesWithDataUrl, subtitlesWithoutDataUrl);
 
-                    this.vsService._uploadSubtitles(this.props.prj_id, {
+                    /* this.vsService._uploadSubtitles(this.props.prj_id, {
                         prj_id: this.props.prj_id,
                         background: this.formSubtitle.value.background,
                         scene_ratio: this.formSubtitle.value.scene_ratio,
                         subtitles: subtitlesWithDataUrl
-                    });
+                    }); */
 
                     this.vsService._uploadSubtitles(this.props.prj_id, {
                         prj_id: this.props.prj_id,

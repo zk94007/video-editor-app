@@ -20,6 +20,7 @@
             text-align: center;
             border-color: transparent;
             font-weight: 600;
+            transition: ease 420ms border-color;
 
             &[readonly] {
                 background-color: #fff;
@@ -30,23 +31,31 @@
             }
         }
 
-        .hover-show {
-            .show {
-                opacity: 0;
-            }
-
-            &:hover,
-            &:active,
-            &.hover-show-active {
-                .show {
-                    opacity: 1 !important;
+        > .card-body {
+            > :nth-child(2) {
+                a {
+                    opacity: 0;
+                    transition: ease 420ms opacity;
                 }
             }
         }
+    }
 
-        .hover-show-active .form-control {
-            border-color: $border-color;
-            @include form-control-focus();
+    .overlay {
+        @include hover-focus {
+            .card-project > .card-body {
+                > :nth-child(2) {
+                    a {
+                        opacity: 1;
+                        transition: ease 420ms opacity;
+                    }
+
+                    .form-control {
+                        transition: ease 420ms border-color;
+                        border-color: $pink;
+                    }
+                }
+            }
         }
     }
 }
