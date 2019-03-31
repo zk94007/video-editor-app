@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Howl } from 'howler';
 import { BehaviorSubject } from 'rxjs';
 
@@ -18,6 +18,18 @@ export class VsAudioPlayerComponent implements OnInit, OnChanges {
     @Input() file;
 
     @Input() title;
+
+    @Input() id;
+
+    @Input() inUse: Boolean = false;
+
+    @Input() deleteButton = true;
+
+    @Input() useButton = true;
+
+    @Output() useClick = new EventEmitter(null);
+
+    @Output() deleteClick = new EventEmitter(null);
 
     constructor() { }
 
@@ -63,5 +75,13 @@ export class VsAudioPlayerComponent implements OnInit, OnChanges {
 
     private _fmtMSS(second) {
         return(second - (second %= 60)) / 60 + (9 < second ? ':' : ':0') + second;
+    }
+
+    public setUse(mus_id) {
+        this.useClick.emit(mus_id);
+    }
+
+    public remove(mus_id) {
+        this.deleteClick.emit(mus_id);
     }
 }

@@ -214,7 +214,7 @@
     </section>
 
     <section id="resultsMusic" class="results infinite">
-        <ng5-files-drop (filesSelect)="audiosSelect($event)">
+        <ng5-files-drop (filesSelect)="audiosSelect($event)" [style.height.%]="100">
             <perfect-scrollbar [config]="config">
                 <div class="layer scrollPane uploadsPanel scrollElement">
                     <div class="inner text-center">
@@ -225,12 +225,13 @@
                                 </ng5-files-click>
                             </div>
                         </div>
-                        <div class="mt-3">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <app-vs-audio-player file="assets/video-studio/sample-audio.mp3" title="Awesome audio file name"></app-vs-audio-player>
-                                </li>
-                            </ul>
+                        <div class="mt-4">
+                            <ng-container *ngFor="let music of props_musics.uploadedFiles">
+                                <app-vs-audio-player [id]="music?.mus_id" [inUse]="music?.mus_id === props?.project?.mus_id" [file]="music.mus_path" [title]="music.mus_name" (useClick)="onUseClick($event)" (deleteClick)="onDeleteClick($event)"></app-vs-audio-player>
+                            </ng-container>
+
+                            <p class="mt-5 mb-3 text-left">Music Library</p>
+                            <app-vs-audio-player [id]="999" [inUse]="props?.project?.mus_id === 999" file="assets/video-studio/sample-audio.mp3" title="Aweosme song here" [deleteButton]="false" (useClick)="onUseClick($event)"></app-vs-audio-player>
                         </div>
                     </div>
                 </div>
@@ -239,7 +240,7 @@
     </section>
 
     <section id="resultsUpload" class="results infinite">
-        <ng5-files-drop (filesSelect)="imagesSelect($event)">
+        <ng5-files-drop (filesSelect)="imagesSelect($event)" [style.height.%]="100">
             <perfect-scrollbar [config]="config">
                 <div class="layer scrollPane uploadsPanel scrollElement">
                     <div class="inner" style="text-align: center">

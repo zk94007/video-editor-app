@@ -9,7 +9,8 @@ import { VideoStudioService } from '../../../../shared/services/video-studio.ser
 export class VsWorkspaceComponent implements OnInit, OnDestroy {
     public props: any = {
         sceneRatio: null,
-        totalDuration: null
+        totalDuration: null,
+        frameMute: 0
     };
 
     public $uns: any = [];
@@ -45,6 +46,7 @@ export class VsWorkspaceComponent implements OnInit, OnDestroy {
 
     getFrames() {
         const frames = this.vsService.getFrames();
+        console.log(frames);
         this.props.sceneRatio = this.vsService.getSceneRatio();
         this.props.totalDuration = 0;
         if (frames.length > 0) {
@@ -82,7 +84,22 @@ export class VsWorkspaceComponent implements OnInit, OnDestroy {
         return '';
     }
 
+    setMuteState(frm_id) {
+        const frames: any[] = this.vsService.getFrames();
+        frames.forEach(frame => {
+            if (frame.frm_id === frm_id) {
+                this.props.frameMute = frame.frm_muted;
+            }
+        });
+    }
+
     mute() {
-        this.vsService._changeMute(1);
+        if (this.props.frameMute === 1) {
+            this.vsService.changeMute(0);
+            this.props.frameMute = 0;
+        } else {
+            this.vsService.changeMute(1);
+            this.props.frameMute = 1;
+        }
     }
 }

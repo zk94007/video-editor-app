@@ -16,6 +16,7 @@ import * as path from 'path';
 import '@jaames/iro';
 import { MyColorpicker } from '../vs-toolbar/colorpicker';
 import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 declare const $: any;
 
@@ -29,9 +30,11 @@ export class VsSidebarPanelComponent implements OnInit {
     @ViewChild(PerfectScrollbarDirective) directiveScroll: PerfectScrollbarDirective;
     @ViewChild('textPanelScrollbar') textPanelScrollbar: PerfectScrollbarComponent;
 
+    public props = {
+        project: null
+    };
     public config: PerfectScrollbarConfigInterface = {};
     public $uns: any = [];
-
     public colorPicker: MyColorpicker;
     public colorPickerColor: string = '#ffffff';
     public showedTab = 'emojis' || 'stickers' || 'gifs' || 'shapes';
@@ -90,7 +93,7 @@ export class VsSidebarPanelComponent implements OnInit {
         uploadedFiles: [],
         _masonry: Masonry
     };
-    public props_upload_musics: any = {
+    public props_musics: any = {
         selectedFiles: null,
         uploadedFiles: [],
         _masonry: Masonry
@@ -121,7 +124,8 @@ export class VsSidebarPanelComponent implements OnInit {
         private service: FontPickerService,
         private cdRef: ChangeDetectorRef,
         private ng5FilesService: Ng5FilesService,
-        private vsService: VideoStudioService
+        private vsService: VideoStudioService,
+        private activatedRoute: ActivatedRoute
     ) {
         // Perfect Scrollbar config
         this.config = {
@@ -147,6 +151,8 @@ export class VsSidebarPanelComponent implements OnInit {
         const $this = this;
 
         this.colorPicker = new MyColorpicker('.bg-colorpicker');
+
+        this.$uns.push();
 
         this.$uns.push(this.renderMore.pipe(
             debounceTime(150),
@@ -200,6 +206,7 @@ export class VsSidebarPanelComponent implements OnInit {
 
         this.$uns.push(this.vsService.onLoad.subscribe(() => {
             const uploadedFiles = this.vsService.getUploadImages();
+
             uploadedFiles.forEach(element => {
                 this.props_upload_images.uploadedFiles.push({
                     uim_id: element.uim_id,
@@ -211,6 +218,18 @@ export class VsSidebarPanelComponent implements OnInit {
                     gif_delays: element.uim_gif_delays
                 });
             });
+        }));
+
+        this.$uns.push(this.vsService.onLoadWithResult.subscribe(result => {
+            this.props.project = result;
+        }));
+
+        this.$uns.push(this.vsService.onAddUploadMusic.subscribe(result => {
+            const musics = [];
+
+            musics.push(result);
+
+            this.props_musics.uploadedFiles = musics;
         }));
 
         /* this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
@@ -262,12 +281,23 @@ export class VsSidebarPanelComponent implements OnInit {
                     startWith(''),
                     debounceTime(500)
                 ),
-                this.vsService.onGetStaticOverlays
+                this.vsService.onGetStaticOverlays,
+                this.vsService.onGetMusics
             ).pipe(
-                map(([searchValue, overlaysValue]: [string, any[]]) => {
+                map(([searchValue, overlaysValue, { musics }]: [string, any[], any]) => {
                     const gifs = overlaysValue.filter(value => value.sov_type === 3);
                     const stickers = overlaysValue.filter(value => value.sov_type === 2);
                     const emojis = overlaysValue.filter(value => value.sov_type === 1);
+
+                    this.props_musics.uploadedFiles = musics.map(music => {
+                        return {
+                            mus_duration: music.mus_duration,
+                            mus_id: music.mus_id,
+                            mus_name: music.mus_name,
+                            mus_path: music.mus_path,
+                            mus_type: music.mus_type
+                        };
+                    });
 
                     this.props_emojis.emojisFiles = emojis.map(emoji => {
                         return {
@@ -365,6 +395,15 @@ export class VsSidebarPanelComponent implements OnInit {
     mouseUpText($event) {
         this.isDraggingText = false;
         this.selectedDomObject.style.opacity = 1;
+    }
+
+    onUseClick(mus_id) {
+        this.props.project.mus_id = mus_id;
+        this.vsService.changeMusic(mus_id);
+    }
+
+    onDeleteClick(mus_id) {
+        this.vsService._deleteUploadImage(mus_id);
     }
 
     private selectFont(font_family, font_size, font_style) {
@@ -519,8 +558,6 @@ export class VsSidebarPanelComponent implements OnInit {
                         isLoaded: false,
                         resolution: {}
                     });
-
-                    console.log(this.props_upload_images.uploadedFiles);
                 }
             }
         }
@@ -547,8 +584,6 @@ export class VsSidebarPanelComponent implements OnInit {
                         isLoaded: false,
                         resolution: {}
                     });
-
-                    console.log(this.props_upload_images.uploadedFiles);
                 }
             }
         }

@@ -35,6 +35,7 @@ export class VideoStudioService {
   // private selected_ovl_index;
 
   @Output() onLoad = new EventEmitter();
+  @Output() onLoadWithResult = new EventEmitter();
 
   @Output() onChangeSceneRatio = new EventEmitter();
 
@@ -414,6 +415,7 @@ export class VideoStudioService {
     $this.project = new Project(response.project);
     setTimeout(() => {
       $this.onLoad.emit(response.success);
+      $this.onLoadWithResult.emit(response.project);
     }, 1000);
 
     setInterval(() => {
@@ -519,14 +521,7 @@ export class VideoStudioService {
   }
 
   _addUploadMusicResponse(response) {
-    console.log('sss', response);
-
-    $this.onAddUploadMusic.emit({
-      mus_id: response.mus_id,
-      guid: response.guid,
-      src: response.mus_path,
-      name: response.mus_name
-    });
+    $this.onAddUploadMusic.emit(response);
   }
 
   /**

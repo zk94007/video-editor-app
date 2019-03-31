@@ -57,6 +57,7 @@
             flex: 1;
             padding: 0 map-get($map: $spacers, $key: 3);
             text-align: left;
+            width: 100px;
 
             > .audio-player-body-title {
                 width: 120px;
@@ -118,8 +119,28 @@
                 }
             }
 
-            > .audio-player-action-use > small {
-                line-height: 12px;
+            > .audio-player-action-use {
+                height: 18px;
+                width: 30px;
+
+                > small {
+                    line-height: 12px;
+                }
+
+                svg {
+                    width: 14px;
+                    height: 14px;
+                    fill: currentColor;
+                }
+
+                &.badge-secondary {
+                    background-color: transparent;
+                    border: 1px solid rgba($color: #fff, $alpha: 0.3);
+                }
+
+                @include hover-focus {
+                    box-shadow: none;
+                }
             }
         }
     }

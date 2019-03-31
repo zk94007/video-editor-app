@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { frameAnimation } from './animations';
 
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
@@ -29,6 +29,8 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
 
   @ViewChild(PerfectScrollbarComponent) componentScroll: PerfectScrollbarComponent;
   @ViewChild(PerfectScrollbarDirective) directiveScroll: PerfectScrollbarDirective;
+
+  @Output() frameChange = new EventEmitter(null);
 
   constructor(private vsService: VideoStudioService) {
     this.config = {
@@ -172,6 +174,7 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
     if (this.frames[index].frm_path != loadingURL) {
       this.vsService.selectFrame(frm_id);
     }
+    this.frameChange.emit(frm_id);
   }
 
   //@Kostya
@@ -243,7 +246,7 @@ export class VsFramelineComponent implements OnInit, OnDestroy {
         is_modified = true;
       }
     }
-  
+
     if (is_modified) {
       $('#documentSyncStatus').html('Unsaved changes');
       this.props.modified = true;
