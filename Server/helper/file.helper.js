@@ -16,6 +16,7 @@ var ffmpeg = require('fluent-ffmpeg');
 var gm = require('gm').subClass({ imageMagick: true });
 var uuidGen = require('node-uuid');
 var getResolution = require('get-video-dimensions');
+const { getAudioDurationInSeconds } = require('get-audio-duration');
 var download = require('url-download');
 var _ = require('underscore');
 var youtubedl = require('youtube-dl');
