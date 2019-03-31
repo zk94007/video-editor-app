@@ -108,13 +108,13 @@ module.exports = {
                 return;
             }
 
-            musicModel.getMusicsByPrjId(prj_id, (err, images) => {
+            musicModel.getMusicsByPrjId(prj_id, (err, musics) => {
                 if (err) {
                     helper.response.onError(err, callback);
                     return;
                 }
 
-                helper.response.onSuccessPlus(callback, {images: images});
+                helper.response.onSuccessPlus(callback, {musics: musics});
             });
         } catch (err) {
             helper.response.onError('error: getMusics', callback);

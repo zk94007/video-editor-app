@@ -316,7 +316,7 @@ export class VideoStudioService {
   }
 
   //John this is for change mute
-  _changeMute(muted) {
+  changeMute(muted) {
     const frame = this.project.getFrame(this.selected_frm_id);
     if (frame) {
       if (!this.isModified()) {
