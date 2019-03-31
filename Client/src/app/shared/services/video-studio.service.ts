@@ -43,10 +43,11 @@ export class VideoStudioService {
   @Output() onDuplicateFrame = new EventEmitter();
 
   @Output() onAddUploadImageProgress = new EventEmitter();
+  @Output() onAddUploadMusicProgress = new EventEmitter();
   @Output() onAddUploadImage = new EventEmitter();
+  @Output() onAddUploadMusic = new EventEmitter();
   @Output() onAddTextOverlay = new EventEmitter();
   @Output() onAddImageOverlay = new EventEmitter();
-  @Output() onAddUploadMusic = new EventEmitter();
   @Output() onAddOverlay = new EventEmitter();
 
   @Output() onChangeTextProps = new EventEmitter();
@@ -87,6 +88,7 @@ export class VideoStudioService {
   @Output() onGetStaticOverlays = new EventEmitter();
 
   @Output() onGetVideoForCaption = new EventEmitter();
+  @Output() onGetMusics = new EventEmitter();
 
   @Output() onChangeStage = new EventEmitter();
 
@@ -142,6 +144,10 @@ export class VideoStudioService {
     {
       name: 'UPLOAD_SUBTITLES_RESPONSE',
       function: this._uploadSubtitlesResponse
+    },
+    {
+      name: 'GET_MUSICS_RESPONSE',
+      function: this._getMusicsResponse
     }
   ];
 
@@ -165,6 +171,16 @@ export class VideoStudioService {
     this.onChangeSceneRatio.emit(this.project.getSceneRatio());
     this.socket.sendMessageWithToken('UPDATE_PROJECT', {prj_id: this.project.prj_id, data: [{name: 'prj_scene_ratio', value: sceneRatio}]});
   }
+
+  //John this is for change music for project
+  changeMusic(mus_id) {
+    if (!this.isModified()) {
+      this.onModified.emit();
+    }
+    this.project.mus_id = mus_id;
+    this.socket.sendMessageWithToken('UPDATE_PROJECT', {prj_id: this.project.prj_id, data: [{name: 'mus_id', value: mus_id}]});
+  }
+  //John
 
   isModified() {
     return this.project.modified;
@@ -389,8 +405,9 @@ export class VideoStudioService {
   }
 
   _load(prj_id) {
-    this.socket.sendMessageWithToken('GET_FRAMES_WITH_OVERLAY', { prj_id: prj_id });
-    this.socket.sendMessageWithToken('GET_STATIC_OVERLAYS', {  });
+    this.socket.sendMessageWithToken('GET_FRAMES_WITH_OVERLAY', { prj_id });
+    this.socket.sendMessageWithToken('GET_STATIC_OVERLAYS', {});
+    this.socket.sendMessageWithToken('GET_MUSICS', { prj_id });
   }
 
   _loadResponse(response) {
@@ -486,6 +503,11 @@ export class VideoStudioService {
     });
 
     this.socket.sendMessageWithToken('UPDATE_OVERLAY_ORDER', {orders: orders});
+  }
+
+  _getMusicsResponse(response) {
+    console.log(response);
+    $this.onGetMusics.emit(response);
   }
 
   _addUploadMusic(file, metadata: any) {

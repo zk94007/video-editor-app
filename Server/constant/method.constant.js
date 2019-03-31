@@ -36,14 +36,18 @@ module.exports = {
     addFrame:                   'ADD_FRAME',
     addFrameByUrl:              'ADD_FRAME_BY_URL',
     addUploadImage:             'ADD_UPLOAD_IMAGE',
+    addUploadMusic:             'ADD_UPLOAD_MUSIC',
     deleteUploadImage:          'DELETE_UPLOAD_IMAGE',
     uploadImageProgress:        'UPLOAD_IMAGE_PROGRESS',
+    uploadMusicProgress:        'UPLOAD_MUSIC_PROGRESS',
     getFrameList:               'GET_FRAME_LIST',
     getFramesWithOverlay:       'GET_FRAMES_WITH_OVERLAY',
     updateFrameOrder:           'UPDATE_FRAME_ORDER',
     deleteFrame:                'DELETE_FRAME',
     duplicateFrame:             'DUPLICATE_FRAME',
     updateFrame:                'UPDATE_FRAME',
+
+    getMusics:                  'GET_MUSICS',
 
     concatenate:                'CONCATENATE',
 

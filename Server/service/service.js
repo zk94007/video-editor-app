@@ -11,4 +11,5 @@ module.exports = {
     overlay:        require('./overlay.service'),
     upload_image:   require('./upload_image.service'),
     static_overlay: require('./static_overlay'),
+    music:          require('./music.service')
 }

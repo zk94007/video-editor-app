@@ -56,7 +56,7 @@ module.exports = {
                 if (frm_type == 1) {
                     getVideoDuration(filepath).then(duration => {
                         const reposition = helper.video.fit_video_2_frame(metadata.resolution.width, metadata.resolution.height, config.video.scene1080[project.prj_scene_ratio].width, config.video.scene1080[project.prj_scene_ratio].height);
-                        let data = [prj_id, cloudPath, resolution, filename, '{"seekTime":0,"duration":' + duration + ',"endTime":' + duration + '}', JSON.stringify(reposition), frm_type, gif_delays, '{}'];
+                        let data = [prj_id, cloudPath, resolution, filename, '{"seekTime":0,"duration":' + duration + ',"endTime":' + duration + '}', JSON.stringify(reposition), frm_type, gif_delays, '{}', '', 0];
 
                         frameModel.addFrame(data, (err, row) => {
                             if (err) {
@@ -70,13 +70,14 @@ module.exports = {
                                 frm_order: row.frm_order,
                                 frm_resolution: row.frm_resolution,
                                 frm_name: row.frm_name,
-                                frm_gif_delays: row.frm_gif_delays
+                                frm_gif_delays: row.frm_gif_delays,
+                                frm_muted: row.frm_muted
                             });
                         });
                     });
                 } else {
                     const reposition = helper.video.fit_video_2_frame(metadata.resolution.width, metadata.resolution.height, config.video.scene1080[project.prj_scene_ratio].width, config.video.scene1080[project.prj_scene_ratio].height);
-                    let data = [prj_id, cloudPath, resolution, filename, '10', JSON.stringify(reposition), frm_type, gif_delays, '{}'];
+                    let data = [prj_id, cloudPath, resolution, filename, '10', JSON.stringify(reposition), frm_type, gif_delays, '{}', '', 0];
 
                     frameModel.addFrame(data, (err, row) => {
                         if (err) {
@@ -91,7 +92,8 @@ module.exports = {
                             frm_resolution: row.frm_resolution,
                             frm_reposition: row.frm_reposition,
                             frm_name: row.frm_name,
-                            frm_gif_delays: row.frm_gif_delays
+                            frm_gif_delays: row.frm_gif_delays,
+                            frm_muted: row.frm_muted
                         });
                     });
                 }
@@ -187,7 +189,9 @@ module.exports = {
                         frame.frm_reposition,
                         frame.frm_type,
                         frame.frm_gif_delays,
-                        frame.frm_background];
+                        frame.frm_background,
+                        frame.frm_subtitles,
+                        frame.frm_muted];
 
                     frameModel.addFrame(data, (_err, row) => {
                         new_frm_id = row.frm_id;

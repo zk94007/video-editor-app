@@ -260,6 +260,16 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.getMusics, function(message) {
+        helper.log.system('received musics message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.getMusics, message, function(err, userInfo) {
+            service.music.getMusics(userInfo, message, function(err, result) {
+                socket.emit(constant.method.getMusics + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.createProject, function (message) {
         helper.log.system('received create project message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.createProject, message, function (err, userInfo) {
@@ -323,6 +333,37 @@ io.on('connection', function(socket) {
                         service.upload_image.addUploadImage(message, metadata, function (__err, result) {
                             result.guid = message.guid;
                             socket.emit(constant.method.addUploadImage + '_RESPONSE', result);
+                            helper.log.system(JSON.stringify(result));
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    ss(socket).on(constant.method.addUploadMusic, function (stream, message) {
+        helper.log.system('received add upload music: ' + JSON.stringify(message));
+        helper.file.writeStream(stream, config.server.uploadPath, message.filename, function (err, filepath) {
+            if (err) {
+                const result = {};
+                result.success = false;
+                result.msg = err;
+                result.guid = message.guid;
+                socket.emit(constant.method.addUploadMusic + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            } else {
+                helper.file.putMediaToCloud(filepath, (percent) => { socket.emit(constant.method.uploadMusicProgress, { guid: message.guid, percent: percent }); }, (_err, metadata) => {
+                    if (_err) {
+                        const result = {};
+                        result.success = false;
+                        result.msg = _err;
+                        result.guid = message.guid;
+                        socket.emit(constant.method.addUploadMusic + '_RESPONSE', result);
+                        helper.log.system(JSON.stringify(result));
+                    } else {
+                        service.music.addMusic(message, metadata, function (__err, result) {
+                            result.guid = message.guid;
+                            socket.emit(constant.method.addUploadMusic + '_RESPONSE', result);
                             helper.log.system(JSON.stringify(result));
                         });
                     }

@@ -251,21 +251,14 @@ module.exports = {
             if (!this.matchYoutubeUrl(youtube_url)) {
                 responseHelper.onError('error: invalid youtube url', callback);
             }
-
-            var count = 3;
-
-            console.log(`---------> ${youtube_url}`);
-            console.log(`${count *3} counts`);
             
             var filepath = '';
             var filename = '';
             var video = youtubedl(youtube_url, [], {cwd: __dirname});
             video.on('error', (err) => {
-                console.log(`error -> ${err}`);
                 responseHelper.onError('error: download_youtube_video_from_url ' + err, callback);
             });
             video.on('end', () => {
-                console.log(`${filename}`);
                 responseHelper.onSuccess(callback, {filepath: filepath, filename: filename});
             });
             video.on('info', function(info) {
@@ -282,7 +275,6 @@ module.exports = {
                     // var format_id = info.format_id;
                     // var _v = youtubedl(youtube_url, ['--format='+format_id], {cwd: __dirname});
                     filepath = config.server.uploadPath + uuidGen.v1() + '.mp4';
-                    console.log(`${filename}`);
                     video.pipe(fs.createWriteStream(filepath));
                 }
             });
@@ -357,7 +349,8 @@ module.exports = {
      */
     putMediaToCloud(filepath, setProgress, callback) {
         let mimeType = mime.lookup(filepath);
-        if (!mimeType || !(mimeType.includes('video/') || mimeType.includes('image/'))) {
+
+        if (!mimeType || !(mimeType.includes('video/') || mimeType.includes('image/') || mimeType.includes('audio'))) {
             responseHelper.onError('error: putMediaToCloud' + 'unsupported file', callback);
             return;
         }
@@ -368,6 +361,7 @@ module.exports = {
 
         let resolution = '';
         let gif_delays = '';
+        let duration = 0;
 
         let metadata = {};
 
@@ -376,7 +370,15 @@ module.exports = {
         seriesTasks.push((series_callback) => {
             setProgress(80);
 
-            if (mimeType.includes('video/')) {
+            if (mimeType.includes('audio')) {
+                newFileName += '.mp3';
+
+                getAudioDurationInSeconds(filepath)
+                    .then((d) => {
+                        duration = d;
+                        series_callback(0);
+                    });
+            } else if(mimeType.includes('video/')) {
                 newFileName += '.mp4';
                 if (ext != 'mp4') {
                     videoHelper.convert2mp4(filepath, serverConfig.uploadPath, (err, newPath) => {
@@ -468,6 +470,7 @@ module.exports = {
                                 resolution: resolution,
                                 filepath: config.server.uploadPath + newFileName,
                                 gif_delays: gif_delays,
+                                duration: duration
                             };
                         }
                         series_callback('');
