@@ -48,6 +48,7 @@ module.exports = {
     updateFrame:                'UPDATE_FRAME',
 
     getMusics:                  'GET_MUSICS',
+    deleteMusic:                'DELETE_MUSIC',
 
     concatenate:                'CONCATENATE',
 

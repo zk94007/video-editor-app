@@ -290,6 +290,16 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on(constant.method.deleteMusic, function (message) {
+        helper.log.system('received delete music message: ' + JSON.stringify(message));
+        helper.socket.authenticateMessage(socket, constant.method.deleteMusic, message, function (err, userInfo) {
+            service.music.deleteMusic(userInfo, message, function (err, result) {
+                socket.emit(constant.method.deleteMusic + '_RESPONSE', result);
+                helper.log.system(JSON.stringify(result));
+            });
+        });
+    });
+
     socket.on(constant.method.updateProject, function (message) {
         helper.log.system('received update project message: ' + JSON.stringify(message));
         helper.socket.authenticateMessage(socket, constant.method.updateProject, message, function (err, userInfo) {

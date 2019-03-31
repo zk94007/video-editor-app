@@ -93,6 +93,8 @@ export class VideoStudioService {
 
   @Output() onChangeStage = new EventEmitter();
 
+  @Output() onDeleteMusic = new EventEmitter();
+
   public binds = [
     {
       name: 'GET_FRAMES_WITH_OVERLAY_RESPONSE',
@@ -149,6 +151,10 @@ export class VideoStudioService {
     {
       name: 'GET_MUSICS_RESPONSE',
       function: this._getMusicsResponse
+    },
+    {
+      name: 'DELETE_MUSIC_RESPONSE',
+      function: this._deleteMusicResponse
     }
   ];
 
@@ -422,6 +428,15 @@ export class VideoStudioService {
       $this.onUpdateCanvas.emit($this.project.getFrame($this.selected_frm_id).getOverlays2Json());
       $this.onUpdateFrameline.emit($this.project.getFrames2Json());
     }, 3000);
+  }
+
+  _deleteMusic(mus_id) {
+    this.socket.sendMessageWithToken('DELETE_MUSIC', { mus_id });
+  }
+
+  _deleteMusicResponse(response) {
+    console.log(response);
+    $this.onDeleteMusic.emit(response);
   }
 
   _deleteFrame(frm_id) {
