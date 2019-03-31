@@ -1,0 +1,131 @@
+@import "../../../../../styles/bootstrap/functions";
+@import "../../../../../styles/bootstrap/variables";
+@import "../../../../../styles/bootstrap/mixins";
+
+:host {
+    .audio-remove {
+        position: absolute;
+        top: -9px;
+        right: -9px;
+        z-index: 1;
+        color: theme-color("success");
+        width: 18px;
+        height: 18px;
+        opacity: 0.6;
+        transition: ease-in-out opacity 460ms;
+
+        svg {
+            width: inherit;
+            height: inherit;
+            fill: currentColor;
+            vertical-align: top;
+        }
+
+        @include hover-focus {
+            opacity: 1;
+            transition: ease-in-out opacity 460ms;
+        }
+    }
+
+    .audio-player {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 3px;
+        background-color: rgba($color: #000, $alpha: 0.1);
+
+        .audio-player-button {
+            flex-shrink: 0;
+            color: #fff;
+            opacity: 0.6;
+            transition: ease-in-out opacity 460ms;
+
+            svg {
+                fill: currentColor;
+            }
+
+            @include hover-focus {
+                opacity: 1;
+                transition: ease-in-out opacity 460ms;
+            }
+        }
+
+        .audio-player-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 0 map-get($map: $spacers, $key: 3);
+            text-align: left;
+
+            > .audio-player-body-title {
+                width: 120px;
+                margin: 0 auto;
+                white-space: nowrap;
+                overflow: hidden;
+                box-sizing: border-box;
+
+                > span {
+                    display: inline-block;
+                    // padding-left: 100%;
+                    text-indent: 0;
+                    animation-name: marquee;
+                    animation-duration: 5s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: linear;
+                    animation-play-state: paused;
+                }
+
+                &.animate {
+                    > span {
+                        animation-play-state: running;
+                    }
+                }
+
+                @include hover-focus {
+                    > span {
+                        animation-play-state: running;
+                    }
+                }
+            }
+
+            > .audio-player-body-duration {
+                color: theme-color("success");
+            }
+        }
+
+        .audio-player-action {
+            > .audio-player-action-remove {
+                position: absolute;
+                top: -9px;
+                right: -9px;
+                z-index: 1;
+                color: theme-color("info");
+                width: 18px;
+                height: 18px;
+                opacity: 0.6;
+                transition: ease-in-out opacity 460ms;
+
+                svg {
+                    width: inherit;
+                    height: inherit;
+                    fill: currentColor;
+                }
+
+                @include hover-focus {
+                    opacity: 1;
+                    transition: ease-in-out opacity 460ms;
+                }
+            }
+
+            > .audio-player-action-use > small {
+                line-height: 12px;
+            }
+        }
+    }
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0) }
+    100% { transform: translateX(-100%) }
+}

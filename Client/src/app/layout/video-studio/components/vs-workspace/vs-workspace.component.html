@@ -1,47 +1,62 @@
 <div class="workspace">
-  <menu class="tool-bar">
-    <app-vs-toolbar [isTextSelected]="'true'"></app-vs-toolbar>
-  </menu>
-  <div id="workarea">
-    <app-vs-workarea-latest class="app-div"></app-vs-workarea-latest>
-  </div>
-  <div id="footer">
-    <div id="scene-controlbar">
-      <div id="scenebar-title-menu">
-        <menu id="scenebar-menu">
-          <li>
-            <a class="button outline-button prerollAnimation prerollDelay3" [style.width.px]="30.875" (click)="setSceneRatio('916')">
-              <div class="outline-thumbnail {{props.sceneRatio == '916' ? 'active' : ''}}" [style.width.px]="25.875">
-              </div>
-              <p class="scene-ratio-label nine-16">
-                9:16
-              </p>
-            </a>
-          </li>
-          <li>
-            <a class="button outline-button prerollAnimation prerollDelay4" [style.width.px]="51" (click)="setSceneRatio('11')">
-              <div class="outline-thumbnail {{props.sceneRatio == '11' ? 'active' : ''}}" [style.width.px]="46">
-              </div>
-              <p class="scene-ratio-label one-1">
-                 1:1
-              </p>
-            </a>
-          </li>
-          <li>
-            <a class="button outline-button prerollAnimation prerollDelay5" [style.width.px]="86.777" (click)="setSceneRatio('169')">
-              <div class="outline-thumbnail {{props.sceneRatio == '169' ? 'active' : ''}}" [style.width.px]="81.777">
-              </div>
-              <p class="scene-ratio-label sixteen-9">
-                 16:9
-              </p>
-            </a>
-          </li>
-        </menu>
-      </div>
-      <div id="scenebar-total-duration" style="float:right; line-height: 50px; text-align:center; color:white; padding:0 10px 0 0">
-        <span>Total Duration: {{timeFormat(props.totalDuration)}}</span>
-      </div>
+    <menu class="tool-bar">
+        <app-vs-toolbar [isTextSelected]="'true'"></app-vs-toolbar>
+    </menu>
+    <div id="workarea">
+        <app-vs-workarea-latest class="app-div"></app-vs-workarea-latest>
     </div>
-    <app-vs-frameline id="app-vs-frameline"></app-vs-frameline>
-  </div>
+    <div id="footer">
+        <div id="scene-controlbar">
+            <div id="scenebar-title-menu">
+                <menu id="scenebar-menu">
+                    <li>
+                        <a class="button outline-button prerollAnimation prerollDelay3" [style.width.px]="30.875"
+                            (click)="setSceneRatio('916')">
+                            <div class="outline-thumbnail {{props.sceneRatio == '916' ? 'active' : ''}}"
+                                [style.width.px]="25.875">
+                            </div>
+                            <p class="scene-ratio-label nine-16">
+                                9:16
+                            </p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="button outline-button prerollAnimation prerollDelay4" [style.width.px]="51"
+                            (click)="setSceneRatio('11')">
+                            <div class="outline-thumbnail {{props.sceneRatio == '11' ? 'active' : ''}}"
+                                [style.width.px]="46">
+                            </div>
+                            <p class="scene-ratio-label one-1">
+                                1:1
+                            </p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="button outline-button prerollAnimation prerollDelay5" [style.width.px]="86.777"
+                            (click)="setSceneRatio('169')">
+                            <div class="outline-thumbnail {{props.sceneRatio == '169' ? 'active' : ''}}"
+                                [style.width.px]="81.777">
+                            </div>
+                            <p class="scene-ratio-label sixteen-9">
+                                16:9
+                            </p>
+                        </a>
+                    </li>
+                </menu>
+            </div>
+            <div id="scenebar-total-duration"
+                style="float:right; line-height: 50px; text-align:center; color:white; padding:0 10px 0 0">
+                <span>Total Duration: {{timeFormat(props.totalDuration)}}</span>
+                <button class="btn btn-muted btn-secondary" (click)="mute()">
+                    <span class="d-flex align-items-center">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="347.182" height="347.182" [style.width.px]="26" [style.height.px]="26" viewBox="0 0 347.182 347.182">
+                            <path d="M277.808 5.426C274.187 1.809 269.902 0 264.954 0c-4.945 0-9.233 1.809-12.847 5.426L157.034 100.5H82.233c-4.952 0-9.235 1.809-12.851 5.424-3.617 3.621-5.426 7.901-5.426 12.85v109.634c0 4.948 1.809 9.232 5.426 12.847 3.619 3.617 7.902 5.428 12.851 5.428h74.798l95.07 95.077c3.62 3.61 7.904 5.421 12.847 5.421 4.955 0 9.236-1.811 12.854-5.421 3.613-3.617 5.424-7.901 5.424-12.847V18.276c-.001-4.948-1.805-9.234-5.418-12.85z" />
+                        </svg>
+                        <span>Mute</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <app-vs-frameline id="app-vs-frameline"></app-vs-frameline>
+    </div>
 </div>

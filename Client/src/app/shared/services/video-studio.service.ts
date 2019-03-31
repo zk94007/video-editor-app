@@ -46,6 +46,7 @@ export class VideoStudioService {
   @Output() onAddUploadImage = new EventEmitter();
   @Output() onAddTextOverlay = new EventEmitter();
   @Output() onAddImageOverlay = new EventEmitter();
+  @Output() onAddUploadMusic = new EventEmitter();
   @Output() onAddOverlay = new EventEmitter();
 
   @Output() onChangeTextProps = new EventEmitter();
@@ -86,6 +87,8 @@ export class VideoStudioService {
   @Output() onGetStaticOverlays = new EventEmitter();
 
   @Output() onGetVideoForCaption = new EventEmitter();
+
+  @Output() onChangeStage = new EventEmitter();
 
   public binds = [
     {
@@ -144,6 +147,10 @@ export class VideoStudioService {
     _.each(this.binds, (bind) => {
       this.socket.bind(bind.name, bind.function);
     });
+  }
+
+  changeStage(stage) {
+    this.onChangeStage.emit(stage);
   }
 
   changeSceneRatio(sceneRatio) {
@@ -285,6 +292,19 @@ export class VideoStudioService {
       this.project.modified = true;
       frame.frm_duration = duration;
       this.socket.sendMessageWithToken('UPDATE_FRAME', { frm_id: this.selected_frm_id, data: [{ name: 'frm_duration', value: JSON.stringify(duration) }] });
+    }
+  }
+
+  //John this is for change mute
+  _changeMute(muted) {
+    const frame = this.project.getFrame(this.selected_frm_id);
+    if (frame) {
+      if (!this.isModified()) {
+        this.onModified.emit();
+      }
+      this.project.modified = true;
+      frame.frm_muted = muted;
+      this.socket.sendMessageWithToken('UPDATE_FRAME', { frm_id: this.selected_frm_id, data: [{ name: 'frm_muted', value: muted }] });
     }
   }
 
@@ -462,6 +482,25 @@ export class VideoStudioService {
     });
 
     this.socket.sendMessageWithToken('UPDATE_OVERLAY_ORDER', {orders: orders});
+  }
+
+  _addUploadMusic(file, metadata: any) {
+    metadata.prj_id = this.project.getProjectId();
+    metadata.size = file.size;
+    metadata.filename = file.name;
+
+    this.socket.sendStream('ADD_UPLOAD_MUSIC', file, metadata, this.onAddUploadImageProgress);
+  }
+
+  _addUploadMusicResponse(response) {
+    console.log(response);
+
+    $this.onAddUploadMusic.emit({
+      mus_id: response.mus_id,
+      guid: response.guid,
+      src: response.mus_path,
+      name: response.mus_name
+    });
   }
 
   /**

@@ -13,6 +13,7 @@ export class Frame /*extends FrameRecord*/ {
     frm_gif_delays: any;
     frm_background: any;
     frm_overlays: Overlay[];
+    frm_muted: number;
 
     constructor( jsonData: any ) {
         $.extend( this, jsonData );
@@ -41,7 +42,8 @@ export class Frame /*extends FrameRecord*/ {
             frm_reposition: this.frm_reposition,
             frm_resolution: this.frm_resolution,
             frm_gif_delays: this.frm_gif_delays,
-            frm_background: this.frm_background
+            frm_background: this.frm_background,
+            frm_muted: this.frm_muted
         };
     }
 

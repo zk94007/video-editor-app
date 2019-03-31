@@ -38,7 +38,8 @@ import {
     VsFramelineComponent,
     VsToolbarComponent,
     VsSidebarPanelComponent,
-    VsWorkareaLatestComponent
+    VsWorkareaLatestComponent,
+    VsAudioPlayerComponent
 } from './components';
 
 import { ButtonSubmenuDirective } from './directives/button-submenu.directive';
@@ -87,6 +88,7 @@ import { BlColorpickerDirective } from './directives/bl-colorpicker.directive';
         VsToolbarComponent,
         VideoStudioComponent,
         VsSidebarPanelComponent,
+        VsAudioPlayerComponent,
         ButtonSubmenuDirective,
         ASidebarDirective,
         LiActiveHoverDirective,

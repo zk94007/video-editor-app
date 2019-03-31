@@ -32,18 +32,18 @@ export class CsSubtitleToolabarComponent implements OnInit, OnChanges {
             family: 'Arial',
             size: 18,
             color: {
-                hex: '#c9ff92',
-                rgba: 'rgba(201,255,146,1)'
+                hex: '#ffee00',
+                rgba: 'rgba(253,238,0,1)'
             },
             weight: 'normal',
             style: 'normal',
-            align: 'left'
+            align: 'center'
         },
         caption: {
             type: 'highlight',
             color: {
-                hex: '#000000',
-                rgba: { r: 0, g: 0, b: 0, a: 0.7 } // 'rgba(0, 0, 0, 0.7)'
+                hex: '#fff',
+                rgba: { r: 255, g: 255, b: 255, a: 1 } // 'rgba(0, 0, 0, 0.7)'
             },
             align: 'bottom'
         },
@@ -110,6 +110,7 @@ export class CsSubtitleToolabarComponent implements OnInit, OnChanges {
 
         this.captionColorPicker.on('color:change', (color) => {
             this.selectCaptionColor(color);
+            console.log(color);
         });
 
         this.videoColorPicker.on('color:change', (color) => {

@@ -16,6 +16,7 @@ export class Project /*extends ProjectRecord*/ {
     prj_video_path_sd: string;
     prj_video_path_hd: string;
     prj_video_path_full_hd: string;
+    mus_id: number;
     upload_images: UploadImage[];
     modified: boolean;
 
@@ -179,7 +180,7 @@ export class Project /*extends ProjectRecord*/ {
 
             //@Kostya
             // this.prj_frames.forEach(f => { if (f.frm_order > frame.frm_order) { f.frm_order--; } });
-            
+
             this.prj_frames.splice(this.getFrameIndex(frm_id), 1);
         }
     }
@@ -191,7 +192,7 @@ export class Project /*extends ProjectRecord*/ {
 
             //@Kostya
             // this.prj_frames.forEach(f => { if (f.frm_order > frame.frm_order) { f.frm_order ++; }});
-            
+
             const new_frame = frame.clone();
             new_frame.frm_id = new_frm_id;
             new_frame.frm_order = new_frm_order;
@@ -231,6 +232,7 @@ export class Project /*extends ProjectRecord*/ {
             prj_created_at: this.prj_created_at,
             prj_representative: this.prj_representative,
             prj_scene_ratio: this.prj_scene_ratio,
+            mus_id: this.mus_id
         };
     }
 }

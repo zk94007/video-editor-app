@@ -1,0 +1,21 @@
+:host {
+    #scenebar-total-duration {
+        .btn-muted {
+            position: absolute;
+            top: -90px;
+            right: 12px;
+            background-color: #8e8e8e;
+            color: #fff;
+            border-width: 0px;
+            padding: 8px 16px;
+            padding-left: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+
+            .icon {
+                fill: currentColor;
+                margin-right: 10px;
+            }
+        }
+    }
+}
