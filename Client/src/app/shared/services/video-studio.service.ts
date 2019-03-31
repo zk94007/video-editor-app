@@ -120,6 +120,10 @@ export class VideoStudioService {
       function: this._addUploadImageResponse,
     },
     {
+      name: 'ADD_UPLOAD_MUSIC_RESPONSE',
+      function: this._addUploadMusicResponse,
+    },
+    {
       name: 'DELETE_UPLOAD_IMAGE_RESPONSE',
       function: this._deleteUplpoadImageResponse,
     },
@@ -493,7 +497,7 @@ export class VideoStudioService {
   }
 
   _addUploadMusicResponse(response) {
-    console.log(response);
+    console.log('sss', response);
 
     $this.onAddUploadMusic.emit({
       mus_id: response.mus_id,
