@@ -183,14 +183,6 @@ export class VsSidebarPanelComponent implements OnInit {
 
         this.ng5FilesService.addConfig(this.allUploadConfig);
 
-        this.$uns.push(this.vsService.onChangeStage.subscribe((stage) => {
-            // if (stage == 5) { //SIDEBAR_STAGE_UPLOAD
-            //   this.ng5FilesService.addConfig(this.imageUploadConfig);
-            // } else if (stage == 4) { //SIDEBAR_STAGE_MUSIC
-            //   this.ng5FilesService.addConfig(this.audioUploadConfig);
-            // }
-        }));
-
         this.$uns.push(this.vsService.onAddUploadImage.subscribe((response) => {
             this.props_upload_images.uploadedFiles.forEach(file => {
                 if (file.fakeId === response.guid) {
@@ -231,35 +223,6 @@ export class VsSidebarPanelComponent implements OnInit {
 
             this.props_musics.uploadedFiles = musics;
         }));
-
-        /* this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
-          overlays.forEach(element => {
-            if (element.sov_type === 1) {
-              this.props_emojis.emojisFiles.push({
-                sov_id: element.sov_id,
-                sov_name: element.sov_name || 'None',
-                fakeId: '',
-                src: element.sov_path,
-                percent: 0,
-                isLoaded: true,
-                resolution: element.sov_resolution,
-                gif_delays: element.sov_gif_delays
-              });
-            }
-            if (element.sov_type === 2) {
-              this.props_stickers.stickersFiles.push({
-                sov_id: element.sov_id,
-                sov_name: element.sov_name || 'None',
-                fakeId: '',
-                src: element.sov_path,
-                percent: 0,
-                isLoaded: true,
-                resolution: element.sov_resolution,
-                gif_delays: element.sov_gif_delays
-              });
-            }
-          });
-        })); */
 
         this.$uns.push(this.vsService.onDragEnd.subscribe(() => {
             if ($this.selectedDomObject != null) {
@@ -403,7 +366,17 @@ export class VsSidebarPanelComponent implements OnInit {
     }
 
     onDeleteClick(mus_id) {
-        this.vsService._deleteUploadImage(mus_id);
+        this.vsService._deleteMusic(mus_id);
+
+        this.$uns.push(this.vsService.onDeleteMusic.subscribe(response => {
+            if (response.success) {
+                this.props_musics.uploadedFiles.forEach((music, index) => {
+                    if (music.mus_id === mus_id) {
+                        this.props_musics.uploadedFiles.splice(index, 1);
+                    }
+                });
+            }
+        }));
     }
 
     private selectFont(font_family, font_size, font_style) {
