@@ -64,18 +64,9 @@ export class VsSidebarPanelComponent implements OnInit {
     // Search input
     public searchInput = new FormControl(null);
 
-    // UploadPanel Variables
     private imageUploadConfig: Ng5FilesConfig = {
         // acceptExtensions: ['png', 'jpg', 'jpeg', 'JPEG', 'JPG'],
         acceptExtensions: ['png', 'PNG', 'jpg', 'jpeg', 'gif', 'GIF'],
-        maxFilesCount: 5,
-        maxFileSize: 5120000,
-        totalFilesSize: 10120000
-    };
-
-    private allUploadConfig: Ng5FilesConfig = {
-        // acceptExtensions: ['png', 'jpg', 'jpeg', 'JPEG', 'JPG'],
-        acceptExtensions: ['png', 'PNG', 'jpg', 'jpeg', 'gif', 'GIF', 'mp3'],
         maxFilesCount: 5,
         maxFileSize: 5120000,
         totalFilesSize: 10120000
@@ -134,6 +125,11 @@ export class VsSidebarPanelComponent implements OnInit {
             suppressScrollX: true
         };
 
+        // Uploader config
+        // this.ng5FilesService.addConfig(this.allUploadConfig);
+        this.ng5FilesService.addConfig(this.audioUploadConfig, 'audio');
+        this.ng5FilesService.addConfig(this.imageUploadConfig, 'image');
+
         // Background Panel config
         this.props_background.addRecentColor = '#ff0000';
         this.props_background.backgroundDefaultPalette1 = ['#6d6fe1', '#0090fa', '#00b9e4', '#49d1fb', '#00dd77', '#ff4b65', '#ff5936', '#ffa82e', '#ffd53c', '#fd109f'];
@@ -151,8 +147,6 @@ export class VsSidebarPanelComponent implements OnInit {
         const $this = this;
 
         this.colorPicker = new MyColorpicker('.bg-colorpicker');
-
-        this.$uns.push();
 
         this.$uns.push(this.renderMore.pipe(
             debounceTime(150),
@@ -180,8 +174,6 @@ export class VsSidebarPanelComponent implements OnInit {
             this.colorPickerColor = color;
             this.vsService._changeBackground(color);
         }));
-
-        this.ng5FilesService.addConfig(this.allUploadConfig);
 
         this.$uns.push(this.vsService.onAddUploadImage.subscribe((response) => {
             this.props_upload_images.uploadedFiles.forEach(file => {
@@ -233,8 +225,6 @@ export class VsSidebarPanelComponent implements OnInit {
                 }
             }
         }));
-
-        // this.ng5FilesService.addConfig(this.audioUploadConfig);
 
         this.listenToScrollEvent();
 

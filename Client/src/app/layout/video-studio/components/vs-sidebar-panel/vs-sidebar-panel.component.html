@@ -214,13 +214,13 @@
     </section>
 
     <section id="resultsMusic" class="results infinite">
-        <ng5-files-drop (filesSelect)="audiosSelect($event)" [style.height.%]="100">
+        <ng5-files-drop (filesSelect)="audiosSelect($event)" [style.height.%]="100" [configId]="'audio'">
             <perfect-scrollbar [config]="config">
                 <div class="layer scrollPane uploadsPanel scrollElement">
                     <div class="inner text-center">
                         <div class="inlineContentContent">
                             <div class="uploadsFolderContent uploadsFolderContentEmpty">
-                                <ng5-files-click (filesSelect)="audiosSelect($event)">
+                                <ng5-files-click (filesSelect)="audiosSelect($event)" [configId]="'audio'">
                                     <span role="button" class="button buttonBlock uploadsFolderContentUploadButton">Upload your Music</span>
                                 </ng5-files-click>
                             </div>
@@ -240,13 +240,13 @@
     </section>
 
     <section id="resultsUpload" class="results infinite">
-        <ng5-files-drop (filesSelect)="imagesSelect($event)" [style.height.%]="100">
+        <ng5-files-drop (filesSelect)="imagesSelect($event)" [style.height.%]="100" [configId]="'image'">
             <perfect-scrollbar [config]="config">
                 <div class="layer scrollPane uploadsPanel scrollElement">
                     <div class="inner" style="text-align: center">
                         <div class="inlineContentContent">
                             <div class="uploadsFolderContent uploadsFolderContentEmpty">
-                                <ng5-files-click (filesSelect)="imagesSelect($event)">
+                                <ng5-files-click (filesSelect)="imagesSelect($event)" [configId]="'image'">
                                     <span role="button" class="button buttonBlock uploadsFolderContentUploadButton">Upload Images &amp; GIFs</span>
                                 </ng5-files-click>
                             </div>
