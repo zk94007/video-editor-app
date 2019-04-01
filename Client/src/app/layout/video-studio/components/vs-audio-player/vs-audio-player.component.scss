@@ -98,19 +98,24 @@
         .audio-player-action {
             > .audio-player-action-remove {
                 position: absolute;
-                top: -9px;
-                right: -9px;
+                top: -5px;
+                right: -5px;
                 z-index: 1;
                 color: theme-color("info");
-                width: 18px;
-                height: 18px;
-                opacity: 0.6;
+                width: 16px;
+                height: 16px;
+                padding: 1px;
                 transition: ease-in-out opacity 460ms;
+                @include border-radius(15px);
+                background-color: #4FE1C0;
+                color: #fff;
+                box-shadow: 0 0 0 3px #3f4652;
 
                 svg {
-                    width: inherit;
-                    height: inherit;
+                    width: 14px;
+                    height: 14px;
                     fill: currentColor;
+                    vertical-align: top;
                 }
 
                 @include hover-focus {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Howl } from 'howler';
 import { BehaviorSubject } from 'rxjs';
 
@@ -31,7 +31,9 @@ export class VsAudioPlayerComponent implements OnInit, OnChanges {
 
     @Output() deleteClick = new EventEmitter(null);
 
-    constructor() { }
+    @Output() loaded = new EventEmitter(null);
+
+    constructor(private element: ElementRef) { }
 
     ngOnChanges(change: SimpleChanges) {
         if (change.file && change.file.currentValue) {
@@ -41,17 +43,20 @@ export class VsAudioPlayerComponent implements OnInit, OnChanges {
         if (change.title && change.title.currentValue) {
             this.title = change.title.currentValue;
         }
+
+        if (this.file) {
+            this._audio = new Howl({
+                src: [this.file]
+            });
+
+            this._audio.once('load', () => {
+                this.duration$.next(this._fmtMSS(this._audio.duration().toFixed(0)));
+                this.loaded.emit(this.element.nativeElement);
+            });
+        }
     }
 
-    ngOnInit() {
-        this._audio = new Howl({
-            src: [this.file]
-        });
-
-        this._audio.once('load', () => {
-            this.duration$.next(this._fmtMSS(this._audio.duration().toFixed(0)));
-        });
-    }
+    ngOnInit() { }
 
     public togglePlay() {
         if (this.isPlay) {

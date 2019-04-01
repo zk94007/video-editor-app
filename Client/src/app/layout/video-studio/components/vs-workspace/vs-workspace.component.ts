@@ -10,7 +10,8 @@ export class VsWorkspaceComponent implements OnInit, OnDestroy {
     public props: any = {
         sceneRatio: null,
         totalDuration: null,
-        frameMute: 0
+        frameMute: 0,
+        showFrameMute: false
     };
 
     public $uns: any = [];
@@ -89,6 +90,12 @@ export class VsWorkspaceComponent implements OnInit, OnDestroy {
         frames.forEach(frame => {
             if (frame.frm_id === frm_id) {
                 this.props.frameMute = frame.frm_muted;
+
+                if (frame.frm_type === 1) {
+                    this.props.showFrameMute = true;
+                } else {
+                    this.props.showFrameMute = false;
+                }
             }
         });
     }

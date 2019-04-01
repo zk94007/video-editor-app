@@ -532,7 +532,7 @@ export class VideoStudioService {
     metadata.size = file.size;
     metadata.filename = file.name;
 
-    this.socket.sendStream('ADD_UPLOAD_MUSIC', file, metadata, this.onAddUploadImageProgress);
+    this.socket.sendStream('ADD_UPLOAD_MUSIC', file, metadata, this.onAddUploadMusicProgress);
   }
 
   _addUploadMusicResponse(response) {
