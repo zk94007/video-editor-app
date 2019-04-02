@@ -89,8 +89,7 @@ export class VsWorkspaceComponent implements OnInit, OnDestroy {
         const frames: any[] = this.vsService.getFrames();
         frames.forEach(frame => {
             if (frame.frm_id === frm_id) {
-                this.props.frameMute = frame.frm_muted;
-
+                this.props.frameMute = frame.frm_muted ? 1 : 0;
                 if (frame.frm_type === 1) {
                     this.props.showFrameMute = true;
                 } else {
