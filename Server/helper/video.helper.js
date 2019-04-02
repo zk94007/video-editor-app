@@ -176,7 +176,7 @@ module.exports = {
         }
 
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
-        shell.exec(`ffmpeg -f lavfi -i anullsrc -i ${filepath} -shortest -c:v copy -c:a aac -map 0:a -map 1:v ${newFilePath}`, (code) => {
+        shell.exec(`ffmpeg -loglevel quiet -f lavfi -i anullsrc -i ${filepath} -shortest -c:v copy -c:a aac -map 0:a -map 1:v ${newFilePath}`, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: muteVideo', callback);
                 return;
@@ -198,7 +198,8 @@ module.exports = {
         }
 
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp3';
-        shell.exec(`ffmpeg -i ${filepath} ${newFilePath}`, (code) => {
+        console.log(`ffmpeg -loglevel quiet -i ${filepath} ${newFilePath}`);
+        shell.exec(`ffmpeg -loglevel quiet -i ${filepath} ${newFilePath}`, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: muteVideo', callback);
                 return;
@@ -221,7 +222,8 @@ module.exports = {
         }
 
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp3';
-        shell.exec(`ffmpeg -i ${audio1} -filter_complex "amovie=${audio2}:loop=999[s];[0][s]amix=duration=shortest" ${newFilePath}`, (code) => {
+        console.log(`ffmpeg -loglevel quiet -i ${audio1} -filter_complex "amovie=${audio2}:loop=999[s];[0][s]amix=duration=shortest" ${newFilePath}`);
+        shell.exec(`ffmpeg -loglevel quiet -i ${audio1} -filter_complex "amovie=${audio2}:loop=999[s];[0][s]amix=duration=shortest" ${newFilePath}`, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: mergeAudios', callback);
                 return;
@@ -243,7 +245,8 @@ module.exports = {
         }
 
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
-        shell.exec(`ffmpeg -i ${filepath} -an ${newFilePath}`, (code) => {
+        console.log(`ffmpeg -loglevel quiet -i ${filepath} -an ${newFilePath}`);
+        shell.exec(`ffmpeg -loglevel quiet -i ${filepath} -an ${newFilePath}`, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: removeAudio', callback);
                 return;
@@ -266,7 +269,8 @@ module.exports = {
         }
 
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.mp4';
-        shell.exec(`ffmpeg -i ${video} -i ${audio} -shortest ${newFilePath}`, (code) => {
+        console.log(`ffmpeg -loglevel quiet -i ${video} -i ${audio} -shortest ${newFilePath}`);
+        shell.exec(`ffmpeg -loglevel quiet -i ${video} -i ${audio} -shortest ${newFilePath}`, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: mergeAudioAndVideo', callback);
                 return;
@@ -412,7 +416,7 @@ module.exports = {
     convertTs(filepath, callback) {
         let newFilePath = serverConfig.downloadPath + uuidGen.v1() + '.ts';
 
-        shell.exec('ffmpeg -loglevel quiet -i ' + filepath + ' -c copy -bsf:v h264_mp4toannexb -f mpegts -acodec copy ' + newFilePath, (code) => {
+        shell.exec('ffmpeg -loglevel quiet -i ' + filepath + ' -c copy -bsf:v h264_mp4toannexb -f mpegts -c:a aac ' + newFilePath, (code) => {
             if (code != 0) {
                 responseHelper.onError('error: convertTs', callback);
                 return;
