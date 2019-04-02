@@ -9,7 +9,7 @@
       <input appFocus focus="true" *ngIf="props.isProjectTitleEditing" class="page-title-input" [(ngModel)]="props.pageTitle" (keyup.enter)="saveProjectTitle()">
       <div class="page-title d-flex align-items-center" *ngIf="!props.isProjectTitleEditing">
         <span (click)="editProjectTitle()" [ngStyle]="{'display': 'inline-block'}">{{props.pageTitle}}</span>
-        <img src="../../../../assets/layout/icons/icon-pencil.png" class="icon" [ngStyle]="{'display': 'inline-block'}" />
+        <img src="../../../../assets/layout/icons/icon-pencil.png" class="icon ml-1" [ngStyle]="{'display': 'inline-block'}" />
       </div>
     </div>
   </div>
