@@ -1,0 +1,25 @@
+:host {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+
+    .display-4 {
+        color: #333;
+        font-size: 46px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+
+    > .container-fluid {
+        z-index: 3;
+    }
+
+    > #confetti-js {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 2;
+    }
+}
