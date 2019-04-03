@@ -1,8 +1,15 @@
 :host {
     #scenebar-total-duration {
+        float: right;
+        text-align: right;
+        color: white;
+        padding: 0 10px 0 0;
+        margin-top: 10px;
+        line-height: 1.1;
+
         .btn-muted {
             position: absolute;
-            top: -90px;
+            top: -55px;
             right: 12px;
             background-color: #8e8e8e;
             color: #fff;

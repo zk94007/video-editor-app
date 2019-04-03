@@ -47,7 +47,8 @@
   animation-delay: .4s
 }
 
-.preroll #seekbar {
+.preroll #seekbar,
+.preroll .seekbar {
   transition: none;
   transform: translateY(330px);
   animation: .6s sceneControlbarIn ease forwards;

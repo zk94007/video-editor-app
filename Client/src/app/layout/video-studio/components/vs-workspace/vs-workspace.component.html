@@ -44,9 +44,9 @@
                     </li>
                 </menu>
             </div>
-            <div id="scenebar-total-duration"
-                style="float:right; line-height: 50px; text-align:center; color:white; padding:0 10px 0 0">
-                <span>Total Duration: {{timeFormat(props.totalDuration)}}</span>
+            <div id="scenebar-total-duration">
+                <span class="font-weight-bold">{{timeFormat(props.totalDuration)}}</span><br>
+                <span>Total Duration</span>
                 <button class="btn btn-muted btn-secondary" (click)="mute()" *ngIf="props.showFrameMute">
                     <span class="d-flex align-items-center">
                         <!-- <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="347.182" height="347.182" [style.width.px]="26" [style.height.px]="26" viewBox="0 0 347.182 347.182">
