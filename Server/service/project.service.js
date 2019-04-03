@@ -748,9 +748,8 @@ module.exports = {
                     //processing audio
                     seriesTasks.push((series_callback) => {
                         musicModel.getMusicByMusId(project.mus_id, (e, music) => {
-                            let project_music = music.mus_path.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
-                                    
                             if (!e) {
+                                let project_music = music.mus_path.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
                                 helper.video.extractAudio(pvFilePathFullHD, (e, audio) =>{
                                     if (e) { series_callback(); console.log(e); return; }
                                     helper.video.mergeAudios(audio, project_music, (e, finalaudio) =>{
