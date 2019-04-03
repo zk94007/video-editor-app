@@ -13,16 +13,16 @@
       <div class="form-group" placement="bottom" ngbPopover="Please fill out this field." triggers="manual" #popoverPassword="ngbPopover">
           <input type="password" (click)="popoverPassword.close()" class="form-control"  id="password" name="password" #password="ngModel" [(ngModel)]="model.password" required placeholder="Your Password" />
       </div>
-      
+
       <button [disabled]="loading" type="submit" class="btn btn-custom btn-sm btn-green btn-submit">Sign Up</button>
-      <p>By clicking "Sign Up" you agree to Blurbiz <a href="http://blurbiz.io/terms" target="_blank">Terms of Services</a></p>
+      <p>By clicking "Sign Up" you agree to Blurbiz <a href="https://www.blurbiz.io/terms" target="_blank">Blurbiz’s Terms</a></p>
 
       <div *ngIf="notification.error" class="alert alert-danger">{{ notification.error }}</div>
       <div *ngIf="notification.success" class="alert alert-success">{{ notification.success }}  &nbsp;&nbsp; <a [routerLink]="['/resend']" style="text-decoration: underline">Resend</a></div>
   </form>
 
   <p>I already have an account. <a [routerLink]="['/login']">Login</a></p>
-  
+
 </div>
 <div class="backdrop" [ngStyle]="{'display':display_backdrop}"></div>
 <!-- <div class="backdrop" [ngStyle]="{'display':'block'}"></div> -->
