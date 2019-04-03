@@ -190,6 +190,14 @@ export class CaptionStudioComponent implements OnInit, OnDestroy {
         this.videoPlayer.api.currentTime = 0;
     }
 
+    pausePlay() {
+        this.videoPlayer.pause();
+    }
+
+    resumePlay() {
+        this.videoPlayer.play();
+    }
+
     public seekTime(time) {
         this.videoPlayer.api.currentTime = time;
     }
