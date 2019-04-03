@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -6,12 +7,17 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    constructor() {
-        const bodyEl: HTMLElement = document.getElementsByTagName('body')[0];
+    constructor(private router: Router) {
+        const loadingIndicatorEl: any = document.getElementsByClassName('loading-indicator')[0];
+        const urlPath = window.location.pathname.substring(1).split('/');
+
+        if (urlPath.includes('caption-studio') || urlPath.includes('video-studio') || urlPath.includes('project')) {
+            loadingIndicatorEl.style.display = 'block';
+        }
 
         window.addEventListener('load', () => {
             setTimeout(() => {
-                bodyEl.classList.add('loaded');
+                loadingIndicatorEl.style.display = 'none';
             }, 100);
         });
     }

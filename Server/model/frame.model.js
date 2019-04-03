@@ -37,6 +37,7 @@ module.exports = {
                         frm_gif_delays: row.frm_gif_delays ? JSON.parse(row.frm_gif_delays) : '',
                         frm_background: row.frm_background ? JSON.parse(row.frm_background) : '',
                         frm_subtitles: row.frm_subtitles ? JSON.parse(row.frm_subtitles) : '',
+                        frm_muted: row.frm_muted
                     };
                     frames.push(frame);
                 });
@@ -75,6 +76,7 @@ module.exports = {
                     frm_gif_delays: row.frm_gif_delays ? JSON.parse(row.frm_gif_delays) : '',
                     frm_background: row.frm_background ? JSON.parse(row.frm_background) : '',
                     frm_subtitles: row.frm_subtitles ? JSON.parse(row.frm_subtitles) : '',
+                    frm_muted: row.frm_muted
                 };
 
                 helper.response.onSuccess(callback, frame);
@@ -147,10 +149,10 @@ module.exports = {
         try {
             let query = '';
 
-            if (data.length == 9)
-                query = 'INSERT INTO public.frame (prj_id, frm_path, frm_resolution, frm_order, frm_name, frm_duration, frm_reposition, frm_type, frm_gif_delays, frm_background) VALUES($1, $2, $3, (SELECT COALESCE(MAX(frm_order), 0) + 1 AS frm_order_max FROM public.frame WHERE prj_id = $1), $4, $5, $6, $7, $8, $9) RETURNING frm_id, frm_path, frm_order, frm_resolution, frm_name, frm_gif_delays, frm_reposition, frm_background;';
+            if (data.length == 11)
+                query = 'INSERT INTO public.frame (prj_id, frm_path, frm_resolution, frm_order, frm_name, frm_duration, frm_reposition, frm_type, frm_gif_delays, frm_background, frm_subtitles, frm_muted) VALUES($1, $2, $3, (SELECT COALESCE(MAX(frm_order), 0) + 1 AS frm_order_max FROM public.frame WHERE prj_id = $1), $4, $5, $6, $7, $8, $9, $10, $11) RETURNING frm_id, frm_path, frm_order, frm_resolution, frm_name, frm_gif_delays, frm_reposition, frm_background, frm_subtitles, frm_muted;';
             else
-                query = 'INSERT INTO public.frame (prj_id, frm_path, frm_resolution, frm_order, frm_name, frm_duration, frm_reposition, frm_type, frm_gif_delays, frm_background) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING frm_id, frm_path, frm_order, frm_resolution, frm_reposition, frm_name, frm_gif_delays, frm_background;';
+                query = 'INSERT INTO public.frame (prj_id, frm_path, frm_resolution, frm_order, frm_name, frm_duration, frm_reposition, frm_type, frm_gif_delays, frm_background, frm_subtitles, frm_muted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING frm_id, frm_path, frm_order, frm_resolution, frm_reposition, frm_name, frm_gif_delays, frm_background, frm_subtitles, frm_muted;';
 
             helper.query.runQuery(query, data, (err, result) => {
                 if (err) {
@@ -159,10 +161,11 @@ module.exports = {
                 }
 
                 let row = result.rows[0];
-                row.frm_reposition = row.frm_reposition != '' ? JSON.parse(row.frm_reposition) : '';
-                row.frm_resolution = row.frm_resolution != '' ? JSON.parse(row.frm_resolution) : '';
-                row.frm_gif_delays = row.frm_gif_delays != '' ? JSON.parse(row.frm_gif_delays) : '';
-                row.frm_background = row.frm_background != '' ? JSON.parse(row.frm_background) : '';
+                row.frm_reposition = row.frm_reposition ? JSON.parse(row.frm_reposition) : '';
+                row.frm_resolution = row.frm_resolution ? JSON.parse(row.frm_resolution) : '';
+                row.frm_gif_delays = row.frm_gif_delays ? JSON.parse(row.frm_gif_delays) : '';
+                row.frm_background = row.frm_background ? JSON.parse(row.frm_background) : '';
+                row.frm_subtitles = row.frm_subtitles ? JSON.parse(row.frm_subtitles) : '';
                 helper.response.onSuccess(callback, row);
             });
         } catch (err) {

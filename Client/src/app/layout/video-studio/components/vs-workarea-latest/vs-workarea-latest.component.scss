@@ -1,0 +1,8 @@
+@import "../../../../../styles/bootstrap/functions";
+@import "../../../../../styles/bootstrap/mixins";
+@import "../../../../../styles/bootstrap/variables";
+
+#video-wrapper {
+    font-family: $font-family-base;
+    position: absolute;
+}

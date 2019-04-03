@@ -85,7 +85,7 @@
         </div>
 
         <ng-container *ngIf="videoPlayer?.api?.duration">
-            <app-range-slider [(ngModel)]="props.video.currentTime" [min]="0" [max]="videoPlayer?.api?.duration" [step]="0.1" [keyboard]="true" #videoSlider (change)="seekTime($event)"></app-range-slider>
+            <app-range-slider [(ngModel)]="props.video.currentTime" [min]="0" [max]="videoPlayer?.api?.duration" [step]="0.1" [keyboard]="false" #videoSlider (change)="seekTime($event)" (start)="pausePlay()" (end)="resumePlay()"></app-range-slider>
         </ng-container>
     </div>
     <div class="scrollable scrollable-y">

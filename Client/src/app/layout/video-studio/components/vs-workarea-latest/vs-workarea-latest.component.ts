@@ -154,19 +154,19 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
       $('#video-frame').attr('src', this.props.frame.frm_path);
       const border = this.canvas.getBorder();
       const scale = this.canvas.getScale();
-      $('#video-frame').css('left', (border.left + this.props.frame.frm_reposition.offsetX * scale) + 'px');
-      $('#video-frame').css('top', (border.top + this.props.frame.frm_reposition.offsetY * scale) + 'px');
-      $('#video-frame').width(this.props.frame.frm_reposition.width * scale);
-      $('#video-frame').height(this.props.frame.frm_reposition.height * scale);
+      $('#video-wrapper').css('left', (border.left + this.props.frame.frm_reposition.offsetX * scale) + 'px');
+      $('#video-wrapper').css('top', (border.top + this.props.frame.frm_reposition.offsetY * scale) + 'px');
+      $('#video-frame, #video-wrapper').width(this.props.frame.frm_reposition.width * scale);
+      $('#video-frame, #video-wrapper').height(this.props.frame.frm_reposition.height * scale);
     }
     if (this.props.frame && this.props.frame.frm_type === 2) {
       $('#image-frame').attr('src', this.props.frame.frm_path);
       const border = this.canvas.getBorder();
       const scale = this.canvas.getScale();
-      $('#image-frame').css('left', (border.left + this.props.frame.frm_reposition.offsetX * scale) + 'px');
-      $('#image-frame').css('top', (border.top + this.props.frame.frm_reposition.offsetY * scale) + 'px');
-      $('#image-frame').width(this.props.frame.frm_reposition.width * scale);
-      $('#image-frame').height(this.props.frame.frm_reposition.height * scale);
+      $('#image-wrapper').css('left', (border.left + this.props.frame.frm_reposition.offsetX * scale) + 'px');
+      $('#image-wrapper').css('top', (border.top + this.props.frame.frm_reposition.offsetY * scale) + 'px');
+      $('#image-frame, #image-wrapper').width(this.props.frame.frm_reposition.width * scale);
+      $('#image-frame, #image-wrapper').height(this.props.frame.frm_reposition.height * scale);
     }
   }
 

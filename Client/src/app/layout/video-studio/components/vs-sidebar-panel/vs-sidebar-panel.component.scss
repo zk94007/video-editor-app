@@ -1,0 +1,29 @@
+@import "../../../../../styles/bootstrap/functions";
+@import "../../../../../styles/bootstrap/variables";
+@import "../../../../../styles/bootstrap/mixins";
+
+:host {
+    .overlay-modal-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        // width: 67px;
+        height: 67px;
+        padding: map-get($map: $spacers, $key: 1);
+        border-radius: $border-radius;
+        background-color: #313740;
+
+        > .progress {
+            height: 8px;
+            border-radius: 8px;
+        }
+    }
+
+    .overlay {
+        @include hover-focus {
+            .uploadsControls {
+                height: 1.8rem;
+            }
+        }
+    }
+}

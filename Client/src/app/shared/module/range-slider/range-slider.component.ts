@@ -118,7 +118,10 @@ export class RangeSliderComponent implements ControlValueAccessor, OnInit, OnCha
         });
 
         this.slider.on('update', (values: string[], handle: number, unencoded: number[]) => {
-            this.update.emit(this.toValues(values));
+            this.update.emit({
+                value: this.toValues(values),
+                handle
+            });
         });
 
         this.slider.on('change', (values: string[], handle: number, unencoded: number[]) => {

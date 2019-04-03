@@ -3,6 +3,7 @@ import { FormGroup, FormArray } from '@angular/forms';
 
 import * as moment from 'moment';
 import { CsVideoPlayerComponent } from '../cs-video-player/cs-video-player.component';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector: 'app-cs-subtitle-control',
@@ -18,6 +19,8 @@ export class CsSubtitleControlComponent implements OnInit, OnChanges {
 
     private _end: number;
 
+    private _handle: number;
+
     constructor() { }
 
     ngOnChanges(change: SimpleChanges) {
@@ -27,7 +30,7 @@ export class CsSubtitleControlComponent implements OnInit, OnChanges {
         }
     }
 
-    ngOnInit() { }
+    ngOnInit() {}
 
     public remove(i: number) {
         const parent = this.group.parent as FormArray;
@@ -74,26 +77,42 @@ export class CsSubtitleControlComponent implements OnInit, OnChanges {
         return moment(value, 'mm:ss:SS').diff(moment().startOf('day'), 'seconds');
     }
 
-    public onStart({ handle, value }) {
-        this.videoPlayer.play();
+    public onUpdate({ handle, value }) {
+        if (this._handle === 0) {
+            this.videoPlayer.api.currentTime = value[0];
+        }
 
-        if (handle === 0) {
+        if (this._handle === 1) {
+            this.videoPlayer.api.currentTime = value[1];
+        }
+    }
+
+    public onStart({ handle, value }) {
+        this._handle = handle;
+
+        this.videoPlayer.pause();
+
+        if (this._handle === 0) {
             this._start = value[0];
             this.videoPlayer.api.currentTime = value[0];
         }
 
-        if (handle === 1) {
+        if (this._handle === 1) {
             this._end = value[1];
             this.videoPlayer.api.currentTime = value[1];
         }
     }
 
     public onEnd({ handle, value }) {
-        if (handle === 0) {
+        this._handle = handle;
+
+        this.videoPlayer.play();
+
+        if (this._handle === 0) {
             this._start = value[0];
         }
 
-        if (handle === 1) {
+        if (this._handle === 1) {
             this._end = value[1];
         }
     }

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
   }

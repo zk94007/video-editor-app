@@ -42,8 +42,8 @@ export class CsSubtitleToolabarComponent implements OnInit, OnChanges {
         caption: {
             type: 'highlight',
             color: {
-                hex: '#fff',
-                rgba: { r: 255, g: 255, b: 255, a: 1 } // 'rgba(0, 0, 0, 0.7)'
+                hex: '#000',
+                rgba: { r: 0, g: 0, b: 0, a: 0.7 } // 'rgba(0, 0, 0, 0.7)'
             },
             align: 'bottom'
         },

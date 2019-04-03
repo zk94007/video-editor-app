@@ -135,7 +135,7 @@ export class WorkareaCanvas {
                 top: 0,
                 width: 0,
                 height: 0,
-                color: '#50E3C2'
+                color: 'transparent'
             }
         },
         borders: [],
@@ -230,7 +230,7 @@ export class WorkareaCanvas {
             if (this.isGif(image.src)) {
                 resolution.width = 120;
                 resolution.height = 120;
-            } 
+            }
             const object: any = {
                 id: this.vsService.fakeId(),
                 src: image.src,
@@ -812,7 +812,7 @@ export class WorkareaCanvas {
         this.vsService.changeCanvasScale(this.props.canvas.scale);
 
         this.props.canvas.border.left = (this.props.size.width - this.props.ratio.width * this.props.canvas.scale) / ((this.props.canvas.paddingLeft + this.props.canvas.paddingRight) / this.props.canvas.paddingLeft);
-        this.props.canvas.border.top = (this.props.size.height - this.props.ratio.height * this.props.canvas.scale) / ((this.props.canvas.paddingTop + this.props.canvas.paddingBottom) / this.props.canvas.paddingTop);
+        this.props.canvas.border.top = (this.props.size.height - this.props.ratio.height * this.props.canvas.scale) / ((this.props.canvas.paddingTop + this.props.canvas.paddingBottom) / this.props.canvas.paddingTop) / 2;
         this.props.canvas.border.width = this.props.ratio.width * this.props.canvas.scale;
         this.props.canvas.border.height = this.props.ratio.height * this.props.canvas.scale;
 
@@ -1183,7 +1183,7 @@ export class WorkareaCanvas {
     setLineHeight(lineHeight) {
         this.setActiveProp('lineHeight', parseFloat(lineHeight));
     }
-    
+
     setFill(fill) {
         this.setActiveProp('fill', fill);
     }

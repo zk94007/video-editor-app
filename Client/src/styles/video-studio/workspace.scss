@@ -32,8 +32,8 @@
 }
 
 #scene-controlbar {
-  height: 50px;
-  background-color: #191E22;
+  height: 45px;
+  background-color: #191e22;
 }
 
 #app-vs-frameline {
@@ -57,7 +57,7 @@
 #scenebar-menu {
   position: absolute;
   float: left;
-  top: 2px;
+  top: 1px;
   list-style: none;
   transition: margin .5s ease;
   text-align: center;
@@ -70,10 +70,10 @@
 
 .outline-thumbnail {
   position: relative;
-  border: 1.5px dashed white;
+  border: 1px solid white;
   border-radius: 5px;
   box-shadow: none;
-  height: 40px;
+  height: 38px;
   text-indent: -9999px;
   width: 40px;
 }
@@ -81,7 +81,7 @@
 .outline-thumbnail.active,
 .outline-thumbnail:hover {
   opacity: 1;
-  border-color: #ff1569;
+  border-color: #50e3c2;
   border-style: solid;
 }
 

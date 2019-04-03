@@ -16,6 +16,7 @@ import * as path from 'path';
 import '@jaames/iro';
 import { MyColorpicker } from '../vs-toolbar/colorpicker';
 import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 declare const $: any;
 
@@ -29,9 +30,11 @@ export class VsSidebarPanelComponent implements OnInit {
     @ViewChild(PerfectScrollbarDirective) directiveScroll: PerfectScrollbarDirective;
     @ViewChild('textPanelScrollbar') textPanelScrollbar: PerfectScrollbarComponent;
 
+    public props = {
+        project: null
+    };
     public config: PerfectScrollbarConfigInterface = {};
     public $uns: any = [];
-
     public colorPicker: MyColorpicker;
     public colorPickerColor: string = '#ffffff';
     public showedTab = 'emojis' || 'stickers' || 'gifs' || 'shapes';
@@ -61,18 +64,9 @@ export class VsSidebarPanelComponent implements OnInit {
     // Search input
     public searchInput = new FormControl(null);
 
-    // UploadPanel Variables
     private imageUploadConfig: Ng5FilesConfig = {
         // acceptExtensions: ['png', 'jpg', 'jpeg', 'JPEG', 'JPG'],
         acceptExtensions: ['png', 'PNG', 'jpg', 'jpeg', 'gif', 'GIF'],
-        maxFilesCount: 5,
-        maxFileSize: 5120000,
-        totalFilesSize: 10120000
-    };
-
-    private allUploadConfig: Ng5FilesConfig = {
-        // acceptExtensions: ['png', 'jpg', 'jpeg', 'JPEG', 'JPG'],
-        acceptExtensions: ['png', 'PNG', 'jpg', 'jpeg', 'gif', 'GIF', 'mp3'],
         maxFilesCount: 5,
         maxFileSize: 5120000,
         totalFilesSize: 10120000
@@ -90,8 +84,8 @@ export class VsSidebarPanelComponent implements OnInit {
         uploadedFiles: [],
         _masonry: Masonry
     };
-    public props_upload_musics: any = {
-        selectedFiles: null,
+    public props_musics: any = {
+        selectedFiles: [],
         uploadedFiles: [],
         _masonry: Masonry
     };
@@ -121,7 +115,8 @@ export class VsSidebarPanelComponent implements OnInit {
         private service: FontPickerService,
         private cdRef: ChangeDetectorRef,
         private ng5FilesService: Ng5FilesService,
-        private vsService: VideoStudioService
+        private vsService: VideoStudioService,
+        private activatedRoute: ActivatedRoute
     ) {
         // Perfect Scrollbar config
         this.config = {
@@ -129,6 +124,11 @@ export class VsSidebarPanelComponent implements OnInit {
             wheelPropagation: false,
             suppressScrollX: true
         };
+
+        // Uploader config
+        // this.ng5FilesService.addConfig(this.allUploadConfig);
+        this.ng5FilesService.addConfig(this.audioUploadConfig, 'audio');
+        this.ng5FilesService.addConfig(this.imageUploadConfig, 'image');
 
         // Background Panel config
         this.props_background.addRecentColor = '#ff0000';
@@ -175,31 +175,9 @@ export class VsSidebarPanelComponent implements OnInit {
             this.vsService._changeBackground(color);
         }));
 
-        this.ng5FilesService.addConfig(this.allUploadConfig);
-
-        this.$uns.push(this.vsService.onChangeStage.subscribe((stage) => {
-            // if (stage == 5) { //SIDEBAR_STAGE_UPLOAD
-            //   this.ng5FilesService.addConfig(this.imageUploadConfig);
-            // } else if (stage == 4) { //SIDEBAR_STAGE_MUSIC
-            //   this.ng5FilesService.addConfig(this.audioUploadConfig);
-            // }
-        }));
-
-        this.$uns.push(this.vsService.onAddUploadImage.subscribe((response) => {
-            this.props_upload_images.uploadedFiles.forEach(file => {
-                if (file.fakeId === response.guid) {
-                    file.uim_id = response.uim_id;
-                    file.src = response.src;
-                    file.percent = 100;
-                    file.isLoaded = true;
-                    file.resolution = response.resolution;
-                    file.gif_delays = response.gif_delays;
-                }
-            });
-        }));
-
         this.$uns.push(this.vsService.onLoad.subscribe(() => {
             const uploadedFiles = this.vsService.getUploadImages();
+
             uploadedFiles.forEach(element => {
                 this.props_upload_images.uploadedFiles.push({
                     uim_id: element.uim_id,
@@ -213,34 +191,52 @@ export class VsSidebarPanelComponent implements OnInit {
             });
         }));
 
-        /* this.$uns.push(this.vsService.onGetStaticOverlays.subscribe((overlays) => {
-          overlays.forEach(element => {
-            if (element.sov_type === 1) {
-              this.props_emojis.emojisFiles.push({
-                sov_id: element.sov_id,
-                sov_name: element.sov_name || 'None',
-                fakeId: '',
-                src: element.sov_path,
-                percent: 0,
-                isLoaded: true,
-                resolution: element.sov_resolution,
-                gif_delays: element.sov_gif_delays
-              });
-            }
-            if (element.sov_type === 2) {
-              this.props_stickers.stickersFiles.push({
-                sov_id: element.sov_id,
-                sov_name: element.sov_name || 'None',
-                fakeId: '',
-                src: element.sov_path,
-                percent: 0,
-                isLoaded: true,
-                resolution: element.sov_resolution,
-                gif_delays: element.sov_gif_delays
-              });
-            }
-          });
-        })); */
+        this.$uns.push(this.vsService.onLoadWithResult.subscribe(result => {
+            this.props.project = result;
+        }));
+
+        this.$uns.push(this.vsService.onAddUploadImageProgress.subscribe((response) => {
+            this.props_upload_images.uploadedFiles.forEach(image => {
+                if (image.fakeId === response.guid) {
+                    image.percent = response.percent;
+                }
+            });
+        }));
+
+        this.$uns.push(this.vsService.onAddUploadMusicProgress.subscribe((response) => {
+            this.props_musics.uploadedFiles.forEach(music => {
+                if (music.fakeId === response.guid) {
+                    music.percent = response.percent;
+                }
+            });
+        }));
+
+        this.$uns.push(this.vsService.onAddUploadMusic.subscribe((response) => {
+            this.props_musics.uploadedFiles.forEach(music => {
+                if (music.fakeId === response.guid) {
+                    music.mus_duration = response.mus_duration;
+                    music.mus_id = response.mus_id;
+                    music.mus_name = response.mus_name;
+                    music.mus_path = response.mus_path;
+                    music.mus_type = response.mus_type;
+                    music.percent = 90;
+                    music.isLoaded = false;
+                }
+            });
+        }));
+
+        this.$uns.push(this.vsService.onAddUploadImage.subscribe((response) => {
+            this.props_upload_images.uploadedFiles.forEach(file => {
+                if (file.fakeId === response.guid) {
+                    file.uim_id = response.uim_id;
+                    file.src = response.src;
+                    file.percent = 100;
+                    file.isLoaded = false;
+                    file.resolution = response.resolution;
+                    file.gif_delays = response.gif_delays;
+                }
+            });
+        }));
 
         this.$uns.push(this.vsService.onDragEnd.subscribe(() => {
             if ($this.selectedDomObject != null) {
@@ -252,8 +248,6 @@ export class VsSidebarPanelComponent implements OnInit {
             }
         }));
 
-        // this.ng5FilesService.addConfig(this.audioUploadConfig);
-
         this.listenToScrollEvent();
 
         this.$uns.push(
@@ -262,12 +256,25 @@ export class VsSidebarPanelComponent implements OnInit {
                     startWith(''),
                     debounceTime(500)
                 ),
-                this.vsService.onGetStaticOverlays
+                this.vsService.onGetStaticOverlays,
+                this.vsService.onGetMusics
             ).pipe(
-                map(([searchValue, overlaysValue]: [string, any[]]) => {
+                map(([searchValue, overlaysValue, { musics }]: [string, any[], any]) => {
                     const gifs = overlaysValue.filter(value => value.sov_type === 3);
                     const stickers = overlaysValue.filter(value => value.sov_type === 2);
                     const emojis = overlaysValue.filter(value => value.sov_type === 1);
+
+                    this.props_musics.uploadedFiles = musics.map(music => {
+                        return {
+                            mus_duration: music.mus_duration,
+                            mus_id: music.mus_id,
+                            mus_name: music.mus_name,
+                            mus_path: music.mus_path,
+                            mus_type: music.mus_type,
+                            isLoaded: true,
+                            percent: 0
+                        };
+                    });
 
                     this.props_emojis.emojisFiles = emojis.map(emoji => {
                         return {
@@ -461,10 +468,15 @@ export class VsSidebarPanelComponent implements OnInit {
         $event.preventDefault();
     }
 
-    onloadedImage($event) {
+    onloadedImage($event, file) {
         const target = $event.target;
+
         setTimeout(() => {
             target.style.visibility = 'visible';
+
+            if (file && file.percent === 100) {
+                file.isLoaded = true;
+            }
         }, 300);
     }
 
@@ -499,47 +511,77 @@ export class VsSidebarPanelComponent implements OnInit {
         }
     }
 
-    // John this is for audio upload angular ctrl
     audiosSelect(selectedFiles: Ng5FilesSelected): void {
         if (selectedFiles.status !== Ng5FilesStatus.STATUS_SUCCESS) {
-            this.props_upload_images.selectedFiles = selectedFiles.status;
+            this.props_musics.selectedFiles = selectedFiles.status;
         }
-        this.props_upload_images.selectedFiles = Array.from(selectedFiles.files);
-        for (let i = 0; i < this.props_upload_images.selectedFiles.length; i++) {
-            const file = this.props_upload_images.selectedFiles[i];
+        this.props_musics.selectedFiles = Array.from(selectedFiles.files);
+        for (let i = 0; i < this.props_musics.selectedFiles.length; i++) {
+            const file = this.props_musics.selectedFiles[i];
             const ext = path.extname(file.name).toLowerCase();
             if (ext === '.mp3') {
                 if (!file.$error) {
                     const fakeId = this.vsService.fakeId();
-                    this.vsService._addUploadMusic(file, { guid: fakeId });
-                    this.props_upload_images.uploadedFiles.push({
+
+                    this.props_musics.uploadedFiles.push({
                         fakeId: fakeId,
-                        src: '../../../../assets/video-studio/loading.gif',
+                        // src: '../../../../assets/video-studio/loading.gif',
                         percent: 0,
                         isLoaded: false,
-                        resolution: {}
+                        // resolution: {}
                     });
 
-                    console.log(this.props_upload_images.uploadedFiles);
+                    setTimeout(() => {
+                        this.vsService._addUploadMusic(file, { guid: fakeId });
+                    }, 1000);
                 }
             }
         }
     }
-    // John this is for audio upload angular ctrl
+
+    onLoadedAudio(target, file) {
+        file.percent = 100;
+
+        setTimeout(() => {
+            target.style.visibility = 'visible';
+            file.isLoaded = true;
+        }, 1000);
+    }
+
+    onUseClick(mus_id) {
+        this.props.project.mus_id = mus_id;
+        this.vsService.changeMusic(mus_id);
+    }
+
+    onDeleteClick(mus_id) {
+        this.vsService._deleteMusic(mus_id);
+
+        this.$uns.push(this.vsService.onDeleteMusic.subscribe(response => {
+            if (response.success) {
+                this.props_musics.uploadedFiles.forEach((music, index) => {
+                    if (music.mus_id === mus_id) {
+                        this.props_musics.uploadedFiles.splice(index, 1);
+                    }
+                });
+            }
+        }));
+    }
 
     imagesSelect(selectedFiles: Ng5FilesSelected): void {
         if (selectedFiles.status !== Ng5FilesStatus.STATUS_SUCCESS) {
             this.props_upload_images.selectedFiles = selectedFiles.status;
         }
+
         this.props_upload_images.selectedFiles = Array.from(selectedFiles.files);
+
         for (let i = 0; i < this.props_upload_images.selectedFiles.length; i++) {
             const file = this.props_upload_images.selectedFiles[i];
             const ext = path.extname(file.name).toLowerCase();
-            // if (ext === '.jpg' || ext === '.png' || ext === '.jpeg') {
+
             if (ext === '.png' || ext === '.jpeg' || ext === '.gif' || ext === '.jpg') {
                 if (!file.$error) {
                     const fakeId = this.vsService.fakeId();
-                    this.vsService._addUploadImage(file, { guid: fakeId });
+
                     this.props_upload_images.uploadedFiles.push({
                         fakeId: fakeId,
                         src: '../../../../assets/video-studio/loading.gif',
@@ -548,7 +590,9 @@ export class VsSidebarPanelComponent implements OnInit {
                         resolution: {}
                     });
 
-                    console.log(this.props_upload_images.uploadedFiles);
+                    setTimeout(() => {
+                        this.vsService._addUploadImage(file, { guid: fakeId });
+                    }, 1000);
                 }
             }
         }

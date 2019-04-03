@@ -15,6 +15,7 @@
     "file-type": "^7.6.0",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
+    "get-audio-duration": "^1.0.0",
     "get-video-dimensions": "^1.0.0",
     "get-video-duration": "^0.2.0",
     "gm": "^1.23.1",

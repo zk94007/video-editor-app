@@ -35,6 +35,7 @@ export class VideoStudioService {
   // private selected_ovl_index;
 
   @Output() onLoad = new EventEmitter();
+  @Output() onLoadWithResult = new EventEmitter();
 
   @Output() onChangeSceneRatio = new EventEmitter();
 
@@ -43,10 +44,11 @@ export class VideoStudioService {
   @Output() onDuplicateFrame = new EventEmitter();
 
   @Output() onAddUploadImageProgress = new EventEmitter();
+  @Output() onAddUploadMusicProgress = new EventEmitter();
   @Output() onAddUploadImage = new EventEmitter();
+  @Output() onAddUploadMusic = new EventEmitter();
   @Output() onAddTextOverlay = new EventEmitter();
   @Output() onAddImageOverlay = new EventEmitter();
-  @Output() onAddUploadMusic = new EventEmitter();
   @Output() onAddOverlay = new EventEmitter();
 
   @Output() onChangeTextProps = new EventEmitter();
@@ -87,8 +89,11 @@ export class VideoStudioService {
   @Output() onGetStaticOverlays = new EventEmitter();
 
   @Output() onGetVideoForCaption = new EventEmitter();
+  @Output() onGetMusics = new EventEmitter();
 
   @Output() onChangeStage = new EventEmitter();
+
+  @Output() onDeleteMusic = new EventEmitter();
 
   public binds = [
     {
@@ -142,6 +147,14 @@ export class VideoStudioService {
     {
       name: 'UPLOAD_SUBTITLES_RESPONSE',
       function: this._uploadSubtitlesResponse
+    },
+    {
+      name: 'GET_MUSICS_RESPONSE',
+      function: this._getMusicsResponse
+    },
+    {
+      name: 'DELETE_MUSIC_RESPONSE',
+      function: this._deleteMusicResponse
     }
   ];
 
@@ -165,6 +178,16 @@ export class VideoStudioService {
     this.onChangeSceneRatio.emit(this.project.getSceneRatio());
     this.socket.sendMessageWithToken('UPDATE_PROJECT', {prj_id: this.project.prj_id, data: [{name: 'prj_scene_ratio', value: sceneRatio}]});
   }
+
+  //John this is for change music for project
+  changeMusic(mus_id) {
+    if (!this.isModified()) {
+      this.onModified.emit();
+    }
+    this.project.mus_id = mus_id;
+    this.socket.sendMessageWithToken('UPDATE_PROJECT', {prj_id: this.project.prj_id, data: [{name: 'mus_id', value: mus_id}]});
+  }
+  //John
 
   isModified() {
     return this.project.modified;
@@ -300,7 +323,7 @@ export class VideoStudioService {
   }
 
   //John this is for change mute
-  _changeMute(muted) {
+  changeMute(muted) {
     const frame = this.project.getFrame(this.selected_frm_id);
     if (frame) {
       if (!this.isModified()) {
@@ -389,20 +412,31 @@ export class VideoStudioService {
   }
 
   _load(prj_id) {
-    this.socket.sendMessageWithToken('GET_FRAMES_WITH_OVERLAY', { prj_id: prj_id });
-    this.socket.sendMessageWithToken('GET_STATIC_OVERLAYS', {  });
+    this.socket.sendMessageWithToken('GET_FRAMES_WITH_OVERLAY', { prj_id });
+    this.socket.sendMessageWithToken('GET_STATIC_OVERLAYS', {});
+    this.socket.sendMessageWithToken('GET_MUSICS', { prj_id });
   }
 
   _loadResponse(response) {
     $this.project = new Project(response.project);
     setTimeout(() => {
       $this.onLoad.emit(response.success);
+      $this.onLoadWithResult.emit(response.project);
     }, 1000);
 
     setInterval(() => {
       $this.onUpdateCanvas.emit($this.project.getFrame($this.selected_frm_id).getOverlays2Json());
       $this.onUpdateFrameline.emit($this.project.getFrames2Json());
     }, 3000);
+  }
+
+  _deleteMusic(mus_id) {
+    this.socket.sendMessageWithToken('DELETE_MUSIC', { mus_id });
+  }
+
+  _deleteMusicResponse(response) {
+    console.log(response);
+    $this.onDeleteMusic.emit(response);
   }
 
   _deleteFrame(frm_id) {
@@ -488,23 +522,21 @@ export class VideoStudioService {
     this.socket.sendMessageWithToken('UPDATE_OVERLAY_ORDER', {orders: orders});
   }
 
+  _getMusicsResponse(response) {
+    console.log(response);
+    $this.onGetMusics.emit(response);
+  }
+
   _addUploadMusic(file, metadata: any) {
     metadata.prj_id = this.project.getProjectId();
     metadata.size = file.size;
     metadata.filename = file.name;
 
-    this.socket.sendStream('ADD_UPLOAD_MUSIC', file, metadata, this.onAddUploadImageProgress);
+    this.socket.sendStream('ADD_UPLOAD_MUSIC', file, metadata, this.onAddUploadMusicProgress);
   }
 
   _addUploadMusicResponse(response) {
-    console.log('sss', response);
-
-    $this.onAddUploadMusic.emit({
-      mus_id: response.mus_id,
-      guid: response.guid,
-      src: response.mus_path,
-      name: response.mus_name
-    });
+    $this.onAddUploadMusic.emit(response);
   }
 
   /**

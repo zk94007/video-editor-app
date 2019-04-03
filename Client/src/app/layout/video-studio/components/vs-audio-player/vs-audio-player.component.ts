@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Howl } from 'howler';
 import { BehaviorSubject } from 'rxjs';
 
@@ -19,7 +19,21 @@ export class VsAudioPlayerComponent implements OnInit, OnChanges {
 
     @Input() title;
 
-    constructor() { }
+    @Input() id;
+
+    @Input() inUse: Boolean = false;
+
+    @Input() deleteButton = true;
+
+    @Input() useButton = true;
+
+    @Output() useClick = new EventEmitter(null);
+
+    @Output() deleteClick = new EventEmitter(null);
+
+    @Output() loaded = new EventEmitter(null);
+
+    constructor(private element: ElementRef) { }
 
     ngOnChanges(change: SimpleChanges) {
         if (change.file && change.file.currentValue) {
@@ -29,17 +43,20 @@ export class VsAudioPlayerComponent implements OnInit, OnChanges {
         if (change.title && change.title.currentValue) {
             this.title = change.title.currentValue;
         }
+
+        if (this.file) {
+            this._audio = new Howl({
+                src: [this.file]
+            });
+
+            this._audio.once('load', () => {
+                this.duration$.next(this._fmtMSS(this._audio.duration().toFixed(0)));
+                this.loaded.emit(this.element.nativeElement);
+            });
+        }
     }
 
-    ngOnInit() {
-        this._audio = new Howl({
-            src: [this.file]
-        });
-
-        this._audio.once('load', () => {
-            this.duration$.next(this._fmtMSS(this._audio.duration().toFixed(0)));
-        });
-    }
+    ngOnInit() { }
 
     public togglePlay() {
         if (this.isPlay) {
@@ -63,5 +80,13 @@ export class VsAudioPlayerComponent implements OnInit, OnChanges {
 
     private _fmtMSS(second) {
         return(second - (second %= 60)) / 60 + (9 < second ? ':' : ':0') + second;
+    }
+
+    public setUse(mus_id) {
+        this.useClick.emit(mus_id);
+    }
+
+    public remove(mus_id) {
+        this.deleteClick.emit(mus_id);
     }
 }
