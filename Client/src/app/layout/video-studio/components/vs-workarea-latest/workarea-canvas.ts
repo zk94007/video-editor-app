@@ -416,10 +416,12 @@ export class WorkareaCanvas {
                 case this.props.upKeycode:
                     event.preventDefault(); // Prevent the default action
                     if (activeObject) {
+                        event.stopPropagation();
                         let object = activeObject.get('top') - (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
                         activeObject.set('top', object);
                     }
-                    else if (activeGroup) {
+                    else if (activeGroup && activeGroup.length) {
+                        event.stopPropagation();
                         let object = activeGroup.get('top') - (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
                         activeGroup.set('top', object);
                     }
@@ -427,10 +429,12 @@ export class WorkareaCanvas {
                 case this.props.downKeycode:
                     event.preventDefault(); // Prevent the default action
                     if (activeObject) {
+                        event.stopPropagation();
                         let object = activeObject.get('top') + (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
                         activeObject.set('top', object);
                     }
-                    else if (activeGroup) {
+                    else if (activeGroup && activeGroup.length) {
+                        event.stopPropagation();
                         let object = activeGroup.get('top') + (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
                         activeGroup.set('top', object);
                     }
@@ -438,10 +442,12 @@ export class WorkareaCanvas {
                 case this.props.leftKeycode:
                     event.preventDefault(); // Prevent the default action
                     if (activeObject) {
+                        event.stopPropagation();
                         let object = activeObject.get('left') - (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
                         activeObject.set('left', object);
                     }
-                    else if (activeGroup) {
+                    else if (activeGroup && activeGroup.length) {
+                        event.stopPropagation();
                         let object = activeGroup.get('left') - (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
                         activeGroup.set('left', object);
                     }
@@ -449,10 +455,12 @@ export class WorkareaCanvas {
                 case this.props.rightKeycode:
                     event.preventDefault(); // Prevent the default action
                     if (activeObject) {
+                        event.stopPropagation();
                         let object = activeObject.get('left') + (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
                         activeObject.set('left', object);
                     }
-                    else if (activeGroup) {
+                    else if (activeGroup && activeGroup.length) {
+                        event.stopPropagation();
                         let object = activeGroup.get('left') + (event.shiftKey ? this.props.longMovementDelta : this.props.movementDelta);
                         activeGroup.set('left', object);
                     }

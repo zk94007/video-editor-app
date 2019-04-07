@@ -8,6 +8,7 @@ import { VideoStudioComponent } from './video-studio.component';
 import { SortablejsModule} from 'angular-sortablejs/dist';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ColorPickerModule } from '../../shared/module/color-picker';
+import { SliderModule } from '../../shared/module/seek-slider';
 import { Ng5FilesModule } from '../../shared/module/ng5-files';
 import { NgMasonryGridModule } from 'ng-masonry-grid';
 import { NgProgressModule } from '@ngx-progressbar/core';
@@ -17,7 +18,7 @@ import { VgControlsModule } from 'videogular2/controls';
 import { VgOverlayPlayModule } from 'videogular2/overlay-play';
 import { VgBufferingModule } from 'videogular2/buffering';
 
-import { SliderModule } from 'primeng/slider';
+// import { SliderModule } from 'primeng/slider';
 import { TooltipModule } from 'primeng/tooltip';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { LazyLoadImageModule } from 'ng-lazyload-image';

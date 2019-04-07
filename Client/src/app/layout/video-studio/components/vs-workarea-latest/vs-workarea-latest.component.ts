@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, EventEmitter } from '@angular/core';
 import { WorkareaCanvas } from './workarea-canvas';
 import { VideoStudioService } from '../../../../shared/services/video-studio.service';
 import { FontPickerService } from '../../../../shared/services/font-picker.service';
@@ -13,6 +13,8 @@ declare var $: any;
 export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
   private canvas: WorkareaCanvas;
   private $uns: any = [];
+
+  public move:EventEmitter<any> = new EventEmitter();
 
   public props = {
     seek: {
@@ -252,6 +254,15 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
     this.vsService.changeSeek(duration);
   }
 
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event) {
+    if (event.keyCode == 37) {
+      this.move.emit(-1);
+    } else if (event.keyCode == 39) {
+      this.move.emit(1);
+    }
+  }
+
   changeVideoDuration() {
     const duration = (this.props.seek.video.seekRangeValue[1] - this.props.seek.video.seekRangeValue[0]) / 10;
     const delta = duration - this.props.seek.previousDuration;
@@ -263,6 +274,8 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
       this.vsService.changeDuration(delta);
 
       this.props.seek.previousDuration = duration;
+
+      this.changeVideoSeek();
     }
   }
 
