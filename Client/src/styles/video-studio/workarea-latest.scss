@@ -4,7 +4,7 @@
 
 #workarea-container {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 44px);
     overflow: hidden;
 }
 
@@ -29,14 +29,14 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    top: 100%;
-    background-color: #1b2126;
     height: 44px;
+    background-color: #191E22 !important;
+    min-width: 350px;
 }
 
 .detail-video-icon {
     position: absolute;
-    top: 4px;
+    top: 6px;
     left: 15px;
     height: 35px;
     width: 53px;
