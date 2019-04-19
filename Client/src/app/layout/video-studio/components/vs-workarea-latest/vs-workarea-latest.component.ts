@@ -210,6 +210,7 @@ export class VsWorkareaLatestComponent implements OnInit, OnDestroy {
 
   showCurrentPlayTimeSlider() {
     this.props.seek.video.currentPlayTimeElement.style.display = 'block';
+    this.hideCurrentTimeSlider();
   }
   hideCurrentPlayTimeSlider() {
     this.props.seek.video.currentPlayTimeElement.style.display = 'none';
