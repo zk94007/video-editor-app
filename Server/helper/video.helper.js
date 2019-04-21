@@ -352,13 +352,9 @@ module.exports = {
             return;
         }
 
-        console.log(color);
-
         if (color == undefined || color == '') {
             color = 'white';
         }
-
-        console.log(color);
 
         seekTime = seekTime != undefined ? seekTime : 0;
         duration = duration > 0 ? duration : 10;

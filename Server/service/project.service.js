@@ -628,31 +628,39 @@ module.exports = {
                                         (err, newPath) => {
                                             if (!err) {
                                                 workfiles.push(newPath);
+
+                                                frameVideos.push({
+                                                    frm_name: frame.frm_name,
+                                                    frm_id: frame.frm_id,
+                                                    frm_order: frame.frm_order,
+                                                    frm_path: newPath
+                                                });
+                                                parallel_callback(err);
                                                 
-                                                if (frame.frm_muted == 1) {
-                                                    helper.video.muteVideo(newPath, (_err, _newPath) => {
-                                                        if (!_err) {
-                                                            workfiles.push(_newPath);
-                                                            frameVideos.push({
-                                                                frm_name: frame.frm_name,
-                                                                frm_id: frame.frm_id,
-                                                                frm_order: frame.frm_order,
-                                                                frm_path: _newPath
-                                                            });
-                                                            parallel_callback(_err);
-                                                        } else {
-                                                            parallel_callback(_err);
-                                                        }
-                                                    });
-                                                } else {
-                                                    frameVideos.push({
-                                                        frm_name: frame.frm_name,
-                                                        frm_id: frame.frm_id,
-                                                        frm_order: frame.frm_order,
-                                                        frm_path: newPath
-                                                    });
-                                                    parallel_callback(err);
-                                                }
+                                                // if (frame.frm_muted == 1) {
+                                                //     helper.video.muteVideo(newPath, (_err, _newPath) => {
+                                                //         if (!_err) {
+                                                //             workfiles.push(_newPath);
+                                                //             frameVideos.push({
+                                                //                 frm_name: frame.frm_name,
+                                                //                 frm_id: frame.frm_id,
+                                                //                 frm_order: frame.frm_order,
+                                                //                 frm_path: _newPath
+                                                //             });
+                                                //             parallel_callback(_err);
+                                                //         } else {
+                                                //             parallel_callback(_err);
+                                                //         }
+                                                //     });
+                                                // } else {
+                                                //     frameVideos.push({
+                                                //         frm_name: frame.frm_name,
+                                                //         frm_id: frame.frm_id,
+                                                //         frm_order: frame.frm_order,
+                                                //         frm_path: newPath
+                                                //     });
+                                                //     parallel_callback(err);
+                                                // }
                                             } else {
                                                 parallel_callback(err);
                                             }
@@ -705,7 +713,7 @@ module.exports = {
                     
                     seriesTasks.push((series_callback) => {
                         setProgress(70, 'Converting Frames');
-                        let percent = 50;
+                        let percent = 70;
                         let parallelTasks = [];
 
                         _.each(frameVideos, (frame) => {
@@ -719,7 +727,9 @@ module.exports = {
                                             frm_path: newPath
                                         });
                                     }
-                                    percent += Math.ceil(20 / frameVideos.length);
+                                    percent += Math.floor(20 / frameVideos.length);
+
+                                    setProgress(percent, 'Converting Frames');
                                     
                                     parallel_callback(err, '');
                                 });
@@ -746,29 +756,29 @@ module.exports = {
                     });
 
                     //processing audio
-                    seriesTasks.push((series_callback) => {
-                        musicModel.getMusicByMusId(project.mus_id, (e, music) => {
-                            if (!e) {
-                                let project_music = music.mus_path.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
-                                helper.video.extractAudio(pvFilePathFullHD, (e, audio) =>{
-                                    if (e) { series_callback(); console.log(e); return; }
-                                    helper.video.mergeAudios(audio, project_music, (e, finalaudio) =>{
-                                        if (e) { series_callback(); console.log(e); return; }
-                                        helper.video.removeAudio(pvFilePathFullHD, (e, videopath) => {
-                                            if (e) { series_callback(); console.log(e); return; }
-                                            helper.video.mergeAudioAndVideo(finalaudio, videopath, (e, newPath) => {
-                                                if (e) { series_callback(); console.log(e); return; }
-                                                pvFilePathFullHD = newPath;
-                                                series_callback();
-                                            });
-                                        })
-                                    });
-                                });
-                            } else {
-                                series_callback();
-                            }
-                        });
-                    });
+                    // seriesTasks.push((series_callback) => {
+                    //     musicModel.getMusicByMusId(project.mus_id, (e, music) => {
+                    //         if (!e) {
+                    //             let project_music = music.mus_path.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
+                    //             helper.video.extractAudio(pvFilePathFullHD, (e, audio) =>{
+                    //                 if (e) { series_callback(); console.log(e); return; }
+                    //                 helper.video.mergeAudios(audio, project_music, (e, finalaudio) =>{
+                    //                     if (e) { series_callback(); console.log(e); return; }
+                    //                     helper.video.removeAudio(pvFilePathFullHD, (e, videopath) => {
+                    //                         if (e) { series_callback(); console.log(e); return; }
+                    //                         helper.video.mergeAudioAndVideo(finalaudio, videopath, (e, newPath) => {
+                    //                             if (e) { series_callback(); console.log(e); return; }
+                    //                             pvFilePathFullHD = newPath;
+                    //                             series_callback();
+                    //                         });
+                    //                     })
+                    //                 });
+                    //             });
+                    //         } else {
+                    //             series_callback();
+                    //         }
+                    //     });
+                    // });
 
                     //preview
                     seriesTasks.push((series_callback) => {
