@@ -357,10 +357,33 @@ module.exports = {
                     });
                 });
 
+                seriesTasks.push((series_callback) => {
+                    helper.video.convertTs(video_path, (err, newPath) => {
+                        if (!err) {
+                            workfiles.push(newPath);
+                            video_path = newPath;
+                        }
+                        series_callback(err);
+                    });
+                });
+                
+                //full hd
+                seriesTasks.push((series_callback) => {
+                    let tsFiles = [video_path];
+                    helper.video.concatenate(tsFiles, (err, filepath) => {
+                        if (err) {
+                            series_callback(err);
+                            return;
+                        }
+
+                        pvFilePathFullHD = filepath;
+                        series_callback('');
+                    });
+                });
+
                 //preview
                 seriesTasks.push((series_callback) => {
                     setProgress(80, 'Finalizing videos');
-                    pvFilePathFullHD = video_path;
                     helper.video.resizevideo(pvFilePathFullHD, config.video.scene[scene_ratio].width, config.video.scene[scene_ratio].height, (err, filepath) => {
                         pvFilePath = filepath;
                         series_callback(err);
@@ -386,6 +409,8 @@ module.exports = {
                 seriesTasks.push((series_callback) => {
                     const cloudName = uuidGen.v1() + '.mp4';
                     helper.file.putFileToCloud(cloudName, project.prj_name, pvFilePathFullHD, (err, filepath) => {
+                        workfiles.push(pvFilePathFullHD);
+
                         let destpath = filepath.replace('https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/', config.server.uploadPath);
                         helper.file.copyFile(pvFilePathFullHD, destpath);
 
