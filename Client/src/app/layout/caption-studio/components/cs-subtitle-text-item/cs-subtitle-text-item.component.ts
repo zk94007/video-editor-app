@@ -56,17 +56,20 @@ export class CsSubtitleTextItemComponent implements OnInit, OnChanges {
 
         if (this.styleProp.video.ratio === '16by9') {
             frameScale = (1920 / frameWidth); // 4.173913043478261
-            newFrameWidth = ((16 / 9) * video.resolution.height);
+            // newFrameWidth = ((16 / 9) * video.resolution.height);
+            newFrameWidth = 1920;
             newFrameHeight = 1080;
         }
         if (this.styleProp.video.ratio === '1by1') {
             frameScale = (1080 / frameWidth); // 3.375
-            newFrameWidth = ((1 / 1) * video.resolution.height);
+            // newFrameWidth = ((1 / 1) * video.resolution.height);
+            newFrameWidth = 1080;
             newFrameHeight = 1080;
         }
         if (this.styleProp.video.ratio === '9by16') {
             frameScale = (1080 / frameWidth); // 6
-            newFrameWidth = ((9 / 16) * video.resolution.width);
+            // newFrameWidth = ((9 / 16) * video.resolution.width);
+            newFrameWidth = 1080;
             newFrameHeight = 1920;
         }
 
