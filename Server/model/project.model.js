@@ -43,16 +43,20 @@ module.exports = {
 
                 var projects = [];
                 _.each(result.rows, (row) => {
-                    var project = {
-                        prj_id: row.prj_id,
-                        prj_name: row.prj_name,
-                        prj_frame_count: row.prj_frame_count,
-                        prj_created_at: row.prj_created_at,
-                        prj_video_path: row.prj_video_path,
-                        prj_representative: row.frm_path,
-                        prj_type: row.prj_type != 2 ? 1 : 2
-                    };
-                    projects.push(project);
+                    if (row.prj_frame_count > 0 ) {
+                        var project = {
+                            prj_id: row.prj_id,
+                            prj_name: row.prj_name,
+                            prj_frame_count: row.prj_frame_count,
+                            prj_created_at: row.prj_created_at,
+                            prj_video_path: row.prj_video_path,
+                            prj_representative: row.frm_path,
+                            prj_type: row.prj_type != 2 ? 1 : 2
+                        };
+                        projects.push(project);
+                    } else {
+                        deleteProject(row.prj_id);
+                    }                    
                 });
 
                 helper.response.onSuccess(callback, projects);
