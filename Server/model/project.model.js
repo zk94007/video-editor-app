@@ -55,7 +55,7 @@ module.exports = {
                         };
                         projects.push(project);
                     } else {
-                        deleteProject(row.prj_id);
+                        this.deleteProject(row.prj_id);
                     }                    
                 });
 
